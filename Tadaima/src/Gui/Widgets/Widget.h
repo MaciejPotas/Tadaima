@@ -10,7 +10,6 @@
 #include "WidgetTypes.h"
 #include <string>
 #include <functional>
-#include "Tools/Types.h"
 
 namespace tadaima
 {
@@ -117,16 +116,6 @@ namespace tadaima
                  * This method draws the widget.
                  */
                 virtual void draw() = 0;
-
-                /**
-                 * @brief Retrieves the size of the widget.
-                 *
-                 * @return The size of the widget.
-                 */
-                virtual tools::IntPair widgetSize() const
-                {
-                    return { 0,0 };
-                }
 
                 /**
                  * @brief Sets the observer for the widget.

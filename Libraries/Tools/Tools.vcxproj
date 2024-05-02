@@ -28,18 +28,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Logger\ConsoleLogger.cpp" />
-    <ClCompile Include="Socket\TcpSocket.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Logger\ConsoleLogger.h" />
     <ClInclude Include="Logger\Logger.h" />
-    <ClInclude Include="Socket\Socket.h" />
-    <ClInclude Include="Socket\TcpSocket.h" />
     <ClInclude Include="Tools\CommandLineParser.h" />
     <ClInclude Include="Tools\DataPackage.h" />
     <ClInclude Include="Tools\EventDispatcher.h" />
     <ClInclude Include="Tools\random.h" />
-    <ClInclude Include="Tools\Types.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

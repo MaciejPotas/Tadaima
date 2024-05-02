@@ -5,11 +5,9 @@
 
 #include "Application.h"
 #include "Gui/Gui.h"
-#include <functional>
-#include <stdexcept>
 #include <iostream>
 #include <chrono>
-#include <filesystem>
+
 
 namespace tadaima
 {

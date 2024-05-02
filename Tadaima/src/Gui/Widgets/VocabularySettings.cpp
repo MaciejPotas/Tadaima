@@ -1,12 +1,13 @@
 ﻿#pragma once
 
 #include "imgui.h"
+#include "gui.h"
 
 namespace tadaima
 {
     namespace gui
     {
-        void ShowVocabularySettings(bool* p_open)
+        void Gui::ShowVocabularySettings(bool* p_open)
         {
             if( !ImGui::Begin("Vocabulary Settings", p_open) )
             {

@@ -10,7 +10,6 @@
 #include <d3d11.h>
 #include <string>
 #include <memory>
-#include "Tools/Types.h"
 
 namespace tadaima
 {
@@ -84,13 +83,12 @@ namespace tadaima
 
         private:
 
-            /**
-            * Desc
-            *
-            * @param File name.
-            * @return EN_ErrorCode::EC_NoError if everything was fine.
-            */
-            tools::IntPair calculateWindowSize();
+            void ShowVocabularySettings(bool* p_open);
+            void ShowMainMenu();
+            void ShowMainDashboard(bool* p_open);
+            void ShowAboutWindow(bool* p_open); ///< Shows the about window.
+            void ShowLessonTreeView(bool* p_open);
+            void SetupImGuiStyle();
 
             bool CreateDeviceD3D(HWND hWnd); ///< Creates the Direct3D device.
             void CleanupDeviceD3D(); ///< Cleans up the Direct3D device.
@@ -99,7 +97,6 @@ namespace tadaima
             void DrawMenuWidget(); ///< Draws the menu widget.
             void DrawInfoWidget(); ///< Draws the info widget.
             void DrawFileWidgets(); ///< Draws the file widgets.
-            void ShowAboutWindow(bool* p_open); ///< Shows the about window.
             void handleWidgetEvent(const widget::WidgetEvent& data); ///< Handles widget events.
 
             ID3D11Device* g_pd3dDevice = nullptr; ///< Direct3D device.
