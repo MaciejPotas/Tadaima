@@ -87,7 +87,7 @@
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>src;../Tools;../Libraries/ImGui;../Libraries/Tools;./;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;../Tools;../Libraries/ImGui;../Libraries/Tools;./;./src/Gui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -112,7 +112,7 @@ xcopy "$(ProjectDir)resources\forkawesome-webfont.ttf" "$(TargetDir)fonts\" /Y /
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>src;../Tools;../Libraries/ImGui;../Libraries/Tools;./;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;../Tools;../Libraries/ImGui;../Libraries/Tools;./;./src/Gui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -139,7 +139,7 @@ xcopy "$(ProjectDir)resources\forkawesome-webfont.ttf" "$(TargetDir)fonts\" /Y /
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>src;../Tools;../Libraries/ImGui;../Libraries/Tools;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;../Tools;../Libraries/ImGui;../Libraries/Tools;./;./src/Gui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <PrecompiledHeaderOutputFile />
@@ -171,7 +171,7 @@ copy $(SolutionDir)build\$(Configuration)\$(Platform)\$(ProjectName)\$(ProjectNa
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>src;../Tools;../Libraries/ImGui;../Libraries/Tools;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;../Tools;../Libraries/ImGui;../Libraries/Tools;./;./src/Gui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <PrecompiledHeaderOutputFile />
@@ -199,17 +199,18 @@ copy $(SolutionDir)build\$(Configuration)\$(Platform)\$(ProjectName)\$(ProjectNa
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Application\Application.cpp" />
+    <ClCompile Include="src\Gui\GuiStyle.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Gui\Gui.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resources\IconsFontAwesome4.h" />
     <ClInclude Include="src\Application\Application.h" />
-    <ClInclude Include="src\Gui\MainDashboard.h" />
-    <ClInclude Include="src\Gui\LessonTreeView.h" />
-    <ClInclude Include="src\Gui\VocabularySettings.h" />
+    <ClCompile Include="src\Gui\Widgets\MainDashboard.cpp" />
+    <ClCompile Include="src\Gui\Widgets\LessonTreeView.cpp" />
+    <ClCompile Include="src\Gui\Widgets\VocabularySettings.cpp" />
     <ClInclude Include="src\Gui\Gui.h" />
-    <ClInclude Include="src\Gui\Widgets\MenuBar.h" />
+    <ClCompile Include="src\Gui\Widgets\MenuBar.cpp" />
     <ClInclude Include="src\Gui\Widgets\Widget.h" />
     <ClInclude Include="src\Gui\Widgets\WidgetTypes.h" />
     <ClInclude Include="src\Version.h" />

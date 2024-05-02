@@ -8,6 +8,19 @@
     <ClCompile Include="src\Gui\Gui.cpp">
       <Filter>src\gui</Filter>
     </ClCompile>
+    <ClCompile Include="src\Gui\Widgets\VocabularySettings.cpp">
+      <Filter>src\gui\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gui\Widgets\MenuBar.cpp">
+      <Filter>src\gui\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gui\Widgets\MainDashboard.cpp">
+      <Filter>src\gui\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gui\Widgets\LessonTreeView.cpp">
+      <Filter>src\gui\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gui\GuiStyle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Version.h">
@@ -19,22 +32,10 @@
     <ClInclude Include="src\Gui\Gui.h">
       <Filter>src\gui</Filter>
     </ClInclude>
-    <ClInclude Include="src\Gui\VocabularySettings.h">
-      <Filter>src\gui\widgets</Filter>
-    </ClInclude>
     <ClInclude Include="src\Gui\Widgets\Widget.h">
       <Filter>src\gui\widgets</Filter>
     </ClInclude>
     <ClInclude Include="src\Gui\Widgets\WidgetTypes.h">
-      <Filter>src\gui\widgets</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Gui\MainDashboard.h">
-      <Filter>src\gui\widgets</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Gui\Widgets\MenuBar.h">
-      <Filter>src\gui\widgets</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Gui\LessonTreeView.h">
       <Filter>src\gui\widgets</Filter>
     </ClInclude>
     <ClInclude Include="resources\IconsFontAwesome4.h">
@@ -59,6 +60,9 @@
     </Filter>
     <Filter Include="src\gui\widgets">
       <UniqueIdentifier>{17a5297b-ac46-442d-9381-be164f331135}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\gui\style">
+      <UniqueIdentifier>{f1b6a724-7fb1-4b56-8039-2f6e6b0f41b5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

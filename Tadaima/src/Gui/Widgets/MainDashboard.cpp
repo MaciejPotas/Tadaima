@@ -1,12 +1,13 @@
 ﻿#pragma once
 
 #include "imgui.h"
+#include "gui.h"
 
 namespace tadaima
 {
     namespace gui
     {
-        void ShowMainDashboard(bool* p_open)
+        void Gui::ShowMainDashboard(bool* p_open)
         {
             if( !ImGui::Begin("Main Dashboard", p_open, ImGuiWindowFlags_NoDecoration) )
             {

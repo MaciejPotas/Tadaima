@@ -1,13 +1,15 @@
 #pragma once
 
 #include "imgui.h"
+#include "../gui.h"
 #include "resources/IconsFontAwesome4.h"
+#include "Version.h"
 
 namespace tadaima
 {
     namespace gui
     {
-        void ShowAboutWindow(bool* p_open)
+        void Gui::ShowAboutWindow(bool* p_open)
         {
             if( !ImGui::Begin("About", p_open, ImGuiWindowFlags_AlwaysAutoResize) )
             {
@@ -25,7 +27,7 @@ namespace tadaima
             ImGui::End();
         }
 
-        void ShowMainMenu()
+        void Gui::ShowMainMenu()
         {
             // Display help message when Help is clicked
             static bool show_help = false;
@@ -33,40 +35,6 @@ namespace tadaima
             {
                 ShowAboutWindow(&show_help);
             }
-
-            //if( !ImGui::Begin("Menu bar", NULL, ImGuiWindowFlags_NoDecoration) )
-            //{
-            //    ImGui::End();
-            //    return;
-            //}
-
-            //// Navigation Bar with Icons
-            //ImGui::Separator();
-            //if( ImGui::Button(ICON_FA_HOME " Home") )
-            //{
-            //    // Home button logic
-            //}
-            //ImGui::SameLine();
-            //if( ImGui::Button(ICON_FA_SEARCH " Explore") )
-            //{
-            //    // Explore button logic
-            //}
-            //ImGui::SameLine();
-            //if( ImGui::Button(ICON_FA_TROPHY " Challenges") )
-            //{
-            //    // Challenges button logic
-            //}
-            //ImGui::SameLine();
-            //if( ImGui::Button(ICON_FA_TROPHY " Progress") )
-            //{
-            //    // Progress button logic
-            //}
-            //ImGui::SameLine();
-            //if( ImGui::Button(ICON_FA_MICROPHONE " About") )
-            //{
-            //    show_help = true;
-            //}
-            //ImGui::Separator();
 
             // Menu Bar
             if( ImGui::BeginMainMenuBar() )
@@ -101,8 +69,6 @@ namespace tadaima
 
                 ImGui::EndMainMenuBar();
             }
-
-            //ImGui::End();
         }
 
     }

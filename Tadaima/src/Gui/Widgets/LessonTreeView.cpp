@@ -1,13 +1,14 @@
 #pragma once
 
 #include "imgui.h"
+#include "gui.h"
 #include "resources/IconsFontAwesome4.h"
 
 namespace tadaima
 {
     namespace gui
     {
-        void ShowLessonTreeView(bool* p_open)
+        void Gui::ShowLessonTreeView(bool* p_open)
         {
             if( !ImGui::Begin("Lessons Overview", p_open, ImGuiWindowFlags_NoDecoration) )
             {
