@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Gui\Gui.cpp">
+      <Filter>Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Application\Application.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Version.h" />
+    <ClInclude Include="src\Gui\Gui.h">
+      <Filter>Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gui\Widgets\Widget.h">
+      <Filter>Gui\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gui\Widgets\WidgetTypes.h">
+      <Filter>Gui\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Application\Application.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gui\MainDashboard.h">
+      <Filter>Gui\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gui\Widgets\MenuBar.h">
+      <Filter>Gui\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gui\TreeViewWindow.h">
+      <Filter>Gui\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gui\VocabularySettings.h">
+      <Filter>Gui\Widgets</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Gui">
+      <UniqueIdentifier>{b1519942-b153-4e16-9c45-58cf2bc277ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Gui\Widgets">
+      <UniqueIdentifier>{1f736b95-46a1-45a0-a10f-95aa2f0f9e71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application">
+      <UniqueIdentifier>{e6696f4f-52b8-41d3-9da0-8046a3255b98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="docs">
+      <UniqueIdentifier>{c1d5e77a-ffb3-42f6-8581-4b4843d5739d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tests">
+      <UniqueIdentifier>{1c7e8acc-de7d-406b-af9d-63f26d749a02}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
