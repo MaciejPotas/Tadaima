@@ -8,19 +8,21 @@
     <ClCompile Include="src\Gui\Gui.cpp">
       <Filter>src\gui</Filter>
     </ClCompile>
-    <ClCompile Include="src\Gui\Widgets\VocabularySettings.cpp">
+    <ClCompile Include="src\Gui\Widgets\VocabularySettingsWidget.cpp">
       <Filter>src\gui\widgets</Filter>
     </ClCompile>
-    <ClCompile Include="src\Gui\Widgets\MenuBar.cpp">
+    <ClCompile Include="src\Gui\Widgets\MenuBarWidget.cpp">
       <Filter>src\gui\widgets</Filter>
     </ClCompile>
-    <ClCompile Include="src\Gui\Widgets\MainDashboard.cpp">
+    <ClCompile Include="src\Gui\Widgets\MainDashboardWidget.cpp">
       <Filter>src\gui\widgets</Filter>
     </ClCompile>
-    <ClCompile Include="src\Gui\Widgets\LessonTreeView.cpp">
+    <ClCompile Include="src\Gui\Widgets\LessonTreeViewWidget.cpp">
       <Filter>src\gui\widgets</Filter>
     </ClCompile>
-    <ClCompile Include="src\Gui\GuiStyle.cpp" />
+    <ClCompile Include="src\Gui\GuiStyle.cpp">
+      <Filter>src\gui\style</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Version.h">
@@ -40,6 +42,18 @@
     </ClInclude>
     <ClInclude Include="resources\IconsFontAwesome4.h">
       <Filter>resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gui\Widgets\LessonTreeViewWidget.h">
+      <Filter>src\gui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gui\Widgets\MainDashboardWidget.h">
+      <Filter>src\gui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gui\Widgets\MenuBarWidget.h">
+      <Filter>src\gui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gui\Widgets\VocabularySettingsWidget.h">
+      <Filter>src\gui\widgets</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -200,17 +200,21 @@ copy $(SolutionDir)build\$(Configuration)\$(Platform)\$(ProjectName)\$(ProjectNa
   <ItemGroup>
     <ClCompile Include="src\Application\Application.cpp" />
     <ClCompile Include="src\Gui\GuiStyle.cpp" />
+    <ClInclude Include="src\Gui\Widgets\VocabularySettingsWidget.h" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Gui\Gui.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resources\IconsFontAwesome4.h" />
     <ClInclude Include="src\Application\Application.h" />
-    <ClCompile Include="src\Gui\Widgets\MainDashboard.cpp" />
-    <ClCompile Include="src\Gui\Widgets\LessonTreeView.cpp" />
-    <ClCompile Include="src\Gui\Widgets\VocabularySettings.cpp" />
+    <ClCompile Include="src\Gui\Widgets\MainDashboardWidget.cpp" />
+    <ClCompile Include="src\Gui\Widgets\LessonTreeViewWidget.cpp" />
+    <ClCompile Include="src\Gui\Widgets\VocabularySettingsWidget.cpp" />
     <ClInclude Include="src\Gui\Gui.h" />
-    <ClCompile Include="src\Gui\Widgets\MenuBar.cpp" />
+    <ClCompile Include="src\Gui\Widgets\MenuBarWidget.cpp" />
+    <ClInclude Include="src\Gui\Widgets\LessonTreeViewWidget.h" />
+    <ClInclude Include="src\Gui\Widgets\MainDashboardWidget.h" />
+    <ClInclude Include="src\Gui\Widgets\MenuBarWidget.h" />
     <ClInclude Include="src\Gui\Widgets\Widget.h" />
     <ClInclude Include="src\Gui\Widgets\WidgetTypes.h" />
     <ClInclude Include="src\Version.h" />
