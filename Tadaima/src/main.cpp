@@ -25,9 +25,7 @@ int main(int argc, char* argv[])
         // Create and configure the application
         tadaima::application::Application application;
         application.addGui(gui);
-
         application.Initialize();
-
         application.run();
 
 
