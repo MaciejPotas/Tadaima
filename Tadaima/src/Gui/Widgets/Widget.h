@@ -89,17 +89,7 @@ namespace tadaima
             public:
                 using Listener = std::function<void(const WidgetEvent& data)>;
 
-                /**
-                 * @brief Constructor.
-                 *
-                 * Initializes the widget with the given ID and type.
-                 *
-                 * @param id The ID of the widget.
-                 * @param type The type of the widget.
-                 */
-                Widget(const std::string& id, Type type) : m_id(id), m_type(type)
-                {
-                }
+                virtual ~Widget() = default;
 
                 /**
                  * @brief Initializes the widget with data.
@@ -115,7 +105,7 @@ namespace tadaima
                  *
                  * This method draws the widget.
                  */
-                virtual void draw() = 0;
+                virtual void draw(bool* p_open = nullptr) = 0;
 
                 /**
                  * @brief Sets the observer for the widget.

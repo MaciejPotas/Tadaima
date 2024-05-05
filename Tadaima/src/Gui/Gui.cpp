@@ -5,16 +5,20 @@
 // - Introduction, links and more at the top of imgui.cpp
 
 #include "Gui.h"
+
+#include "Widgets/widget.h"
+#include "Widgets/LessonTreeViewWidget.h"
+#include "Widgets/MenuBarWidget.h"
+#include "Widgets/MainDashboardWidget.h"
+#include "Widgets/VocabularySettingsWidget.h"
+#include "resources/IconsFontAwesome4.h"
 #include "imgui.h"
 #include "imgui_impl_dx11.h"
 #include "imgui_impl_win32.h"
 #include <xutility>
-#include "Widgets/widget.h"
+#include <format> 
 #include <string>
 #include <windows.h>
-#include "resources/IconsFontAwesome4.h"
-
-#pragma execution_character_set("utf-8")
 
 std::string getexepath()
 {
@@ -23,7 +27,6 @@ std::string getexepath()
     std::string::size_type pos = std::string(buffer).find_last_of("\\/");
 
     return std::string(buffer).substr(0, pos);
-
 }
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -32,8 +35,8 @@ namespace tadaima
 {
     namespace gui
     {
-        static int window_width = 1280;
-        static int window_height = 720;
+        static float window_width = 1280;
+        static float window_height = 720;
         static uint16_t g_ResizeWidth = 0;
         static uint16_t g_ResizeHeight = 0;
 
@@ -42,37 +45,45 @@ namespace tadaima
 
         }
 
-        void Gui::addListener(const std::string widgetId, EventListener listener)
+        void Gui::initialize()
         {
-            dispatcher.addListener(widgetId, listener);
-        }
+            /*
+            *  Initialize widgets.
+            */
+            m_widgets[Widget::MenuBar] = std::make_unique<widget::MenuBarWidget>();
+            m_widgets[Widget::LessonTreeView] = std::make_unique<widget::LessonTreeViewWidget>();
+            m_widgets[Widget::Dashboard] = std::make_unique<widget::MainDashboardWidget>();
+            m_widgets[Widget::VocabularySettings] = std::make_unique<widget::VocabularySettingsWidget>();
 
-        void Gui::addListener(widget::Widget& widget, EventListener listener)
-        {
-            addListener(widget.getId(), listener);
-        }
+            /*
+            * Initialize fonts.
+            */
+            std::string pathToFont = getexepath() + "\\fonts\\NotoSansJP-Regular.ttf";
+            std::string pathToIcons = getexepath() + "\\fonts\\forkawesome-webfont.ttf";
 
-        void configurefont()
-        {
             ImGuiIO& io = ImGui::GetIO();
-            ImFontConfig icons_config;
-            icons_config.MergeMode = true;
-            icons_config.PixelSnapH = true;
-            static const ImWchar icon_ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
-            io.Fonts->AddFontFromFileTTF("path_to_fontawesome/fontawesome-webfont.ttf", 16.0f, &icons_config, icon_ranges);
+            io.Fonts->AddFontDefault();
 
-            // Load your regular font
-            io.Fonts->AddFontFromFileTTF("path_to_your_regular_font/regular-font.ttf", 16.0f);
+            // Specify the range of characters to include
+            static const ImWchar icons_ranges[] = { 0x0020, 0x007F, // Basic Latin (for general UI)
+                0x3000, 0x30FF, // Japanese Punctuation, Hiragana, Katakana
+                0x4E00, 0x9FAF, // Common Kanji
+                0,
+            };
+
+            static const ImWchar icon_ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
+
+            // Load Japanese font
+            ImFontConfig font_config;
+            font_config.MergeMode = true; // Set to true if adding to existing font
+            font_config.PixelSnapH = true; // Align text to pixels
+
+            io.Fonts->AddFontFromFileTTF(pathToIcons.c_str(), 16.0f, &font_config, icon_ranges);
+            m_fontToUse = io.Fonts->AddFontFromFileTTF(pathToFont.c_str(), 18.0f, &font_config, icons_ranges);
+
+            io.Fonts->Build();
         }
 
-
-
-
-        // Win32 message handler
-        // You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to use your inputs.
-        // - When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application, or clear/overwrite your copy of the mouse data.
-        // - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application, or clear/overwrite your copy of the keyboard data.
-        // Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
         LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
         {
             if( ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam) )
@@ -97,34 +108,20 @@ namespace tadaima
             return ::DefWindowProcW(hWnd, msg, wParam, lParam);
         }
 
-        void Gui::initializeWidget(const std::string& id, const tools::DataPackage& data)
+        void Gui::initializeWidget(Widget id, const tools::DataPackage& data)
         {
-            auto it = std::find_if(m_widgets.begin(), m_widgets.end(), [&](const std::shared_ptr<widget::Widget>& widgetPtr)
-                {
-                    return widgetPtr->getId() == id;
-                });
-
-            if( it != m_widgets.end() )
+            if( m_widgets.contains(id) )
             {
-                (*it)->initialize(data);
+                m_widgets[id]->initialize(data);
             }
             else
             {
-                throw std::runtime_error("Widget with ID '" + id + "' not found");
+                throw std::runtime_error(std::format("Widget with ID: {} not found", (uint8_t)id));
             }
-        }
-
-        void SetupImGui()
-        {
-            ImGuiIO& io = ImGui::GetIO(); (void)io;
-
-
         }
 
         int Gui::run()
         {
-
-
             bool floating = true;
 
             WNDCLASSEXW wc = { sizeof(wc), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(nullptr), nullptr, nullptr, nullptr, nullptr, L"ImGui Example", nullptr };
@@ -151,29 +148,9 @@ namespace tadaima
             io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
             io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
 
-            //// Setup Dear ImGui style
-            //ImGui::StyleColorsDark();
-            //ImGui::StyleColorsLight();
-
             // Setup Platform/Renderer backends
             ImGui_ImplWin32_Init(hwnd);
             ImGui_ImplDX11_Init(g_pd3dDevice, g_pd3dDeviceContext);
-
-            // Load Fonts
-            // - If no fonts are loaded, dear imgui will use the default font. You can also load multiple fonts and use ImGui::PushFont()/PopFont() to select them.
-            // - AddFontFromFileTTF() will return the ImFont* so you can store it if you need to select the font among multiple.
-            // - If the file cannot be loaded, the function will return a nullptr. Please handle those errors in your application (e.g. use an assertion, or display an error and quit).
-            // - The fonts will be rasterized at a given size (w/ oversampling) and stored into a texture when calling ImFontAtlas::Build()/GetTexDataAsXXXX(), which ImGui_ImplXXXX_NewFrame below will call.
-            // - Use '#define IMGUI_ENABLE_FREETYPE' in your imconfig file to use Freetype for higher quality font rendering.
-            // - Read 'docs/FONTS.md' for more instructions and details.
-            // - Remember that in C/C++ if you want to include a backslash \ in a string literal you need to write a double backslash \\ !
-            //io.Fonts->AddFontDefault();
-            //io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\segoeui.ttf", 18.0f);
-            //io.Fonts->AddFontFromFileTTF("../../misc/fonts/DroidSans.ttf", 16.0f);
-            //io.Fonts->AddFontFromFileTTF("../../misc/fonts/Roboto-Medium.ttf", 16.0f);
-            //io.Fonts->AddFontFromFileTTF("../../misc/fonts/Cousine-Regular.ttf", 15.0f);
-            //ImFont* font = io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\ArialUni.ttf", 18.0f, nullptr, io.Fonts->GetGlyphRangesJapanese());
-            //IM_ASSERT(font != nullptr);
 
             SetupImGuiStyle();
 
@@ -182,49 +159,16 @@ namespace tadaima
             bool show_another_window = false;
             ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
-            // Load default font (optional)
-            io.Fonts->AddFontDefault();
-
-            // Specify the range of characters to include
-            static const ImWchar icons_ranges[] = {
-                0x0020, 0x007F, // Basic Latin (for general UI)
-                0x3000, 0x30FF, // Japanese Punctuation, Hiragana, Katakana
-                0x4E00, 0x9FAF, // Common Kanji
-                0,
-            };
-
-            // Load Japanese font
-            ImFontConfig font_config;
-            font_config.MergeMode = false; // Set to true if adding to existing font
-            font_config.PixelSnapH = true; // Align text to pixels
-
-
-            std::string pathToFont = getexepath() + "\\fonts\\NotoSansJP-Regular.ttf";
-            auto c = io.Fonts->AddFontFromFileTTF(pathToFont.c_str(), 18.0f, &font_config, icons_ranges);
-
-
-
-            ImFontConfig icons_config;
-            icons_config.MergeMode = true;
-            icons_config.PixelSnapH = true;
-            static const ImWchar icon_ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
-            std::string pathToIcons = getexepath() + "\\fonts\\forkawesome-webfont.ttf";
-            auto menuBarFont = io.Fonts->AddFontFromFileTTF(pathToIcons.c_str(), 16.0f, &icons_config, icon_ranges);
-
-
-            // Build the font atlas
-            io.Fonts->Build();
-
-
-
-
-
-
+            initialize();
 
             // Main loop
             bool done = false;
             while( !done )
             {
+                bool showVocabSettings = false;
+                bool showLessonTreeView = true;
+                bool showDashboard = true;
+
                 // Poll and handle messages (inputs, window resize, etc.)
                 // See the WndProc() function below for our to dispatch events to the Win32 backend.
                 MSG msg;
@@ -259,63 +203,44 @@ namespace tadaima
                     ImGui::ShowDemoWindow(&show_demo_window);
                 }
 
-
                 // 2. Show a simple window that we create ourselves. We use a Begin/End pair to create a named window.
                 {
 
                     /*          Main menu bar           */
-                    ShowMainMenu();
+                    m_widgets[Widget::MenuBar]->draw();
                     /*          Main menu bar           */
 
 
-                    ImGui::PushFont(c);
+                    ImGui::PushFont(m_fontToUse);
 
+                    /*          VARIABLES LIST          */
 
-                    // Use these variables to scale your layout
-                    ImGui::SetNextWindowSize(ImVec2(window_width, window_height), ImGuiCond_Always);
-
-                    // In your rendering loop, check for window resize
-                    // Assuming GLFW or similar window handling
-                    //glfwGetFramebufferSize(window, &window_width, &window_height);
-
-                    // H= 23
                     ImGui::SetNextWindowPos(ImVec2(0, 17), ImGuiCond_Always);
                     ImGui::SetNextWindowSize(ImVec2(250, 600), ImGuiCond_Always);  // Adjust size as needed
-                    //ImGui::Begin("Lessons Overview", NULL, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
-                    
-                    
-                    bool show_lesson_tree_view = true;
-                    ShowLessonTreeView(&show_lesson_tree_view);
-                    //ImGui::End();
+                    m_widgets[Widget::LessonTreeView]->draw(&showLessonTreeView);
+                    /*          VARIABLES LIST          */
 
+                    /*          DASHBOARD          */
                     // Set the Main Dashboard next to Lessons Overview and non-movable
                     ImGui::SetNextWindowPos(ImVec2(250, 17), ImGuiCond_Always);
                     ImGui::SetNextWindowSize(ImVec2(540, 600), ImGuiCond_Always);  // Adjust remaining width
-                    //ImGui::Begin("Main Dashboard", NULL, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
-                    bool show_main_dashboard = true;
-
-                    ShowMainDashboard(&show_main_dashboard);
+                    m_widgets[Widget::Dashboard]->draw(&showDashboard);
+                    /*          DASHBOARD          */
 
 
                     ImGui::PopFont();
-                  //  ImGui::End();
 
-
-
-                    // Optionally add Vocabulary Settings as a popup or another fixed window
-                    static bool show_vocab_settings = false;
                     if( ImGui::Button("Open Vocabulary Settings") )
                     {
-                        show_vocab_settings = true;
+                        showVocabSettings = true;
                     }
-                    if( show_vocab_settings )
+                    if( showVocabSettings )
                     {
                         ImGui::SetNextWindowSize(ImVec2(400, 400), ImGuiCond_FirstUseEver); // Use FirstUseEver to set initial size
-                        ImGui::Begin("Vocabulary Settings", &show_vocab_settings, ImGuiWindowFlags_NoMove);
-                        ShowVocabularySettings(&show_vocab_settings);
+                        ImGui::Begin("Vocabulary Settings", &showVocabSettings, ImGuiWindowFlags_NoMove);
+                        m_widgets[Widget::VocabularySettings]->draw(&showVocabSettings);
                         ImGui::End();
                     }
-
                 }
 
                 // 3. Show another simple window.
@@ -336,7 +261,6 @@ namespace tadaima
                 ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
                 g_pSwapChain->Present(1, 0); // Present with vsync
-                //g_pSwapChain->Present(0, 0); // Present without vsync
             }
 
             // Cleanup
@@ -404,7 +328,6 @@ namespace tadaima
         {
             if( g_mainRenderTargetView ) { g_mainRenderTargetView->Release(); g_mainRenderTargetView = nullptr; }
         }
-
 
         void Gui::handleWidgetEvent([[maybe_unused]] const widget::WidgetEvent& data)
         {
