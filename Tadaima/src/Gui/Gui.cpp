@@ -43,10 +43,6 @@ namespace tadaima
         Gui::Gui(const config& r_config) : m_guiConfig(r_config)
         {
 
-        }
-
-        void Gui::initialize()
-        {
             /*
             *  Initialize widgets.
             */
@@ -54,7 +50,10 @@ namespace tadaima
             m_widgets[Widget::LessonTreeView] = std::make_unique<widget::LessonTreeViewWidget>();
             m_widgets[Widget::Dashboard] = std::make_unique<widget::MainDashboardWidget>();
             m_widgets[Widget::VocabularySettings] = std::make_unique<widget::VocabularySettingsWidget>();
+        }
 
+        void Gui::initialize()
+        {
             /*
             * Initialize fonts.
             */
@@ -215,14 +214,14 @@ namespace tadaima
 
                     /*          VARIABLES LIST          */
 
-                    ImGui::SetNextWindowPos(ImVec2(0, 17), ImGuiCond_Always);
+                    ImGui::SetNextWindowPos(ImVec2(0, 25), ImGuiCond_Always);
                     ImGui::SetNextWindowSize(ImVec2(250, 600), ImGuiCond_Always);  // Adjust size as needed
                     m_widgets[Widget::LessonTreeView]->draw(&showLessonTreeView);
                     /*          VARIABLES LIST          */
 
                     /*          DASHBOARD          */
                     // Set the Main Dashboard next to Lessons Overview and non-movable
-                    ImGui::SetNextWindowPos(ImVec2(250, 17), ImGuiCond_Always);
+                    ImGui::SetNextWindowPos(ImVec2(250, 25), ImGuiCond_Always);
                     ImGui::SetNextWindowSize(ImVec2(540, 600), ImGuiCond_Always);  // Adjust remaining width
                     m_widgets[Widget::Dashboard]->draw(&showDashboard);
                     /*          DASHBOARD          */

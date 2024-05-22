@@ -2,6 +2,7 @@
 *.o
 *.obj
 *.exe
+*.db
 bin/*
 build/*
 packages/*
@@ -18,6 +19,8 @@ ipch
 *.suo
 *.VC.db
 *.VC.VC.opendb
+*.idb
+*.lib
 
 ## Visual Studio Lint
 .visuallint/*
