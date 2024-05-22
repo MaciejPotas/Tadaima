@@ -1,8 +1,11 @@
-// ----------------------------------------------------------------------------
-// File:        WidgetType.h
-// Description: Contains all possible widgets.
-// ----------------------------------------------------------------------------
+/**
+ * @file WidgetEnums.h
+ * @brief Defines enums related to GUI widgets.
+ */
+
 #pragma once
+
+#include <cstdint>
 
 namespace tadaima
 {
@@ -10,15 +13,21 @@ namespace tadaima
     {
         namespace widget
         {
-            enum Type : uint8_t
+            /**
+             * @brief Enum representing types of widgets.
+             */
+            enum class Type : uint8_t
             {
-                Button,
-                FileSystem
+                Button, /**< Button widget type. */
+                FileSystem /**< File system widget type. */
             };
 
-            enum ButtonAction : uint8_t
+            /**
+             * @brief Enum representing actions for buttons.
+             */
+            enum class ButtonAction : uint8_t
             {
-                OnClick
+                OnClick /**< Action triggered when a button is clicked. */
             };
         }
     }
