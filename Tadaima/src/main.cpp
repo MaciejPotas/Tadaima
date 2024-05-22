@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @file main.cpp
  * @brief Entry point for the application.
  */
@@ -9,6 +9,8 @@
 #include <iostream>
 #include <iostream>
 #include <filesystem>
+#include "Lessons/Lesson.h"
+#include "Lessons/LessonManager.h"
 
 int main(int argc, char* argv[])
 {
@@ -27,7 +29,6 @@ int main(int argc, char* argv[])
         application.addGui(gui);
         application.Initialize();
         application.run();
-
 
         // Run the GUI
         gui.run();

@@ -9,6 +9,8 @@
 #include <thread>
 #include <atomic>
 #include <mutex>
+#include "LessonsDatabase.h"
+#include "Lessons/LessonManager.h"
 
 namespace tadaima
 {
@@ -17,6 +19,7 @@ namespace tadaima
 
     namespace application
     {
+
         /**
          * @brief The Application class represents the backend application logic.
          *
@@ -96,6 +99,8 @@ namespace tadaima
                 }
             } m_event; /**< Event data for filesystem events. */
 
+            LessonsDatabase m_database;
+            LessonManager m_lessonManager;
             gui::Gui* m_gui = nullptr; /**< Pointer to the GUI instance. */
             std::thread workerThread; /**< Worker thread for background tasks. */
             std::atomic<bool> m_running; /**< Atomic flag to control the worker thread's execution. */
