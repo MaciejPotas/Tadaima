@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @file Application.cpp
  * @brief All definitions of the backend Application class.
  */
@@ -7,13 +7,13 @@
 #include "Gui/Gui.h"
 #include <iostream>
 #include <chrono>
-
+#include "LessonLoader.h"
 
 namespace tadaima
 {
     namespace application
     {
-        Application::Application() : m_running(false)
+        Application::Application() : m_running(false), m_database("lessons.db"), m_lessonManager(m_database)
         {
 
         }
@@ -105,7 +105,8 @@ namespace tadaima
 
         void Application::Initialize()
         {
-
+            LessonDataLoader loader(m_database);
+            m_gui->initializeWidget(gui::Gui::LessonTreeView, loader.loadAllLessons());
         }
     }
 }

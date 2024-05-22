@@ -98,7 +98,7 @@ namespace tadaima
                  *
                  * @param r_package The data package to initialize the widget with.
                  */
-                virtual void initialize(const tools::DataPackage& r_package) = 0;
+                virtual void initialize([[maybe_unused]] const tools::DataPackage& r_package) {}
 
                 /**
                  * @brief Draws the widget.

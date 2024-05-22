@@ -2,58 +2,85 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\Application\Application.cpp">
+    <ClCompile Include="src\application\Application.cpp">
       <Filter>src\application</Filter>
     </ClCompile>
-    <ClCompile Include="src\Gui\Gui.cpp">
+    <ClCompile Include="src\gui\Gui.cpp">
       <Filter>src\gui</Filter>
     </ClCompile>
-    <ClCompile Include="src\Gui\Widgets\VocabularySettingsWidget.cpp">
+    <ClCompile Include="src\gui\widgets\VocabularySettingsWidget.cpp">
       <Filter>src\gui\widgets</Filter>
     </ClCompile>
-    <ClCompile Include="src\Gui\Widgets\MenuBarWidget.cpp">
+    <ClCompile Include="src\gui\widgets\MenuBarWidget.cpp">
       <Filter>src\gui\widgets</Filter>
     </ClCompile>
-    <ClCompile Include="src\Gui\Widgets\MainDashboardWidget.cpp">
+    <ClCompile Include="src\gui\widgets\MainDashboardWidget.cpp">
       <Filter>src\gui\widgets</Filter>
     </ClCompile>
-    <ClCompile Include="src\Gui\Widgets\LessonTreeViewWidget.cpp">
+    <ClCompile Include="src\gui\widgets\LessonTreeViewWidget.cpp">
       <Filter>src\gui\widgets</Filter>
     </ClCompile>
-    <ClCompile Include="src\Gui\GuiStyle.cpp">
+    <ClCompile Include="src\gui\GuiStyle.cpp">
       <Filter>src\gui\style</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\widgets\LessonSettingsWidget.cpp">
+      <Filter>src\gui\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lessons\LessonManager.cpp">
+      <Filter>src\lessons</Filter>
+    </ClCompile>
+    <ClCompile Include="src\application\LessonsDatabase.cpp">
+      <Filter>src\application</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Version.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\Application\Application.h">
+    <ClInclude Include="src\application\Application.h">
       <Filter>src\application</Filter>
     </ClInclude>
-    <ClInclude Include="src\Gui\Gui.h">
+    <ClInclude Include="src\gui\Gui.h">
       <Filter>src\gui</Filter>
     </ClInclude>
-    <ClInclude Include="src\Gui\Widgets\Widget.h">
+    <ClInclude Include="src\gui\widgets\Widget.h">
       <Filter>src\gui\widgets</Filter>
     </ClInclude>
-    <ClInclude Include="src\Gui\Widgets\WidgetTypes.h">
+    <ClInclude Include="src\gui\widgets\WidgetTypes.h">
       <Filter>src\gui\widgets</Filter>
     </ClInclude>
     <ClInclude Include="resources\IconsFontAwesome4.h">
       <Filter>resources</Filter>
     </ClInclude>
-    <ClInclude Include="src\Gui\Widgets\LessonTreeViewWidget.h">
+    <ClInclude Include="src\gui\widgets\LessonTreeViewWidget.h">
       <Filter>src\gui\widgets</Filter>
     </ClInclude>
-    <ClInclude Include="src\Gui\Widgets\MainDashboardWidget.h">
+    <ClInclude Include="src\gui\widgets\MainDashboardWidget.h">
       <Filter>src\gui\widgets</Filter>
     </ClInclude>
-    <ClInclude Include="src\Gui\Widgets\MenuBarWidget.h">
+    <ClInclude Include="src\gui\widgets\MenuBarWidget.h">
       <Filter>src\gui\widgets</Filter>
     </ClInclude>
-    <ClInclude Include="src\Gui\Widgets\VocabularySettingsWidget.h">
+    <ClInclude Include="src\gui\widgets\VocabularySettingsWidget.h">
       <Filter>src\gui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lessons\LessonManager.h">
+      <Filter>src\lessons</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\widgets\LessonSettingsWidget.h">
+      <Filter>src\gui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\application\LessonsDatabase.h">
+      <Filter>src\application</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lessons\Lesson.h">
+      <Filter>src\lessons</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tools\Database.h">
+      <Filter>src\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="src\application\LessonLoader.h">
+      <Filter>src\application</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -77,6 +104,12 @@
     </Filter>
     <Filter Include="src\gui\style">
       <UniqueIdentifier>{f1b6a724-7fb1-4b56-8039-2f6e6b0f41b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\lessons">
+      <UniqueIdentifier>{55fdc2dc-0901-4c59-bb29-f39cd3525f7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\tools">
+      <UniqueIdentifier>{0b456440-b797-414f-8b58-64cf0ed9c965}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
