@@ -37,6 +37,8 @@ namespace tadaima
          */
         void addLessons(const std::vector<Lesson>& lessons);
 
+        void renameLessons(const std::vector<Lesson>& lessons);
+
         /**
          * @brief Retrieves all lessons from the database.
          * @return A vector containing all lessons.
@@ -72,6 +74,8 @@ namespace tadaima
          * @return The ID of the added lesson.
          */
         int addLesson(const std::string& mainName, const std::string& subName);
+
+        void renameLesson(int lessonId, const std::string& newMainName, const std::string& newSubName);
 
         /**
          * @brief Reference to the database object.

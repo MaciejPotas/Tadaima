@@ -18,7 +18,7 @@ namespace tadaima
                 {
                     m_cashedLessons.clear();
 
-                    std::unordered_map<std::string, LessonGroup> lessonMap;
+                    std::map<std::string, LessonGroup> lessonMap;
 
                     auto lessonPackages = package->get<std::vector<LessonPackage>>(PackageKey::LessonsPackage);
                     for( const auto& lessonPackage : lessonPackages )
@@ -65,6 +65,7 @@ namespace tadaima
                 LessonTreeViewWidget::LessonPackage lessonPackage(lesson.id);
 
                 // Set the lesson details from the existing Lesson object
+                lessonPackage.set(LessonTreeViewWidget::LessonDataKey::id, lesson.id);
                 lessonPackage.set(LessonTreeViewWidget::LessonDataKey::MainName, lesson.mainName);
                 lessonPackage.set(LessonTreeViewWidget::LessonDataKey::SubName, lesson.subName);
 
@@ -104,6 +105,7 @@ namespace tadaima
             {
                 static bool open_add_new_lesson = false;
                 static Lesson newLesson;
+                static bool renamePopupOpen = false;
 
                 if( !ImGui::Begin("Lessons Overview", p_open, ImGuiWindowFlags_NoDecoration) )
                 {
@@ -135,26 +137,36 @@ namespace tadaima
                     m_lessonSettingsWidget.draw(&open_add_new_lesson);
                     if( !open_add_new_lesson )
                     {
-                        LessonDataPackage package = createLessonDataPackageFromLesson(newLesson);
-                        emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnLessonCreated, &package));
+                        if( !newLesson.isEmpty() )
+                        {
+                            LessonDataPackage package = createLessonDataPackageFromLesson(newLesson);
+                            emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnLessonCreated, &package));
+                        }
                     }
                 }
 
-                static int selected = -1;
-
-                for( const auto& lessonGroup : m_cashedLessons )
+                for( int groupIndex = 0; groupIndex < m_cashedLessons.size(); groupIndex++ )
                 {
+                    auto& lessonGroup = m_cashedLessons[groupIndex];
+                    ImGui::PushID(groupIndex);  // Ensure unique IDs for each group
+
                     if( ImGui::TreeNode(lessonGroup.mainName.c_str()) )
                     {
-                        for( const auto& lesson : lessonGroup.subLessons )
+                        for( int lessonIndex = 0; lessonIndex < lessonGroup.subLessons.size(); lessonIndex++ )
                         {
+                            auto& lesson = lessonGroup.subLessons[lessonIndex];
+                            ImGui::PushID(lessonIndex);  // Ensure unique IDs for each lesson
+
                             if( !lesson.subName.empty() )
                             {
                                 if( ImGui::TreeNode(lesson.subName.c_str()) )
                                 {
-                                    for( const auto& word : lesson.words )
+                                    for( int wordIndex = 0; wordIndex < lesson.words.size(); wordIndex++ )
                                     {
+                                        const auto& word = lesson.words[wordIndex];
+                                        ImGui::PushID(wordIndex);  // Ensure unique IDs for each word
                                         ImGui::Text(" %s - %s", word.translation.c_str(), word.kana.c_str());
+                                        ImGui::PopID();
                                     }
                                     ImGui::TreePop();
                                 }
@@ -162,17 +174,83 @@ namespace tadaima
                             else
                             {
                                 // If there is no subName, we directly show the words
-                                for( const auto& word : lesson.words )
+                                for( int wordIndex = 0; wordIndex < lesson.words.size(); wordIndex++ )
                                 {
+                                    const auto& word = lesson.words[wordIndex];
+                                    ImGui::PushID(wordIndex);  // Ensure unique IDs for each word
                                     ImGui::Text(" %s - %s", word.translation.c_str(), word.kana.c_str());
+                                    ImGui::PopID();
                                 }
                             }
+
+                            if( ImGui::BeginPopupContextItem(("context_" + std::to_string(groupIndex) + "_" + std::to_string(lessonIndex)).c_str()) )
+                            {
+                                if( ImGui::MenuItem("Rename") )
+                                {
+                                    renameLessonGroupIndex = groupIndex;
+                                    renameLessonIndex = lessonIndex;
+                                    strncpy(renameMainNameBuffer, lessonGroup.mainName.c_str(), sizeof(renameMainNameBuffer));
+                                    strncpy(renameSubNameBuffer, lesson.subName.c_str(), sizeof(renameSubNameBuffer));
+                                    renamePopupOpen = true;
+                                    ImGui::CloseCurrentPopup();
+                                }
+                                ImGui::EndPopup();
+                            }
+
+                            ImGui::PopID();
                         }
                         ImGui::TreePop();
                     }
+                    ImGui::PopID();
                 }
 
+                if( renamePopupOpen )
+                {
+                    ImGui::OpenPopup("Rename Lesson");
+                    renamePopupOpen = false;
+                }
+
+                ShowRenamePopup();
+
                 ImGui::End();
+            }
+
+            void LessonTreeViewWidget::ShowRenamePopup()
+            {
+                if( ImGui::BeginPopupModal("Rename Lesson", nullptr, ImGuiWindowFlags_AlwaysAutoResize) )
+                {
+                    ImGui::InputText("Main Name", renameMainNameBuffer, sizeof(renameMainNameBuffer));
+                    ImGui::InputText("Sub Name", renameSubNameBuffer, sizeof(renameSubNameBuffer));
+
+                    if( ImGui::Button("Save") )
+                    {
+                        if( renameLessonGroupIndex >= 0 && renameLessonGroupIndex < m_cashedLessons.size() )
+                        {
+                            auto& lessonGroup = m_cashedLessons[renameLessonGroupIndex];
+                            if( renameLessonIndex >= 0 && renameLessonIndex < lessonGroup.subLessons.size() )
+                            {
+                                auto& lesson = lessonGroup.subLessons[renameLessonIndex];
+                                if( lesson.mainName != renameMainNameBuffer || lesson.subName != renameSubNameBuffer )
+                                {
+                                    lessonGroup.mainName = renameMainNameBuffer;
+                                    lesson.mainName = renameMainNameBuffer;
+                                    lesson.subName = renameSubNameBuffer;
+
+                                    LessonDataPackage package = createLessonDataPackageFromLesson(lesson);
+                                    emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnLessonRename, &package));
+                                }
+                            }
+                        }
+                        ImGui::CloseCurrentPopup();
+                    }
+                    ImGui::SameLine();
+                    if( ImGui::Button("Cancel") )
+                    {
+                        ImGui::CloseCurrentPopup();
+                    }
+
+                    ImGui::EndPopup();
+                }
             }
         }
     }
