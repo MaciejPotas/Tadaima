@@ -16,16 +16,19 @@ namespace tadaima
             /**
              * @brief Enum representing types of widgets.
              */
-            enum class Type : uint8_t
+            enum Type : uint8_t
             {
-                Button, /**< Button widget type. */
-                FileSystem /**< File system widget type. */
+                MenuBar = 0, ///< ID for the menu bar widget.
+                LessonTreeView = 1, ///< ID for the lesson tree view widget.
+                Dashboard = 2, ///< ID for the main dashboard widget.
+                VocabularySettings = 3, ///< ID for the vocabulary settings widget.
+                Npc = 4
             };
 
             /**
              * @brief Enum representing actions for buttons.
              */
-            enum class ButtonAction : uint8_t
+            enum ButtonAction : uint8_t
             {
                 OnClick /**< Action triggered when a button is clicked. */
             };

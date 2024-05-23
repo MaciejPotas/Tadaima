@@ -26,11 +26,24 @@ namespace tadaima
 
         /**
          * @brief Adds a new lesson to the database.
-         * @param mainName The main name of the lesson.
-         * @param subName The sub name of the lesson.
+         * @param lesson The lesson to add.
          * @return The ID of the added lesson.
          */
-        int addLesson(const std::string& mainName, const std::string& subName);
+        int addLesson(const Lesson& lesson);
+
+        /**
+         * @brief Adds a vector of lessons to the database.
+         * @param lessons The vector of lessons to add.
+         */
+        void addLessons(const std::vector<Lesson>& lessons);
+
+        /**
+         * @brief Retrieves all lessons from the database.
+         * @return A vector containing all lessons.
+         */
+        std::vector<Lesson> getAllLessons() const;
+
+    private:
 
         /**
          * @brief Adds a word to a lesson in the database.
@@ -53,12 +66,13 @@ namespace tadaima
         std::vector<Word> getWordsInLesson(int lessonId) const;
 
         /**
-         * @brief Retrieves all lessons from the database.
-         * @return A vector containing all lessons.
+         * @brief Adds a new lesson to the database.
+         * @param mainName The main name of the lesson.
+         * @param subName The sub name of the lesson.
+         * @return The ID of the added lesson.
          */
-        std::vector<Lesson> getAllLessons() const;
+        int addLesson(const std::string& mainName, const std::string& subName);
 
-    private:
         /**
          * @brief Reference to the database object.
          */

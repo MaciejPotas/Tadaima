@@ -42,6 +42,10 @@ namespace tadaima
                     ImGui::InputText("Romaji", romajiBuffer, sizeof(romajiBuffer));
                     ImGui::InputText("Example Sentence", exampleSentenceBuffer, sizeof(exampleSentenceBuffer));
                     ImGui::InputText("Tags (comma-separated)", tagBuffer, sizeof(tagBuffer));
+                    if( ImGui::IsItemHovered() )
+                    {
+                        ImGui::SetTooltip("Enter tags separated by commas, e.g., tag1,tag2,tag3");
+                    }
 
                     if( ImGui::Button("Add Word") )
                     {
@@ -119,16 +123,10 @@ namespace tadaima
                     {
                         if( strlen(mainNameBuffer) > 0 && strlen(subNameBuffer) > 0 && !newLesson.words.empty() )
                         {
-                            // Pass the new lesson to the LessonManager
-                            // Assuming you have a reference to LessonManager instance
-                            // lessonManager.addLesson(newLesson.mainName, newLesson.subName);
-                            // for (const auto& word : newLesson.words)
-                            // {
-                            //     lessonManager.addWordToLesson(newLesson.id, word);
-                            // }
-
-                            // Clear the buffers and reset the new lesson
-                            newLesson = Lesson(); // Reset new lesson
+                            // Set the lesson's main name and sub name from the buffers
+                            m_lesson->mainName = std::string(mainNameBuffer);
+                            m_lesson->subName = std::string(subNameBuffer);
+                            m_lesson->words = newLesson.words;
                             *p_open = false;
                             ImGui::CloseCurrentPopup(); // Close the modal
                         }

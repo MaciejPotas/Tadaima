@@ -46,10 +46,13 @@ namespace tadaima
             /*
             *  Initialize widgets.
             */
-            m_widgets[Widget::MenuBar] = std::make_unique<widget::MenuBarWidget>();
-            m_widgets[Widget::LessonTreeView] = std::make_unique<widget::LessonTreeViewWidget>();
-            m_widgets[Widget::Dashboard] = std::make_unique<widget::MainDashboardWidget>();
-            m_widgets[Widget::VocabularySettings] = std::make_unique<widget::VocabularySettingsWidget>();
+            m_widgets[widget::Type::MenuBar] = std::make_unique<widget::MenuBarWidget>();
+            m_widgets[widget::Type::LessonTreeView] = std::make_unique<widget::LessonTreeViewWidget>();
+
+            m_widgets[widget::Type::LessonTreeView]->setObserver(std::bind(&Gui::handleWidgetEvent, this, std::placeholders::_1));
+
+            m_widgets[widget::Type::Dashboard] = std::make_unique<widget::MainDashboardWidget>();
+            m_widgets[widget::Type::VocabularySettings] = std::make_unique<widget::VocabularySettingsWidget>();
         }
 
         void Gui::initialize()
@@ -83,6 +86,11 @@ namespace tadaima
             io.Fonts->Build();
         }
 
+        void Gui::addListener(widget::Type widget, EventListener listener)
+        {
+            dispatcher.addListener(widget, listener);
+        }
+
         LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
         {
             if( ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam) )
@@ -107,7 +115,7 @@ namespace tadaima
             return ::DefWindowProcW(hWnd, msg, wParam, lParam);
         }
 
-        void Gui::initializeWidget(Widget id, const tools::DataPackage& data)
+        void Gui::initializeWidget(widget::Type id, const tools::DataPackage& data)
         {
             if( m_widgets.contains(id) )
             {
@@ -166,7 +174,6 @@ namespace tadaima
             {
                 bool showVocabSettings = false;
                 bool showLessonTreeView = true;
-                bool showDashboard = true;
 
                 // Poll and handle messages (inputs, window resize, etc.)
                 // See the WndProc() function below for our to dispatch events to the Win32 backend.
@@ -206,7 +213,7 @@ namespace tadaima
                 {
 
                     /*          Main menu bar           */
-                    m_widgets[Widget::MenuBar]->draw();
+                    m_widgets[widget::Type::MenuBar]->draw();
                     /*          Main menu bar           */
 
 
@@ -214,21 +221,21 @@ namespace tadaima
 
                     /*          VARIABLES LIST          */
 
-                    ImGui::SetNextWindowPos(ImVec2(0, 25), ImGuiCond_Always);
+                    ImGui::SetNextWindowPos(ImVec2(0, 24), ImGuiCond_Always);
                     ImGui::SetNextWindowSize(ImVec2(250, 600), ImGuiCond_Always);  // Adjust size as needed
-                    m_widgets[Widget::LessonTreeView]->draw(&showLessonTreeView);
+                    m_widgets[widget::Type::LessonTreeView]->draw(&showLessonTreeView);
                     /*          VARIABLES LIST          */
 
                     /*          DASHBOARD          */
                     // Set the Main Dashboard next to Lessons Overview and non-movable
-                    ImGui::SetNextWindowPos(ImVec2(250, 25), ImGuiCond_Always);
-                    ImGui::SetNextWindowSize(ImVec2(540, 600), ImGuiCond_Always);  // Adjust remaining width
-                    m_widgets[Widget::Dashboard]->draw(&showDashboard);
+                    //ImGui::SetNextWindowPos(ImVec2(250, 25), ImGuiCond_Always);
+                    //ImGui::SetNextWindowSize(ImVec2(540, 600), ImGuiCond_Always);  // Adjust remaining width
+                    //m_widgets[widget::Type::Dashboard]->draw(&showDashboard);
                     /*          DASHBOARD          */
 
 
                     ImGui::PopFont();
-
+   
                     if( ImGui::Button("Open Vocabulary Settings") )
                     {
                         showVocabSettings = true;
@@ -237,7 +244,7 @@ namespace tadaima
                     {
                         ImGui::SetNextWindowSize(ImVec2(400, 400), ImGuiCond_FirstUseEver); // Use FirstUseEver to set initial size
                         ImGui::Begin("Vocabulary Settings", &showVocabSettings, ImGuiWindowFlags_NoMove);
-                        m_widgets[Widget::VocabularySettings]->draw(&showVocabSettings);
+                        m_widgets[widget::Type::VocabularySettings]->draw(&showVocabSettings);
                         ImGui::End();
                     }
                 }
@@ -328,9 +335,9 @@ namespace tadaima
             if( g_mainRenderTargetView ) { g_mainRenderTargetView->Release(); g_mainRenderTargetView = nullptr; }
         }
 
-        void Gui::handleWidgetEvent([[maybe_unused]] const widget::WidgetEvent& data)
+        void Gui::handleWidgetEvent(const widget::WidgetEvent& data)
         {
-            dispatcher.emit(data.getWidget().getId(), &data);
+            dispatcher.emit(data.getWidget().getType(), &data);
         }
     }
 }

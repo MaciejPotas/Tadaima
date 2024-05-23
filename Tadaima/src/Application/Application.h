@@ -11,6 +11,7 @@
 #include <mutex>
 #include "LessonsDatabase.h"
 #include "Lessons/LessonManager.h"
+#include "Tools/EventsData.h"
 
 namespace tadaima
 {
@@ -89,18 +90,17 @@ namespace tadaima
             void sendToWidget();
 
             /**
-             * @brief Struct representing filesystem event data.
+             * @brief Processes filesystem events.
+             *
+             * This method is called to process filesystem events received by the application.
+             *
+             * @param data Pointer to the WidgetEvent containing filesystem event data.
              */
-            struct EventData
-            {
-                bool eventOccured()
-                {
-                    return false;
-                }
-            } m_event; /**< Event data for filesystem events. */
+            void processLessonTreeViewWidgetEvent(const gui::widget::WidgetEvent* data);
 
             LessonsDatabase m_database;
             LessonManager m_lessonManager;
+            tools::EventsData<std::vector<Lesson>> m_event; /**< Event data structure. */
             gui::Gui* m_gui = nullptr; /**< Pointer to the GUI instance. */
             std::thread workerThread; /**< Worker thread for background tasks. */
             std::atomic<bool> m_running; /**< Atomic flag to control the worker thread's execution. */

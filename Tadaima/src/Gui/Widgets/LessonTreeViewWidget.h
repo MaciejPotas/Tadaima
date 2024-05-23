@@ -2,6 +2,7 @@
  * @file LessonTreeViewWidget.h
  * @brief Defines the LessonTreeViewWidget class, representing a lesson tree view widget.
  */
+
 #pragma once
 
 #include "Widget.h"
@@ -21,10 +22,34 @@ namespace tadaima
             {
             public:
                 /**
+                 * @brief Constructs a LessonTreeViewWidget object.
+                 */
+                LessonTreeViewWidget() : Widget(Type::LessonTreeView) {}
+
+                /**
+                 * @brief Enum for lesson tree view widget events.
+                 */
+                enum LessonTreeViewWidgetEvent : uint8_t
+                {
+                    OnLessonCreated
+                };
+
+                /**
+                 * @brief Enum for package types.
+                 */
+                enum class PackageType : uint32_t
+                {
+                    LessonCreated,
+                    LessonModified,
+                    LessonDeleted
+                };
+
+                /**
                  * @brief Enum for package keys.
                  */
                 enum class PackageKey : uint32_t
                 {
+                    Type,
                     LessonsPackage
                 };
 
@@ -33,6 +58,7 @@ namespace tadaima
                  */
                 enum class LessonDataKey : uint32_t
                 {
+                    id,
                     MainName,
                     SubName,
                     Words
@@ -43,6 +69,7 @@ namespace tadaima
                  */
                 enum class WordDataKey : uint32_t
                 {
+                    id,
                     Kana,
                     Translation,
                     Romaji,
@@ -53,17 +80,17 @@ namespace tadaima
                 /**
                  * @brief Alias for word data package.
                  */
-                using WordDataPackage = tools::ComplexDataPackage<WordDataKey, std::string, std::vector<std::string>>;
+                using WordDataPackage = tools::ComplexDataPackage<WordDataKey, int, std::string, std::vector<std::string>>;
 
                 /**
                  * @brief Alias for lesson package.
                  */
-                using LessonPackage = tools::ComplexDataPackage<LessonDataKey, std::string, std::vector<WordDataPackage>>;
+                using LessonPackage = tools::ComplexDataPackage<LessonDataKey, int, std::string, std::vector<WordDataPackage>>;
 
                 /**
                  * @brief Represents a package containing lesson data.
                  */
-                class LessonDataPackage : public tools::ComplexDataPackage<PackageKey, std::vector<LessonPackage>>
+                class LessonDataPackage : public tools::ComplexDataPackage<PackageKey, PackageType, std::vector<LessonPackage>>
                 {
                 public:
                     /**
@@ -95,13 +122,8 @@ namespace tadaima
                     std::vector<Lesson> subLessons; /**< The sub-lessons within the group. */
                 };
 
-                std::vector<LessonGroup> lessons; /**< Vector containing lesson groups. */
-
-                /**
-                 * @brief Adds a new lesson.
-                 */
-                void AddNewLesson();
-
+                std::vector<LessonGroup> m_cashedLessons; /**< Vector containing lesson groups. */
+                PackageType m_type; /**< The type of package. */
                 LessonSettingsWidget m_lessonSettingsWidget; /**< The lesson settings widget. */
             };
         }

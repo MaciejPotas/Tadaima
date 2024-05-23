@@ -6,6 +6,7 @@
 #pragma once
 
 #include "Widgets/Widget.h"
+#include "Widgets/WidgetTypes.h"
 #include "Tools/EventDispatcher.h"
 #include <d3d11.h>
 #include <string>
@@ -27,17 +28,8 @@ namespace tadaima
         class Gui
         {
         public:
-
-            using WidgetEventDispatcher = tools::EventDispatcher<std::string, const widget::WidgetEvent*>;
+            using WidgetEventDispatcher = tools::EventDispatcher<widget::Type, const widget::WidgetEvent*>;
             using EventListener = WidgetEventDispatcher::EventHandler;
-
-            enum Widget : uint8_t
-            {
-                MenuBar = 0, ///< ID for the menu bar widget.
-                LessonTreeView = 1, ///< ID for the lesson tree view widget.
-                Dashboard = 2, ///< ID for the main dashboard widget.
-                VocabularySettings = 3 ///< ID for the vocabulary settings widget.
-            };
 
             struct config
             {
@@ -62,7 +54,7 @@ namespace tadaima
              * @param widget The widget to listen to.
              * @param listener The event listener function.
              */
-            void addListener(Widget widget, EventListener listener);
+            void addListener(widget::Type widget, EventListener listener);
 
             /**
              * @brief Initializes a widget with provided data.
@@ -70,7 +62,7 @@ namespace tadaima
              * @param widget The widget to initialize.
              * @param data The data package for initialization.
              */
-            void initializeWidget(Widget widget, const tools::DataPackage& data);
+            void initializeWidget(widget::Type widget, const tools::DataPackage& data);
 
             /**
              * @brief Runs the GUI thread.
@@ -124,7 +116,7 @@ namespace tadaima
             uint8_t m_widgetId = 0; ///< ID for widgets.
             ImFont* m_fontToUse = nullptr;
 
-            std::map<Widget, std::unique_ptr<widget::Widget>> m_widgets; ///< Vector of widgets.
+            std::map<widget::Type, std::unique_ptr<widget::Widget>> m_widgets; ///< Vector of widgets.
             config m_guiConfig; ///< Configuration for the GUI.
         };
     }
