@@ -36,6 +36,8 @@ namespace tadaima
             for( const auto& lesson : lessons )
             {
                 gui::widget::LessonTreeViewWidget::LessonPackage package(lesson.id);
+
+                package.set(gui::widget::LessonTreeViewWidget::LessonDataKey::id, lesson.id);
                 package.set(gui::widget::LessonTreeViewWidget::LessonDataKey::MainName, lesson.mainName);
                 package.set(gui::widget::LessonTreeViewWidget::LessonDataKey::SubName, lesson.subName);
 
@@ -43,6 +45,7 @@ namespace tadaima
                 for( const auto& word : lesson.words )
                 {
                     gui::widget::LessonTreeViewWidget::WordDataPackage wordPackage(word.id);
+                    wordPackage.set(gui::widget::LessonTreeViewWidget::WordDataKey::id, word.id);
                     wordPackage.set(gui::widget::LessonTreeViewWidget::WordDataKey::Kana, word.kana);
                     wordPackage.set(gui::widget::LessonTreeViewWidget::WordDataKey::Translation, word.translation);
                     wordPackage.set(gui::widget::LessonTreeViewWidget::WordDataKey::Romaji, word.romaji);

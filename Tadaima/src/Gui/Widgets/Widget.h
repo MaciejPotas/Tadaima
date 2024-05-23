@@ -89,6 +89,10 @@ namespace tadaima
             public:
                 using Listener = std::function<void(const WidgetEvent& data)>;
 
+                Widget(Type type = Type::Npc) : m_type(type)
+                {
+                }
+
                 virtual ~Widget() = default;
 
                 /**

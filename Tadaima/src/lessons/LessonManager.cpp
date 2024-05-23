@@ -19,6 +19,29 @@ namespace tadaima
         }
     }
 
+    int LessonManager::addLesson(const Lesson& lesson)
+    {
+        // Add the lesson to the database
+        int lessonId = db.addLesson(lesson.mainName, lesson.subName);
+
+        // Add all words associated with the lesson
+        for( const auto& word : lesson.words )
+        {
+            addWordToLesson(lessonId, word);
+        }
+
+        return lessonId;
+    }
+
+    void LessonManager::addLessons(const std::vector<Lesson>& lessons)
+    {
+        // Iterate over each lesson and add it to the database
+        for( const auto& lesson : lessons )
+        {
+            addLesson(lesson);
+        }
+    }
+
     std::vector<std::string> LessonManager::getLessonNames() const
     {
         return db.getLessonNames();

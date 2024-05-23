@@ -74,7 +74,7 @@ namespace tools
         *
         * @param id The identifier for the ComplexDataPackage.
         */
-        ComplexDataPackage(Identifier id) : DataPackage(id) {}
+        ComplexDataPackage(Identifier id = 0) : DataPackage(id) {}
 
         /**
         * @brief Sets a value in the package.
