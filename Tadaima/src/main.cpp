@@ -4,6 +4,7 @@
  */
 
 #include "Tools/CommandLineParser.h" 
+#include "Tools/Logger.h"
 #include "Gui/Gui.h"
 #include "Application/Application.h"
 #include <iostream>
@@ -13,6 +14,8 @@ int main(int argc, char* argv[])
 {
     try
     {
+        tools::ConsoleLogger logger;
+
         // Command line argument parsing
         tools::CommandLineParser parser;
         parser.parse(argc, argv);
@@ -25,9 +28,9 @@ int main(int argc, char* argv[])
         tadaima::gui::Gui gui(config);
 
         // Create and configure the application
-        tadaima::application::Application application(bridge);
+        tadaima::application::Application application(logger, bridge);
 
-        bridge.initialize(application, gui);     
+        bridge.initialize(application, gui);
         application.Initialize();
         application.run();
 

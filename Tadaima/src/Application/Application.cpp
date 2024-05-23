@@ -1,19 +1,25 @@
 ﻿#include "Application.h"
 #include "Gui/Gui.h"
-#include "gui/Widgets/WidgetTypes.h"
+#include "Gui/Widgets/WidgetTypes.h"
 #include "ApplicationEventList.h"
 #include <iostream>
 #include <chrono>
+#include <vector>
+#include <thread>
+#include <mutex>
+#include <condition_variable>
+#include "Tools/Logger.h"
 
 namespace tadaima
 {
     namespace application
     {
-        Application::Application(EventBridge& eventBridge)
+        Application::Application(tools::Logger& logger, EventBridge& eventBridge)
             : m_running(false),
-            m_database("lessons.db"),
+            m_database("lessons.db", logger),
             m_lessonManager(m_database),
-            m_eventBridge(eventBridge)
+            m_eventBridge(eventBridge),
+            m_logger(logger)
         {
         }
 
@@ -26,6 +32,7 @@ namespace tadaima
         {
             m_running = true;
             workerThread = std::thread(&Application::runThread, this);
+            m_logger.log("Application started running.", tools::LogLevel::INFO);
         }
 
         void Application::runThread()
@@ -43,6 +50,7 @@ namespace tadaima
                         if( m_event.isEventOccurred(ApplicationEvent::OnLessonCreated) )
                         {
                             std::vector<Lesson> lessons = m_event.getEventData<std::vector<Lesson>>(ApplicationEvent::OnLessonCreated);
+                            m_logger.log("OnLessonCreated event occurred. Lessons added: " + lessonsToString(lessons), tools::LogLevel::INFO);
                             m_lessonManager.addLessons(lessons);
                             m_eventBridge.initializeGui(m_lessonManager.getAllLessons());
                             m_event.clearEvent(ApplicationEvent::OnLessonCreated);
@@ -51,27 +59,30 @@ namespace tadaima
                         if( m_event.isEventOccurred(ApplicationEvent::OnLessonUpdate) )
                         {
                             std::vector<Lesson> lessons = m_event.getEventData<std::vector<Lesson>>(ApplicationEvent::OnLessonUpdate);
+                            m_logger.log("OnLessonUpdate event occurred. Lessons updated: " + lessonsToString(lessons), tools::LogLevel::INFO);
                             m_lessonManager.renameLessons(lessons);
                             m_eventBridge.initializeGui(m_lessonManager.getAllLessons());
                             m_event.clearEvent(ApplicationEvent::OnLessonUpdate);
+
                         }
 
                         if( m_event.isEventOccurred(ApplicationEvent::OnLessonDelete) )
                         {
                             std::vector<Lesson> lessons = m_event.getEventData<std::vector<Lesson>>(ApplicationEvent::OnLessonDelete);
+                            m_logger.log("OnLessonDelete event occurred. Lessons deleted: " + lessonsToString(lessons), tools::LogLevel::INFO);
                             m_lessonManager.removeLessons(lessons);
                             m_eventBridge.initializeGui(m_lessonManager.getAllLessons());
                             m_event.clearEvent(ApplicationEvent::OnLessonDelete);
-                        }
 
+                        }
                     }
                     catch( const std::exception& ex )
                     {
-                        std::cerr << "Exception caught during filesystem operation: " << ex.what() << std::endl;
+                        m_logger.log(std::string("Exception caught during event handling: ") + ex.what(), tools::LogLevel::PROBLEM);
                     }
                     catch( ... )
                     {
-                        std::cerr << "Unexpected exception caught during filesystem operation" << std::endl;
+                        m_logger.log("Unexpected exception caught during event handling", tools::LogLevel::PROBLEM);
                     }
                 }
             }
@@ -87,19 +98,47 @@ namespace tadaima
                 {
                     workerThread.join();
                 }
+                m_logger.log("Application stopped running.", tools::LogLevel::INFO);
             }
         }
 
         void Application::Initialize()
         {
             m_eventBridge.initializeGui(m_lessonManager.getAllLessons());
+            m_logger.log("Application initialized.", tools::LogLevel::INFO);
         }
 
         void Application::setEvent(ApplicationEvent event, const std::vector<Lesson>& lessons)
         {
             m_event.setEvent(event, lessons);
             m_threadRaise.notify_one();
+            m_logger.log("Event set: " + eventToString(event) + ". Lessons: " + lessonsToString(lessons), tools::LogLevel::DEBUG);
         }
 
+        std::string Application::lessonsToString(const std::vector<Lesson>& lessons)
+        {
+            std::ostringstream oss;
+            for( const auto& lesson : lessons )
+            {
+                oss << "{" << lesson.id << ", " << lesson.mainName << "}, ";
+            }
+            std::string result = oss.str();
+            return result.substr(0, result.length() - 2); // Remove the last comma and space
+        }
+
+        std::string Application::eventToString(ApplicationEvent event)
+        {
+            switch( event )
+            {
+                case ApplicationEvent::OnLessonCreated:
+                    return "OnLessonCreated";
+                case ApplicationEvent::OnLessonUpdate:
+                    return "OnLessonUpdate";
+                case ApplicationEvent::OnLessonDelete:
+                    return "OnLessonDelete";
+                default:
+                    return "UnknownEvent";
+            }
+        }
     }
 }
