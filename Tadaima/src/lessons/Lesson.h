@@ -21,6 +21,23 @@ namespace tadaima
         std::string romaji; /**< The romaji representation of the word. */
         std::string exampleSentence; /**< An example sentence using the word. */
         std::vector<std::string> tags; /**< Tags associated with the word. */
+
+        // Comparison operators
+        bool operator==(const Word& other) const
+        {
+            return id == other.id &&
+                kana == other.kana &&
+                translation == other.translation &&
+                romaji == other.romaji &&
+                exampleSentence == other.exampleSentence &&
+                tags == other.tags;
+        }
+
+        bool operator!=(const Word& other) const
+        {
+            return !(*this == other);
+        }
+
     };
 
     /**
@@ -32,5 +49,24 @@ namespace tadaima
         std::string mainName; /**< The main name of the lesson. */
         std::string subName; /**< The sub name of the lesson. */
         std::vector<Word> words; /**< Words associated with the lesson. */
+
+        // Comparison operators
+        bool operator==(const Lesson& other) const
+        {
+            return id == other.id &&
+                mainName == other.mainName &&
+                subName == other.subName &&
+                words == other.words;
+        }
+
+        bool operator!=(const Lesson& other) const
+        {
+            return !(*this == other);
+        }
+
+        bool isEmpty() const
+        {
+            return mainName.empty() && subName.empty() && words.empty();
+        }
     };
 }
