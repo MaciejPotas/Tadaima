@@ -9,7 +9,8 @@
 #include "Lessons/Lesson.h"
 #include <vector>
 #include <string>
-#include <Libraries/SQLite3/sqlite3.h>
+
+struct sqlite3;
 
 namespace tadaima
 {

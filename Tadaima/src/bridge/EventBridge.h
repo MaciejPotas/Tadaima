@@ -10,7 +10,7 @@
 #pragma once
 
 #include "application/ApplicationEventList.h"
-#include "Widgets/WidgetTypes.h"
+#include "gui/Widgets/WidgetTypes.h"
 #include "LessonLoader.h"
 
 #include <functional>

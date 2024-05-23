@@ -249,6 +249,5 @@ copy $(SolutionDir)build\$(Configuration)\$(Platform)\$(ProjectName)\$(ProjectNa
     <Font Include="resources\NotoSansJP-Regular.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets" />
 </Project>
