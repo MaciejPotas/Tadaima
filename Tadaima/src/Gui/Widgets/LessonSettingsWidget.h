@@ -6,7 +6,6 @@
 #pragma once
 
 #include "Widget.h"
-#include "Lessons/LessonManager.h"
 
 namespace tadaima
 {

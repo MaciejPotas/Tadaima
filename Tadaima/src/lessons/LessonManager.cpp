@@ -3,26 +3,26 @@
 
 namespace tadaima
 {
-    LessonManager::LessonManager(Database& db) : db(db) {}
+    LessonManager::LessonManager(Database& db) : m_database(db) {}
 
     int LessonManager::addLesson(const std::string& mainName, const std::string& subName)
     {
-        return db.addLesson(mainName, subName);
+        return m_database.addLesson(mainName, subName);
     }
 
     void LessonManager::addWordToLesson(int lessonId, const Word& word)
     {
-        int wordId = db.addWord(lessonId, word);
+        int wordId = m_database.addWord(lessonId, word);
         for( const auto& tag : word.tags )
         {
-            db.addTag(wordId, tag);
+            m_database.addTag(wordId, tag);
         }
     }
 
     int LessonManager::addLesson(const Lesson& lesson)
     {
         // Add the lesson to the database
-        int lessonId = db.addLesson(lesson.mainName, lesson.subName);
+        int lessonId = m_database.addLesson(lesson.mainName, lesson.subName);
 
         // Add all words associated with the lesson
         for( const auto& word : lesson.words )
@@ -53,22 +53,22 @@ namespace tadaima
 
     void LessonManager::renameLesson(int lessonId, const std::string& newMainName, const std::string& newSubName)
     {
-        db.updateLesson(lessonId, newMainName, newSubName);
+        m_database.updateLesson(lessonId, newMainName, newSubName);
     }
 
     std::vector<std::string> LessonManager::getLessonNames() const
     {
-        return db.getLessonNames();
+        return m_database.getLessonNames();
     }
 
     std::vector<Word> LessonManager::getWordsInLesson(int lessonId) const
     {
-        return db.getWordsInLesson(lessonId);
+        return m_database.getWordsInLesson(lessonId);
     }
 
     std::vector<Lesson> LessonManager::getAllLessons() const
     {
-        return db.getAllLessons();
+        return m_database.getAllLessons();
     }
 
 }

@@ -18,6 +18,7 @@ namespace tadaima
             class VocabularySettingsWidget : public Widget
             {
             public:
+
                 /**
                  * @brief Initializes the vocabulary settings widget.
                  *

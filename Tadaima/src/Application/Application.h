@@ -1,6 +1,10 @@
 /**
  * @file Application.h
- * @brief Declaration of the backend Application class.
+ * @brief Header file for the Application class.
+ *
+ * This file contains the declaration of the Application class which represents the backend
+ * application logic. The class manages the interaction between the GUI and the filesystem,
+ * handles application initialization, and manages background tasks through a worker thread.
  */
 
 #pragma once
@@ -12,6 +16,7 @@
 #include "LessonsDatabase.h"
 #include "Lessons/LessonManager.h"
 #include "Tools/EventsData.h"
+#include "bridge/EventBridge.h"
 
 namespace tadaima
 {
@@ -34,8 +39,10 @@ namespace tadaima
              * @brief Constructor.
              *
              * Initializes a new instance of the Application class.
+             *
+             * @param eventBridge Reference to an EventBridge instance for event handling.
              */
-            Application();
+            Application(EventBridge& eventBridge);
 
             /**
              * @brief Destructor.
@@ -65,6 +72,14 @@ namespace tadaima
              */
             void Initialize();
 
+            /**
+             * @brief Sets the event and corresponding lessons.
+             *
+             * @param event The application event to set.
+             * @param lessons The list of lessons associated with the event.
+             */
+            void setEvent(ApplicationEvent event, const std::vector<Lesson>& lessons);
+
         private:
 
             /**
@@ -82,30 +97,17 @@ namespace tadaima
              */
             void stopThread();
 
-            /**
-             * @brief Sends data to the GUI widget.
-             *
-             * This method sends data to the GUI widget.
-             */
-            void sendToWidget();
+            LessonsDatabase m_database; /**< Database for managing lessons. */
+            LessonManager m_lessonManager; /**< Manager for handling lesson operations. */
+            EventBridge& m_eventBridge; /**< Reference to the EventBridge for event handling. */
 
-            /**
-             * @brief Processes filesystem events.
-             *
-             * This method is called to process filesystem events received by the application.
-             *
-             * @param data Pointer to the WidgetEvent containing filesystem event data.
-             */
-            void processLessonTreeViewWidgetEvent(const gui::widget::WidgetEvent* data);
-
-            LessonsDatabase m_database;
-            LessonManager m_lessonManager;
             tools::EventsData<std::vector<Lesson>> m_event; /**< Event data structure. */
             gui::Gui* m_gui = nullptr; /**< Pointer to the GUI instance. */
             std::thread workerThread; /**< Worker thread for background tasks. */
             std::atomic<bool> m_running; /**< Atomic flag to control the worker thread's execution. */
             std::string m_newDirectory; /**< The path to the new directory. */
             std::condition_variable m_threadRaise; /**< Condition variable for thread synchronization. */
+            std::mutex mtx; /**< Mutex for thread synchronization. */
         };
     }
 }

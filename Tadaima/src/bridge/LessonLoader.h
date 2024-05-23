@@ -4,8 +4,6 @@
  */
 
 #pragma once
-
-#include "Tools/Database.h"
 #include "Gui/Widgets/LessonTreeViewWidget.h"
 
 namespace tadaima
@@ -19,9 +17,9 @@ namespace tadaima
     public:
         /**
          * @brief Constructs a LessonDataLoader object with the specified database.
-         * @param db The database to load lesson data from.
+         * @param lessons The list of lessons to load.
          */
-        LessonDataLoader(Database& db) : db(db) {}
+        LessonDataLoader(const std::vector<Lesson>& lessons) : m_lessons(lessons) {}
 
         /**
          * @brief Load all lessons from the database into LessonDataPackages.
@@ -31,9 +29,8 @@ namespace tadaima
         {
             std::vector<gui::widget::LessonTreeViewWidget::LessonPackage> lessonPackages;
             gui::widget::LessonTreeViewWidget::LessonDataPackage lessonPackage(1);
-            auto lessons = db.getAllLessons();
 
-            for( const auto& lesson : lessons )
+            for( const auto& lesson : m_lessons )
             {
                 gui::widget::LessonTreeViewWidget::LessonPackage package(lesson.id);
 
@@ -65,9 +62,6 @@ namespace tadaima
         }
 
     private:
-        /**
-         * @brief Reference to the database object.
-         */
-        Database& db;
+        const std::vector<Lesson>& m_lessons; /**< Reference to the list of lessons. */
     };
 }

@@ -8,9 +8,6 @@
 #include "Application/Application.h"
 #include <iostream>
 #include <iostream>
-#include <filesystem>
-#include "Lessons/Lesson.h"
-#include "Lessons/LessonManager.h"
 
 int main(int argc, char* argv[])
 {
@@ -20,13 +17,17 @@ int main(int argc, char* argv[])
         tools::CommandLineParser parser;
         parser.parse(argc, argv);
 
+        // Create EventBridge
+        tadaima::EventBridge bridge;
+
         // Create GUI with configuration
         tadaima::gui::Gui::config config;
         tadaima::gui::Gui gui(config);
 
         // Create and configure the application
-        tadaima::application::Application application;
-        application.addGui(gui);
+        tadaima::application::Application application(bridge);
+
+        bridge.initialize(application, gui);     
         application.Initialize();
         application.run();
 

@@ -5,6 +5,7 @@
 *.db
 Debug/*
 Release/*
+x64/
 bin/*
 build/*
 packages/*
