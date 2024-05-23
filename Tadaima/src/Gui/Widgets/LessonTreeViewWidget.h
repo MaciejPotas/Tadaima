@@ -32,7 +32,8 @@ namespace tadaima
                 enum LessonTreeViewWidgetEvent : uint8_t
                 {
                     OnLessonCreated,
-                    OnLessonRename
+                    OnLessonRename,
+                    OnLessonDelete
                 };
 
                 /**
@@ -131,8 +132,8 @@ namespace tadaima
                 PackageType m_type; /**< The type of package. */
                 LessonSettingsWidget m_lessonSettingsWidget; /**< The lesson settings widget. */
 
-                int renameLessonGroupIndex = -1;
-                int renameLessonIndex = -1;
+                int m_changedLessonGroupIndex = -1;
+                int m_changedLessonIndex = -1;
                 char renameMainNameBuffer[256] = "";
                 char renameSubNameBuffer[256] = "";
             };

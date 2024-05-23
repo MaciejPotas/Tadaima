@@ -88,13 +88,13 @@ namespace tadaima
         void onLessonRename(const gui::widget::LessonTreeViewWidget::LessonDataPackage& dataPackage);
 
         /**
-         * @brief Processes events from the LessonTreeViewWidget.
+         * @brief Handles the deletion of a lesson.
          *
-         * This method handles various events specific to the LessonTreeViewWidget.
+         * This method processes the data package when a lesson is removed in the GUI.
          *
-         * @param data Pointer to the WidgetEvent data.
+         * @param dataPackage The data package containing the renamed lesson information.
          */
-        void processLessonTreeViewWidgetEvent(const gui::widget::WidgetEvent* data);
+        void onLessonRemove(const gui::widget::LessonTreeViewWidget::LessonDataPackage& dataPackage);
     };
 
 }
