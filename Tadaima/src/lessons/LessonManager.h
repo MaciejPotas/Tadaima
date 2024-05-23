@@ -18,6 +18,7 @@ namespace tadaima
     class LessonManager
     {
     public:
+
         /**
          * @brief Constructs a LessonManager object with the specified database.
          * @param db The database to manage lessons.

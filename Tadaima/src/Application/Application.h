@@ -18,6 +18,7 @@
 #include "Tools/EventsData.h"
 #include "bridge/EventBridge.h"
 
+namespace tools { class Logger; }
 namespace tadaima
 {
     namespace gui { class Gui; }
@@ -42,7 +43,7 @@ namespace tadaima
              *
              * @param eventBridge Reference to an EventBridge instance for event handling.
              */
-            Application(EventBridge& eventBridge);
+            Application(tools::Logger& logger,EventBridge& eventBridge);
 
             /**
              * @brief Destructor.
@@ -75,6 +76,8 @@ namespace tadaima
 
         private:
 
+            std::string lessonsToString(const std::vector<Lesson>& lessons);
+            std::string eventToString(ApplicationEvent event);
             /**
              * @brief Worker thread function.
              *
@@ -93,6 +96,7 @@ namespace tadaima
             LessonsDatabase m_database; /**< Database for managing lessons. */
             LessonManager m_lessonManager; /**< Manager for handling lesson operations. */
             EventBridge& m_eventBridge; /**< Reference to the EventBridge for event handling. */
+            tools::Logger& m_logger;
 
             tools::EventsData<std::vector<Lesson>> m_event; /**< Event data structure. */
             gui::Gui* m_gui = nullptr; /**< Pointer to the GUI instance. */

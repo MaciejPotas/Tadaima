@@ -1,26 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Logger">
-      <UniqueIdentifier>{d8fece69-bbd3-4102-8598-56d78d5aed5a}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Logger\ConsoleLogger.cpp">
-      <Filter>Logger</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Logger\ConsoleLogger.h">
-      <Filter>Logger</Filter>
-    </ClInclude>
-    <ClInclude Include="Logger\Logger.h">
-      <Filter>Logger</Filter>
-    </ClInclude>
     <ClInclude Include="Tools\CommandLineParser.h" />
     <ClInclude Include="Tools\DataPackage.h" />
     <ClInclude Include="Tools\EventDispatcher.h" />
     <ClInclude Include="Tools\random.h" />
     <ClInclude Include="Tools\EventsData.h" />
+    <ClInclude Include="Tools\Logger.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Tools\Logger.cpp" />
   </ItemGroup>
 </Project>

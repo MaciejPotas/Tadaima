@@ -1,20 +1,30 @@
 #include "LessonsDatabase.h"
 #include <iostream>
 #include <Libraries/SQLite3/sqlite3.h>
+#include "Tools/Logger.h"
 
 namespace tadaima
 {
     namespace application
     {
-        LessonsDatabase::LessonsDatabase(const std::string& dbPath) : db(nullptr)
+        LessonsDatabase::LessonsDatabase(const std::string& dbPath, tools::Logger& logger)
+            : db(nullptr), m_logger(logger)
         {
             if( sqlite3_open(dbPath.c_str(), &db) )
             {
-                std::cerr << "Can't open database: " << sqlite3_errmsg(db) << std::endl;
+                m_logger.log("Database: Can't open database: " + std::string(sqlite3_errmsg(db)), tools::LogLevel::PROBLEM);
             }
             else
             {
-                initDatabase();
+                m_logger.log("Database: Opened database successfully at " + dbPath, tools::LogLevel::INFO);
+                if( initDatabase() )
+                {
+                    m_logger.log("Database: Initialized database successfully.", tools::LogLevel::INFO);
+                }
+                else
+                {
+                    m_logger.log("Database: Failed to initialize database.", tools::LogLevel::PROBLEM);
+                }
             }
         }
 
@@ -23,6 +33,7 @@ namespace tadaima
             if( db )
             {
                 sqlite3_close(db);
+                m_logger.log("Database: Closed database connection.", tools::LogLevel::PROBLEM);
             }
         }
 
@@ -52,19 +63,19 @@ namespace tadaima
             char* errMsg = nullptr;
             if( sqlite3_exec(db, createLessonsTable, 0, 0, &errMsg) != SQLITE_OK )
             {
-                std::cerr << "SQL error: " << errMsg << std::endl;
+                m_logger.log("Database: SQL error while creating lessons table: " + std::string(errMsg), tools::LogLevel::PROBLEM);
                 sqlite3_free(errMsg);
                 return false;
             }
             if( sqlite3_exec(db, createWordsTable, 0, 0, &errMsg) != SQLITE_OK )
             {
-                std::cerr << "SQL error: " << errMsg << std::endl;
+                m_logger.log("Database: SQL error while creating words table: " + std::string(errMsg), tools::LogLevel::PROBLEM);
                 sqlite3_free(errMsg);
                 return false;
             }
             if( sqlite3_exec(db, createTagsTable, 0, 0, &errMsg) != SQLITE_OK )
             {
-                std::cerr << "SQL error: " << errMsg << std::endl;
+                m_logger.log("Database: SQL error while creating tags table: " + std::string(errMsg), tools::LogLevel::PROBLEM);
                 sqlite3_free(errMsg);
                 return false;
             }
@@ -81,12 +92,14 @@ namespace tadaima
                 sqlite3_bind_text(stmt, 2, subName.c_str(), -1, SQLITE_STATIC);
                 if( sqlite3_step(stmt) != SQLITE_DONE )
                 {
-                    std::cerr << "SQL error: " << sqlite3_errmsg(db) << std::endl;
+                    m_logger.log("Database: SQL error while adding lesson: " + std::string(sqlite3_errmsg(db)), tools::LogLevel::PROBLEM);
                     sqlite3_finalize(stmt);
                     return -1;
                 }
+                int lessonId = static_cast<int>(sqlite3_last_insert_rowid(db));
                 sqlite3_finalize(stmt);
-                return  static_cast<int>(sqlite3_last_insert_rowid(db));
+                m_logger.log("Database: Added lesson with ID " + std::to_string(lessonId) + ", mainName: " + mainName + ", subName: " + subName, tools::LogLevel::INFO);
+                return lessonId;
             }
             return -1;
         }
@@ -106,13 +119,14 @@ namespace tadaima
                 sqlite3_bind_text(stmt, 5, word.exampleSentence.c_str(), -1, SQLITE_STATIC);
                 if( sqlite3_step(stmt) != SQLITE_DONE )
                 {
-                    std::cerr << "SQL error: " << sqlite3_errmsg(db) << std::endl;
+                    m_logger.log("Database: SQL error while adding word: " + std::string(sqlite3_errmsg(db)), tools::LogLevel::PROBLEM);
                     sqlite3_finalize(stmt);
                     return -1;
                 }
-                auto wordId = sqlite3_last_insert_rowid(db);
+                int wordId = static_cast<int>(sqlite3_last_insert_rowid(db));
                 sqlite3_finalize(stmt);
-                return  static_cast<int>(wordId);
+                m_logger.log("Database: Added word with ID " + std::to_string(wordId) + " to lesson ID " + std::to_string(lessonId), tools::LogLevel::INFO);
+                return wordId;
             }
             return -1;
         }
@@ -127,9 +141,10 @@ namespace tadaima
                 sqlite3_bind_text(stmt, 2, tag.c_str(), -1, SQLITE_STATIC);
                 if( sqlite3_step(stmt) != SQLITE_DONE )
                 {
-                    std::cerr << "SQL error: " << sqlite3_errmsg(db) << std::endl;
+                    m_logger.log("Database: SQL error while adding tag: " + std::string(sqlite3_errmsg(db)), tools::LogLevel::PROBLEM);
                 }
                 sqlite3_finalize(stmt);
+                m_logger.log("Database: Added tag '" + tag + "' to word ID " + std::to_string(wordId), tools::LogLevel::INFO);
             }
         }
 
@@ -144,9 +159,10 @@ namespace tadaima
                 sqlite3_bind_int(stmt, 3, lessonId);
                 if( sqlite3_step(stmt) != SQLITE_DONE )
                 {
-                    std::cerr << "SQL error: " << sqlite3_errmsg(db) << std::endl;
+                    m_logger.log("Database: SQL error while updating lesson: " + std::string(sqlite3_errmsg(db)), tools::LogLevel::PROBLEM);
                 }
                 sqlite3_finalize(stmt);
+                m_logger.log("Database: Updated lesson ID " + std::to_string(lessonId) + " to mainName: " + newMainName + ", subName: " + newSubName, tools::LogLevel::INFO);
             }
         }
 
@@ -163,9 +179,10 @@ namespace tadaima
                 sqlite3_bind_int(stmt, 5, wordId);
                 if( sqlite3_step(stmt) != SQLITE_DONE )
                 {
-                    std::cerr << "SQL error: " << sqlite3_errmsg(db) << std::endl;
+                    m_logger.log("Database: SQL error while updating word: " + std::string(sqlite3_errmsg(db)), tools::LogLevel::PROBLEM);
                 }
                 sqlite3_finalize(stmt);
+                m_logger.log("Database: Updated word ID " + std::to_string(wordId), tools::LogLevel::INFO);
             }
         }
 
@@ -178,9 +195,10 @@ namespace tadaima
                 sqlite3_bind_int(stmt, 1, lessonId);
                 if( sqlite3_step(stmt) != SQLITE_DONE )
                 {
-                    std::cerr << "SQL error: " << sqlite3_errmsg(db) << std::endl;
+                    m_logger.log("Database: SQL error while deleting lesson: " + std::string(sqlite3_errmsg(db)), tools::LogLevel::PROBLEM);
                 }
                 sqlite3_finalize(stmt);
+                m_logger.log("Database: Deleted lesson ID " + std::to_string(lessonId), tools::LogLevel::INFO);
             }
         }
 
@@ -193,9 +211,10 @@ namespace tadaima
                 sqlite3_bind_int(stmt, 1, wordId);
                 if( sqlite3_step(stmt) != SQLITE_DONE )
                 {
-                    std::cerr << "SQL error: " << sqlite3_errmsg(db) << std::endl;
+                    m_logger.log("Database: SQL error while deleting word: " + std::string(sqlite3_errmsg(db)), tools::LogLevel::PROBLEM);
                 }
                 sqlite3_finalize(stmt);
+                m_logger.log("Database: Deleted word ID " + std::to_string(wordId), tools::LogLevel::INFO);
             }
         }
 
