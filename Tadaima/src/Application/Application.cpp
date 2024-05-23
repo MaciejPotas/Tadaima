@@ -49,9 +49,18 @@ namespace tadaima
                             std::vector<Lesson> lessons = m_event.getEventData< std::vector<Lesson>>(ApplicationEvent::OnLessonCreated);
                             m_lessonManager.addLessons(lessons);
                             LessonDataLoader loader(m_database);
-                            m_gui->addListener(gui::widget::Type::LessonTreeView, std::bind(&Application::processLessonTreeViewWidgetEvent, this, std::placeholders::_1));
                             m_gui->initializeWidget(gui::widget::Type::LessonTreeView, loader.loadAllLessons());
                             m_event.clearEvent(ApplicationEvent::OnLessonCreated);
+                        }
+
+                        if( m_event.isEventOccurred(ApplicationEvent::OnLessonUpdate) )
+                        {
+                            std::vector<Lesson> lessons = m_event.getEventData<std::vector<Lesson>>(ApplicationEvent::OnLessonUpdate);
+                            m_lessonManager.renameLessons(lessons);
+
+                            LessonDataLoader loader(m_database);
+                            m_gui->initializeWidget(gui::widget::Type::LessonTreeView, loader.loadAllLessons());
+                            m_event.clearEvent(ApplicationEvent::OnLessonUpdate);
                         }
 
                     }
@@ -157,6 +166,19 @@ namespace tadaima
                             m_event.setEvent(ApplicationEvent::OnLessonCreated, z);
                         }
                     }
+
+                    break;
+
+                    case gui::widget::LessonTreeViewWidget::LessonTreeViewWidgetEvent::OnLessonRename:
+                    {
+                        gui::widget::LessonTreeViewWidget::LessonDataPackage* New_pointer = dynamic_cast<gui::widget::LessonTreeViewWidget::LessonDataPackage*>(data->getEventData());
+                        if( nullptr != New_pointer )
+                        {
+                            auto z = decodeLessonDataPackage(*New_pointer);
+                            m_event.setEvent(ApplicationEvent::OnLessonUpdate, z);
+                        }
+                    }
+
                     break;
 
                     default:
