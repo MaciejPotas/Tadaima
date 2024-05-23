@@ -8,7 +8,8 @@ namespace tadaima
         enum ApplicationEvent : uint8_t
         {
             OnLessonCreated,
-            OnLessonUpdate
+            OnLessonUpdate,
+            OnLessonDelete
         };
     }
 }

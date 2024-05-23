@@ -51,6 +51,12 @@ namespace tadaima
         void renameLessons(const std::vector<Lesson>& lessons);
 
         /**
+         * @brief Remove the lessons from the database.
+         * @param lessons The vector of lessons to remove.
+         */
+        void removeLessons(const std::vector<Lesson>& lessons);
+
+        /**
          * @brief Retrieves all lessons from the database.
          * @return A vector containing all lessons.
          */
