@@ -1,5 +1,6 @@
 #include "LessonsDatabase.h"
 #include <iostream>
+#include <Libraries/SQLite3/sqlite3.h>
 
 namespace tadaima
 {

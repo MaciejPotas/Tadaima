@@ -1,6 +1,6 @@
 ﻿#include "Application.h"
 #include "Gui/Gui.h"
-#include "Widgets/WidgetTypes.h"
+#include "gui/Widgets/WidgetTypes.h"
 #include "ApplicationEventList.h"
 #include <iostream>
 #include <chrono>
