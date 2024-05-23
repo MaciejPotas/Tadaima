@@ -4,9 +4,7 @@
  */
 
 #pragma once
-
 #include <cstdint>
-
 namespace tadaima
 {
     namespace gui

@@ -109,10 +109,7 @@ namespace tadaima
             std::vector<Lesson> getAllLessons() const override;
 
         private:
-            /**
-             * @brief Pointer to the SQLite database.
-             */
-            sqlite3* db;
+            sqlite3* db; /**< Pointer to the SQLite database. */
         };
     }
 }
