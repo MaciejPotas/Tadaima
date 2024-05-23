@@ -59,13 +59,6 @@ namespace tadaima
             void run();
 
             /**
-             * @brief Adds a GUI instance to the application.
-             *
-             * @param gui The GUI instance to add.
-             */
-            void addGui(gui::Gui& gui);
-
-            /**
              * @brief Initializes the application.
              *
              * This method initializes the application and sets up necessary components.
