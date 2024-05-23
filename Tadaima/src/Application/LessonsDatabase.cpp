@@ -85,7 +85,7 @@ namespace tadaima
                     return -1;
                 }
                 sqlite3_finalize(stmt);
-                return sqlite3_last_insert_rowid(db);
+                return  static_cast<int>(sqlite3_last_insert_rowid(db));
             }
             return -1;
         }
@@ -109,9 +109,9 @@ namespace tadaima
                     sqlite3_finalize(stmt);
                     return -1;
                 }
-                int wordId = sqlite3_last_insert_rowid(db);
+                auto wordId = sqlite3_last_insert_rowid(db);
                 sqlite3_finalize(stmt);
-                return wordId;
+                return  static_cast<int>(wordId);
             }
             return -1;
         }

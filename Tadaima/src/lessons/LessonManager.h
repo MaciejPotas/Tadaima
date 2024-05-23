@@ -37,6 +37,10 @@ namespace tadaima
          */
         void addLessons(const std::vector<Lesson>& lessons);
 
+        /**
+         * @brief Renames the lessons in the database.
+         * @param lessons The vector of lessons to rename.
+         */
         void renameLessons(const std::vector<Lesson>& lessons);
 
         /**
@@ -46,7 +50,6 @@ namespace tadaima
         std::vector<Lesson> getAllLessons() const;
 
     private:
-
         /**
          * @brief Adds a word to a lesson in the database.
          * @param lessonId The ID of the lesson.
@@ -75,11 +78,17 @@ namespace tadaima
          */
         int addLesson(const std::string& mainName, const std::string& subName);
 
+        /**
+         * @brief Renames an existing lesson in the database.
+         * @param lessonId The ID of the lesson to rename.
+         * @param newMainName The new main name of the lesson.
+         * @param newSubName The new sub name of the lesson.
+         */
         void renameLesson(int lessonId, const std::string& newMainName, const std::string& newSubName);
 
         /**
          * @brief Reference to the database object.
          */
-        Database& db;
+        Database& m_database;
     };
 }

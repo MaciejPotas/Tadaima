@@ -32,6 +32,9 @@
     <ClCompile Include="src\application\LessonsDatabase.cpp">
       <Filter>src\application</Filter>
     </ClCompile>
+    <ClCompile Include="src\bridge\EventBridge.cpp">
+      <Filter>src\bridge</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Version.h">
@@ -79,11 +82,14 @@
     <ClInclude Include="src\tools\Database.h">
       <Filter>src\tools</Filter>
     </ClInclude>
-    <ClInclude Include="src\application\LessonLoader.h">
-      <Filter>src\application</Filter>
-    </ClInclude>
     <ClInclude Include="src\application\ApplicationEventList.h">
       <Filter>src\application</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bridge\LessonLoader.h">
+      <Filter>src\bridge</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bridge\EventBridge.h">
+      <Filter>src\bridge</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -113,6 +119,9 @@
     </Filter>
     <Filter Include="src\tools">
       <UniqueIdentifier>{0b456440-b797-414f-8b58-64cf0ed9c965}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\bridge">
+      <UniqueIdentifier>{e2862b6f-fe04-4976-8cc2-f6843989bea8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

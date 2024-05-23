@@ -9,7 +9,6 @@
 #include "Widgets/WidgetTypes.h"
 #include "Tools/EventDispatcher.h"
 #include <d3d11.h>
-#include <string>
 #include <memory>
 #include <map>
 

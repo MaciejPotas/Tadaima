@@ -1,4 +1,5 @@
 #pragma once
+#include <widemath.h>
 
 namespace tadaima
 {
