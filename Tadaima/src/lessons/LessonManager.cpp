@@ -51,6 +51,15 @@ namespace tadaima
         }
     }
 
+    void LessonManager::removeLessons(const std::vector<Lesson>& lessons)
+    {
+        // Iterate over each lesson and delete it from the database
+        for( const auto& lesson : lessons )
+        {
+            m_database.deleteLesson(lesson.id);
+        }
+    }
+
     void LessonManager::renameLesson(int lessonId, const std::string& newMainName, const std::string& newSubName)
     {
         m_database.updateLesson(lessonId, newMainName, newSubName);
