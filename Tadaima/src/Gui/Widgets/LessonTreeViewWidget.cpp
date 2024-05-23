@@ -1,9 +1,7 @@
 #include "LessonTreeViewWidget.h"
-#include "gui.h"
 #include "resources/IconsFontAwesome4.h"
 #include "imgui.h"
-#include <sstream>
-#include <unordered_map>
+#include <map>
 
 namespace tadaima
 {
@@ -145,26 +143,26 @@ namespace tadaima
                     }
                 }
 
-                for( int groupIndex = 0; groupIndex < m_cashedLessons.size(); groupIndex++ )
+                for( size_t groupIndex = 0; groupIndex < m_cashedLessons.size(); groupIndex++ )
                 {
                     auto& lessonGroup = m_cashedLessons[groupIndex];
-                    ImGui::PushID(groupIndex);  // Ensure unique IDs for each group
+                    ImGui::PushID(static_cast<int>(groupIndex));  // Ensure unique IDs for each group
 
                     if( ImGui::TreeNode(lessonGroup.mainName.c_str()) )
                     {
-                        for( int lessonIndex = 0; lessonIndex < lessonGroup.subLessons.size(); lessonIndex++ )
+                        for( size_t lessonIndex = 0; lessonIndex < lessonGroup.subLessons.size(); lessonIndex++ )
                         {
                             auto& lesson = lessonGroup.subLessons[lessonIndex];
-                            ImGui::PushID(lessonIndex);  // Ensure unique IDs for each lesson
+                            ImGui::PushID(static_cast<int>(lessonIndex));  // Ensure unique IDs for each lesson
 
                             if( !lesson.subName.empty() )
                             {
                                 if( ImGui::TreeNode(lesson.subName.c_str()) )
                                 {
-                                    for( int wordIndex = 0; wordIndex < lesson.words.size(); wordIndex++ )
+                                    for( size_t wordIndex = 0; wordIndex < lesson.words.size(); wordIndex++ )
                                     {
                                         const auto& word = lesson.words[wordIndex];
-                                        ImGui::PushID(wordIndex);  // Ensure unique IDs for each word
+                                        ImGui::PushID(static_cast<int>(wordIndex));  // Ensure unique IDs for each word
                                         ImGui::Text(" %s - %s", word.translation.c_str(), word.kana.c_str());
                                         ImGui::PopID();
                                     }
@@ -174,10 +172,10 @@ namespace tadaima
                             else
                             {
                                 // If there is no subName, we directly show the words
-                                for( int wordIndex = 0; wordIndex < lesson.words.size(); wordIndex++ )
+                                for( size_t wordIndex = 0; wordIndex < lesson.words.size(); wordIndex++ )
                                 {
                                     const auto& word = lesson.words[wordIndex];
-                                    ImGui::PushID(wordIndex);  // Ensure unique IDs for each word
+                                    ImGui::PushID(static_cast<int>(wordIndex));  // Ensure unique IDs for each word
                                     ImGui::Text(" %s - %s", word.translation.c_str(), word.kana.c_str());
                                     ImGui::PopID();
                                 }
@@ -187,8 +185,8 @@ namespace tadaima
                             {
                                 if( ImGui::MenuItem("Rename") )
                                 {
-                                    renameLessonGroupIndex = groupIndex;
-                                    renameLessonIndex = lessonIndex;
+                                    renameLessonGroupIndex = static_cast<int>(groupIndex);
+                                    renameLessonIndex = static_cast<int>(lessonIndex);
                                     strncpy(renameMainNameBuffer, lessonGroup.mainName.c_str(), sizeof(renameMainNameBuffer));
                                     strncpy(renameSubNameBuffer, lesson.subName.c_str(), sizeof(renameSubNameBuffer));
                                     renamePopupOpen = true;
@@ -224,10 +222,10 @@ namespace tadaima
 
                     if( ImGui::Button("Save") )
                     {
-                        if( renameLessonGroupIndex >= 0 && renameLessonGroupIndex < m_cashedLessons.size() )
+                        if( renameLessonGroupIndex >= 0 && renameLessonGroupIndex < static_cast<int>(m_cashedLessons.size()) )
                         {
                             auto& lessonGroup = m_cashedLessons[renameLessonGroupIndex];
-                            if( renameLessonIndex >= 0 && renameLessonIndex < lessonGroup.subLessons.size() )
+                            if( renameLessonIndex >= 0 && renameLessonIndex < static_cast<int>(lessonGroup.subLessons.size()) )
                             {
                                 auto& lesson = lessonGroup.subLessons[renameLessonIndex];
                                 if( lesson.mainName != renameMainNameBuffer || lesson.subName != renameSubNameBuffer )
