@@ -104,6 +104,7 @@ namespace tadaima
                 static bool open_add_new_lesson = false;
                 static Lesson newLesson;
                 static bool renamePopupOpen = false;
+                static bool deleteLesson = false;
 
                 if( !ImGui::Begin("Lessons Overview", p_open, ImGuiWindowFlags_NoDecoration) )
                 {
@@ -185,11 +186,18 @@ namespace tadaima
                             {
                                 if( ImGui::MenuItem("Rename") )
                                 {
-                                    renameLessonGroupIndex = static_cast<int>(groupIndex);
-                                    renameLessonIndex = static_cast<int>(lessonIndex);
+                                    m_changedLessonGroupIndex = static_cast<int>(groupIndex);
+                                    m_changedLessonIndex = static_cast<int>(lessonIndex);
                                     strncpy(renameMainNameBuffer, lessonGroup.mainName.c_str(), sizeof(renameMainNameBuffer));
                                     strncpy(renameSubNameBuffer, lesson.subName.c_str(), sizeof(renameSubNameBuffer));
                                     renamePopupOpen = true;
+                                    ImGui::CloseCurrentPopup();
+                                }
+                                if( ImGui::MenuItem("Delete") )
+                                {
+                                    m_changedLessonGroupIndex = static_cast<int>(groupIndex);
+                                    m_changedLessonIndex = static_cast<int>(lessonIndex);
+                                    deleteLesson = true;
                                     ImGui::CloseCurrentPopup();
                                 }
                                 ImGui::EndPopup();
@@ -208,6 +216,23 @@ namespace tadaima
                     renamePopupOpen = false;
                 }
 
+                if( deleteLesson )
+                {
+                    if( m_changedLessonGroupIndex >= 0 && m_changedLessonGroupIndex < static_cast<int>(m_cashedLessons.size()) )
+                    {
+                        auto& lessonGroup = m_cashedLessons[m_changedLessonGroupIndex];
+                        if( m_changedLessonIndex >= 0 && m_changedLessonIndex < static_cast<int>(lessonGroup.subLessons.size()) )
+                        {
+                            auto& lesson = lessonGroup.subLessons[m_changedLessonIndex];
+
+                            LessonDataPackage package = createLessonDataPackageFromLesson(lesson);
+                            emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnLessonDelete, &package));
+                        }
+                    }
+
+                    deleteLesson = false;
+                }
+
                 ShowRenamePopup();
 
                 ImGui::End();
@@ -222,12 +247,12 @@ namespace tadaima
 
                     if( ImGui::Button("Save") )
                     {
-                        if( renameLessonGroupIndex >= 0 && renameLessonGroupIndex < static_cast<int>(m_cashedLessons.size()) )
+                        if( m_changedLessonGroupIndex >= 0 && m_changedLessonGroupIndex < static_cast<int>(m_cashedLessons.size()) )
                         {
-                            auto& lessonGroup = m_cashedLessons[renameLessonGroupIndex];
-                            if( renameLessonIndex >= 0 && renameLessonIndex < static_cast<int>(lessonGroup.subLessons.size()) )
+                            auto& lessonGroup = m_cashedLessons[m_changedLessonGroupIndex];
+                            if( m_changedLessonIndex >= 0 && m_changedLessonIndex < static_cast<int>(lessonGroup.subLessons.size()) )
                             {
-                                auto& lesson = lessonGroup.subLessons[renameLessonIndex];
+                                auto& lesson = lessonGroup.subLessons[m_changedLessonIndex];
                                 if( lesson.mainName != renameMainNameBuffer || lesson.subName != renameSubNameBuffer )
                                 {
                                     lessonGroup.mainName = renameMainNameBuffer;
