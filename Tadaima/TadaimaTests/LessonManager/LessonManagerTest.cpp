@@ -6,17 +6,9 @@
 using namespace tadaima;
 using ::testing::_;
 using ::testing::Return;
-using ::testing::DoAll;
-using ::testing::SetArgReferee;
 
 class LessonManagerTest : public ::testing::Test
 {
-public:
-    LessonManagerTest()
-    {
-
-    }
-
 protected:
     MockDatabase mockDatabase;
     LessonManager lessonManager{ mockDatabase };
@@ -25,14 +17,14 @@ protected:
 TEST_F(LessonManagerTest, AddLesson)
 {
     Word word1;
-    word1.kana = "as";
+    word1.kana = "kana1";
     word1.translation = "translation1";
     word1.romaji = "romaji1";
     word1.exampleSentence = "example1";
     word1.tags = { "tag1" };
 
     Word word2;
-    word2.kana = "qwe";
+    word2.kana = "kana2";
     word2.translation = "translation2";
     word2.romaji = "romaji2";
     word2.exampleSentence = "example2";
@@ -57,9 +49,17 @@ TEST_F(LessonManagerTest, AddLesson)
 TEST_F(LessonManagerTest, AddLessons)
 {
     Word word1;
+    word1.kana = "kana1";
+    word1.translation = "translation1";
+    word1.romaji = "romaji1";
+    word1.exampleSentence = "example1";
     word1.tags = { "tag1" };
 
     Word word2;
+    word2.kana = "kana2";
+    word2.translation = "translation2";
+    word2.romaji = "romaji2";
+    word2.exampleSentence = "example2";
     word2.tags = { "tag2" };
 
     Lesson lesson1;
@@ -109,4 +109,47 @@ TEST_F(LessonManagerTest, GetAllLessons)
     auto result = lessonManager.getAllLessons();
 
     EXPECT_EQ(result, lessons);
+}
+
+TEST_F(LessonManagerTest, AddWordToLesson)
+{
+    Word word;
+    word.kana = "kana";
+    word.translation = "translation";
+    word.romaji = "romaji";
+    word.exampleSentence = "example";
+    word.tags = { "tag1", "tag2" };
+
+    EXPECT_CALL(mockDatabase, addWord(1, word)).WillOnce(Return(2));
+    EXPECT_CALL(mockDatabase, addTag(2, "tag1"));
+    EXPECT_CALL(mockDatabase, addTag(2, "tag2"));
+
+    lessonManager.addWordToLesson(1, word);
+}
+
+TEST_F(LessonManagerTest, GetLessonNames)
+{
+    std::vector<std::string> lessonNames = { "Lesson 1", "Lesson 2" };
+
+    EXPECT_CALL(mockDatabase, getLessonNames()).WillOnce(Return(lessonNames));
+
+    auto result = lessonManager.getLessonNames();
+
+    EXPECT_EQ(result, lessonNames);
+}
+
+TEST_F(LessonManagerTest, GetWordsInLesson)
+{
+    std::vector<Word> words = {
+        {1, "kana1", "translation1", "romaji1", "example1", {"tag1"}},
+        {2, "kana2", "translation2", "romaji2", "example2", {"tag2"}}
+    };
+
+    EXPECT_CALL(mockDatabase, getWordsInLesson(1)).WillOnce(Return(words));
+
+    auto result = lessonManager.getWordsInLesson(1);
+
+    EXPECT_EQ(result.size(), 2);
+    EXPECT_EQ(result[0].kana, "kana1");
+    EXPECT_EQ(result[1].translation, "translation2");
 }
