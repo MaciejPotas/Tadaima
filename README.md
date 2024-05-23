@@ -121,3 +121,8 @@ CREATE TABLE IF NOT EXISTS Tags (
 ## Integrate with your tools
 
 ## Test and Deploy
+
+To inspect/change of the created database, DB Browser (SQLite) can be used.
+Binaries and tutorial can be found on the: https://sqlitebrowser.org/
+Oopening a database, end viewing rows can give clous how database is created, or if something is wrong.
+![image](https://github.com/MaciejPotas/Tadaima/assets/33178177/8a34b9cb-f1a9-40b0-a117-8ab931afbeff)
