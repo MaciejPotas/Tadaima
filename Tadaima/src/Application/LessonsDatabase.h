@@ -11,6 +11,7 @@
 #include <string>
 
 struct sqlite3;
+namespace tools { class Logger; }
 
 namespace tadaima
 {
@@ -27,7 +28,7 @@ namespace tadaima
              * @brief Constructs a LessonsDatabase object.
              * @param dbPath The file path to the SQLite database.
              */
-            LessonsDatabase(const std::string& dbPath);
+            LessonsDatabase(const std::string& dbPath, tools::Logger& logger);
 
             /**
              * @brief Destroys the LessonsDatabase object.
@@ -111,6 +112,7 @@ namespace tadaima
 
         private:
             sqlite3* db; /**< Pointer to the SQLite database. */
+            tools::Logger& m_logger;
         };
     }
 }
