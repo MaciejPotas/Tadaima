@@ -42,6 +42,20 @@ namespace tadaima
         }
     }
 
+    void LessonManager::renameLessons(const std::vector<Lesson>& lessons)
+    {
+        // Iterate over each lesson and add it to the database
+        for( const auto& lesson : lessons )
+        {
+            renameLesson(lesson.id, lesson.mainName, lesson.subName);
+        }
+    }
+
+    void LessonManager::renameLesson(int lessonId, const std::string& newMainName, const std::string& newSubName)
+    {
+        db.updateLesson(lessonId, newMainName, newSubName);
+    }
+
     std::vector<std::string> LessonManager::getLessonNames() const
     {
         return db.getLessonNames();
@@ -56,4 +70,5 @@ namespace tadaima
     {
         return db.getAllLessons();
     }
+
 }

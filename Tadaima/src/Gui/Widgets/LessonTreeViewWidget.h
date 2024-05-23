@@ -31,7 +31,8 @@ namespace tadaima
                  */
                 enum LessonTreeViewWidgetEvent : uint8_t
                 {
-                    OnLessonCreated
+                    OnLessonCreated,
+                    OnLessonRename
                 };
 
                 /**
@@ -113,6 +114,10 @@ namespace tadaima
                 void draw(bool* p_open) override;
 
             private:
+
+                void ShowRenamePopup();
+
+
                 /**
                  * @brief Represents a group of lessons.
                  */
@@ -125,6 +130,11 @@ namespace tadaima
                 std::vector<LessonGroup> m_cashedLessons; /**< Vector containing lesson groups. */
                 PackageType m_type; /**< The type of package. */
                 LessonSettingsWidget m_lessonSettingsWidget; /**< The lesson settings widget. */
+
+                int renameLessonGroupIndex = -1;
+                int renameLessonIndex = -1;
+                char renameMainNameBuffer[256] = "";
+                char renameSubNameBuffer[256] = "";
             };
         }
     }
