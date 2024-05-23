@@ -82,6 +82,9 @@
     <ClInclude Include="src\application\LessonLoader.h">
       <Filter>src\application</Filter>
     </ClInclude>
+    <ClInclude Include="src\application\ApplicationEventList.h">
+      <Filter>src\application</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">

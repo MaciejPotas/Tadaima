@@ -16,7 +16,7 @@ namespace tadaima
                 const LessonDataPackage* package = dynamic_cast<const LessonDataPackage*>(&r_package);
                 if( package )
                 {
-                    lessons.clear();
+                    m_cashedLessons.clear();
 
                     std::unordered_map<std::string, LessonGroup> lessonMap;
 
@@ -24,6 +24,7 @@ namespace tadaima
                     for( const auto& lessonPackage : lessonPackages )
                     {
                         Lesson lesson;
+                        lesson.id = lessonPackage.get<int>(LessonDataKey::id);
                         lesson.mainName = lessonPackage.get<std::string>(LessonDataKey::MainName);
                         lesson.subName = lessonPackage.get<std::string>(LessonDataKey::SubName);
 
@@ -31,6 +32,7 @@ namespace tadaima
                         for( const auto& wordPackage : wordPackages )
                         {
                             Word word;
+                            word.id = wordPackage.get<int>(WordDataKey::id);
                             word.kana = wordPackage.get<std::string>(WordDataKey::Kana);
                             word.translation = wordPackage.get<std::string>(WordDataKey::Translation);
                             word.romaji = wordPackage.get<std::string>(WordDataKey::Romaji);
@@ -46,25 +48,76 @@ namespace tadaima
 
                     for( const auto& pair : lessonMap )
                     {
-                        lessons.push_back(pair.second);
+                        m_cashedLessons.push_back(pair.second);
                     }
                 }
+            }
+
+            LessonTreeViewWidget::LessonDataPackage createLessonDataPackageFromLesson(const Lesson& lesson)
+            {
+                // Create a LessonDataPackage with an identifier
+                LessonTreeViewWidget::LessonDataPackage lessonDataPackage(1);
+
+                // Create a vector to hold LessonPackage objects
+                std::vector<LessonTreeViewWidget::LessonPackage> lessonPackages;
+
+                // Create a new LessonPackage using the existing Lesson object
+                LessonTreeViewWidget::LessonPackage lessonPackage(lesson.id);
+
+                // Set the lesson details from the existing Lesson object
+                lessonPackage.set(LessonTreeViewWidget::LessonDataKey::MainName, lesson.mainName);
+                lessonPackage.set(LessonTreeViewWidget::LessonDataKey::SubName, lesson.subName);
+
+                // Create a vector to hold WordDataPackage objects
+                std::vector<LessonTreeViewWidget::WordDataPackage> wordPackages;
+
+                // Iterate over the words in the existing Lesson object
+                for( const auto& word : lesson.words )
+                {
+                    // Create a new WordDataPackage for each word
+                    LessonTreeViewWidget::WordDataPackage wordPackage(word.id);
+
+                    // Set the word details from the existing Word object
+                    wordPackage.set(LessonTreeViewWidget::WordDataKey::Kana, word.kana);
+                    wordPackage.set(LessonTreeViewWidget::WordDataKey::Translation, word.translation);
+                    wordPackage.set(LessonTreeViewWidget::WordDataKey::Romaji, word.romaji);
+                    wordPackage.set(LessonTreeViewWidget::WordDataKey::ExampleSentence, word.exampleSentence);
+                    wordPackage.set(LessonTreeViewWidget::WordDataKey::Tags, word.tags);
+
+                    // Add the WordDataPackage to the vector of word packages
+                    wordPackages.push_back(wordPackage);
+                }
+
+                // Set the words for the lesson
+                lessonPackage.set(LessonTreeViewWidget::LessonDataKey::Words, wordPackages);
+
+                // Add the LessonPackage to the vector of lesson packages
+                lessonPackages.push_back(lessonPackage);
+
+                // Set the lessons package in the LessonDataPackage
+                lessonDataPackage.set(LessonTreeViewWidget::PackageKey::LessonsPackage, lessonPackages);
+
+                return lessonDataPackage;
             }
 
             void LessonTreeViewWidget::draw(bool* p_open)
             {
                 static bool open_add_new_lesson = false;
+                static Lesson newLesson;
+
                 if( !ImGui::Begin("Lessons Overview", p_open, ImGuiWindowFlags_NoDecoration) )
                 {
                     ImGui::End();
                     return;
                 }
 
-                ImGui::Separator();
                 if( ImGui::Button(ICON_FA_PLUS " Add New Lesson") )
                 {
-                    // Logic to add new lesson
+                    // Create a new lesson object
+                    newLesson = Lesson();
+                    m_type = PackageType::LessonCreated;
                     open_add_new_lesson = true;
+                    m_lessonSettingsWidget.setLesson(newLesson);
                 }
                 ImGui::SameLine();
                 if( ImGui::Button(ICON_FA_PLUS " Edit Lesson") )
@@ -80,11 +133,16 @@ namespace tadaima
                 if( open_add_new_lesson )
                 {
                     m_lessonSettingsWidget.draw(&open_add_new_lesson);
+                    if( !open_add_new_lesson )
+                    {
+                        LessonDataPackage package = createLessonDataPackageFromLesson(newLesson);
+                        emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnLessonCreated, &package));
+                    }
                 }
 
                 static int selected = -1;
 
-                for( const auto& lessonGroup : lessons )
+                for( const auto& lessonGroup : m_cashedLessons )
                 {
                     if( ImGui::TreeNode(lessonGroup.mainName.c_str()) )
                     {
@@ -96,14 +154,7 @@ namespace tadaima
                                 {
                                     for( const auto& word : lesson.words )
                                     {
-                                        ImGui::Text("  Word: %s (%s) - %s", word.kana.c_str(), word.romaji.c_str(), word.translation.c_str());
-                                        ImGui::Text("  Example: %s", word.exampleSentence.c_str());
-                                        ImGui::Text("  Tags: ");
-                                        for( const auto& tag : word.tags )
-                                        {
-                                            ImGui::SameLine();
-                                            ImGui::Text("%s", tag.c_str());
-                                        }
+                                        ImGui::Text(" %s - %s", word.translation.c_str(), word.kana.c_str());
                                     }
                                     ImGui::TreePop();
                                 }
@@ -113,14 +164,7 @@ namespace tadaima
                                 // If there is no subName, we directly show the words
                                 for( const auto& word : lesson.words )
                                 {
-                                    ImGui::Text("  Word: %s (%s) - %s", word.kana.c_str(), word.romaji.c_str(), word.translation.c_str());
-                                    ImGui::Text("  Example: %s", word.exampleSentence.c_str());
-                                    ImGui::Text("  Tags: ");
-                                    for( const auto& tag : word.tags )
-                                    {
-                                        ImGui::SameLine();
-                                        ImGui::Text("%s", tag.c_str());
-                                    }
+                                    ImGui::Text(" %s - %s", word.translation.c_str(), word.kana.c_str());
                                 }
                             }
                         }
