@@ -39,7 +39,7 @@ namespace tadaima
                 "kana TEXT NOT NULL, "
                 "translation TEXT NOT NULL, "
                 "romaji TEXT, "
-                "example TEXT, "
+                "example_sentence TEXT, "
                 "FOREIGN KEY(lesson_id) REFERENCES lessons(id));";
             const char* createTagsTable =
                 "CREATE TABLE IF NOT EXISTS tags ("
@@ -93,7 +93,7 @@ namespace tadaima
         int LessonsDatabase::addWord(int lessonId, const Word& word)
         {
             const char* sql =
-                "INSERT INTO words (lesson_id, kana, translation, romaji, example) "
+                "INSERT INTO words (lesson_id, kana, translation, romaji, example_sentence) "
                 "VALUES (?, ?, ?, ?, ?);";
             sqlite3_stmt* stmt;
             if( sqlite3_prepare_v2(db, sql, -1, &stmt, 0) == SQLITE_OK )
@@ -132,6 +132,72 @@ namespace tadaima
             }
         }
 
+        void LessonsDatabase::updateLesson(int lessonId, const std::string& newMainName, const std::string& newSubName)
+        {
+            const char* sql = "UPDATE lessons SET main_name = ?, sub_name = ? WHERE id = ?;";
+            sqlite3_stmt* stmt;
+            if( sqlite3_prepare_v2(db, sql, -1, &stmt, 0) == SQLITE_OK )
+            {
+                sqlite3_bind_text(stmt, 1, newMainName.c_str(), -1, SQLITE_STATIC);
+                sqlite3_bind_text(stmt, 2, newSubName.c_str(), -1, SQLITE_STATIC);
+                sqlite3_bind_int(stmt, 3, lessonId);
+                if( sqlite3_step(stmt) != SQLITE_DONE )
+                {
+                    std::cerr << "SQL error: " << sqlite3_errmsg(db) << std::endl;
+                }
+                sqlite3_finalize(stmt);
+            }
+        }
+
+        void LessonsDatabase::updateWord(int wordId, const Word& updatedWord)
+        {
+            const char* sql = "UPDATE words SET kana = ?, translation = ?, romaji = ?, example_sentence = ? WHERE id = ?;";
+            sqlite3_stmt* stmt;
+            if( sqlite3_prepare_v2(db, sql, -1, &stmt, 0) == SQLITE_OK )
+            {
+                sqlite3_bind_text(stmt, 1, updatedWord.kana.c_str(), -1, SQLITE_STATIC);
+                sqlite3_bind_text(stmt, 2, updatedWord.translation.c_str(), -1, SQLITE_STATIC);
+                sqlite3_bind_text(stmt, 3, updatedWord.romaji.c_str(), -1, SQLITE_STATIC);
+                sqlite3_bind_text(stmt, 4, updatedWord.exampleSentence.c_str(), -1, SQLITE_STATIC);
+                sqlite3_bind_int(stmt, 5, wordId);
+                if( sqlite3_step(stmt) != SQLITE_DONE )
+                {
+                    std::cerr << "SQL error: " << sqlite3_errmsg(db) << std::endl;
+                }
+                sqlite3_finalize(stmt);
+            }
+        }
+
+        void LessonsDatabase::deleteLesson(int lessonId)
+        {
+            const char* sql = "DELETE FROM lessons WHERE id = ?;";
+            sqlite3_stmt* stmt;
+            if( sqlite3_prepare_v2(db, sql, -1, &stmt, 0) == SQLITE_OK )
+            {
+                sqlite3_bind_int(stmt, 1, lessonId);
+                if( sqlite3_step(stmt) != SQLITE_DONE )
+                {
+                    std::cerr << "SQL error: " << sqlite3_errmsg(db) << std::endl;
+                }
+                sqlite3_finalize(stmt);
+            }
+        }
+
+        void LessonsDatabase::deleteWord(int wordId)
+        {
+            const char* sql = "DELETE FROM words WHERE id = ?;";
+            sqlite3_stmt* stmt;
+            if( sqlite3_prepare_v2(db, sql, -1, &stmt, 0) == SQLITE_OK )
+            {
+                sqlite3_bind_int(stmt, 1, wordId);
+                if( sqlite3_step(stmt) != SQLITE_DONE )
+                {
+                    std::cerr << "SQL error: " << sqlite3_errmsg(db) << std::endl;
+                }
+                sqlite3_finalize(stmt);
+            }
+        }
+
         std::vector<std::string> LessonsDatabase::getLessonNames() const
         {
             std::vector<std::string> lessonNames;
@@ -152,7 +218,7 @@ namespace tadaima
         std::vector<Word> LessonsDatabase::getWordsInLesson(int lessonId) const
         {
             std::vector<Word> words;
-            const char* sql = "SELECT id, kana, translation, romaji, example FROM words WHERE lesson_id = ?;";
+            const char* sql = "SELECT id, kana, translation, romaji, example_sentence FROM words WHERE lesson_id = ?;";
             sqlite3_stmt* stmt;
             if( sqlite3_prepare_v2(db, sql, -1, &stmt, 0) == SQLITE_OK )
             {

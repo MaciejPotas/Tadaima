@@ -35,6 +35,7 @@
     <ClInclude Include="Tools\CommandLineParser.h" />
     <ClInclude Include="Tools\DataPackage.h" />
     <ClInclude Include="Tools\EventDispatcher.h" />
+    <ClInclude Include="Tools\EventsData.h" />
     <ClInclude Include="Tools\random.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

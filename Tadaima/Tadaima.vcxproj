@@ -202,6 +202,7 @@ copy $(SolutionDir)build\$(Configuration)\$(Platform)\$(ProjectName)\$(ProjectNa
   <ItemGroup>
     <ClCompile Include="src\application\Application.cpp" />
     <ClCompile Include="src\gui\GuiStyle.cpp" />
+    <ClInclude Include="src\application\ApplicationEventList.h" />
     <ClInclude Include="src\application\LessonLoader.h" />
     <ClInclude Include="src\gui\widgets\LessonSettingsWidget.h" />
     <ClInclude Include="src\gui\widgets\VocabularySettingsWidget.h" />
