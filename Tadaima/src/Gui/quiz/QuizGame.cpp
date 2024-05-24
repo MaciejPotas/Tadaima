@@ -1,7 +1,6 @@
-#include "gui/quiz/QuizGame.h"
-#include <stdexcept>
+#include "QuizGame.h"
 #include <unordered_set>
-#include "Tools/Logger.h"
+#include <stdexcept>
 #include <sstream>
 
 namespace tadaima
@@ -11,12 +10,10 @@ namespace tadaima
         QuizGame::QuizGame(tools::Logger& logger, const std::vector<Lesson>& lessons)
             : m_logger(logger), rng(std::random_device{}()), currentWordIndex(0), correctCount(0)
         {
-            m_logger.log("Initializing QuizGame.", tools::LogLevel::INFO);
             initialize(lessons);
             if( !words.empty() )
             {
                 shuffleWords();
-                m_logger.log("QuizGame initialized with " + std::to_string(words.size()) + " words.", tools::LogLevel::INFO);
             }
             else
             {
@@ -46,8 +43,6 @@ namespace tadaima
 
             if( words.size() < 4 )
             {
-                m_logger.log("Not enough words to generate unique options. Using available words and dummy options.", tools::LogLevel::WARNING);
-                // Not enough words to generate unique options
                 for( const auto& word : words )
                 {
                     if( word.translation != correctWord.translation && options.size() < 4 )
@@ -55,7 +50,6 @@ namespace tadaima
                         options.push_back(word.translation);
                     }
                 }
-                // Fill the rest with dummy options if necessary
                 while( options.size() < 4 )
                 {
                     options.push_back("dummy_option_" + std::to_string(options.size()));
@@ -63,7 +57,6 @@ namespace tadaima
             }
             else
             {
-                // Generate three random wrong options
                 std::unordered_set<std::string> usedTranslations{ correctWord.translation };
                 while( options.size() < 4 )
                 {
@@ -76,14 +69,17 @@ namespace tadaima
                 }
             }
 
-            // Shuffle the options to randomize their order
             std::shuffle(options.begin(), options.end(), rng);
+
+            // Store the correct answer index
+            auto it = std::find(options.begin(), options.end(), correctWord.translation);
+            correctAnswerIndex = std::distance(options.begin(), it);
+
             return options;
         }
 
         void QuizGame::shuffleWords()
         {
-            m_logger.log("Shuffling words.", tools::LogLevel::DEBUG);
             std::shuffle(words.begin(), words.end(), rng);
         }
 
@@ -94,7 +90,6 @@ namespace tadaima
             if( !words.empty() )
             {
                 currentOptions = generateOptions(words[currentWordIndex]);
-                m_logger.log("Quiz started with first question: " + getCurrentQuestion(), tools::LogLevel::INFO);
             }
             else
             {
@@ -106,12 +101,11 @@ namespace tadaima
         {
             if( isFinished() )
             {
-                m_logger.log("Quiz already finished.", tools::LogLevel::WARNING);
                 return;
             }
 
             int answerIndex = answer - 'a';
-            if( answerIndex < 0 || answerIndex >= static_cast<int>(currentOptions.size()) )
+            if( answerIndex < 0 || answerIndex >= currentOptions.size() )
             {
                 throw std::out_of_range("Invalid answer choice.");
             }
@@ -121,11 +115,6 @@ namespace tadaima
             if( currentOptions[answerIndex] == correctWord.translation )
             {
                 correctCount++;
-                m_logger.log("Correct answer for word: " + correctWord.kana, tools::LogLevel::INFO);
-            }
-            else
-            {
-                m_logger.log("Wrong answer for word: " + correctWord.kana, tools::LogLevel::INFO);
             }
 
             currentWordIndex++;
@@ -133,11 +122,6 @@ namespace tadaima
             if( !isFinished() )
             {
                 currentOptions = generateOptions(words[currentWordIndex]);
-                m_logger.log("Next question: " + getCurrentQuestion(), tools::LogLevel::INFO);
-            }
-            else
-            {
-                m_logger.log(getResults(), tools::LogLevel::INFO);
             }
         }
 
@@ -165,6 +149,21 @@ namespace tadaima
             std::ostringstream oss;
             oss << "Quiz finished!\nYou got " << correctCount << " out of " << words.size() << " correct!";
             return oss.str();
+        }
+
+        int QuizGame::getCurrentQuestionIndex() const
+        {
+            return static_cast<int>(currentWordIndex);
+        }
+
+        int QuizGame::getTotalQuestions() const
+        {
+            return static_cast<int>(words.size());
+        }
+
+        int QuizGame::getCorrectAnswerIndex() const
+        {
+            return correctAnswerIndex;
         }
     }
 }

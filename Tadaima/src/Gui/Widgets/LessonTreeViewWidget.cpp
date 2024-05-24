@@ -183,7 +183,7 @@ namespace tadaima
 
                             if( ImGui::BeginPopupContextItem(("context_" + std::to_string(groupIndex) + "_" + std::to_string(lessonIndex)).c_str()) )
                             {
-                                if( ImGui::BeginMenu("Play") )
+                                if( ImGui::BeginMenu(ICON_FA_PLAY"Play") )
                                 {
                                     if( ImGui::MenuItem("QuizWidget") )
                                     {
@@ -194,7 +194,7 @@ namespace tadaima
                                     ImGui::EndMenu();
                                 }
 
-                                if( ImGui::MenuItem("Edit") )
+                                if( ImGui::MenuItem(ICON_FA_PENCIL "Edit") )
                                 {
                                     m_changedLessonGroupIndex = static_cast<int>(groupIndex);
                                     m_changedLessonIndex = static_cast<int>(lessonIndex);
@@ -205,7 +205,7 @@ namespace tadaima
                                     ImGui::CloseCurrentPopup();
                                 }
 
-                                if( ImGui::MenuItem("Rename") )
+                                if( ImGui::MenuItem(ICON_FA_PENCIL "Rename") )
                                 {
                                     m_changedLessonGroupIndex = static_cast<int>(groupIndex);
                                     m_changedLessonIndex = static_cast<int>(lessonIndex);
@@ -214,7 +214,7 @@ namespace tadaima
                                     renamePopupOpen = true;
                                     ImGui::CloseCurrentPopup();
                                 }
-                                if( ImGui::MenuItem("Delete") )
+                                if( ImGui::MenuItem(ICON_FA_TRASH " Delete") )
                                 {
                                     m_changedLessonGroupIndex = static_cast<int>(groupIndex);
                                     m_changedLessonIndex = static_cast<int>(lessonIndex);
@@ -276,10 +276,29 @@ namespace tadaima
             {
                 if( ImGui::BeginPopupModal("Rename Lesson", nullptr, ImGuiWindowFlags_AlwaysAutoResize) )
                 {
-                    ImGui::InputText("Main Name", renameMainNameBuffer, sizeof(renameMainNameBuffer));
-                    ImGui::InputText("Sub Name", renameSubNameBuffer, sizeof(renameSubNameBuffer));
+                    ImGui::TextWrapped("Please enter the new names for the lesson:");
 
-                    if( ImGui::Button("Save") )
+                    ImGui::Spacing();
+                    ImGui::Separator();
+                    ImGui::Spacing();
+
+                    ImGui::Text("Main Name:");
+                    ImGui::PushItemWidth(300);
+                    ImGui::InputText("##MainName", renameMainNameBuffer, sizeof(renameMainNameBuffer));
+                    ImGui::PopItemWidth();
+
+                    ImGui::Spacing();
+
+                    ImGui::Text("Sub Name:");
+                    ImGui::PushItemWidth(300);
+                    ImGui::InputText("##SubName", renameSubNameBuffer, sizeof(renameSubNameBuffer));
+                    ImGui::PopItemWidth();
+
+                    ImGui::Spacing();
+                    ImGui::Separator();
+                    ImGui::Spacing();
+
+                    if( ImGui::Button("Save", ImVec2(120, 0)) )
                     {
                         if( m_changedLessonGroupIndex >= 0 && m_changedLessonGroupIndex < static_cast<int>(m_cashedLessons.size()) )
                         {
@@ -300,8 +319,10 @@ namespace tadaima
                         }
                         ImGui::CloseCurrentPopup();
                     }
+
                     ImGui::SameLine();
-                    if( ImGui::Button("Cancel") )
+
+                    if( ImGui::Button("Cancel", ImVec2(120, 0)) )
                     {
                         ImGui::CloseCurrentPopup();
                     }
@@ -309,6 +330,7 @@ namespace tadaima
                     ImGui::EndPopup();
                 }
             }
+
         }
     }
 }

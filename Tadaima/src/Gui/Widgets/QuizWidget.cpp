@@ -1,4 +1,6 @@
 #include "QuizWidget.h"
+#include <thread>
+#include <chrono>
 
 namespace tadaima
 {
@@ -10,35 +12,81 @@ namespace tadaima
                 : m_logger(logger), quizGame(logger, lessons)
             {
                 quizGame.start();
+                bufferedQuestion = quizGame.getCurrentQuestion();
+                bufferedOptions = quizGame.getCurrentOptions();
+            }
+
+            void QuizWidget::highlightAndAdvance()
+            {
+                highlightCorrectAnswer = true;
+                highlightStartTime = std::chrono::steady_clock::now();
+                correctAnswerIndex = quizGame.getCorrectAnswerIndex();
             }
 
             void QuizWidget::draw()
             {
                 if( isQuizWindowOpen )
                 {
-                    ImGui::SetNextWindowSize(ImVec2(600, 400), ImGuiCond_FirstUseEver); // Set window size
+                    ImGui::SetNextWindowSize(ImVec2(600, 400), ImGuiCond_FirstUseEver);
 
                     if( ImGui::Begin("Quiz Game", &isQuizWindowOpen, ImGuiWindowFlags_NoCollapse) )
                     {
                         ImGui::TextWrapped("Welcome to the Quiz Game! Test your knowledge by selecting the correct translation.");
 
+                        if( !highlightCorrectAnswer )
+                        {
+                            bufferedQuestion = quizGame.getCurrentQuestion();
+                            bufferedOptions = quizGame.getCurrentOptions();
+                        }
+
                         if( !quizGame.isFinished() )
                         {
                             ImGui::Separator();
-                            ImGui::Text("%s", quizGame.getCurrentQuestion().c_str());
+                            ImGui::Text("%s", bufferedQuestion.c_str());
 
                             ImGui::Spacing();
 
-                            auto options = quizGame.getCurrentOptions();
-                            char optionLabel = 'a';
-                            for( const auto& option : options )
+                            for( int i = 0; i < bufferedOptions.size(); ++i )
                             {
-                                if( ImGui::Button((std::string(1, optionLabel) + ") " + option).c_str(), ImVec2(550, 0)) )
+                                char optionLabel = 'a' + i;
+                                if( highlightCorrectAnswer && i == correctAnswerIndex )
                                 {
-                                    quizGame.advance(optionLabel);
+                                    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 1.0f, 0.0f, 1.0f)); // Green for correct answer
+                                    ImGui::Button((std::string(1, optionLabel) + ") " + bufferedOptions[i]).c_str(), ImVec2(550, 0));
+                                    ImGui::PopStyleColor();
                                 }
-                                optionLabel++;
+                                else
+                                {
+                                    if( ImGui::Button((std::string(1, optionLabel) + ") " + bufferedOptions[i]).c_str(), ImVec2(550, 0)) )
+                                    {
+                                        if( !highlightCorrectAnswer )
+                                        {
+                                            selectedOption = optionLabel;
+                                            highlightAndAdvance();
+                                        }
+                                    }
+                                }
                             }
+
+                            if( highlightCorrectAnswer )
+                            {
+                                auto now = std::chrono::steady_clock::now();
+                                auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(now - highlightStartTime).count();
+                                if( elapsed >= 2 )
+                                {
+                                    highlightCorrectAnswer = false;
+                                    quizGame.advance(selectedOption);
+                                    if( !quizGame.isFinished() )
+                                    {
+                                        bufferedQuestion = quizGame.getCurrentQuestion();
+                                        bufferedOptions = quizGame.getCurrentOptions();
+                                    }
+                                    selectedOption = '\0'; // Clear the selected option
+                                }
+                            }
+
+                            ImGui::Text("Progress: %d/%d", quizGame.getCurrentQuestionIndex() + 1, quizGame.getTotalQuestions());
+
                         }
                         else
                         {
@@ -46,6 +94,8 @@ namespace tadaima
                             if( ImGui::Button("Restart", ImVec2(550, 0)) )
                             {
                                 quizGame.start();
+                                bufferedQuestion = quizGame.getCurrentQuestion();
+                                bufferedOptions = quizGame.getCurrentOptions();
                             }
                         }
 
@@ -57,7 +107,6 @@ namespace tadaima
 
                     ImGui::End();
                 }
-
             }
         }
     }

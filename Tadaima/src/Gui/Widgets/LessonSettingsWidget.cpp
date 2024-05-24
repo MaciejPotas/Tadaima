@@ -20,7 +20,7 @@ namespace tadaima
 
                 ImGui::SetNextWindowSize(ImVec2(700, 400), ImGuiCond_Always);  // Adjust size as needed
                 // Open the modal window
-                if( ImGui::BeginPopupModal(m_isEditing ? "Edit Lesson Modal" : "Add New Lesson Modal", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize) )
+                if( ImGui::BeginPopupModal(m_isEditing ? "Edit Lesson Modal" : "Add New Lesson Modal", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoResize) )
                 {
                     ImGui::Columns(2);
                     ImGui::InputText("Main Name", m_mainNameBuffer, sizeof(m_mainNameBuffer));

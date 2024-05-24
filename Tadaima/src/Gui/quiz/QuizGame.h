@@ -84,8 +84,34 @@ namespace tadaima
              */
             std::string getResults() const;
 
-        private:
+            /**
+             * @brief Gets the index of the current question.
+             *
+             * Retrieves the index of the current question in the quiz.
+             *
+             * @return The index of the current question.
+             */
+            int getCurrentQuestionIndex() const;
 
+            /**
+             * @brief Gets the total number of questions in the quiz.
+             *
+             * Retrieves the total number of questions.
+             *
+             * @return The total number of questions.
+             */
+            int getTotalQuestions() const;
+
+            /**
+             * @brief Gets the index of the correct answer for the current question.
+             *
+             * Retrieves the index of the correct answer within the current options.
+             *
+             * @return The index of the correct answer.
+             */
+            int getCorrectAnswerIndex() const;
+
+        private:
             /**
              * @brief Initializes the quiz game by extracting words from lessons.
              *
@@ -118,6 +144,7 @@ namespace tadaima
             size_t currentWordIndex; /**< Index of the current word in the quiz. */
             int correctCount; /**< Count of correctly answered questions. */
             std::vector<std::string> currentOptions; /**< Vector of multiple-choice options for the current question. */
+            int correctAnswerIndex; /**< Index of the correct answer within the current options. */
         };
     }
 }
