@@ -11,8 +11,10 @@
 #include <d3d11.h>
 #include <memory>
 #include <map>
+#include "quiz/QuizManager.h"
 
 struct ImFont;
+namespace tools { class Logger; }
 
 namespace tadaima
 {
@@ -40,7 +42,7 @@ namespace tadaima
              *
              * @param r_config Configuration for the GUI.
              */
-            Gui(const config& r_config);
+            Gui(tools::Logger& logger, const config& r_config);
 
             /**
              * @brief Initializes the GUI thread.
@@ -107,6 +109,7 @@ namespace tadaima
              */
             void handleWidgetEvent(const widget::WidgetEvent& data);
 
+            QuizManager m_quizManager;
             ID3D11Device* g_pd3dDevice = nullptr; ///< Direct3D device.
             ID3D11DeviceContext* g_pd3dDeviceContext = nullptr; ///< Direct3D device context.
             IDXGISwapChain* g_pSwapChain = nullptr; ///< Swap chain for rendering.
@@ -114,7 +117,7 @@ namespace tadaima
             WidgetEventDispatcher dispatcher; ///< Event dispatcher for widgets.
             uint8_t m_widgetId = 0; ///< ID for widgets.
             ImFont* m_fontToUse = nullptr;
-
+            tools::Logger& m_logger; /**< Reference to the Logger instance for logging. */
             std::map<widget::Type, std::unique_ptr<widget::Widget>> m_widgets; ///< Vector of widgets.
             config m_guiConfig; ///< Configuration for the GUI.
         };

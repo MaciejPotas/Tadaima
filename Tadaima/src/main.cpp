@@ -25,7 +25,7 @@ int main(int argc, char* argv[])
 
         // Create GUI with configuration
         tadaima::gui::Gui::config config;
-        tadaima::gui::Gui gui(config);
+        tadaima::gui::Gui gui(logger, config);
 
         // Create and configure the application
         tadaima::application::Application application(logger, bridge);

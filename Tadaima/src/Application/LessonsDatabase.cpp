@@ -33,7 +33,7 @@ namespace tadaima
             if( db )
             {
                 sqlite3_close(db);
-                m_logger.log("Database: Closed database connection.", tools::LogLevel::PROBLEM);
+                m_logger.log("Database: Closed database connection.", tools::LogLevel::INFO);
             }
         }
 

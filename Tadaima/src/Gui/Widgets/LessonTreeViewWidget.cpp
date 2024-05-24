@@ -183,6 +183,17 @@ namespace tadaima
 
                             if( ImGui::BeginPopupContextItem(("context_" + std::to_string(groupIndex) + "_" + std::to_string(lessonIndex)).c_str()) )
                             {
+                                if( ImGui::BeginMenu("Play") )
+                                {
+                                    if( ImGui::MenuItem("QuizWidget") )
+                                    {
+                                        LessonDataPackage package = createLessonDataPackageFromLesson(lesson);
+                                        emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnPlayQuiz, &package));
+                                    }
+
+                                    ImGui::EndMenu();
+                                }
+
                                 if( ImGui::MenuItem("Edit") )
                                 {
                                     m_changedLessonGroupIndex = static_cast<int>(groupIndex);
@@ -193,6 +204,7 @@ namespace tadaima
                                     m_lessonSettingsWidget.setLesson(selectedLesson);
                                     ImGui::CloseCurrentPopup();
                                 }
+
                                 if( ImGui::MenuItem("Rename") )
                                 {
                                     m_changedLessonGroupIndex = static_cast<int>(groupIndex);

@@ -11,6 +11,7 @@
 #include "Widgets/MenuBarWidget.h"
 #include "Widgets/MainDashboardWidget.h"
 #include "Widgets/VocabularySettingsWidget.h"
+#include "helpers/LessonDataDecoder.h"
 #include "resources/IconsFontAwesome4.h"
 #include "imgui.h"
 #include "imgui_impl_dx11.h"
@@ -19,6 +20,7 @@
 #include <format> 
 #include <string>
 #include <windows.h>
+#include "Tools/Logger.h"
 
 std::string getexepath()
 {
@@ -40,7 +42,7 @@ namespace tadaima
         static uint16_t g_ResizeWidth = 0;
         static uint16_t g_ResizeHeight = 0;
 
-        Gui::Gui(const config& r_config) : m_guiConfig(r_config)
+        Gui::Gui(tools::Logger& logger, const config& r_config) : m_logger(logger), m_quizManager(logger), m_guiConfig(r_config)
         {
 
             /*
@@ -172,7 +174,6 @@ namespace tadaima
             bool done = false;
             while( !done )
             {
-                bool showVocabSettings = false;
                 bool showLessonTreeView = true;
 
                 // Poll and handle messages (inputs, window resize, etc.)
@@ -235,18 +236,7 @@ namespace tadaima
 
 
                     ImGui::PopFont();
-   
-                    if( ImGui::Button("Open Vocabulary Settings") )
-                    {
-                        showVocabSettings = true;
-                    }
-                    if( showVocabSettings )
-                    {
-                        ImGui::SetNextWindowSize(ImVec2(400, 400), ImGuiCond_FirstUseEver); // Use FirstUseEver to set initial size
-                        ImGui::Begin("Vocabulary Settings", &showVocabSettings, ImGuiWindowFlags_NoMove);
-                        m_widgets[widget::Type::VocabularySettings]->draw(&showVocabSettings);
-                        ImGui::End();
-                    }
+                    m_quizManager.draw();
                 }
 
                 // 3. Show another simple window.
@@ -337,7 +327,26 @@ namespace tadaima
 
         void Gui::handleWidgetEvent(const widget::WidgetEvent& data)
         {
-            dispatcher.emit(data.getWidget().getType(), &data);
+            try
+            {
+                if( data.getEventType() == tadaima::gui::widget::LessonTreeViewWidget::LessonTreeViewWidgetEvent::OnPlayQuiz )
+                {
+                    auto lessons = widget::LessonDataDecoder().decodeLessonDataPackage(data.getEventData());
+                    m_quizManager.startQuiz(lessons);
+                }
+                else
+                {
+                    dispatcher.emit(data.getWidget().getType(), &data);
+                }
+            }
+            catch( const std::exception& e )
+            {
+                m_logger.log("Exception caught in handleWidgetEvent: " + std::string(e.what()), tools::LogLevel::PROBLEM);
+            }
+            catch( ... )
+            {
+                m_logger.log("Unknown exception caught in handleWidgetEvent", tools::LogLevel::PROBLEM);
+            }
         }
     }
 }
