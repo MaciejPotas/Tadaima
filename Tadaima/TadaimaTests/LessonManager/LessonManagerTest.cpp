@@ -153,3 +153,17 @@ TEST_F(LessonManagerTest, GetWordsInLesson)
     EXPECT_EQ(result[0].kana, "kana1");
     EXPECT_EQ(result[1].translation, "translation2");
 }
+
+TEST_F(LessonManagerTest, EditALesson)
+{
+    Lesson lesson1{ 1, "Main Name 1", "Sub Name 1", {} };
+    Lesson lesson2{ 2, "Main Name 2", "Sub Name 2", {} };
+
+    std::vector<Lesson> lessons = { lesson1, lesson2 };
+
+    EXPECT_CALL(mockDatabase, editLesson(lesson1));
+    EXPECT_CALL(mockDatabase, editLesson(lesson2));
+
+    lessonManager.editLessons(lessons);
+}
+

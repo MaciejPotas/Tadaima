@@ -13,9 +13,7 @@ namespace tadaima
         {
             void LessonSettingsWidget::draw(bool* p_open)
             {
-                static Lesson newLesson; // New lesson to be added
-                static char mainNameBuffer[256] = "";  // Buffer for the lesson main name
-                static char subNameBuffer[256] = "";   // Buffer for the lesson sub name
+
                 static char kanaBuffer[256] = "";      // Buffer for word kana
                 static char translationBuffer[256] = ""; // Buffer for word translation
                 static char romajiBuffer[256] = "";    // Buffer for word romaji
@@ -24,15 +22,15 @@ namespace tadaima
 
                 if( *p_open )
                 {
-                    ImGui::OpenPopup("Add New Lesson Modal");
+                    ImGui::OpenPopup(m_isEditing ? "Edit Lesson Modal" : "Add New Lesson Modal");
                 }
 
                 ImGui::SetNextWindowSize(ImVec2(700, 400), ImGuiCond_Always);  // Adjust size as needed
                 // Open the modal window
-                if( ImGui::BeginPopupModal("Add New Lesson Modal", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize) )
+                if( ImGui::BeginPopupModal(m_isEditing ? "Edit Lesson Modal" : "Add New Lesson Modal", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize) )
                 {
-                    ImGui::InputText("Main Name", mainNameBuffer, sizeof(mainNameBuffer));
-                    ImGui::InputText("Sub Name", subNameBuffer, sizeof(subNameBuffer));
+                    ImGui::InputText("Main Name", m_mainNameBuffer, sizeof(m_mainNameBuffer));
+                    ImGui::InputText("Sub Name", m_subNameBuffer, sizeof(m_subNameBuffer));
 
                     ImGui::Columns(2);
 
@@ -68,9 +66,9 @@ namespace tadaima
                                 newWord.tags.push_back(tag);
                             }
 
-                            newLesson.mainName = std::string(mainNameBuffer);
-                            newLesson.subName = std::string(subNameBuffer);
-                            newLesson.words.push_back(newWord);
+                            m_newLesson.mainName = std::string(m_mainNameBuffer);
+                            m_newLesson.subName = std::string(m_subNameBuffer);
+                            m_newLesson.words.push_back(newWord);
 
                             // Clear the word input fields for the next word
                             std::memset(kanaBuffer, 0, sizeof(kanaBuffer));
@@ -88,9 +86,9 @@ namespace tadaima
                     ImGui::Text("Words in this Lesson:");
                     ImGui::Separator();
 
-                    for( size_t index = 0; index < newLesson.words.size(); ++index )
+                    for( size_t index = 0; index < m_newLesson.words.size(); ++index )
                     {
-                        const auto& word = newLesson.words[index];
+                        const auto& word = m_newLesson.words[index];
                         if( ImGui::Selectable(word.kana.c_str()) )
                         {
                             // Handle word selection if needed
@@ -122,12 +120,12 @@ namespace tadaima
 
                     if( ImGui::Button("Save Lesson") )
                     {
-                        if( strlen(mainNameBuffer) > 0 && strlen(subNameBuffer) > 0 && !newLesson.words.empty() )
+                        if( strlen(m_mainNameBuffer) > 0 && strlen(m_subNameBuffer) > 0 && !m_newLesson.words.empty() )
                         {
                             // Set the lesson's main name and sub name from the buffers
-                            m_lesson->mainName = std::string(mainNameBuffer);
-                            m_lesson->subName = std::string(subNameBuffer);
-                            m_lesson->words = newLesson.words;
+                            m_lesson->mainName = std::string(m_mainNameBuffer);
+                            m_lesson->subName = std::string(m_subNameBuffer);
+                            m_lesson->words = m_newLesson.words;
                             *p_open = false;
                             ImGui::CloseCurrentPopup(); // Close the modal
                         }
@@ -138,14 +136,15 @@ namespace tadaima
                     if( ImGui::Button("Cancel") )
                     {
                         // Clear the buffers and reset the new lesson
-                        std::memset(mainNameBuffer, 0, sizeof(mainNameBuffer));
-                        std::memset(subNameBuffer, 0, sizeof(subNameBuffer));
+                        std::memset(m_mainNameBuffer, 0, sizeof(m_mainNameBuffer));
+                        std::memset(m_subNameBuffer, 0, sizeof(m_subNameBuffer));
                         std::memset(kanaBuffer, 0, sizeof(kanaBuffer));
                         std::memset(translationBuffer, 0, sizeof(translationBuffer));
                         std::memset(romajiBuffer, 0, sizeof(romajiBuffer));
                         std::memset(exampleSentenceBuffer, 0, sizeof(exampleSentenceBuffer));
                         std::memset(tagBuffer, 0, sizeof(tagBuffer));
-                        newLesson = Lesson(); // Reset new lesson
+                        m_newLesson = Lesson(); // Reset new lesson
+                        m_isEditing = false; // Exit edit mode
                         *p_open = false;
                         ImGui::CloseCurrentPopup(); // Close the modal
                     }
@@ -153,22 +152,27 @@ namespace tadaima
                     ImGui::EndPopup();
                 }
 
-                if( !ImGui::IsPopupOpen("Add New Lesson Modal") )
+                if( !ImGui::IsPopupOpen("Add New Lesson Modal") && !ImGui::IsPopupOpen("Edit Lesson Modal") )
                 {
-                    std::memset(mainNameBuffer, 0, sizeof(mainNameBuffer));
-                    std::memset(subNameBuffer, 0, sizeof(subNameBuffer));
+                    std::memset(m_mainNameBuffer, 0, sizeof(m_mainNameBuffer));
+                    std::memset(m_subNameBuffer, 0, sizeof(m_subNameBuffer));
                     std::memset(kanaBuffer, 0, sizeof(kanaBuffer));
                     std::memset(translationBuffer, 0, sizeof(translationBuffer));
                     std::memset(romajiBuffer, 0, sizeof(romajiBuffer));
                     std::memset(exampleSentenceBuffer, 0, sizeof(exampleSentenceBuffer));
                     std::memset(tagBuffer, 0, sizeof(tagBuffer));
-                    newLesson = Lesson(); // Reset new lesson
+                    m_newLesson = Lesson(); // Reset new lesson
                 }
             }
 
             void LessonSettingsWidget::setLesson(Lesson& lesson)
             {
                 m_lesson = &lesson;
+                // Populate buffers with the current lesson data for editing
+                std::strncpy(m_mainNameBuffer, lesson.mainName.c_str(), sizeof(m_mainNameBuffer));
+                std::strncpy(m_subNameBuffer, lesson.subName.c_str(), sizeof(m_subNameBuffer));
+                m_newLesson = lesson; // Copy the lesson to the newLesson object for editing
+                m_isEditing = true; // Enable edit mode
             }
         }
     }

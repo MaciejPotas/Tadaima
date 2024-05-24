@@ -41,9 +41,10 @@ namespace tadaima
              *
              * Initializes a new instance of the Application class.
              *
+             * @param logger Reference to a Logger instance for logging.
              * @param eventBridge Reference to an EventBridge instance for event handling.
              */
-            Application(tools::Logger& logger,EventBridge& eventBridge);
+            Application(tools::Logger& logger, EventBridge& eventBridge);
 
             /**
              * @brief Destructor.
@@ -76,8 +77,22 @@ namespace tadaima
 
         private:
 
+            /**
+             * @brief Converts a list of lessons to a string representation.
+             *
+             * @param lessons The list of lessons to convert.
+             * @return A string representation of the lessons.
+             */
             std::string lessonsToString(const std::vector<Lesson>& lessons);
+
+            /**
+             * @brief Converts an application event to a string representation.
+             *
+             * @param event The application event to convert.
+             * @return A string representation of the event.
+             */
             std::string eventToString(ApplicationEvent event);
+
             /**
              * @brief Worker thread function.
              *
@@ -96,7 +111,7 @@ namespace tadaima
             LessonsDatabase m_database; /**< Database for managing lessons. */
             LessonManager m_lessonManager; /**< Manager for handling lesson operations. */
             EventBridge& m_eventBridge; /**< Reference to the EventBridge for event handling. */
-            tools::Logger& m_logger;
+            tools::Logger& m_logger; /**< Reference to the Logger instance for logging. */
 
             tools::EventsData<std::vector<Lesson>> m_event; /**< Event data structure. */
             gui::Gui* m_gui = nullptr; /**< Pointer to the GUI instance. */

@@ -6,6 +6,7 @@
 #pragma once
 
 #include "Widget.h"
+#include "Lessons/Lesson.h"
 
 namespace tadaima
 {
@@ -35,6 +36,12 @@ namespace tadaima
                 void setLesson(Lesson& lesson);
 
             private:
+
+                bool m_isEditing = false;
+                char m_mainNameBuffer[50] = "";  // Buffer for the lesson main name
+                char m_subNameBuffer[50] = "";   // Buffer for the lesson sub name
+                Lesson m_newLesson; // New lesson to be added or edited
+
                 /**
                  * @brief Pointer to the lesson object.
                  */

@@ -33,7 +33,8 @@ namespace tadaima
                 {
                     OnLessonCreated,
                     OnLessonRename,
-                    OnLessonDelete
+                    OnLessonDelete,
+                    OnLessonEdited
                 };
 
                 /**
@@ -118,7 +119,6 @@ namespace tadaima
 
                 void ShowRenamePopup();
 
-
                 /**
                  * @brief Represents a group of lessons.
                  */
@@ -132,6 +132,7 @@ namespace tadaima
                 PackageType m_type; /**< The type of package. */
                 LessonSettingsWidget m_lessonSettingsWidget; /**< The lesson settings widget. */
 
+                int m_selectedLessonIndex = -1;
                 int m_changedLessonGroupIndex = -1;
                 int m_changedLessonIndex = -1;
                 char renameMainNameBuffer[256] = "";

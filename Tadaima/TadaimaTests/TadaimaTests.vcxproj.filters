@@ -21,6 +21,8 @@
     <ClCompile Include="Application\EventBridgeTest.cpp">
       <Filter>Application</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)src\gtest\gtest-all.cc" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)src\gmock\gmock-all.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\MockGui.h">
@@ -30,7 +32,7 @@
       <Filter>Application</Filter>
     </ClInclude>
     <ClInclude Include="LessonManager\MockDatabase.h">
-      <Filter>Application</Filter>
+      <Filter>LessonManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

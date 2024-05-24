@@ -28,6 +28,9 @@ namespace tools
                 case LogLevel::WARNING:
                     std::cout << "\033[33m[" << timestamp << "][WARNING]: " << message << "\033[0m" << std::endl;
                     break;
+                case LogLevel::PROBLEM:
+                    std::cout << "\033[33m[" << timestamp << "][ERROR]: " << message << "\033[0m" << std::endl;
+                    break;
 
             }
         }

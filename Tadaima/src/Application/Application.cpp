@@ -73,7 +73,15 @@ namespace tadaima
                             m_lessonManager.removeLessons(lessons);
                             m_eventBridge.initializeGui(m_lessonManager.getAllLessons());
                             m_event.clearEvent(ApplicationEvent::OnLessonDelete);
+                        }
 
+                        if( m_event.isEventOccurred(ApplicationEvent::OnLessonEdited) )
+                        {
+                            std::vector<Lesson> lessons = m_event.getEventData<std::vector<Lesson>>(ApplicationEvent::OnLessonEdited);
+                            m_logger.log("OnLessonEdited event occurred. Lessons deleted: " + lessonsToString(lessons), tools::LogLevel::INFO);
+                            m_lessonManager.editLessons(lessons);
+                            m_eventBridge.initializeGui(m_lessonManager.getAllLessons());
+                            m_event.clearEvent(ApplicationEvent::OnLessonEdited);
                         }
                     }
                     catch( const std::exception& ex )

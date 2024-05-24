@@ -10,6 +10,20 @@ namespace tadaima
         return m_database.addLesson(mainName, subName);
     }
 
+    int LessonManager::editLesson(const Lesson& lesson)
+    {
+        return m_database.editLesson(lesson);
+    }
+
+    void LessonManager::editLessons(const std::vector<Lesson>& lessons)
+    {
+        // Iterate over each lesson and add it to the database
+        for( const auto& lesson : lessons )
+        {
+            editLesson(lesson);
+        }
+    }
+
     void LessonManager::addWordToLesson(int lessonId, const Word& word)
     {
         int wordId = m_database.addWord(lessonId, word);
