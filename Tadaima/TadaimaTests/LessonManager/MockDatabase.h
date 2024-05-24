@@ -7,6 +7,7 @@ class MockDatabase : public tadaima::Database
 {
 public:
     MOCK_METHOD(int, addLesson, (const std::string& mainName, const std::string& subName), (override));
+    MOCK_METHOD(bool, editLesson, (const tadaima::Lesson& lesson), (override));
     MOCK_METHOD(int, addWord, (int lessonId, const tadaima::Word& word), (override));
     MOCK_METHOD(void, addTag, (int wordId, const std::string& tag), (override));
     MOCK_METHOD(void, updateLesson, (int lessonId, const std::string& newMainName, const std::string& newSubName), (override));

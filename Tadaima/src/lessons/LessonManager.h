@@ -33,6 +33,19 @@ namespace tadaima
         int addLesson(const Lesson& lesson);
 
         /**
+         * @brief Edits a lesson in the database.
+         * @param lesson The lesson to edit.
+         * @return The ID of the edited lesson.
+         */
+        int editLesson(const Lesson& lesson);
+
+        /**
+         * @brief Edits multiple lessons in the database.
+         * @param lessons The vector of lessons to edit.
+         */
+        void editLessons(const std::vector<Lesson>& lessons);
+
+        /**
          * @brief Adds a word to a lesson in the database.
          * @param lessonId The ID of the lesson.
          * @param word The word to add to the lesson.
@@ -40,19 +53,19 @@ namespace tadaima
         void addWordToLesson(int lessonId, const Word& word);
 
         /**
-         * @brief Adds a vector of lessons to the database.
+         * @brief Adds multiple lessons to the database.
          * @param lessons The vector of lessons to add.
          */
         void addLessons(const std::vector<Lesson>& lessons);
 
         /**
-         * @brief Renames the lessons in the database.
+         * @brief Renames multiple lessons in the database.
          * @param lessons The vector of lessons to rename.
          */
         void renameLessons(const std::vector<Lesson>& lessons);
 
         /**
-         * @brief Remove the lessons from the database.
+         * @brief Removes multiple lessons from the database.
          * @param lessons The vector of lessons to remove.
          */
         void removeLessons(const std::vector<Lesson>& lessons);

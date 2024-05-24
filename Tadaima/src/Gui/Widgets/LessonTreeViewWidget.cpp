@@ -102,7 +102,10 @@ namespace tadaima
             void LessonTreeViewWidget::draw(bool* p_open)
             {
                 static bool open_add_new_lesson = false;
-                static Lesson newLesson;
+                static bool open_edit_lesson = false;
+                //static Lesson newLesson; // Store the new lesson
+                static Lesson selectedLesson; // Store the selected lesson for editing
+                static Lesson originalLesson; // Store the original lesson for comparison
                 static bool renamePopupOpen = false;
                 static bool deleteLesson = false;
 
@@ -115,20 +118,10 @@ namespace tadaima
                 if( ImGui::Button(ICON_FA_PLUS " Add New Lesson") )
                 {
                     // Create a new lesson object
-                    newLesson = Lesson();
+                    selectedLesson = Lesson();
                     m_type = PackageType::LessonCreated;
                     open_add_new_lesson = true;
-                    m_lessonSettingsWidget.setLesson(newLesson);
-                }
-                ImGui::SameLine();
-                if( ImGui::Button(ICON_FA_PLUS " Edit Lesson") )
-                {
-                    // Logic to edit a lesson
-                }
-                ImGui::SameLine();
-                if( ImGui::Button(ICON_FA_TRASH " Delete Lesson") )
-                {
-                    // Logic to delete a lesson
+                    m_lessonSettingsWidget.setLesson(selectedLesson);
                 }
 
                 if( open_add_new_lesson )
@@ -136,9 +129,9 @@ namespace tadaima
                     m_lessonSettingsWidget.draw(&open_add_new_lesson);
                     if( !open_add_new_lesson )
                     {
-                        if( !newLesson.isEmpty() )
+                        if( !selectedLesson.isEmpty() )
                         {
-                            LessonDataPackage package = createLessonDataPackageFromLesson(newLesson);
+                            LessonDataPackage package = createLessonDataPackageFromLesson(selectedLesson);
                             emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnLessonCreated, &package));
                         }
                     }
@@ -147,14 +140,14 @@ namespace tadaima
                 for( size_t groupIndex = 0; groupIndex < m_cashedLessons.size(); groupIndex++ )
                 {
                     auto& lessonGroup = m_cashedLessons[groupIndex];
-                    ImGui::PushID(static_cast<int>(groupIndex));  // Ensure unique IDs for each group
+                    ImGui::PushID(static_cast<int>(groupIndex)); // Ensure unique IDs for each group
 
                     if( ImGui::TreeNode(lessonGroup.mainName.c_str()) )
                     {
                         for( size_t lessonIndex = 0; lessonIndex < lessonGroup.subLessons.size(); lessonIndex++ )
                         {
                             auto& lesson = lessonGroup.subLessons[lessonIndex];
-                            ImGui::PushID(static_cast<int>(lessonIndex));  // Ensure unique IDs for each lesson
+                            ImGui::PushID(static_cast<int>(lessonIndex)); // Ensure unique IDs for each lesson
 
                             if( !lesson.subName.empty() )
                             {
@@ -163,7 +156,7 @@ namespace tadaima
                                     for( size_t wordIndex = 0; wordIndex < lesson.words.size(); wordIndex++ )
                                     {
                                         const auto& word = lesson.words[wordIndex];
-                                        ImGui::PushID(static_cast<int>(wordIndex));  // Ensure unique IDs for each word
+                                        ImGui::PushID(static_cast<int>(wordIndex)); // Ensure unique IDs for each word
                                         ImGui::Text(" %s - %s", word.translation.c_str(), word.kana.c_str());
                                         ImGui::PopID();
                                     }
@@ -176,14 +169,30 @@ namespace tadaima
                                 for( size_t wordIndex = 0; wordIndex < lesson.words.size(); wordIndex++ )
                                 {
                                     const auto& word = lesson.words[wordIndex];
-                                    ImGui::PushID(static_cast<int>(wordIndex));  // Ensure unique IDs for each word
+                                    ImGui::PushID(static_cast<int>(wordIndex)); // Ensure unique IDs for each word
                                     ImGui::Text(" %s - %s", word.translation.c_str(), word.kana.c_str());
                                     ImGui::PopID();
                                 }
                             }
 
+                            if( ImGui::IsItemClicked() )
+                            {
+                                selectedLesson = lesson;
+                                m_selectedLessonIndex = static_cast<int>(lessonIndex);
+                            }
+
                             if( ImGui::BeginPopupContextItem(("context_" + std::to_string(groupIndex) + "_" + std::to_string(lessonIndex)).c_str()) )
                             {
+                                if( ImGui::MenuItem("Edit") )
+                                {
+                                    m_changedLessonGroupIndex = static_cast<int>(groupIndex);
+                                    m_changedLessonIndex = static_cast<int>(lessonIndex);
+                                    originalLesson = lesson; // Store the original lesson for comparison
+                                    selectedLesson = lesson;
+                                    open_edit_lesson = true;
+                                    m_lessonSettingsWidget.setLesson(selectedLesson);
+                                    ImGui::CloseCurrentPopup();
+                                }
                                 if( ImGui::MenuItem("Rename") )
                                 {
                                     m_changedLessonGroupIndex = static_cast<int>(groupIndex);
@@ -208,6 +217,19 @@ namespace tadaima
                         ImGui::TreePop();
                     }
                     ImGui::PopID();
+                }
+
+                if( open_edit_lesson )
+                {
+                    m_lessonSettingsWidget.draw(&open_edit_lesson);
+                    if( !open_edit_lesson )
+                    {
+                        if( originalLesson != selectedLesson )
+                        {
+                            LessonDataPackage package = createLessonDataPackageFromLesson(selectedLesson);
+                            emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnLessonEdited, &package));
+                        }
+                    }
                 }
 
                 if( renamePopupOpen )

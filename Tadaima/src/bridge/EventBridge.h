@@ -95,6 +95,15 @@ namespace tadaima
          * @param dataPackage The data package containing the renamed lesson information.
          */
         void onLessonRemove(const gui::widget::LessonTreeViewWidget::LessonDataPackage& dataPackage);
+
+        /**
+         * @brief Handles the edition of a lesson.
+         *
+         * This method processes the data package when a lesson is edited in the GUI.
+         *
+         * @param dataPackage The data package containing the renamed lesson information.
+         */
+        void onLessonEdited(const gui::widget::LessonTreeViewWidget::LessonDataPackage& dataPackage);
     };
 
 }

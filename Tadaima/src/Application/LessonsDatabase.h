@@ -27,6 +27,7 @@ namespace tadaima
             /**
              * @brief Constructs a LessonsDatabase object.
              * @param dbPath The file path to the SQLite database.
+             * @param logger Reference to a Logger instance for logging.
              */
             LessonsDatabase(const std::string& dbPath, tools::Logger& logger);
 
@@ -48,6 +49,13 @@ namespace tadaima
              * @return The ID of the added lesson, or -1 on failure.
              */
             int addLesson(const std::string& mainName, const std::string& subName) override;
+
+            /**
+             * @brief Edits an existing lesson in the database.
+             * @param lesson The lesson to edit.
+             * @return True if the lesson was successfully edited, false otherwise.
+             */
+            bool editLesson(const Lesson& lesson) override;
 
             /**
              * @brief Adds a word to a lesson in the database.
@@ -112,7 +120,7 @@ namespace tadaima
 
         private:
             sqlite3* db; /**< Pointer to the SQLite database. */
-            tools::Logger& m_logger;
+            tools::Logger& m_logger; /**< Reference to the Logger instance for logging. */
         };
     }
 }

@@ -60,6 +60,16 @@ namespace tadaima
                 break;
             }
 
+            case gui::widget::LessonTreeViewWidget::LessonTreeViewWidgetEvent::OnLessonEdited:
+            {
+                auto* newPointer = dynamic_cast<const gui::widget::LessonTreeViewWidget::LessonDataPackage*>(data->getEventData());
+                if( newPointer != nullptr )
+                {
+                    onLessonEdited(*newPointer);
+                }
+                break;
+            }
+
             default:
                 throw std::invalid_argument("Unhandled event type in handleEvent.");
         }
@@ -81,6 +91,12 @@ namespace tadaima
     {
         auto lessons = decodeLessonDataPackage(dataPackage);
         m_app->setEvent(application::ApplicationEvent::OnLessonDelete, lessons);
+    }
+
+    void EventBridge::onLessonEdited(const gui::widget::LessonTreeViewWidget::LessonDataPackage& dataPackage)
+    {
+        auto lessons = decodeLessonDataPackage(dataPackage);
+        m_app->setEvent(application::ApplicationEvent::OnLessonEdited, lessons);
     }
 
     std::vector<Lesson> EventBridge::decodeLessonDataPackage(const gui::widget::LessonTreeViewWidget::LessonDataPackage& lessonDataPackage)

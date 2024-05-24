@@ -12,10 +12,10 @@
 
 int main(int argc, char* argv[])
 {
+    tools::ConsoleLogger logger;
+
     try
     {
-        tools::ConsoleLogger logger;
-
         // Command line argument parsing
         tools::CommandLineParser parser;
         parser.parse(argc, argv);
@@ -41,7 +41,7 @@ int main(int argc, char* argv[])
     // Catch any exceptions and display error message
     catch( const std::exception& e )
     {
-        std::cerr << "Error: " << e.what() << std::endl;
+        logger.log(std::format("Error: {}", e.what()), tools::LogLevel::PROBLEM);
         return 1;
     }
 

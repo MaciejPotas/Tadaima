@@ -11,6 +11,7 @@ namespace tadaima
     class Database
     {
     public:
+
         /**
          * @brief Virtual destructor.
          */
@@ -23,6 +24,13 @@ namespace tadaima
          * @return The ID of the added lesson.
          */
         virtual int addLesson(const std::string& mainName, const std::string& subName) = 0;
+
+        /**
+         * @brief Edits an existing lesson in the database.
+         * @param lesson The lesson to edit.
+         * @return True if the lesson was successfully edited, false otherwise.
+         */
+        virtual bool editLesson(const Lesson& lesson) = 0;
 
         /**
          * @brief Adds a word to a lesson in the database.
