@@ -39,10 +39,10 @@
       <Filter>src\gui\widgets</Filter>
     </ClCompile>
     <ClCompile Include="src\gui\quiz\QuizManager.cpp">
-      <Filter>src\gui\widgets\quiz</Filter>
+      <Filter>src\gui\quiz</Filter>
     </ClCompile>
     <ClCompile Include="src\gui\quiz\QuizGame.cpp">
-      <Filter>src\gui\widgets\quiz</Filter>
+      <Filter>src\gui\quiz</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -104,10 +104,10 @@
       <Filter>src\gui\widgets</Filter>
     </ClInclude>
     <ClInclude Include="src\gui\quiz\QuizManager.h">
-      <Filter>src\gui\widgets\quiz</Filter>
+      <Filter>src\gui\quiz</Filter>
     </ClInclude>
     <ClInclude Include="src\gui\quiz\QuizGame.h">
-      <Filter>src\gui\widgets\quiz</Filter>
+      <Filter>src\gui\quiz</Filter>
     </ClInclude>
     <ClInclude Include="src\gui\helpers\LessonDataDecoder.h">
       <Filter>src\gui\helper</Filter>
@@ -141,11 +141,11 @@
     <Filter Include="src\bridge">
       <UniqueIdentifier>{e2862b6f-fe04-4976-8cc2-f6843989bea8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\gui\widgets\quiz">
-      <UniqueIdentifier>{246f87c4-3a89-49ca-b562-2831753c9a88}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\gui\helper">
       <UniqueIdentifier>{36d14a67-8707-4449-bdd5-0e63d98dc652}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\gui\quiz">
+      <UniqueIdentifier>{246f87c4-3a89-49ca-b562-2831753c9a88}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

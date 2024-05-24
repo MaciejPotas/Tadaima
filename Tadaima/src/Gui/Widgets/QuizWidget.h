@@ -7,8 +7,9 @@
 
 #include "quiz/QuizGame.h"
 #include "imgui.h"
-
-namespace tools { class Logger; }
+#include <chrono>
+#include <vector>
+#include <string>
 
 namespace tadaima
 {
@@ -39,9 +40,23 @@ namespace tadaima
                 void draw();
 
             private:
+                /**
+                 * @brief Highlights the correct answer and advances to the next question.
+                 *
+                 * This function handles the logic for highlighting the correct answer and transitioning to the next question.
+                 */
+                void highlightAndAdvance();
+
                 tools::Logger& m_logger; /**< Reference to the Logger instance for logging. */
                 QuizGame quizGame; /**< Instance of QuizGame to manage quiz logic. */
+
                 bool isQuizWindowOpen = true; /**< Boolean flag to track if the quiz window is open. */
+                bool highlightCorrectAnswer = false; /**< Boolean flag to indicate if the correct answer should be highlighted. */
+                std::chrono::steady_clock::time_point highlightStartTime; /**< Time point for when the highlight started. */
+                int correctAnswerIndex = -1; /**< Index of the correct answer within the current options. */
+                char selectedOption = '\0'; /**< The option selected by the user. */
+                std::string bufferedQuestion; /**< The current question to be displayed. */
+                std::vector<std::string> bufferedOptions; /**< The current options to be displayed. */
             };
         }
     }
