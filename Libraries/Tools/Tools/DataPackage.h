@@ -1,10 +1,3 @@
-// -----------------------------------------------------------------------------
-// File:        DataPackage.h
-// Description: Header file for the DataPackage class.
-//
-//              DataPackage is a base class that is used by various GUI components
-//              to pass data.
-// -----------------------------------------------------------------------------
 #pragma once
 
 #include <unordered_map>

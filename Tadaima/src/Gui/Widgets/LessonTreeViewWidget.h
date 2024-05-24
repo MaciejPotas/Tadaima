@@ -34,7 +34,8 @@ namespace tadaima
                     OnLessonCreated,
                     OnLessonRename,
                     OnLessonDelete,
-                    OnLessonEdited
+                    OnLessonEdited,
+                    OnPlayQuiz
                 };
 
                 /**

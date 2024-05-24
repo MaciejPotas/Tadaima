@@ -1,13 +1,13 @@
 #include "EventBridge.h"
 #include "application/Application.h"
 #include "Gui/Gui.h"
+#include "Gui/helpers/LessonDataDecoder.h"
 #include <stdexcept>
 #include <iostream>
 #include "LessonLoader.h"
 
 namespace tadaima
 {
-
     void EventBridge::initialize(application::Application& app, gui::Gui& gui)
     {
         m_app = &app;
@@ -33,40 +33,24 @@ namespace tadaima
         {
             case gui::widget::LessonTreeViewWidget::LessonTreeViewWidgetEvent::OnLessonCreated:
             {
-                auto* newPointer = dynamic_cast<const gui::widget::LessonTreeViewWidget::LessonDataPackage*>(data->getEventData());
-                if( newPointer != nullptr )
-                {
-                    onLessonCreated(*newPointer);
-                }
+                onLessonCreated(data->getEventData());
                 break;
             }
             case gui::widget::LessonTreeViewWidget::LessonTreeViewWidgetEvent::OnLessonRename:
             {
-                auto* newPointer = dynamic_cast<const gui::widget::LessonTreeViewWidget::LessonDataPackage*>(data->getEventData());
-                if( newPointer != nullptr )
-                {
-                    onLessonRename(*newPointer);
-                }
+                onLessonRename(data->getEventData());
                 break;
             }
 
             case gui::widget::LessonTreeViewWidget::LessonTreeViewWidgetEvent::OnLessonDelete:
             {
-                auto* newPointer = dynamic_cast<const gui::widget::LessonTreeViewWidget::LessonDataPackage*>(data->getEventData());
-                if( newPointer != nullptr )
-                {
-                    onLessonRemove(*newPointer);
-                }
+                onLessonRemove(data->getEventData());
                 break;
             }
 
             case gui::widget::LessonTreeViewWidget::LessonTreeViewWidgetEvent::OnLessonEdited:
             {
-                auto* newPointer = dynamic_cast<const gui::widget::LessonTreeViewWidget::LessonDataPackage*>(data->getEventData());
-                if( newPointer != nullptr )
-                {
-                    onLessonEdited(*newPointer);
-                }
+                onLessonEdited(data->getEventData());
                 break;
             }
 
@@ -75,62 +59,28 @@ namespace tadaima
         }
     }
 
-    void EventBridge::onLessonCreated(const gui::widget::LessonTreeViewWidget::LessonDataPackage& dataPackage)
+    void EventBridge::onLessonCreated(const tools::DataPackage* dataPackage)
     {
-        auto lessons = decodeLessonDataPackage(dataPackage);
+        auto lessons = gui::widget::LessonDataDecoder().decodeLessonDataPackage(dataPackage);
         m_app->setEvent(application::ApplicationEvent::OnLessonCreated, lessons);
     }
 
-    void EventBridge::onLessonRename(const gui::widget::LessonTreeViewWidget::LessonDataPackage& dataPackage)
+    void EventBridge::onLessonRename(const tools::DataPackage* dataPackage)
     {
-        auto lessons = decodeLessonDataPackage(dataPackage);
+        auto lessons = gui::widget::LessonDataDecoder().decodeLessonDataPackage(dataPackage);
         m_app->setEvent(application::ApplicationEvent::OnLessonUpdate, lessons);
     }
 
-    void EventBridge::onLessonRemove(const gui::widget::LessonTreeViewWidget::LessonDataPackage& dataPackage)
+    void EventBridge::onLessonRemove(const tools::DataPackage* dataPackage)
     {
-        auto lessons = decodeLessonDataPackage(dataPackage);
+        auto lessons = gui::widget::LessonDataDecoder().decodeLessonDataPackage(dataPackage);
         m_app->setEvent(application::ApplicationEvent::OnLessonDelete, lessons);
     }
 
-    void EventBridge::onLessonEdited(const gui::widget::LessonTreeViewWidget::LessonDataPackage& dataPackage)
+    void EventBridge::onLessonEdited(const tools::DataPackage* dataPackage)
     {
-        auto lessons = decodeLessonDataPackage(dataPackage);
+        auto lessons = gui::widget::LessonDataDecoder().decodeLessonDataPackage(dataPackage);
         m_app->setEvent(application::ApplicationEvent::OnLessonEdited, lessons);
-    }
-
-    std::vector<Lesson> EventBridge::decodeLessonDataPackage(const gui::widget::LessonTreeViewWidget::LessonDataPackage& lessonDataPackage)
-    {
-        auto lessonPackages = lessonDataPackage.get<std::vector<gui::widget::LessonTreeViewWidget::LessonPackage>>(gui::widget::LessonTreeViewWidget::PackageKey::LessonsPackage);
-
-        std::vector<Lesson> lessons;
-
-        for( const auto& lessonPackage : lessonPackages )
-        {
-            Lesson lesson;
-            lesson.id = lessonPackage.get<int>(gui::widget::LessonTreeViewWidget::LessonDataKey::id);
-            lesson.mainName = lessonPackage.get<std::string>(gui::widget::LessonTreeViewWidget::LessonDataKey::MainName);
-            lesson.subName = lessonPackage.get<std::string>(gui::widget::LessonTreeViewWidget::LessonDataKey::SubName);
-
-            auto wordPackages = lessonPackage.get<std::vector<gui::widget::LessonTreeViewWidget::WordDataPackage>>(gui::widget::LessonTreeViewWidget::LessonDataKey::Words);
-
-            for( const auto& wordPackage : wordPackages )
-            {
-                Word word;
-                word.id = wordPackage.get<int>(gui::widget::LessonTreeViewWidget::WordDataKey::id);
-                word.kana = wordPackage.get<std::string>(gui::widget::LessonTreeViewWidget::WordDataKey::Kana);
-                word.translation = wordPackage.get<std::string>(gui::widget::LessonTreeViewWidget::WordDataKey::Translation);
-                word.romaji = wordPackage.get<std::string>(gui::widget::LessonTreeViewWidget::WordDataKey::Romaji);
-                word.exampleSentence = wordPackage.get<std::string>(gui::widget::LessonTreeViewWidget::WordDataKey::ExampleSentence);
-                word.tags = wordPackage.get<std::vector<std::string>>(gui::widget::LessonTreeViewWidget::WordDataKey::Tags);
-
-                lesson.words.push_back(word);
-            }
-
-            lessons.push_back(lesson);
-        }
-
-        return lessons;
     }
 }
 

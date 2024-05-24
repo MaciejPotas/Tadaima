@@ -115,7 +115,7 @@ xcopy "$(ProjectDir)resources\forkawesome-webfont.ttf" "$(TargetDir)fonts\" /Y /
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>src;../Tools;../Libraries/ImGui;../Libraries/Tools;./;./src/Gui;../;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;../Tools;../Libraries/ImGui;../Libraries/Tools;./;./src/gui;../;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -175,7 +175,7 @@ copy $(SolutionDir)build\$(Configuration)\$(Platform)\$(ProjectName)\$(ProjectNa
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>src;../Tools;../Libraries/ImGui;../Libraries/Tools;./;./src/Gui;../;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;../Tools;../Libraries/ImGui;../Libraries/Tools;./;./src/gui;../;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <PrecompiledHeaderOutputFile />
@@ -205,10 +205,16 @@ copy $(SolutionDir)build\$(Configuration)\$(Platform)\$(ProjectName)\$(ProjectNa
     <ClCompile Include="src\application\Application.cpp" />
     <ClCompile Include="src\bridge\EventBridge.cpp" />
     <ClCompile Include="src\gui\GuiStyle.cpp" />
+    <ClCompile Include="src\gui\quiz\QuizManager.cpp" />
+    <ClCompile Include="src\gui\widgets\QuizWidget.cpp" />
+    <ClCompile Include="src\gui\quiz\QuizGame.cpp" />
     <ClInclude Include="src\application\ApplicationEventList.h" />
     <ClInclude Include="src\bridge\LessonLoader.h" />
     <ClInclude Include="src\bridge\EventBridge.h" />
+    <ClInclude Include="src\gui\helpers\LessonDataDecoder.h" />
+    <ClInclude Include="src\gui\quiz\QuizManager.h" />
     <ClInclude Include="src\gui\widgets\LessonSettingsWidget.h" />
+    <ClInclude Include="src\gui\widgets\QuizWidget.h" />
     <ClInclude Include="src\gui\widgets\VocabularySettingsWidget.h" />
     <ClCompile Include="src\gui\widgets\LessonSettingsWidget.cpp" />
     <ClCompile Include="src\application\LessonsDatabase.cpp" />
@@ -232,6 +238,7 @@ copy $(SolutionDir)build\$(Configuration)\$(Platform)\$(ProjectName)\$(ProjectNa
     <ClInclude Include="src\application\LessonsDatabase.h" />
     <ClInclude Include="src\lessons\Lesson.h" />
     <ClInclude Include="src\lessons\LessonManager.h" />
+    <ClInclude Include="src\gui\quiz\QuizGame.h" />
     <ClInclude Include="src\tools\Database.h" />
     <ClInclude Include="src\Version.h" />
   </ItemGroup>

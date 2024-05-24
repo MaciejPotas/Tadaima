@@ -35,6 +35,15 @@
     <ClCompile Include="src\bridge\EventBridge.cpp">
       <Filter>src\bridge</Filter>
     </ClCompile>
+    <ClCompile Include="src\gui\widgets\QuizWidget.cpp">
+      <Filter>src\gui\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\quiz\QuizManager.cpp">
+      <Filter>src\gui\widgets\quiz</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\quiz\QuizGame.cpp">
+      <Filter>src\gui\widgets\quiz</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Version.h">
@@ -91,13 +100,22 @@
     <ClInclude Include="src\bridge\EventBridge.h">
       <Filter>src\bridge</Filter>
     </ClInclude>
+    <ClInclude Include="src\gui\widgets\QuizWidget.h">
+      <Filter>src\gui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\quiz\QuizManager.h">
+      <Filter>src\gui\widgets\quiz</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\quiz\QuizGame.h">
+      <Filter>src\gui\widgets\quiz</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\helpers\LessonDataDecoder.h">
+      <Filter>src\gui\helper</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
       <UniqueIdentifier>{6a63ff0d-8722-4143-85a0-9d1090d35b02}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="tests">
-      <UniqueIdentifier>{81ecfd56-2b42-49fd-ae3e-cc4488028e9a}</UniqueIdentifier>
     </Filter>
     <Filter Include="resources">
       <UniqueIdentifier>{313d6fa8-f2d7-4eeb-bf4d-9ddfc524bae0}</UniqueIdentifier>
@@ -122,6 +140,12 @@
     </Filter>
     <Filter Include="src\bridge">
       <UniqueIdentifier>{e2862b6f-fe04-4976-8cc2-f6843989bea8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\gui\widgets\quiz">
+      <UniqueIdentifier>{246f87c4-3a89-49ca-b562-2831753c9a88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\gui\helper">
+      <UniqueIdentifier>{36d14a67-8707-4449-bdd5-0e63d98dc652}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

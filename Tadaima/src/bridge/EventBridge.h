@@ -61,13 +61,6 @@ namespace tadaima
         application::Application* m_app = nullptr; /**< Pointer to the Application instance. */
         gui::Gui* m_gui = nullptr; /**< Pointer to the GUI instance. */
 
-        /**
-         * @brief Decodes a LessonDataPackage into a vector of lessons.
-         *
-         * @param lessonDataPackage The data package containing lesson information.
-         * @return A vector of Lesson objects decoded from the data package.
-         */
-        std::vector<Lesson> decodeLessonDataPackage(const gui::widget::LessonTreeViewWidget::LessonDataPackage& lessonDataPackage);
 
         /**
          * @brief Handles the creation of a new lesson.
@@ -76,7 +69,7 @@ namespace tadaima
          *
          * @param dataPackage The data package containing the new lesson information.
          */
-        void onLessonCreated(const gui::widget::LessonTreeViewWidget::LessonDataPackage& dataPackage);
+        void onLessonCreated(const tools::DataPackage* dataPackage);
 
         /**
          * @brief Handles the renaming of a lesson.
@@ -85,7 +78,7 @@ namespace tadaima
          *
          * @param dataPackage The data package containing the renamed lesson information.
          */
-        void onLessonRename(const gui::widget::LessonTreeViewWidget::LessonDataPackage& dataPackage);
+        void onLessonRename(const tools::DataPackage* dataPackage);
 
         /**
          * @brief Handles the deletion of a lesson.
@@ -94,7 +87,7 @@ namespace tadaima
          *
          * @param dataPackage The data package containing the renamed lesson information.
          */
-        void onLessonRemove(const gui::widget::LessonTreeViewWidget::LessonDataPackage& dataPackage);
+        void onLessonRemove(const tools::DataPackage* dataPackage);
 
         /**
          * @brief Handles the edition of a lesson.
@@ -103,7 +96,7 @@ namespace tadaima
          *
          * @param dataPackage The data package containing the renamed lesson information.
          */
-        void onLessonEdited(const gui::widget::LessonTreeViewWidget::LessonDataPackage& dataPackage);
+        void onLessonEdited(const tools::DataPackage* dataPackage);
     };
 
 }
