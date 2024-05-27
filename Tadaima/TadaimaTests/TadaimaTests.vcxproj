@@ -88,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\gui\quiz\QuizGame.cpp" />
+    <ClCompile Include="..\src\gui\quiz\VocabularyQuiz.cpp" />
     <ClCompile Include="..\src\lessons\LessonManager.cpp" />
     <ClCompile Include="Application\EventBridgeTest.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='UnitTest|Win32'">true</ExcludedFromBuild>
@@ -96,7 +97,8 @@
     <ClCompile Include="LessonManager\LessonManagerTest.cpp" />
     <ClCompile Include="LessonManager\LessonTests.cpp" />
     <ClCompile Include="Quiz\LessonDataDecoderTest.cpp" />
-    <ClCompile Include="Quiz\OptionsQuizTests.cpp" />
+    <ClCompile Include="Quiz\QuizGameTests.cpp" />
+    <ClCompile Include="Quiz\VocabularyQuizTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

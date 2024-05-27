@@ -5,6 +5,7 @@
 
 using namespace tadaima;
 using namespace tadaima::gui;
+
 using ::testing::_;
 using ::testing::Return;
 

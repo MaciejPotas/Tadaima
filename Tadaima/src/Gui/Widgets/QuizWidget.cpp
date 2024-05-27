@@ -46,18 +46,18 @@ namespace tadaima
 
                             ImGui::Spacing();
 
-                            for( int i = 0; i < bufferedOptions.size(); ++i )
+                            for( int index = 0; index < static_cast<int>(bufferedOptions.size()); ++index )
                             {
-                                char optionLabel = 'a' + i;
-                                if( highlightCorrectAnswer && i == correctAnswerIndex )
+                                char optionLabel = 'a' + index;
+                                if( highlightCorrectAnswer && index == correctAnswerIndex )
                                 {
                                     ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 1.0f, 0.0f, 1.0f)); // Green for correct answer
-                                    ImGui::Button((std::string(1, optionLabel) + ") " + bufferedOptions[i]).c_str(), ImVec2(550, 0));
+                                    ImGui::Button((std::string(1, optionLabel) + ") " + bufferedOptions[index]).c_str(), ImVec2(550, 0));
                                     ImGui::PopStyleColor();
                                 }
                                 else
                                 {
-                                    if( ImGui::Button((std::string(1, optionLabel) + ") " + bufferedOptions[i]).c_str(), ImVec2(550, 0)) )
+                                    if( ImGui::Button((std::string(1, optionLabel) + ") " + bufferedOptions[index]).c_str(), ImVec2(550, 0)) )
                                     {
                                         if( !highlightCorrectAnswer )
                                         {

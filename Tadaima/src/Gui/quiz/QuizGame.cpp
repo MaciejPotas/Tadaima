@@ -105,7 +105,7 @@ namespace tadaima
             }
 
             int answerIndex = answer - 'a';
-            if( answerIndex < 0 || answerIndex >= currentOptions.size() )
+            if( answerIndex < 0 || answerIndex >= (int)currentOptions.size() )
             {
                 throw std::out_of_range("Invalid answer choice.");
             }

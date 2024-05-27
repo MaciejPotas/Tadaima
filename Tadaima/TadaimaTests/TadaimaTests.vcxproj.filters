@@ -32,7 +32,7 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)src\gtest\gtest-all.cc" />
     <ClCompile Include="$(MSBuildThisFileDirectory)src\gmock\gmock-all.cc" />
-    <ClCompile Include="Quiz\OptionsQuizTests.cpp">
+    <ClCompile Include="Quiz\QuizGameTests.cpp">
       <Filter>Gui\Quiz</Filter>
     </ClCompile>
     <ClCompile Include="..\src\gui\quiz\QuizGame.cpp">
@@ -40,6 +40,12 @@
     </ClCompile>
     <ClCompile Include="Quiz\LessonDataDecoderTest.cpp">
       <Filter>Gui\Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="Quiz\VocabularyQuizTests.cpp">
+      <Filter>Gui\Quiz</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\gui\quiz\VocabularyQuiz.cpp">
+      <Filter>Gui\Quiz</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

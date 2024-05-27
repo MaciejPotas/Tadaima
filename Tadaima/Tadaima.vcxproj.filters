@@ -44,6 +44,9 @@
     <ClCompile Include="src\gui\quiz\QuizGame.cpp">
       <Filter>src\gui\quiz</Filter>
     </ClCompile>
+    <ClCompile Include="src\gui\quiz\VocabularyQuiz.cpp">
+      <Filter>src\gui\quiz</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Version.h">
@@ -111,6 +114,12 @@
     </ClInclude>
     <ClInclude Include="src\gui\helpers\LessonDataDecoder.h">
       <Filter>src\gui\helper</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\quiz\VocabularyQuiz.h">
+      <Filter>src\gui\quiz</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\quiz\Flashcard.h">
+      <Filter>src\gui\quiz</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
