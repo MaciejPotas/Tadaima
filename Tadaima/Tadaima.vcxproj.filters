@@ -35,18 +35,17 @@
     <ClCompile Include="src\bridge\EventBridge.cpp">
       <Filter>src\bridge</Filter>
     </ClCompile>
-    <ClCompile Include="src\gui\widgets\QuizWidget.cpp">
-      <Filter>src\gui\widgets</Filter>
-    </ClCompile>
     <ClCompile Include="src\gui\quiz\QuizManager.cpp">
-      <Filter>src\gui\quiz</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gui\quiz\QuizGame.cpp">
       <Filter>src\gui\quiz</Filter>
     </ClCompile>
     <ClCompile Include="src\gui\quiz\VocabularyQuiz.cpp">
       <Filter>src\gui\quiz</Filter>
     </ClCompile>
+    <ClCompile Include="src\gui\widgets\VocabularyQuizWidget.cpp">
+      <Filter>src\gui\widgets\quiz</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\quiz\MultipleChoiceQuiz.cpp" />
+    <ClCompile Include="src\gui\widgets\QuizWidget.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Version.h">
@@ -103,13 +102,10 @@
     <ClInclude Include="src\bridge\EventBridge.h">
       <Filter>src\bridge</Filter>
     </ClInclude>
-    <ClInclude Include="src\gui\widgets\QuizWidget.h">
-      <Filter>src\gui\widgets</Filter>
-    </ClInclude>
     <ClInclude Include="src\gui\quiz\QuizManager.h">
       <Filter>src\gui\quiz</Filter>
     </ClInclude>
-    <ClInclude Include="src\gui\quiz\QuizGame.h">
+    <ClInclude Include="src\gui\quiz\MultipleChoiceQuiz.h">
       <Filter>src\gui\quiz</Filter>
     </ClInclude>
     <ClInclude Include="src\gui\helpers\LessonDataDecoder.h">
@@ -119,6 +115,15 @@
       <Filter>src\gui\quiz</Filter>
     </ClInclude>
     <ClInclude Include="src\gui\quiz\Flashcard.h">
+      <Filter>src\gui\quiz</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\widgets\QuizWidget.h">
+      <Filter>src\gui\widgets\quiz</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\widgets\VocabularyQuizWidget.h">
+      <Filter>src\gui\widgets\quiz</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\quiz\QuizType.h">
       <Filter>src\gui\quiz</Filter>
     </ClInclude>
   </ItemGroup>
@@ -155,6 +160,9 @@
     </Filter>
     <Filter Include="src\gui\quiz">
       <UniqueIdentifier>{246f87c4-3a89-49ca-b562-2831753c9a88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\gui\widgets\quiz">
+      <UniqueIdentifier>{c929d83b-9657-4a24-a3ab-f635c2af3f38}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

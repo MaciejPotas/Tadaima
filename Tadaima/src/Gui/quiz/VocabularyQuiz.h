@@ -15,6 +15,7 @@
 #include <algorithm>
 #include <random>
 #include "Flashcard.h"
+#include "QuizType.h"
 
 namespace tadaima
 {
@@ -40,10 +41,11 @@ namespace tadaima
                  * answers for each flashcard, and an option to shuffle the flashcards.
                  *
                  * @param flashcards Reference to a vector of flashcards to be used in the quiz.
+                 * @param answerType The type of answer expected (e.g., Romaji, Kanji).
                  * @param requiredCorrectAnswers The number of correct answers required for each flashcard.
                  * @param enableShuffle Boolean indicating whether to shuffle the flashcards.
                  */
-                VocabularyQuiz(std::vector<Flashcard>& flashcards, int requiredCorrectAnswers, bool enableShuffle = true);
+                VocabularyQuiz(std::vector<Flashcard>& flashcards, AnswerType answerType, int requiredCorrectAnswers, bool enableShuffle = true);
 
                 /**
                  * @brief Advances the quiz to the next flashcard based on the user's answer.
@@ -52,8 +54,9 @@ namespace tadaima
                  * the progress of the quiz accordingly.
                  *
                  * @param userAnswer The answer provided by the user.
+                 * @return True if the user's answer was correct, false otherwise.
                  */
-                void advance(const std::string& userAnswer);
+                bool advance(const std::string& userAnswer);
 
                 /**
                  * @brief Checks if the quiz is complete.
@@ -66,6 +69,15 @@ namespace tadaima
                 bool isQuizComplete() const;
 
                 /**
+                 * @brief Retrieves the current flashcard.
+                 *
+                 * This function returns a reference to the current flashcard.
+                 *
+                 * @return A reference to the current flashcard.
+                 */
+                const Flashcard& getCurrentFlashCard() const;
+
+                /**
                  * @brief Retrieves flashcards with a minimum number of mistakes.
                  *
                  * This function returns a vector of flashcards that have been answered incorrectly
@@ -75,6 +87,16 @@ namespace tadaima
                  * @return A vector of flashcards with at least minMistakes mistakes.
                  */
                 std::vector<Flashcard> getFlashcardsWithMistakes(int minMistakes) const;
+
+                /**
+                 * @brief Retrieves the flashcards that have been learned.
+                 *
+                 * This function returns a vector of flashcards that have been answered correctly
+                 * the required number of times.
+                 *
+                 * @return A vector of learned flashcards.
+                 */
+                std::vector<Flashcard> getLearntWords() const;
 
             private:
                 /**
@@ -98,6 +120,8 @@ namespace tadaima
                 std::vector<Flashcard>& quizFlashcards; ///< The vector of flashcards used in the quiz.
                 std::unordered_map<int, int> correctAnswers; ///< Map of word IDs to correct attempts.
                 Flashcard* currentFlashcard = nullptr; ///< Pointer to the current flashcard.
+                AnswerType m_answerType = AnswerType::Romaji; ///< The type of answer expected (e.g., Romaji, Kanji).
+
                 int currentIndex = 0; ///< Index of the current flashcard.
                 int requiredCorrectAnswers; ///< The number of correct answers required for each flashcard.
                 bool shuffleEnabled; ///< Boolean indicating whether shuffling is enabled.

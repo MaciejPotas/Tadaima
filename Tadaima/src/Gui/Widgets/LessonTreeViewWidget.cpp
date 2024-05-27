@@ -77,6 +77,7 @@ namespace tadaima
                     LessonTreeViewWidget::WordDataPackage wordPackage(word.id);
 
                     // Set the word details from the existing Word object
+                    wordPackage.set(LessonTreeViewWidget::WordDataKey::id, word.id);
                     wordPackage.set(LessonTreeViewWidget::WordDataKey::Kana, word.kana);
                     wordPackage.set(LessonTreeViewWidget::WordDataKey::Translation, word.translation);
                     wordPackage.set(LessonTreeViewWidget::WordDataKey::Romaji, word.romaji);
@@ -185,10 +186,17 @@ namespace tadaima
                             {
                                 if( ImGui::BeginMenu(ICON_FA_PLAY"Play") )
                                 {
-                                    if( ImGui::MenuItem("QuizWidget") )
+
+                                    if( ImGui::MenuItem("vocabulary quiz") )
                                     {
                                         LessonDataPackage package = createLessonDataPackageFromLesson(lesson);
-                                        emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnPlayQuiz, &package));
+                                        emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnPlayVocabularyQuiz, &package));
+                                    }
+
+                                    if( ImGui::MenuItem("multiple choice quiz") )
+                                    {
+                                        LessonDataPackage package = createLessonDataPackageFromLesson(lesson);
+                                        emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnPlayMultipleChoiceQuiz, &package));
                                     }
 
                                     ImGui::EndMenu();

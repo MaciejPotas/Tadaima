@@ -5,11 +5,11 @@
 
 #pragma once
 
-#include "quiz/QuizGame.h"
-#include "imgui.h"
+#include "gui/quiz/MultipleChoiceQuiz.h"
 #include <chrono>
 #include <vector>
 #include <string>
+#include "Widget.h"
 
 namespace tadaima
 {
@@ -21,9 +21,10 @@ namespace tadaima
              * @class QuizWidget
              * @brief Represents a widget for displaying and interacting with a quiz in the GUI.
              */
-            class QuizWidget
+            class QuizWidget : public Widget
             {
             public:
+
                 /**
                  * @brief Constructs a new QuizWidget object.
                  *
@@ -37,7 +38,7 @@ namespace tadaima
                  *
                  * This function is responsible for rendering the quiz interface using ImGui.
                  */
-                void draw();
+                void draw(bool* p_open = nullptr) override;
 
             private:
                 /**
@@ -48,7 +49,7 @@ namespace tadaima
                 void highlightAndAdvance();
 
                 tools::Logger& m_logger; /**< Reference to the Logger instance for logging. */
-                QuizGame quizGame; /**< Instance of QuizGame to manage quiz logic. */
+                quiz::MultipleChoiceQuiz quizGame; /**< Instance of QuizGame to manage quiz logic. */
 
                 bool isQuizWindowOpen = true; /**< Boolean flag to track if the quiz window is open. */
                 bool highlightCorrectAnswer = false; /**< Boolean flag to indicate if the correct answer should be highlighted. */

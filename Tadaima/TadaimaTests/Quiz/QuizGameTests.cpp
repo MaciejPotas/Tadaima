@@ -1,10 +1,10 @@
 ﻿#include "gtest/gtest.h"
 #include "gmock/gmock.h"
-#include "gui/quiz/QuizGame.h"
+#include "gui/quiz/MultipleChoiceQuiz.h"
 #include "Tools/Logger.h"
 
 using namespace tadaima;
-using namespace tadaima::gui;
+using namespace tadaima::gui::quiz;
 
 using ::testing::_;
 using ::testing::Return;
@@ -27,14 +27,14 @@ protected:
 TEST_F(QuizGameTest, InitializeQuizGame)
 {
 
-    QuizGame quizGame(logger, lessons);
+    MultipleChoiceQuiz quizGame(logger, lessons);
     quizGame.start();
     EXPECT_EQ(quizGame.getCurrentOptions().size(), 4);
 }
 
 TEST_F(QuizGameTest, StartQuiz)
 {
-    QuizGame quizGame(logger, lessons);
+    MultipleChoiceQuiz quizGame(logger, lessons);
     quizGame.start();
     EXPECT_FALSE(quizGame.isFinished());
     EXPECT_EQ(quizGame.getCurrentOptions().size(), 4);
@@ -42,7 +42,7 @@ TEST_F(QuizGameTest, StartQuiz)
 
 TEST_F(QuizGameTest, AdvanceQuiz)
 {
-    QuizGame quizGame(logger, lessons);
+    MultipleChoiceQuiz quizGame(logger, lessons);
     quizGame.start();
     quizGame.advance('a');
     EXPECT_EQ(quizGame.getCurrentOptions().size(), 4);
@@ -50,7 +50,7 @@ TEST_F(QuizGameTest, AdvanceQuiz)
 
 TEST_F(QuizGameTest, QuizFinished)
 {
-    QuizGame quizGame(logger, lessons);
+    MultipleChoiceQuiz quizGame(logger, lessons);
     quizGame.start();
     for( size_t i = 0; i < lessons.size(); ++i )
     {

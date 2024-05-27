@@ -87,7 +87,7 @@
     <ClInclude Include="LessonManager\MockDatabase.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\gui\quiz\QuizGame.cpp" />
+    <ClCompile Include="..\src\gui\quiz\MultipleChoiceQuiz.cpp" />
     <ClCompile Include="..\src\gui\quiz\VocabularyQuiz.cpp" />
     <ClCompile Include="..\src\lessons\LessonManager.cpp" />
     <ClCompile Include="Application\EventBridgeTest.cpp">

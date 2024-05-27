@@ -236,6 +236,7 @@ namespace tadaima
 
 
                     ImGui::PopFont();
+
                     m_quizManager.draw();
                 }
 
@@ -329,10 +330,15 @@ namespace tadaima
         {
             try
             {
-                if( data.getEventType() == tadaima::gui::widget::LessonTreeViewWidget::LessonTreeViewWidgetEvent::OnPlayQuiz )
+                if( data.getEventType() == tadaima::gui::widget::LessonTreeViewWidget::LessonTreeViewWidgetEvent::OnPlayMultipleChoiceQuiz )
                 {
                     auto lessons = widget::LessonDataDecoder().decodeLessonDataPackage(data.getEventData());
-                    m_quizManager.startQuiz(lessons);
+                    m_quizManager.startQuiz(quiz::QuizType::MultipleChoiceQuiz, lessons);
+                }
+                else if( data.getEventType() == tadaima::gui::widget::LessonTreeViewWidget::LessonTreeViewWidgetEvent::OnPlayVocabularyQuiz )
+                {
+                    auto lessons = widget::LessonDataDecoder().decodeLessonDataPackage(data.getEventData());
+                    m_quizManager.startQuiz(quiz::QuizType::VocabularyQuiz, lessons);
                 }
                 else
                 {

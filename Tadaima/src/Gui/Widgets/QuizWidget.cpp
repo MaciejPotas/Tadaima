@@ -1,6 +1,7 @@
 #include "QuizWidget.h"
 #include <thread>
 #include <chrono>
+#include "imgui.h"
 
 namespace tadaima
 {
@@ -23,7 +24,7 @@ namespace tadaima
                 correctAnswerIndex = quizGame.getCorrectAnswerIndex();
             }
 
-            void QuizWidget::draw()
+            void QuizWidget::draw(bool* p_open)
             {
                 if( isQuizWindowOpen )
                 {
@@ -108,6 +109,7 @@ namespace tadaima
                     ImGui::End();
                 }
             }
+
         }
     }
 }

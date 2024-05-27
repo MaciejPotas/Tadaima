@@ -35,9 +35,6 @@
     <ClCompile Include="Quiz\QuizGameTests.cpp">
       <Filter>Gui\Quiz</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\gui\quiz\QuizGame.cpp">
-      <Filter>Gui\Quiz</Filter>
-    </ClCompile>
     <ClCompile Include="Quiz\LessonDataDecoderTest.cpp">
       <Filter>Gui\Helper</Filter>
     </ClCompile>
@@ -45,6 +42,9 @@
       <Filter>Gui\Quiz</Filter>
     </ClCompile>
     <ClCompile Include="..\src\gui\quiz\VocabularyQuiz.cpp">
+      <Filter>Gui\Quiz</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\gui\quiz\MultipleChoiceQuiz.cpp">
       <Filter>Gui\Quiz</Filter>
     </ClCompile>
   </ItemGroup>

@@ -9,6 +9,7 @@
 #include <memory>
 #include <vector>
 #include "Widgets/QuizWidget.h"
+#include "QuizType.h"
 
 namespace tools { class Logger; }
 
@@ -40,7 +41,7 @@ namespace tadaima
                  *
                  * @param lessons A vector containing Lesson objects to create a quiz for.
                  */
-                void startQuiz(const std::vector<Lesson>& lessons);
+                void startQuiz(QuizType type, const std::vector<Lesson>& lessons);
 
                 /**
                  * @brief Draws the current quiz widget.
@@ -50,8 +51,10 @@ namespace tadaima
                 void draw();
 
             private:
+
+                QuizType m_quizType;
                 tools::Logger& m_logger; /**< Reference to the Logger instance for logging. */
-                std::unique_ptr<widget::QuizWidget> quizWidget; /**< Unique pointer to the QuizWidget. */
+                std::unique_ptr<widget::Widget> m_quiz; /**< Unique pointer to the QuizWidget. */
                 bool quizWidgetOpen; /**< Boolean flag to track if the quiz widget is open. */
             };
         }

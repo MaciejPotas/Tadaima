@@ -26,7 +26,7 @@ TEST(VocabularyQuizTest, InitializeQuiz)
     flashcards.emplace_back(word2, lesson1.id, 0);
 
     // Initialize the quiz with required correct answers set to 3
-    VocabularyQuiz quiz(flashcards, 3, false);
+    VocabularyQuiz quiz(flashcards, AnswerType::Romaji, 3, false);
 
     // Check initial state
     EXPECT_FALSE(quiz.isQuizComplete());
@@ -45,7 +45,7 @@ TEST(VocabularyQuizTest, AdvanceQuiz)
     flashcards.emplace_back(word2, lesson1.id, 0);
 
     // Initialize the quiz with required correct answers set to 3 and shuffling disabled
-    VocabularyQuiz quiz(flashcards, 3, false);
+    VocabularyQuiz quiz(flashcards, AnswerType::Romaji, 3, false);
 
     // Advance the quiz with correct and incorrect answers
     quiz.advance("wrong"); // Incorrect answer for word1
@@ -101,7 +101,7 @@ TEST(VocabularyQuizTest, QuizCompletion)
     flashcards.emplace_back(word2, lesson1.id, 0);
 
     // Initialize the quiz with required correct answers set to 3 and shuffling disabled
-    VocabularyQuiz quiz(flashcards, 3, false);
+    VocabularyQuiz quiz(flashcards, AnswerType::Romaji, 3, false);
 
     // Simulate correct answers to complete the quiz
     for( int i = 0; i < 3; ++i )
@@ -126,7 +126,7 @@ TEST(VocabularyQuizTest, FlashcardsWithMistakes)
     flashcards.emplace_back(word2, lesson1.id, 0);
 
     // Initialize the quiz with required correct answers set to 3 and shuffling disabled
-    VocabularyQuiz quiz(flashcards, 3, false);
+    VocabularyQuiz quiz(flashcards, AnswerType::Romaji, 3, false);
 
     // Introduce mistakes
     quiz.advance("wrong"); // Incorrect answer for word1
@@ -153,7 +153,7 @@ TEST(VocabularyQuizTest, DecrementOnIncorrectAnswer)
     flashcards.emplace_back(word2, lesson1.id, 0);
 
     // Initialize the quiz with required correct answers set to 3 and shuffling disabled
-    VocabularyQuiz quiz(flashcards, 3, false);
+    VocabularyQuiz quiz(flashcards, AnswerType::Romaji, 3, false);
 
     // Answer correctly twice
     quiz.advance("a"); // Correct answer for word1
@@ -191,7 +191,7 @@ TEST(VocabularyQuizTest, NoDecrementBelowZero)
     flashcards.emplace_back(word2, lesson1.id, 0);
 
     // Initialize the quiz with required correct answers set to 3 and shuffling disabled
-    VocabularyQuiz quiz(flashcards, 3, false);
+    VocabularyQuiz quiz(flashcards, AnswerType::Romaji, 3, false);
 
     // Answer incorrectly multiple times
     for( int i = 0; i < 5; ++i )
@@ -222,7 +222,7 @@ TEST(VocabularyQuizTest, CompletionWithMixedAnswers)
     flashcards.emplace_back(word2, lesson1.id, 0);
 
     // Initialize the quiz with required correct answers set to 3 and shuffling disabled
-    VocabularyQuiz quiz(flashcards, 3, false);
+    VocabularyQuiz quiz(flashcards, AnswerType::Romaji, 3, false);
 
     // Answer with a mix of correct and incorrect answers
     quiz.advance("wrong"); // Incorrect answer for word1
