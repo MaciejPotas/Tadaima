@@ -1,8 +1,6 @@
 #include "QuizManager.h"
 #include "widgets/VocabularyQuizWidget.h"
 
-
-
 namespace tadaima
 {
     namespace gui
@@ -18,11 +16,13 @@ namespace tadaima
             {
                 if( QuizType::MultipleChoiceQuiz == type )
                 {
+                    m_logger.log("Starting MultipleChoiceQuiz.", tools::LogLevel::INFO);
                     m_quiz = std::make_unique<widget::QuizWidget>(m_logger, lesson);
                     quizWidgetOpen = true;
                 }
                 else if( QuizType::VocabularyQuiz == type )
                 {
+                    m_logger.log("Starting VocabularyQuiz.", tools::LogLevel::INFO);
                     m_quiz = std::make_unique<widget::VocabularyQuizWidget>(m_logger, lesson);
                     quizWidgetOpen = true;
                 }
