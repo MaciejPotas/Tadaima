@@ -1,25 +1,39 @@
 #include "QuizManager.h"
-
+#include "widgets/VocabularyQuizWidget.h"
 
 namespace tadaima
 {
     namespace gui
     {
-        QuizManager::QuizManager(tools::Logger& logger) :m_logger(logger), quizWidgetOpen(false)
+        namespace quiz
         {
-        }
-
-        void QuizManager::startQuiz(const std::vector<Lesson>& lesson)
-        {
-            quizWidget = std::make_unique<widget::QuizWidget>(m_logger, lesson);
-            quizWidgetOpen = true;
-        }
-
-        void QuizManager::draw()
-        {
-            if( quizWidgetOpen && quizWidget )
+            QuizManager::QuizManager(tools::Logger& logger) :m_logger(logger), quizWidgetOpen(false)
             {
-                quizWidget->draw();
+
+            }
+
+            void QuizManager::startQuiz(QuizType type, const std::vector<Lesson>& lesson)
+            {
+                if( QuizType::MultipleChoiceQuiz == type )
+                {
+                    m_logger.log("Starting MultipleChoiceQuiz.", tools::LogLevel::INFO);
+                    m_quiz = std::make_unique<widget::QuizWidget>(m_logger, lesson);
+                    quizWidgetOpen = true;
+                }
+                else if( QuizType::VocabularyQuiz == type )
+                {
+                    m_logger.log("Starting VocabularyQuiz.", tools::LogLevel::INFO);
+                    m_quiz = std::make_unique<widget::VocabularyQuizWidget>(m_logger, lesson);
+                    quizWidgetOpen = true;
+                }
+            }
+
+            void QuizManager::draw()
+            {
+                if( quizWidgetOpen && m_quiz )
+                {
+                    m_quiz->draw(&quizWidgetOpen);
+                }
             }
         }
     }

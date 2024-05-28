@@ -205,19 +205,25 @@ copy $(SolutionDir)build\$(Configuration)\$(Platform)\$(ProjectName)\$(ProjectNa
     <ClCompile Include="src\application\Application.cpp" />
     <ClCompile Include="src\bridge\EventBridge.cpp" />
     <ClCompile Include="src\gui\GuiStyle.cpp" />
+    <ClCompile Include="src\gui\quiz\MultipleChoiceQuiz.cpp" />
     <ClCompile Include="src\gui\quiz\QuizManager.cpp" />
-    <ClCompile Include="src\gui\widgets\QuizWidget.cpp" />
-    <ClCompile Include="src\gui\quiz\QuizGame.cpp" />
+    <ClCompile Include="src\gui\quiz\VocabularyQuiz.cpp" />
     <ClInclude Include="src\application\ApplicationEventList.h" />
     <ClInclude Include="src\bridge\LessonLoader.h" />
     <ClInclude Include="src\bridge\EventBridge.h" />
     <ClInclude Include="src\gui\helpers\LessonDataDecoder.h" />
+    <ClInclude Include="src\gui\quiz\Flashcard.h" />
     <ClInclude Include="src\gui\quiz\QuizManager.h" />
+    <ClInclude Include="src\gui\quiz\QuizType.h" />
+    <ClInclude Include="src\gui\quiz\VocabularyQuiz.h" />
     <ClInclude Include="src\gui\widgets\LessonSettingsWidget.h" />
     <ClInclude Include="src\gui\widgets\QuizWidget.h" />
+    <ClInclude Include="src\gui\widgets\VocabularyQuizWidget.h" />
     <ClInclude Include="src\gui\widgets\VocabularySettingsWidget.h" />
     <ClCompile Include="src\gui\widgets\LessonSettingsWidget.cpp" />
     <ClCompile Include="src\application\LessonsDatabase.cpp" />
+    <ClCompile Include="src\gui\widgets\QuizWidget.cpp" />
+    <ClCompile Include="src\gui\widgets\VocabularyQuizWidget.cpp" />
     <ClCompile Include="src\lessons\LessonManager.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\gui\Gui.cpp" />
@@ -238,7 +244,7 @@ copy $(SolutionDir)build\$(Configuration)\$(Platform)\$(ProjectName)\$(ProjectNa
     <ClInclude Include="src\application\LessonsDatabase.h" />
     <ClInclude Include="src\lessons\Lesson.h" />
     <ClInclude Include="src\lessons\LessonManager.h" />
-    <ClInclude Include="src\gui\quiz\QuizGame.h" />
+    <ClInclude Include="src\gui\quiz\MultipleChoiceQuiz.h" />
     <ClInclude Include="src\tools\Database.h" />
     <ClInclude Include="src\Version.h" />
   </ItemGroup>

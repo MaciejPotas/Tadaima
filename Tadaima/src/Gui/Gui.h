@@ -109,7 +109,7 @@ namespace tadaima
              */
             void handleWidgetEvent(const widget::WidgetEvent& data);
 
-            QuizManager m_quizManager;
+            quiz::QuizManager m_quizManager;
             ID3D11Device* g_pd3dDevice = nullptr; ///< Direct3D device.
             ID3D11DeviceContext* g_pd3dDeviceContext = nullptr; ///< Direct3D device context.
             IDXGISwapChain* g_pSwapChain = nullptr; ///< Swap chain for rendering.
