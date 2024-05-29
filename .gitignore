@@ -6,7 +6,8 @@
 bin/*
 build/*
 packages/*
-
+Tadaima/Deploy/Debug
+Tadaima/Deploy/Release
 ## Visual Studio artifacts
 .vs
 ipch

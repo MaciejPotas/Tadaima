@@ -20,6 +20,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TadaimaTests", "Tadaima\Tad
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F6C63B4C-081B-46E8-B554-E7F88B7080E7}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Deploy", "Tadaima\Deploy\Deploy.vdproj", "{19C06D25-BF2B-41A1-A4E1-E0F135D42916}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -80,6 +82,18 @@ Global
 		{BB6A2B4D-B460-4B21-885F-14FC9F02FCDD}.UnitTest|Win32.Build.0 = UnitTest|Win32
 		{BB6A2B4D-B460-4B21-885F-14FC9F02FCDD}.UnitTest|x64.ActiveCfg = UnitTest|x64
 		{BB6A2B4D-B460-4B21-885F-14FC9F02FCDD}.UnitTest|x64.Build.0 = UnitTest|x64
+		{19C06D25-BF2B-41A1-A4E1-E0F135D42916}.Debug|Win32.ActiveCfg = Debug
+		{19C06D25-BF2B-41A1-A4E1-E0F135D42916}.Debug|Win32.Build.0 = Debug
+		{19C06D25-BF2B-41A1-A4E1-E0F135D42916}.Debug|x64.ActiveCfg = Debug
+		{19C06D25-BF2B-41A1-A4E1-E0F135D42916}.Debug|x64.Build.0 = Debug
+		{19C06D25-BF2B-41A1-A4E1-E0F135D42916}.Release|Win32.ActiveCfg = Release
+		{19C06D25-BF2B-41A1-A4E1-E0F135D42916}.Release|Win32.Build.0 = Release
+		{19C06D25-BF2B-41A1-A4E1-E0F135D42916}.Release|x64.ActiveCfg = Release
+		{19C06D25-BF2B-41A1-A4E1-E0F135D42916}.Release|x64.Build.0 = Release
+		{19C06D25-BF2B-41A1-A4E1-E0F135D42916}.UnitTest|Win32.ActiveCfg = Debug
+		{19C06D25-BF2B-41A1-A4E1-E0F135D42916}.UnitTest|Win32.Build.0 = Debug
+		{19C06D25-BF2B-41A1-A4E1-E0F135D42916}.UnitTest|x64.ActiveCfg = Debug
+		{19C06D25-BF2B-41A1-A4E1-E0F135D42916}.UnitTest|x64.Build.0 = Debug
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

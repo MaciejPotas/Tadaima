@@ -164,9 +164,10 @@ xcopy "$(ProjectDir)resources\forkawesome-webfont.ttf" "$(TargetDir)fonts\" /Y /
     <PostBuildEvent>
     </PostBuildEvent>
     <PostBuildEvent>
-      <Command>mkdir $(SolutionDir)bin\$(Platform)\lib\ &gt;nul
-copy $(SolutionDir)build\$(Configuration)\$(Platform)\$(ProjectName)\lib\*.dll $(SolutionDir)bin\$(Platform)\lib\ &gt;nul
-copy $(SolutionDir)build\$(Configuration)\$(Platform)\$(ProjectName)\$(ProjectName).exe $(SolutionDir)bin\$(Platform)\ &gt;nul</Command>
+      <Command>mkdir $(SolutionDir)bin\$(Platform)\fonts\ &gt;nul
+copy $(SolutionDir)build\$(Configuration)\$(Platform)\$(ProjectName)\$(ProjectName).exe $(SolutionDir)bin\$(Platform)\ &gt;nul
+xcopy "$(ProjectDir)resources\NotoSansJP-Regular.ttf" "$(SolutionDir)bin\$(Platform)\fonts" /Y /I /Q
+xcopy "$(ProjectDir)resources\forkawesome-webfont.ttf" "$(SolutionDir)bin\$(Platform)\fonts" /Y /I /Q</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -196,9 +197,10 @@ copy $(SolutionDir)build\$(Configuration)\$(Platform)\$(ProjectName)\$(ProjectNa
     <PostBuildEvent>
     </PostBuildEvent>
     <PostBuildEvent>
-      <Command>mkdir $(SolutionDir)bin\$(Platform)\lib\ &gt;nul
-copy $(SolutionDir)build\$(Configuration)\$(Platform)\$(ProjectName)\lib\*.dll $(SolutionDir)bin\$(Platform)\lib\ &gt;nul
-copy $(SolutionDir)build\$(Configuration)\$(Platform)\$(ProjectName)\$(ProjectName).exe $(SolutionDir)bin\$(Platform)\ &gt;nul</Command>
+      <Command>mkdir $(SolutionDir)bin\$(Platform)\fonts\ &gt;nul
+copy $(SolutionDir)build\$(Configuration)\$(Platform)\$(ProjectName)\$(ProjectName).exe $(SolutionDir)bin\$(Platform)\ &gt;nul
+xcopy "$(ProjectDir)resources\NotoSansJP-Regular.ttf" "$(SolutionDir)bin\$(Platform)\fonts" /Y /I /Q
+xcopy "$(ProjectDir)resources\forkawesome-webfont.ttf" "$(SolutionDir)bin\$(Platform)\fonts" /Y /I /Q</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
