@@ -7,15 +7,15 @@ namespace tadaima
         namespace quiz
         {
             VocabularyQuiz::VocabularyQuiz(std::vector<Flashcard>& flashcards, WordType answerType, int requiredCorrectAnswers, bool enableShuffle)
-                : m_answerType(answerType), quizFlashcards(flashcards), requiredCorrectAnswers(requiredCorrectAnswers), shuffleEnabled(enableShuffle)
+                : m_flashcards(flashcards), m_answerType(answerType), m_requiredCorrectAnswers(requiredCorrectAnswers), m_shuffleEnabled(enableShuffle)
             {
-                if( shuffleEnabled )
+                if( m_shuffleEnabled )
                 {
-                    std::shuffle(quizFlashcards.begin(), quizFlashcards.end(), std::mt19937{ std::random_device{}() });
+                    std::shuffle(m_flashcards.begin(), m_flashcards.end(), std::mt19937{ std::random_device{}() });
                 }
-                if( !quizFlashcards.empty() )
+                if( !m_flashcards.empty() )
                 {
-                    currentFlashcard = &quizFlashcards.front();
+                    m_currentFlashcard = &m_flashcards.front();
                 }
             }
 
@@ -23,33 +23,33 @@ namespace tadaima
             {
                 bool status = false;
 
-                if( currentFlashcard )
+                if( m_currentFlashcard )
                 {
                     std::string correctAnswer;
                     switch( m_answerType )
                     {
                         case WordType::Romaji:
-                            correctAnswer = currentFlashcard->word.romaji;
+                            correctAnswer = m_currentFlashcard->word.romaji;
                             break;
                         case WordType::Kana:
-                            correctAnswer = currentFlashcard->word.kana;
+                            correctAnswer = m_currentFlashcard->word.kana;
                             break;
                         case WordType::Translation:
-                            correctAnswer = currentFlashcard->word.translation;
+                            correctAnswer = m_currentFlashcard->word.translation;
                             break;
                     }
 
                     if( correctAnswer != userAnswer )
                     {
-                        currentFlashcard->badAttempts++;
+                        m_currentFlashcard->badAttempts++;
                     }
                     else
                     {
                         status = true;
-                        currentFlashcard->goodAttemps++;
-                        if( std::abs(currentFlashcard->goodAttemps - currentFlashcard->badAttempts) >= requiredCorrectAnswers )
+                        m_currentFlashcard->goodAttemps++;
+                        if( m_currentFlashcard->goodAttemps >= (m_currentFlashcard->badAttempts + m_requiredCorrectAnswers) )
                         {
-                            currentFlashcard->learned = true;
+                            m_currentFlashcard->learned = true;
                         }
                     }
 
@@ -63,19 +63,19 @@ namespace tadaima
             {
                 bool status = false;
 
-                if( currentFlashcard )
+                if( m_currentFlashcard )
                 {
                     std::string correctAnswer;
                     switch( m_answerType )
                     {
                         case WordType::Romaji:
-                            correctAnswer = currentFlashcard->word.romaji;
+                            correctAnswer = m_currentFlashcard->word.romaji;
                             break;
                         case WordType::Kana:
-                            correctAnswer = currentFlashcard->word.kana;
+                            correctAnswer = m_currentFlashcard->word.kana;
                             break;
                         case WordType::Translation:
-                            correctAnswer = currentFlashcard->word.translation;
+                            correctAnswer = m_currentFlashcard->word.translation;
                             break;
                     }
 
@@ -92,15 +92,15 @@ namespace tadaima
             {
                 if( allFlashcardsLearned() )
                 {
-                    currentFlashcard = nullptr; // No more unlearned flashcards
+                    m_currentFlashcard = nullptr; // No more unlearned flashcards
                     return;
                 }
-                if( shuffleEnabled )
+                if( m_shuffleEnabled )
                 {
                     std::vector<int> unlearnedIndices;
-                    for( int index = 0; index < (int)quizFlashcards.size(); ++index )
+                    for( int index = 0; index < static_cast<int>(m_flashcards.size()); ++index )
                     {
-                        if( !quizFlashcards[index].learned )
+                        if( !m_flashcards[index].learned )
                         {
                             unlearnedIndices.push_back(index);
                         }
@@ -111,18 +111,18 @@ namespace tadaima
                     std::uniform_int_distribution<> distrib(0, unlearnedIndices.size() - 1);
 
                     int randomIndex = distrib(g);
-                    currentIndex = unlearnedIndices[randomIndex];
+                    m_currentIndex = unlearnedIndices[randomIndex];
                 }
                 else
                 {
-                    int initialIndex = currentIndex;
+                    int initialIndex = m_currentIndex;
                     do
                     {
-                        currentIndex = (currentIndex + 1) % quizFlashcards.size();
-                    } while( quizFlashcards[currentIndex].learned && currentIndex != initialIndex );
+                        m_currentIndex = (m_currentIndex + 1) % m_flashcards.size();
+                    } while( m_flashcards[m_currentIndex].learned && m_currentIndex != initialIndex );
                 }
 
-                currentFlashcard = &quizFlashcards[currentIndex];
+                m_currentFlashcard = &m_flashcards[m_currentIndex];
             }
 
             bool VocabularyQuiz::isQuizComplete() const
@@ -133,7 +133,7 @@ namespace tadaima
             std::vector<Flashcard> VocabularyQuiz::getFlashcardsWithMistakes(int minMistakes) const
             {
                 std::vector<Flashcard> result;
-                for( const auto& flashcard : quizFlashcards )
+                for( const auto& flashcard : m_flashcards )
                 {
                     if( flashcard.badAttempts >= minMistakes )
                     {
@@ -146,7 +146,7 @@ namespace tadaima
             std::vector<Flashcard> VocabularyQuiz::getLearntWords() const
             {
                 std::vector<Flashcard> result;
-                for( const auto& flashcard : quizFlashcards )
+                for( const auto& flashcard : m_flashcards )
                 {
                     if( flashcard.learned )
                     {
@@ -158,12 +158,12 @@ namespace tadaima
 
             const Flashcard& VocabularyQuiz::getCurrentFlashCard() const
             {
-                return *currentFlashcard;
+                return *m_currentFlashcard;
             }
 
             bool VocabularyQuiz::allFlashcardsLearned() const
             {
-                return std::all_of(quizFlashcards.begin(), quizFlashcards.end(), [](const Flashcard& flashcard)
+                return std::all_of(m_flashcards.begin(), m_flashcards.end(), [](const Flashcard& flashcard)
                     {
                         return flashcard.learned;
                     });
