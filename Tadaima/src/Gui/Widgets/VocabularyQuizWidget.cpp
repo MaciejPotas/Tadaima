@@ -115,6 +115,7 @@ namespace tadaima
 
                 if( ImGui::Begin("Quiz Game", p_open, ImGuiWindowFlags_NoCollapse) )
                 {
+                    static bool b_setFocusOnTheEditField = true;
                     ImGui::Columns(2, NULL, true); // Create two columns
 
                     // Left Column
@@ -152,6 +153,14 @@ namespace tadaima
 
                         ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 3);
                         ImGui::PushItemWidth(-1);
+
+                        if( b_setFocusOnTheEditField )
+                        {
+                            ImGui::SetKeyboardFocusHere();
+                            b_setFocusOnTheEditField = false;
+                        }
+
+
                         if( ImGui::InputText("Translation", m_userInput, sizeof(m_userInput), ImGuiInputTextFlags_EnterReturnsTrue) )
                         {
                             m_translation = flashcard.word.translation;
@@ -200,6 +209,7 @@ namespace tadaima
                                 memset(m_userInput, 0, sizeof(m_userInput));
                                 m_overrideAnswer = true;
                                 m_correctAnswerMessage = "Your answer has been marked as correct!";
+                                b_setFocusOnTheEditField = true;
                             }
 
                             ImGui::SameLine();
@@ -208,6 +218,7 @@ namespace tadaima
                                 m_quiz->advance(m_userInput);
                                 memset(m_userInput, 0, sizeof(m_userInput));
                                 m_correctAnswerMessage = "Your answer has been marked as wrong!";
+                                b_setFocusOnTheEditField = true;
                             }
                         }
 
