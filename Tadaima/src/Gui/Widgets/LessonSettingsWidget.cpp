@@ -19,6 +19,8 @@ namespace tadaima
                 }
 
                 ImGui::SetNextWindowSize(ImVec2(700, 400), ImGuiCond_Always);  // Adjust size as needed
+                ImGui::PushStyleColor(ImGuiCol_PopupBg, ImGui::GetStyleColorVec4(ImGuiCol_WindowBg));
+
                 // Open the modal window
                 if( ImGui::BeginPopupModal(m_isEditing ? "Edit Lesson Modal" : "Add New Lesson Modal", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoResize) )
                 {
@@ -143,6 +145,8 @@ namespace tadaima
 
                     ImGui::EndPopup();
                 }
+
+                ImGui::PopStyleColor();  // Restore previous style
 
                 if( !ImGui::IsPopupOpen("Add New Lesson Modal") && !ImGui::IsPopupOpen("Edit Lesson Modal") )
                 {

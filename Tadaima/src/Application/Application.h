@@ -13,10 +13,11 @@
 #include <thread>
 #include <atomic>
 #include <mutex>
-#include "LessonsDatabase.h"
+#include "ApplicationDatabase.h"
 #include "Lessons/LessonManager.h"
 #include "Tools/EventsData.h"
 #include "bridge/EventBridge.h"
+#include "Tools/Logger.h"
 
 namespace tools { class Logger; }
 namespace tadaima
@@ -67,13 +68,15 @@ namespace tadaima
              */
             void Initialize();
 
-            /**
-             * @brief Sets the event and corresponding lessons.
-             *
-             * @param event The application event to set.
-             * @param lessons The list of lessons associated with the event.
-             */
-            void setEvent(ApplicationEvent event, const std::vector<Lesson>& lessons);
+            template<typename DataType>
+            void setEvent(ApplicationEvent event, const DataType& data)
+            {
+                m_event.setEvent(event, data);
+                m_threadRaise.notify_one();
+                m_logger.log("Event set: " + eventToString(event), tools::LogLevel::DEBUG);
+
+                
+           }
 
         private:
 
@@ -108,12 +111,15 @@ namespace tadaima
              */
             void stopThread();
 
-            LessonsDatabase m_database; /**< Database for managing lessons. */
+            ApplicationDatabase m_database; /**< Database for managing lessons. */
             LessonManager m_lessonManager; /**< Manager for handling lesson operations. */
             EventBridge& m_eventBridge; /**< Reference to the EventBridge for event handling. */
             tools::Logger& m_logger; /**< Reference to the Logger instance for logging. */
 
-            tools::EventsData<std::vector<Lesson>> m_event; /**< Event data structure. */
+            tools::EventsData<std::vector<Lesson>, ApplicationSettings > m_event; /**< Event data structure. */
+
+
+
             gui::Gui* m_gui = nullptr; /**< Pointer to the GUI instance. */
             std::thread workerThread; /**< Worker thread for background tasks. */
             std::atomic<bool> m_running; /**< Atomic flag to control the worker thread's execution. */

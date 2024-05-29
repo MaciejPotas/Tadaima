@@ -116,7 +116,7 @@ namespace tadaima
                  *
                  * @param observer The observer function to set.
                  */
-                void setObserver(Listener observer)
+                virtual void setObserver(Listener observer)
                 {
                     m_observer = observer;
                 }

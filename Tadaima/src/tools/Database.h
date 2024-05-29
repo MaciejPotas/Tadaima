@@ -1,19 +1,29 @@
+/**
+ * @file Database.h
+ * @brief Defines the Database class interface for interacting with a database.
+ */
+
 #pragma once
 
 #include "lessons/Lesson.h"
 #include <vector>
+#include <string>
 
 namespace tadaima
 {
+    namespace application
+    {
+        struct ApplicationSettings;
+    }
+
     /**
      * @brief The Database class provides an interface for interacting with a database.
      */
     class Database
     {
     public:
-
         /**
-         * @brief Virtual destructor.
+         * @brief Virtual destructor to ensure proper cleanup of derived classes.
          */
         virtual ~Database() = default;
 
@@ -92,5 +102,17 @@ namespace tadaima
          * @return A vector containing all lessons.
          */
         virtual std::vector<Lesson> getAllLessons() const = 0;
+
+        /**
+         * @brief Saves the application settings to the database.
+         * @param settings The application settings to save.
+         */
+        virtual void saveSettings(const application::ApplicationSettings& settings) = 0;
+
+        /**
+         * @brief Loads the application settings from the database.
+         * @return The loaded application settings.
+         */
+        virtual application::ApplicationSettings loadSettings() = 0;
     };
 }

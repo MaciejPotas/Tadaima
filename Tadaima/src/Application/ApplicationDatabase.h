@@ -1,6 +1,6 @@
 /**
- * @file LessonsDatabase.h
- * @brief Defines the LessonsDatabase class, providing functionality to interact with a SQLite database for managing lessons and words.
+ * @file ApplicationDatabase.h
+ * @brief Defines the ApplicationDatabase class, providing functionality to interact with a SQLite database for managing lessons and words.
  */
 
 #pragma once
@@ -18,23 +18,23 @@ namespace tadaima
     namespace application
     {
         /**
-         * @brief The LessonsDatabase class provides functionality to interact with a SQLite database
+         * @brief The ApplicationDatabase class provides functionality to interact with a SQLite database
          * for managing lessons and words.
          */
-        class LessonsDatabase : public Database
+        class ApplicationDatabase : public Database
         {
         public:
             /**
-             * @brief Constructs a LessonsDatabase object.
+             * @brief Constructs an ApplicationDatabase object.
              * @param dbPath The file path to the SQLite database.
              * @param logger Reference to a Logger instance for logging.
              */
-            LessonsDatabase(const std::string& dbPath, tools::Logger& logger);
+            ApplicationDatabase(const std::string& dbPath, tools::Logger& logger);
 
             /**
-             * @brief Destroys the LessonsDatabase object.
+             * @brief Destroys the ApplicationDatabase object.
              */
-            ~LessonsDatabase();
+            ~ApplicationDatabase();
 
             /**
              * @brief Initializes the SQLite database.
@@ -117,6 +117,18 @@ namespace tadaima
              * @return A vector containing all lessons.
              */
             std::vector<Lesson> getAllLessons() const override;
+
+            /**
+             * @brief Saves the application settings to the database.
+             * @param settings The application settings to save.
+             */
+            void saveSettings(const ApplicationSettings& settings);
+
+            /**
+             * @brief Loads the application settings from the database.
+             * @return The loaded application settings.
+             */
+            ApplicationSettings loadSettings();
 
         private:
             sqlite3* db; /**< Pointer to the SQLite database. */

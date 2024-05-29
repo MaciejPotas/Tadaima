@@ -19,7 +19,7 @@
 namespace tadaima
 {
     namespace gui { class Gui; }
-    namespace application { class Application; }
+    namespace application { class Application; struct ApplicationSettings; }
 
     /**
      * @brief The EventBridge class bridges events between the GUI and the application logic.
@@ -30,10 +30,8 @@ namespace tadaima
     class EventBridge
     {
     public:
-
         /**
          * @brief Initializes the EventBridge with the application and GUI instances.
-         *
          * @param app Reference to the Application instance.
          * @param gui Reference to the GUI instance.
          */
@@ -49,6 +47,12 @@ namespace tadaima
         void initializeGui(const std::vector<Lesson>& lessons);
 
         /**
+         * @brief Initializes the GUI with application settings.
+         * @param settings The application settings to initialize in the GUI.
+         */
+        void initializeSettings(const application::ApplicationSettings& settings);
+
+        /**
          * @brief Handles an event from the GUI.
          *
          * This method processes events that originate from the GUI widgets.
@@ -60,7 +64,6 @@ namespace tadaima
     private:
         application::Application* m_app = nullptr; /**< Pointer to the Application instance. */
         gui::Gui* m_gui = nullptr; /**< Pointer to the GUI instance. */
-
 
         /**
          * @brief Handles the creation of a new lesson.
@@ -85,7 +88,7 @@ namespace tadaima
          *
          * This method processes the data package when a lesson is removed in the GUI.
          *
-         * @param dataPackage The data package containing the renamed lesson information.
+         * @param dataPackage The data package containing the deleted lesson information.
          */
         void onLessonRemove(const tools::DataPackage* dataPackage);
 
@@ -94,9 +97,17 @@ namespace tadaima
          *
          * This method processes the data package when a lesson is edited in the GUI.
          *
-         * @param dataPackage The data package containing the renamed lesson information.
+         * @param dataPackage The data package containing the edited lesson information.
          */
         void onLessonEdited(const tools::DataPackage* dataPackage);
-    };
 
+        /**
+         * @brief Handles the change of application settings.
+         *
+         * This method processes the data package when application settings are changed in the GUI.
+         *
+         * @param dataPackage The data package containing the changed settings information.
+         */
+        void onSettingsChanged(const tools::DataPackage* dataPackage);
+    };
 }

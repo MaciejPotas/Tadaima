@@ -34,7 +34,7 @@ namespace tadaima
                         case WordType::Kana:
                             correctAnswer = m_currentFlashcard->word.kana;
                             break;
-                        case WordType::Translation:
+                        case WordType::BaseWord:
                             correctAnswer = m_currentFlashcard->word.translation;
                             break;
                     }
@@ -74,7 +74,7 @@ namespace tadaima
                         case WordType::Kana:
                             correctAnswer = m_currentFlashcard->word.kana;
                             break;
-                        case WordType::Translation:
+                        case WordType::BaseWord:
                             correctAnswer = m_currentFlashcard->word.translation;
                             break;
                     }
