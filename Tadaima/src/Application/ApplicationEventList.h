@@ -10,7 +10,8 @@ namespace tadaima
             OnLessonCreated,
             OnLessonUpdate,
             OnLessonDelete,
-            OnLessonEdited
+            OnLessonEdited,
+            OnSettingsChanged
         };
     }
 }

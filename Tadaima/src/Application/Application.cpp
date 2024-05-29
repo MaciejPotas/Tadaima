@@ -9,6 +9,8 @@
 #include <mutex>
 #include <condition_variable>
 #include "Tools/Logger.h"
+#include "ApplicationDatabase.h"
+#include "ApplicationSettings.h"
 
 namespace tadaima
 {
@@ -83,6 +85,15 @@ namespace tadaima
                             m_eventBridge.initializeGui(m_lessonManager.getAllLessons());
                             m_event.clearEvent(ApplicationEvent::OnLessonEdited);
                         }
+
+                        if( m_event.isEventOccurred(ApplicationEvent::OnSettingsChanged) )
+                        {
+                            ApplicationSettings applicationSettings = m_event.getEventData<ApplicationSettings>(ApplicationEvent::OnSettingsChanged);
+                            m_logger.log("OnSettingsChanged event occurred", tools::LogLevel::INFO);
+                            m_logger.log(applicationSettings.toString(), tools::LogLevel::INFO);
+                            m_database.saveSettings(applicationSettings);
+                            m_event.clearEvent(ApplicationEvent::OnSettingsChanged);
+                        }
                     }
                     catch( const std::exception& ex )
                     {
@@ -113,15 +124,17 @@ namespace tadaima
         void Application::Initialize()
         {
             m_eventBridge.initializeGui(m_lessonManager.getAllLessons());
+            m_eventBridge.initializeSettings(m_database.loadSettings());
+
             m_logger.log("Application initialized.", tools::LogLevel::INFO);
         }
 
-        void Application::setEvent(ApplicationEvent event, const std::vector<Lesson>& lessons)
-        {
-            m_event.setEvent(event, lessons);
-            m_threadRaise.notify_one();
-            m_logger.log("Event set: " + eventToString(event) + ". Lessons: " + lessonsToString(lessons), tools::LogLevel::DEBUG);
-        }
+        //void Application::setEvent(ApplicationEvent event, const std::vector<Lesson>& lessons)
+        //{
+        //    m_event.setEvent(event, lessons);
+        //    m_threadRaise.notify_one();
+        //    m_logger.log("Event set: " + eventToString(event) + ". Lessons: " + lessonsToString(lessons), tools::LogLevel::DEBUG);
+        //}
 
         std::string Application::lessonsToString(const std::vector<Lesson>& lessons)
         {
@@ -144,6 +157,8 @@ namespace tadaima
                     return "OnLessonUpdate";
                 case ApplicationEvent::OnLessonDelete:
                     return "OnLessonDelete";
+                case ApplicationEvent::OnSettingsChanged:
+                    return "OnSettingschanged";
                 default:
                     return "UnknownEvent";
             }

@@ -209,19 +209,24 @@ copy $(SolutionDir)build\$(Configuration)\$(Platform)\$(ProjectName)\$(ProjectNa
     <ClCompile Include="src\gui\quiz\QuizManager.cpp" />
     <ClCompile Include="src\gui\quiz\VocabularyQuiz.cpp" />
     <ClInclude Include="src\application\ApplicationEventList.h" />
+    <ClInclude Include="src\Application\ApplicationSettings.h" />
     <ClInclude Include="src\bridge\LessonLoader.h" />
     <ClInclude Include="src\bridge\EventBridge.h" />
+    <ClInclude Include="src\bridge\SettingsLoader.h" />
     <ClInclude Include="src\gui\helpers\LessonDataDecoder.h" />
+    <ClInclude Include="src\gui\helpers\SettingsDataDecoder.h" />
     <ClInclude Include="src\gui\quiz\Flashcard.h" />
     <ClInclude Include="src\gui\quiz\QuizManager.h" />
     <ClInclude Include="src\gui\quiz\QuizType.h" />
     <ClInclude Include="src\gui\quiz\VocabularyQuiz.h" />
     <ClInclude Include="src\gui\widgets\LessonSettingsWidget.h" />
     <ClInclude Include="src\gui\widgets\QuizWidget.h" />
+    <ClInclude Include="src\gui\widgets\ApplicationSettingsWidget.h" />
     <ClInclude Include="src\gui\widgets\VocabularyQuizWidget.h" />
     <ClInclude Include="src\gui\widgets\VocabularySettingsWidget.h" />
+    <ClCompile Include="src\gui\widgets\ApplicationSettingsWidget.cpp" />
     <ClCompile Include="src\gui\widgets\LessonSettingsWidget.cpp" />
-    <ClCompile Include="src\application\LessonsDatabase.cpp" />
+    <ClCompile Include="src\application\ApplicationDatabase.cpp" />
     <ClCompile Include="src\gui\widgets\QuizWidget.cpp" />
     <ClCompile Include="src\gui\widgets\VocabularyQuizWidget.cpp" />
     <ClCompile Include="src\lessons\LessonManager.cpp" />
@@ -233,7 +238,9 @@ copy $(SolutionDir)build\$(Configuration)\$(Platform)\$(ProjectName)\$(ProjectNa
     <ClInclude Include="src\application\Application.h" />
     <ClCompile Include="src\gui\widgets\MainDashboardWidget.cpp" />
     <ClCompile Include="src\gui\widgets\LessonTreeViewWidget.cpp" />
-    <ClCompile Include="src\gui\widgets\VocabularySettingsWidget.cpp" />
+    <ClCompile Include="src\gui\widgets\VocabularySettingsWidget.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClInclude Include="src\gui\Gui.h" />
     <ClCompile Include="src\gui\widgets\MenuBarWidget.cpp" />
     <ClInclude Include="src\gui\widgets\LessonTreeViewWidget.h" />
@@ -241,7 +248,7 @@ copy $(SolutionDir)build\$(Configuration)\$(Platform)\$(ProjectName)\$(ProjectNa
     <ClInclude Include="src\gui\widgets\MenuBarWidget.h" />
     <ClInclude Include="src\gui\widgets\Widget.h" />
     <ClInclude Include="src\gui\widgets\WidgetTypes.h" />
-    <ClInclude Include="src\application\LessonsDatabase.h" />
+    <ClInclude Include="src\application\ApplicationDatabase.h" />
     <ClInclude Include="src\lessons\Lesson.h" />
     <ClInclude Include="src\lessons\LessonManager.h" />
     <ClInclude Include="src\gui\quiz\MultipleChoiceQuiz.h" />

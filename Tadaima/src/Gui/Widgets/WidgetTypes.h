@@ -17,11 +17,12 @@ namespace tadaima
              */
             enum Type : uint8_t
             {
-                MenuBar = 0, ///< ID for the menu bar widget.
-                LessonTreeView = 1, ///< ID for the lesson tree view widget.
-                Dashboard = 2, ///< ID for the main dashboard widget.
-                VocabularySettings = 3, ///< ID for the vocabulary settings widget.
-                Npc = 4
+                MenuBar = 0,                ///< ID for the menu bar widget.
+                LessonTreeView = 1,         ///< ID for the lesson tree view widget.
+                Dashboard = 2,              ///< ID for the main dashboard widget.
+                VocabularySettings = 3,     ///< ID for the vocabulary settings widget.
+                ApplicationSettings = 4,    ///< ID for the application settings widget.
+                Npc = 5
             };
 
             /**

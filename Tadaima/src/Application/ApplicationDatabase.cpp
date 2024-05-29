@@ -1,13 +1,14 @@
-#include "LessonsDatabase.h"
+#include "ApplicationDatabase.h"
 #include <iostream>
 #include <Libraries/SQLite3/sqlite3.h>
 #include "Tools/Logger.h"
+#include "ApplicationSettings.h"
 
 namespace tadaima
 {
     namespace application
     {
-        LessonsDatabase::LessonsDatabase(const std::string& dbPath, tools::Logger& logger)
+        ApplicationDatabase::ApplicationDatabase(const std::string& dbPath, tools::Logger& logger)
             : db(nullptr), m_logger(logger)
         {
             if( sqlite3_open(dbPath.c_str(), &db) )
@@ -28,7 +29,7 @@ namespace tadaima
             }
         }
 
-        LessonsDatabase::~LessonsDatabase()
+        ApplicationDatabase::~ApplicationDatabase()
         {
             if( db )
             {
@@ -37,7 +38,7 @@ namespace tadaima
             }
         }
 
-        bool LessonsDatabase::initDatabase()
+        bool ApplicationDatabase::initDatabase()
         {
             const char* createLessonsTable =
                 "CREATE TABLE IF NOT EXISTS lessons ("
@@ -59,6 +60,10 @@ namespace tadaima
                 "word_id INTEGER, "
                 "tag TEXT NOT NULL, "
                 "FOREIGN KEY(word_id) REFERENCES words(id));";
+            const char* createSettingsTable =
+                "CREATE TABLE IF NOT EXISTS settings ("
+                "key TEXT PRIMARY KEY, "
+                "value TEXT NOT NULL);";
 
             char* errMsg = nullptr;
             if( sqlite3_exec(db, createLessonsTable, 0, 0, &errMsg) != SQLITE_OK )
@@ -79,10 +84,17 @@ namespace tadaima
                 sqlite3_free(errMsg);
                 return false;
             }
+            if( sqlite3_exec(db, createSettingsTable, 0, 0, &errMsg) != SQLITE_OK )
+            {
+                m_logger.log("Database: SQL error while creating settings table: " + std::string(errMsg), tools::LogLevel::PROBLEM);
+                sqlite3_free(errMsg);
+                return false;
+            }
+
             return true;
         }
 
-        int LessonsDatabase::addLesson(const std::string& mainName, const std::string& subName)
+        int ApplicationDatabase::addLesson(const std::string& mainName, const std::string& subName)
         {
             const char* sql = "INSERT INTO lessons (main_name, sub_name) VALUES (?, ?);";
             sqlite3_stmt* stmt;
@@ -104,7 +116,7 @@ namespace tadaima
             return -1;
         }
 
-        int LessonsDatabase::addWord(int lessonId, const Word& word)
+        int ApplicationDatabase::addWord(int lessonId, const Word& word)
         {
             const char* sql =
                 "INSERT INTO words (lesson_id, kana, translation, romaji, example_sentence) "
@@ -131,7 +143,7 @@ namespace tadaima
             return -1;
         }
 
-        void LessonsDatabase::addTag(int wordId, const std::string& tag)
+        void ApplicationDatabase::addTag(int wordId, const std::string& tag)
         {
             const char* sql = "INSERT INTO tags (word_id, tag) VALUES (?, ?);";
             sqlite3_stmt* stmt;
@@ -148,7 +160,7 @@ namespace tadaima
             }
         }
 
-        void LessonsDatabase::updateLesson(int lessonId, const std::string& newMainName, const std::string& newSubName)
+        void ApplicationDatabase::updateLesson(int lessonId, const std::string& newMainName, const std::string& newSubName)
         {
             const char* sql = "UPDATE lessons SET main_name = ?, sub_name = ? WHERE id = ?;";
             sqlite3_stmt* stmt;
@@ -166,7 +178,7 @@ namespace tadaima
             }
         }
 
-        bool LessonsDatabase::editLesson(const Lesson& lesson)
+        bool ApplicationDatabase::editLesson(const Lesson& lesson)
         {
             try
             {
@@ -263,7 +275,7 @@ namespace tadaima
             }
         }
 
-        void LessonsDatabase::updateWord(int wordId, const Word& updatedWord)
+        void ApplicationDatabase::updateWord(int wordId, const Word& updatedWord)
         {
             const char* sql = "UPDATE words SET kana = ?, translation = ?, romaji = ?, example_sentence = ? WHERE id = ?;";
             sqlite3_stmt* stmt;
@@ -283,7 +295,7 @@ namespace tadaima
             }
         }
 
-        void LessonsDatabase::deleteLesson(int lessonId)
+        void ApplicationDatabase::deleteLesson(int lessonId)
         {
             const char* sql = "DELETE FROM lessons WHERE id = ?;";
             sqlite3_stmt* stmt;
@@ -299,7 +311,7 @@ namespace tadaima
             }
         }
 
-        void LessonsDatabase::deleteWord(int wordId)
+        void ApplicationDatabase::deleteWord(int wordId)
         {
             const char* sql = "DELETE FROM words WHERE id = ?;";
             sqlite3_stmt* stmt;
@@ -315,7 +327,7 @@ namespace tadaima
             }
         }
 
-        std::vector<std::string> LessonsDatabase::getLessonNames() const
+        std::vector<std::string> ApplicationDatabase::getLessonNames() const
         {
             std::vector<std::string> lessonNames;
             const char* sql = "SELECT main_name, sub_name FROM lessons;";
@@ -332,7 +344,7 @@ namespace tadaima
             return lessonNames;
         }
 
-        std::vector<Word> LessonsDatabase::getWordsInLesson(int lessonId) const
+        std::vector<Word> ApplicationDatabase::getWordsInLesson(int lessonId) const
         {
             std::vector<Word> words;
             const char* sql = "SELECT id, kana, translation, romaji, example_sentence FROM words WHERE lesson_id = ?;";
@@ -368,11 +380,13 @@ namespace tadaima
             return words;
         }
 
-        std::vector<Lesson> LessonsDatabase::getAllLessons() const
+        std::vector<Lesson> ApplicationDatabase::getAllLessons() const
         {
             std::vector<Lesson> lessons;
             const char* sql = "SELECT id, main_name, sub_name FROM lessons;";
             sqlite3_stmt* stmt;
+            m_logger.log("Database: Loading lessons.", tools::LogLevel::INFO);
+
             if( sqlite3_prepare_v2(db, sql, -1, &stmt, 0) == SQLITE_OK )
             {
                 while( sqlite3_step(stmt) == SQLITE_ROW )
@@ -387,6 +401,62 @@ namespace tadaima
                 sqlite3_finalize(stmt);
             }
             return lessons;
+        }
+
+        void ApplicationDatabase::saveSettings(const ApplicationSettings& settings)
+        {
+            m_logger.log("Database: Saving application settings.", tools::LogLevel::INFO);
+
+            const char* sql = "REPLACE INTO settings (key, value) VALUES (?, ?);";
+            sqlite3_stmt* stmt;
+
+            auto saveSetting = [&](const char* key, const std::string& value)
+                {
+                    if( sqlite3_prepare_v2(db, sql, -1, &stmt, 0) == SQLITE_OK )
+                    {
+                        sqlite3_bind_text(stmt, 1, key, -1, SQLITE_STATIC);
+                        sqlite3_bind_text(stmt, 2, value.c_str(), -1, SQLITE_STATIC);
+                        if( sqlite3_step(stmt) != SQLITE_DONE )
+                        {
+                            m_logger.log("Database: SQL error while saving setting " + std::string(key) + ": " + std::string(sqlite3_errmsg(db)), tools::LogLevel::PROBLEM);
+                        }
+                        sqlite3_finalize(stmt);
+                    }
+                };
+
+            saveSetting("userName", settings.userName);
+            saveSetting("dictionaryPath", settings.dictionaryPath);
+            saveSetting("inputWord", settings.inputWord);
+            saveSetting("translatedWord", settings.translatedWord);
+        }
+
+        ApplicationSettings ApplicationDatabase::loadSettings()
+        {
+            ApplicationSettings settings;
+            const char* sql = "SELECT value FROM settings WHERE key = ?;";
+            sqlite3_stmt* stmt;
+
+            m_logger.log("Database: Loading application settings.", tools::LogLevel::INFO);
+
+            auto loadSetting = [&](const char* key, std::string& value)
+                {
+                    if( sqlite3_prepare_v2(db, sql, -1, &stmt, 0) == SQLITE_OK )
+                    {
+                        sqlite3_bind_text(stmt, 1, key, -1, SQLITE_STATIC);
+                        if( sqlite3_step(stmt) == SQLITE_ROW )
+                        {
+                            value = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0));
+                        }
+                        sqlite3_finalize(stmt);
+                    }
+                };
+
+            loadSetting("userName", settings.userName);
+            loadSetting("dictionaryPath", settings.dictionaryPath);
+            loadSetting("inputWord", settings.inputWord);
+            loadSetting("translatedWord", settings.translatedWord);
+
+            return settings;
         }
     }
 }

@@ -48,10 +48,11 @@ namespace tadaima
             /*
             *  Initialize widgets.
             */
-            m_widgets[widget::Type::MenuBar] = std::make_unique<widget::MenuBarWidget>();
+            m_widgets[widget::Type::MenuBar] = std::make_unique<widget::MenuBarWidget>(m_logger);
             m_widgets[widget::Type::LessonTreeView] = std::make_unique<widget::LessonTreeViewWidget>();
 
             m_widgets[widget::Type::LessonTreeView]->setObserver(std::bind(&Gui::handleWidgetEvent, this, std::placeholders::_1));
+            m_widgets[widget::Type::MenuBar]->setObserver(std::bind(&Gui::handleWidgetEvent, this, std::placeholders::_1));
 
             m_widgets[widget::Type::Dashboard] = std::make_unique<widget::MainDashboardWidget>();
             m_widgets[widget::Type::VocabularySettings] = std::make_unique<widget::VocabularySettingsWidget>();

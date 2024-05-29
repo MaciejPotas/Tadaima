@@ -18,9 +18,9 @@ namespace tadaima
             /**
              * @brief Enum class representing different types of answers.
              */
-            enum class WordType : uint8_t
+            enum WordType : uint8_t
             {
-                Translation, ///< Answer in the translated language.
+                BaseWord, ///< Answer in the translated language.
                 Kana,        ///< Answer in Kana (Japanese syllabaries including Hiragana and Katakana).
                 Romaji,      ///< Answer in Romaji (Latin script representation of Japanese).
             };

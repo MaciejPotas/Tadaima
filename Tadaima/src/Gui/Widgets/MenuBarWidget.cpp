@@ -11,9 +11,15 @@ namespace tadaima
     {
         namespace widget
         {
-            void MenuBarWidget::initialize([[maybe_unused]] const tools::DataPackage& r_package)
+
+            MenuBarWidget::MenuBarWidget(tools::Logger& logger) : m_logger(logger), m_ApplicationSettingsWidget(logger)
             {
 
+            }
+
+            void MenuBarWidget::initialize(const tools::DataPackage& r_package)
+            {
+                m_ApplicationSettingsWidget.initialize(r_package);
             }
 
             void MenuBarWidget::showAboutWindow(bool* p_open)
@@ -43,15 +49,20 @@ namespace tadaima
                     showAboutWindow(&show_help);
                 }
 
+                if( show_settings )
+                {
+                    m_ApplicationSettingsWidget.draw(&show_settings);
+                }
+
                 // Menu Bar
                 if( ImGui::BeginMainMenuBar() )
                 {
-                    if( ImGui::BeginMenu("File") )
-                    {
-                        ImGui::MenuItem("Open", NULL, false, true);
-                        ImGui::MenuItem("Save", NULL, false, true);
-                        ImGui::EndMenu();
-                    }
+                    //if( ImGui::BeginMenu("File") )
+                    //{
+                    //    ImGui::MenuItem("Open", NULL, false, true);
+                    //    ImGui::MenuItem("Save", NULL, false, true);
+                    //    ImGui::EndMenu();
+                    //}
                     if( ImGui::BeginMenu("Dictionary") )
                     {
                         if( ImGui::MenuItem("Show", NULL, false, true) )
@@ -64,6 +75,17 @@ namespace tadaima
                         }
                         ImGui::EndMenu();
                     }
+
+                    if( ImGui::BeginMenu("Settings") )
+                    {
+                        if( ImGui::MenuItem("Open Settings") )
+                        {
+                            show_settings = true;
+                        }
+                        ImGui::EndMenu();
+                    }
+
+
                     if( ImGui::BeginMenu("Help") )
                     {
                         if( ImGui::MenuItem("Open Help") )
@@ -76,6 +98,11 @@ namespace tadaima
 
                     ImGui::EndMainMenuBar();
                 }
+            }
+
+            void MenuBarWidget::setObserver(Listener observer)
+            {
+                m_ApplicationSettingsWidget.setObserver(observer);
             }
 
         }

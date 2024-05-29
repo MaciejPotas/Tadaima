@@ -12,7 +12,7 @@ namespace tadaima
             {
                 initializeFlashcards(lessons);
 
-                m_motherType = quiz::WordType::Translation;
+                m_motherType = quiz::WordType::BaseWord;
                 m_learnType = quiz::WordType::Romaji;
 
                 m_quiz = std::make_unique<quiz::VocabularyQuiz>(m_flashcards, m_learnType, 2, true);
@@ -91,7 +91,7 @@ namespace tadaima
 
                 switch( type )
                 {
-                    case quiz::WordType::Translation:
+                    case quiz::WordType::BaseWord:
                         correctAnswer = flashcard.word.translation;
                         break;
 

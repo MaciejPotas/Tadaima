@@ -99,6 +99,7 @@
     <ClCompile Include="Quiz\LessonDataDecoderTest.cpp" />
     <ClCompile Include="Quiz\QuizGameTests.cpp" />
     <ClCompile Include="Quiz\VocabularyQuizTests.cpp" />
+    <ClCompile Include="Tools\EventsDataTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

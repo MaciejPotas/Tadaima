@@ -47,6 +47,7 @@
     <ClCompile Include="..\src\gui\quiz\MultipleChoiceQuiz.cpp">
       <Filter>Gui\Quiz</Filter>
     </ClCompile>
+    <ClCompile Include="Tools\EventsDataTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\MockGui.h">

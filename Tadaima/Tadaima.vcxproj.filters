@@ -29,7 +29,7 @@
     <ClCompile Include="src\lessons\LessonManager.cpp">
       <Filter>src\lessons</Filter>
     </ClCompile>
-    <ClCompile Include="src\application\LessonsDatabase.cpp">
+    <ClCompile Include="src\application\ApplicationDatabase.cpp">
       <Filter>src\application</Filter>
     </ClCompile>
     <ClCompile Include="src\bridge\EventBridge.cpp">
@@ -49,6 +49,9 @@
     </ClCompile>
     <ClCompile Include="src\gui\widgets\QuizWidget.cpp">
       <Filter>src\gui\widgets\quiz</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\widgets\ApplicationSettingsWidget.cpp">
+      <Filter>src\gui\widgets</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -88,7 +91,7 @@
     <ClInclude Include="src\gui\widgets\LessonSettingsWidget.h">
       <Filter>src\gui\widgets</Filter>
     </ClInclude>
-    <ClInclude Include="src\application\LessonsDatabase.h">
+    <ClInclude Include="src\application\ApplicationDatabase.h">
       <Filter>src\application</Filter>
     </ClInclude>
     <ClInclude Include="src\lessons\Lesson.h">
@@ -129,6 +132,18 @@
     </ClInclude>
     <ClInclude Include="src\gui\quiz\QuizType.h">
       <Filter>src\gui\quiz</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Application\ApplicationSettings.h">
+      <Filter>src\application</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bridge\SettingsLoader.h">
+      <Filter>src\bridge</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\widgets\ApplicationSettingsWidget.h">
+      <Filter>src\gui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\helpers\SettingsDataDecoder.h">
+      <Filter>src\gui\helper</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -2,6 +2,7 @@
 
 #include "tools/Database.h"
 #include "gmock/gmock.h"
+#include "Application/ApplicationSettings.h"
 
 class MockDatabase : public tadaima::Database
 {
@@ -17,4 +18,6 @@ public:
     MOCK_METHOD(std::vector<std::string>, getLessonNames, (), (const, override));
     MOCK_METHOD(std::vector<tadaima::Word>, getWordsInLesson, (int lessonId), (const, override));
     MOCK_METHOD(std::vector<tadaima::Lesson>, getAllLessons, (), (const, override));
+    MOCK_METHOD(void, saveSettings, (const tadaima::application::ApplicationSettings& settings), (override));
+    MOCK_METHOD(tadaima::application::ApplicationSettings, loadSettings, (), (override));
 };
