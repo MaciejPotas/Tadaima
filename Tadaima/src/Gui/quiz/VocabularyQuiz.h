@@ -45,7 +45,7 @@ namespace tadaima
                  * @param requiredCorrectAnswers The number of correct answers required for each flashcard.
                  * @param enableShuffle Boolean indicating whether to shuffle the flashcards.
                  */
-                VocabularyQuiz(std::vector<Flashcard>& flashcards, AnswerType answerType, int requiredCorrectAnswers, bool enableShuffle = true);
+                VocabularyQuiz(std::vector<Flashcard>& flashcards, WordType answerType, int requiredCorrectAnswers, bool enableShuffle = true);
 
                 /**
                  * @brief Advances the quiz to the next flashcard based on the user's answer.
@@ -57,6 +57,14 @@ namespace tadaima
                  * @return True if the user's answer was correct, false otherwise.
                  */
                 bool advance(const std::string& userAnswer);
+
+                /**
+                 * @brief Checks if the user's answer is correct.
+                 *
+                 * @param userAnswer The answer provided by the user.
+                 * @return True if the user's answer was correct, false otherwise.
+                 */
+                bool isCorrect(const std::string& userAnswer);
 
                 /**
                  * @brief Checks if the quiz is complete.
@@ -117,14 +125,13 @@ namespace tadaima
                  */
                 bool allFlashcardsLearned() const;
 
-                std::vector<Flashcard>& quizFlashcards; ///< The vector of flashcards used in the quiz.
-                std::unordered_map<int, int> correctAnswers; ///< Map of word IDs to correct attempts.
-                Flashcard* currentFlashcard = nullptr; ///< Pointer to the current flashcard.
-                AnswerType m_answerType = AnswerType::Romaji; ///< The type of answer expected (e.g., Romaji, Kanji).
-
-                int currentIndex = 0; ///< Index of the current flashcard.
-                int requiredCorrectAnswers; ///< The number of correct answers required for each flashcard.
-                bool shuffleEnabled; ///< Boolean indicating whether shuffling is enabled.
+                std::vector<Flashcard>& m_flashcards; ///< The vector of flashcards used in the quiz.
+                std::unordered_map<int, int> m_correctAnswers; ///< Map of word IDs to correct attempts.
+                Flashcard* m_currentFlashcard = nullptr; ///< Pointer to the current flashcard.
+                WordType m_answerType; ///< The type of answer expected (e.g., Romaji, Kanji).
+                int m_currentIndex = 0; ///< Index of the current flashcard.
+                int m_requiredCorrectAnswers; ///< The number of correct answers required for each flashcard.
+                bool m_shuffleEnabled; ///< Boolean indicating whether shuffling is enabled.
             };
         }
     }
