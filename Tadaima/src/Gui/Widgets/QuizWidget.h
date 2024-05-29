@@ -51,7 +51,7 @@ namespace tadaima
                 tools::Logger& m_logger; /**< Reference to the Logger instance for logging. */
                 quiz::MultipleChoiceQuiz quizGame; /**< Instance of QuizGame to manage quiz logic. */
 
-                bool isQuizWindowOpen = true; /**< Boolean flag to track if the quiz window is open. */
+               // bool isQuizWindowOpen = true; /**< Boolean flag to track if the quiz window is open. */
                 bool highlightCorrectAnswer = false; /**< Boolean flag to indicate if the correct answer should be highlighted. */
                 std::chrono::steady_clock::time_point highlightStartTime; /**< Time point for when the highlight started. */
                 int correctAnswerIndex = -1; /**< Index of the correct answer within the current options. */

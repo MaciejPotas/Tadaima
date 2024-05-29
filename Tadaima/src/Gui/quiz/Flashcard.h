@@ -28,9 +28,10 @@ namespace tadaima
             struct Flashcard
             {
                 Word word; ///< The word associated with the flashcard.
-                int lessonId; ///< The ID of the lesson the flashcard belongs to.
-                int badAttempts; ///< The number of incorrect attempts for this flashcard.
-                bool learned; ///< Flag indicating whether the word has been learned.
+                int lessonId = 0; ///< The ID of the lesson the flashcard belongs to.
+                int badAttempts = 0; ///< The number of incorrect attempts for this flashcard.
+                int goodAttemps = 0; ///< The number of correct attempts for this flashcard.
+                bool learned = false; ///< Flag indicating whether the word has been learned.
 
                 /**
                  * @brief Constructor for the Flashcard struct.

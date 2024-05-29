@@ -44,8 +44,12 @@
     <ClCompile Include="src\gui\widgets\VocabularyQuizWidget.cpp">
       <Filter>src\gui\widgets\quiz</Filter>
     </ClCompile>
-    <ClCompile Include="src\gui\quiz\MultipleChoiceQuiz.cpp" />
-    <ClCompile Include="src\gui\widgets\QuizWidget.cpp" />
+    <ClCompile Include="src\gui\quiz\MultipleChoiceQuiz.cpp">
+      <Filter>src\gui\quiz</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\widgets\QuizWidget.cpp">
+      <Filter>src\gui\widgets\quiz</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Version.h">
