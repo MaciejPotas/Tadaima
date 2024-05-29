@@ -115,7 +115,8 @@ namespace tadaima
 
                 if( ImGui::Begin("Quiz Game", p_open, ImGuiWindowFlags_NoCollapse) )
                 {
-                    static bool b_setFocusOnTheEditField = true;
+                    static bool setFocusOnInputField = true;
+
                     ImGui::Columns(2, NULL, true); // Create two columns
 
                     // Left Column
@@ -154,12 +155,11 @@ namespace tadaima
                         ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 3);
                         ImGui::PushItemWidth(-1);
 
-                        if( b_setFocusOnTheEditField )
+                        if( setFocusOnInputField )
                         {
                             ImGui::SetKeyboardFocusHere();
-                            b_setFocusOnTheEditField = false;
+                            setFocusOnInputField = false;
                         }
-
 
                         if( ImGui::InputText("Translation", m_userInput, sizeof(m_userInput), ImGuiInputTextFlags_EnterReturnsTrue) )
                         {
@@ -177,6 +177,8 @@ namespace tadaima
                                 m_quiz->advance(m_userInput);
                                 memset(m_userInput, 0, sizeof(m_userInput));
                                 m_correctAnswerMessage = "Your answer is correct!";
+                                m_revealedHints.clear();
+                                m_currentHint.clear();
                             }
                             else
                             {
@@ -186,8 +188,9 @@ namespace tadaima
                             m_overrideAnswer = false;
 
                             // Set focus back to input field
-                            ImGui::SetKeyboardFocusHere(-1);
+                            setFocusOnInputField = true;
                         }
+
                         ImGui::PopItemWidth();
 
                         ImGui::Spacing();
@@ -209,7 +212,9 @@ namespace tadaima
                                 memset(m_userInput, 0, sizeof(m_userInput));
                                 m_overrideAnswer = true;
                                 m_correctAnswerMessage = "Your answer has been marked as correct!";
-                                b_setFocusOnTheEditField = true;
+                                m_revealedHints.clear();
+                                m_currentHint.clear();
+                                setFocusOnInputField = true;
                             }
 
                             ImGui::SameLine();
@@ -218,7 +223,9 @@ namespace tadaima
                                 m_quiz->advance(m_userInput);
                                 memset(m_userInput, 0, sizeof(m_userInput));
                                 m_correctAnswerMessage = "Your answer has been marked as wrong!";
-                                b_setFocusOnTheEditField = true;
+                                m_revealedHints.clear();
+                                m_currentHint.clear();
+                                setFocusOnInputField = true;
                             }
                         }
 
