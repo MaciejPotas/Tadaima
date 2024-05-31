@@ -133,9 +133,6 @@
     <ClInclude Include="src\gui\widgets\ApplicationSettingsWidget.h">
       <Filter>src\gui\widgets</Filter>
     </ClInclude>
-    <ClInclude Include="src\gui\helpers\SettingsDataDecoder.h">
-      <Filter>src\gui\helper</Filter>
-    </ClInclude>
     <ClInclude Include="src\gui\widgets\packages\LessonDataPackage.h">
       <Filter>src\gui\widgets\packages</Filter>
     </ClInclude>

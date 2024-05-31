@@ -6,7 +6,6 @@
 #pragma once
 
 #include "Widget.h"
-#include <cstring>
 #include <string>
 #include <quiz/QuizType.h>
 

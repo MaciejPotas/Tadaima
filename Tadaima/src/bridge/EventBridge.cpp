@@ -2,8 +2,6 @@
 #include "application/Application.h"
 #include "Gui/Gui.h"
 #include <stdexcept>
-#include <iostream>
-#include "helpers/SettingsDataDecoder.h"
 #include "widgets/packages/LessonDataPackage.h"
 #include "Widgets/LessonTreeViewWidget.h"
 #include "widgets/packages/SettingsDataPackage.h"
