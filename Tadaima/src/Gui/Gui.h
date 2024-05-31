@@ -63,7 +63,7 @@ namespace tadaima
              * @param widget The widget to initialize.
              * @param data The data package for initialization.
              */
-            void initializeWidget(widget::Type widget, const tools::DataPackage& data);
+            void initializeWidget(const tools::DataPackage& data);
 
             /**
              * @brief Runs the GUI thread.
