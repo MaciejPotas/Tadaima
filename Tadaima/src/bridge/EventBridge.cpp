@@ -1,7 +1,6 @@
 #include "EventBridge.h"
 #include "application/Application.h"
 #include "Gui/Gui.h"
-#include "Gui/helpers/LessonDataDecoder.h"
 #include <stdexcept>
 #include <iostream>
 #include "LessonLoader.h"
@@ -22,13 +21,13 @@ namespace tadaima
     void EventBridge::initializeGui(const std::vector<Lesson>& lessons)
     {
         auto lessonsPackage = LessonDataLoader(lessons).loadAllLessons();
-        m_gui->initializeWidget(gui::widget::Type::LessonTreeView, lessonsPackage);
+        m_gui->initializeWidget(lessonsPackage);
     }
 
     void EventBridge::initializeSettings(const application::ApplicationSettings& settings)
     {
         auto package = SettingsLoader(settings).load();
-        m_gui->initializeWidget(gui::widget::Type::MenuBar, package);
+        m_gui->initializeWidget(package);
     }
 
     void EventBridge::handleEvent(const gui::widget::WidgetEvent* data)

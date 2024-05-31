@@ -24,35 +24,13 @@ namespace tadaima
             class ApplicationSettingsWidget : public Widget
             {
             public:
+
                 /**
                  * @brief Enum for application settings widget events.
                  */
                 enum ApplicationSettingsWidgetEvent : uint8_t
                 {
                     OnSettingsChanged /**< Event triggered when settings are changed. */
-                };
-
-                /**
-                 * @brief Enum class for package keys used in settings data packages.
-                 */
-                enum class PackageKey : uint32_t
-                {
-                    Username,       /**< Key for username. */
-                    DictionaryPath, /**< Key for dictionary path. */
-                    InputWord,      /**< Key for input word. */
-                    TranslatedWord  /**< Key for translated word. */
-                };
-
-                /**
-                 * @brief Represents a package containing settings data.
-                 */
-                class SettingsDataPackage : public tools::ComplexDataPackage<PackageKey, std::string>
-                {
-                public:
-                    /**
-                     * @brief Constructs a SettingsDataPackage object.
-                     */
-                    SettingsDataPackage() : ComplexDataPackage(widget::Type::ApplicationSettings) {}
                 };
 
                 /**

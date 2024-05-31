@@ -19,37 +19,37 @@
 //        tools::DataPackage::Identifier id = 1;
 //        lessonDataPackage = LessonTreeViewWidget::LessonDataPackage(id);
 //
-//        LessonTreeViewWidget::LessonPackage lessonPackage1(1);
-//        lessonPackage1.set(LessonTreeViewWidget::LessonDataKey::id, 1);
-//        lessonPackage1.set(LessonTreeViewWidget::LessonDataKey::MainName, std::string("Main Lesson 1"));
-//        lessonPackage1.set(LessonTreeViewWidget::LessonDataKey::SubName, std::string("Sub Lesson 1"));
+//        LessonPackage lessonPackage1(1);
+//        lessonPackage1.set(LessonDataKey::id, 1);
+//        lessonPackage1.set(LessonDataKey::MainName, std::string("Main Lesson 1"));
+//        lessonPackage1.set(LessonDataKey::SubName, std::string("Sub Lesson 1"));
 //
-//        LessonTreeViewWidget::WordDataPackage wordPackage1(1);
-//        wordPackage1.set(LessonTreeViewWidget::WordDataKey::id, 1);
-//        wordPackage1.set(LessonTreeViewWidget::WordDataKey::Kana, std::string("kana1"));
-//        wordPackage1.set(LessonTreeViewWidget::WordDataKey::Translation, std::string("translation1"));
-//        wordPackage1.set(LessonTreeViewWidget::WordDataKey::Romaji, std::string("romaji1"));
-//        wordPackage1.set(LessonTreeViewWidget::WordDataKey::ExampleSentence, std::string("example sentence 1"));
-//        wordPackage1.set(LessonTreeViewWidget::WordDataKey::Tags, std::vector<std::string>{"tag1", "tag2"});
+//        WordDataPackage wordPackage1(1);
+//        wordPackage1.set(LessonWordDataKey::id, 1);
+//        wordPackage1.set(LessonWordDataKey::Kana, std::string("kana1"));
+//        wordPackage1.set(LessonWordDataKey::Translation, std::string("translation1"));
+//        wordPackage1.set(LessonWordDataKey::Romaji, std::string("romaji1"));
+//        wordPackage1.set(LessonWordDataKey::ExampleSentence, std::string("example sentence 1"));
+//        wordPackage1.set(LessonWordDataKey::Tags, std::vector<std::string>{"tag1", "tag2"});
 //
-//        lessonPackage1.set(LessonTreeViewWidget::LessonDataKey::Words, std::vector<LessonTreeViewWidget::WordDataPackage>{wordPackage1});
+//        lessonPackage1.set(LessonDataKey::Words, std::vector<WordDataPackage>{wordPackage1});
 //
-//        LessonTreeViewWidget::LessonPackage lessonPackage2(2);
-//        lessonPackage2.set(LessonTreeViewWidget::LessonDataKey::id, 2);
-//        lessonPackage2.set(LessonTreeViewWidget::LessonDataKey::MainName, std::string("Main Lesson 2"));
-//        lessonPackage2.set(LessonTreeViewWidget::LessonDataKey::SubName, std::string("Sub Lesson 2"));
+//        LessonPackage lessonPackage2(2);
+//        lessonPackage2.set(LessonDataKey::id, 2);
+//        lessonPackage2.set(LessonDataKey::MainName, std::string("Main Lesson 2"));
+//        lessonPackage2.set(LessonDataKey::SubName, std::string("Sub Lesson 2"));
 //
-//        LessonTreeViewWidget::WordDataPackage wordPackage2(2);
-//        wordPackage2.set(LessonTreeViewWidget::WordDataKey::id, 2);
-//        wordPackage2.set(LessonTreeViewWidget::WordDataKey::Kana, std::string("kana2"));
-//        wordPackage2.set(LessonTreeViewWidget::WordDataKey::Translation, std::string("translation2"));
-//        wordPackage2.set(LessonTreeViewWidget::WordDataKey::Romaji, std::string("romaji2"));
-//        wordPackage2.set(LessonTreeViewWidget::WordDataKey::ExampleSentence, std::string("example sentence 2"));
-//        wordPackage2.set(LessonTreeViewWidget::WordDataKey::Tags, std::vector<std::string>{"tag3", "tag4"});
+//        WordDataPackage wordPackage2(2);
+//        wordPackage2.set(LessonWordDataKey::id, 2);
+//        wordPackage2.set(LessonWordDataKey::Kana, std::string("kana2"));
+//        wordPackage2.set(LessonWordDataKey::Translation, std::string("translation2"));
+//        wordPackage2.set(LessonWordDataKey::Romaji, std::string("romaji2"));
+//        wordPackage2.set(LessonWordDataKey::ExampleSentence, std::string("example sentence 2"));
+//        wordPackage2.set(LessonWordDataKey::Tags, std::vector<std::string>{"tag3", "tag4"});
 //
-//        lessonPackage2.set(LessonTreeViewWidget::LessonDataKey::Words, std::vector<LessonTreeViewWidget::WordDataPackage>{wordPackage2});
+//        lessonPackage2.set(LessonDataKey::Words, std::vector<WordDataPackage>{wordPackage2});
 //
-//        lessonDataPackage.set(LessonTreeViewWidget::PackageKey::LessonsPackage, std::vector<LessonTreeViewWidget::LessonPackage>{lessonPackage1, lessonPackage2});
+//        lessonDataPackage.set(LessonTreeViewWidget::PackageKey::LessonsPackage, std::vector<LessonPackage>{lessonPackage1, lessonPackage2});
 //    }
 //};
 //

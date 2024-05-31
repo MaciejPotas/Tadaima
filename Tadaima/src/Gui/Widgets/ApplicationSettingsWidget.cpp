@@ -1,4 +1,5 @@
 #include "ApplicationSettingsWidget.h"
+#include "packages/SettingsDataPackage.h"
 #include "imgui.h"
 #include "Tools/Logger.h"
 
@@ -57,10 +58,10 @@ namespace tadaima
                 try
                 {
                     SettingsDataPackage package;
-                    package.set(ApplicationSettingsWidget::PackageKey::Username, std::string(m_username));
-                    package.set(ApplicationSettingsWidget::PackageKey::DictionaryPath, std::string(m_dictionaryPath));
-                    package.set(ApplicationSettingsWidget::PackageKey::InputWord, wordTypeToString((quiz::WordType)m_inputOption));
-                    package.set(ApplicationSettingsWidget::PackageKey::TranslatedWord, wordTypeToString((quiz::WordType)m_translationOption));
+                    package.set(SettingsDataPackage::PackageKey::Username, std::string(m_username));
+                    package.set(SettingsDataPackage::PackageKey::DictionaryPath, std::string(m_dictionaryPath));
+                    package.set(SettingsDataPackage::PackageKey::InputWord, wordTypeToString((quiz::WordType)m_inputOption));
+                    package.set(SettingsDataPackage::PackageKey::TranslatedWord, wordTypeToString((quiz::WordType)m_translationOption));
 
                     emitEvent(WidgetEvent(*this, ApplicationSettingsWidgetEvent::OnSettingsChanged, &package));
                 }
@@ -76,36 +77,33 @@ namespace tadaima
 
             void ApplicationSettingsWidget::initialize(const tools::DataPackage& r_package)
             {
-                if( r_package.id() == widget::Type::ApplicationSettings )
+                try
                 {
-                    m_logger.log("ApplicationSettingsWidget::initialize: Initializing.", tools::LogLevel::INFO);
-
-                    try
+                    const SettingsDataPackage* package = dynamic_cast<const SettingsDataPackage*>(&r_package);
+                    if( package )
                     {
-                        const SettingsDataPackage* package = dynamic_cast<const SettingsDataPackage*>(&r_package);
-                        if( package )
-                        {
-                            const std::string userName = package->get<std::string>(ApplicationSettingsWidget::PackageKey::Username);
-                            const std::string dictionaryPath = package->get<std::string>(ApplicationSettingsWidget::PackageKey::DictionaryPath);
+                        m_logger.log("ApplicationSettingsWidget::initialize: Initializing.", tools::LogLevel::INFO);
 
-                            memset(m_username, 0, sizeof(m_username));
-                            memset(m_dictionaryPath, 0, sizeof(m_dictionaryPath));
-                            memcpy(m_username, userName.c_str(), userName.size());
-                            memcpy(m_dictionaryPath, dictionaryPath.c_str(), dictionaryPath.size());
+                        const std::string userName = package->get<std::string>(SettingsDataPackage::PackageKey::Username);
+                        const std::string dictionaryPath = package->get<std::string>(SettingsDataPackage::PackageKey::DictionaryPath);
 
-                            m_inputOption = stringToWordType(package->get<std::string>(ApplicationSettingsWidget::PackageKey::InputWord));
-                            m_translationOption = stringToWordType(package->get<std::string>(ApplicationSettingsWidget::PackageKey::TranslatedWord));
-                            m_logger.log("ApplicationSettingsWidget: Initialized.", tools::LogLevel::INFO);
-                        }
+                        memset(m_username, 0, sizeof(m_username));
+                        memset(m_dictionaryPath, 0, sizeof(m_dictionaryPath));
+                        memcpy(m_username, userName.c_str(), userName.size());
+                        memcpy(m_dictionaryPath, dictionaryPath.c_str(), dictionaryPath.size());
+
+                        m_inputOption = stringToWordType(package->get<std::string>(SettingsDataPackage::PackageKey::InputWord));
+                        m_translationOption = stringToWordType(package->get<std::string>(SettingsDataPackage::PackageKey::TranslatedWord));
+                        m_logger.log("ApplicationSettingsWidget: Initialized.", tools::LogLevel::INFO);
                     }
-                    catch( std::exception& exception )
-                    {
-                        m_logger.log("Exception caught in ApplicationSettingsWidget::initialize: " + std::string(exception.what()), tools::LogLevel::PROBLEM);
-                    }
-                    catch( ... )
-                    {
-                        m_logger.log("Exception caught in ApplicationSettingsWidget::initialize.Unkown problem.", tools::LogLevel::PROBLEM);
-                    }
+                }
+                catch( std::exception& exception )
+                {
+                    m_logger.log("Exception caught in ApplicationSettingsWidget::initialize: " + std::string(exception.what()), tools::LogLevel::PROBLEM);
+                }
+                catch( ... )
+                {
+                    m_logger.log("Exception caught in ApplicationSettingsWidget::initialize.Unkown problem.", tools::LogLevel::PROBLEM);
                 }
             }
 

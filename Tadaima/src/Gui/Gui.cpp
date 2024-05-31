@@ -11,7 +11,6 @@
 #include "Widgets/MenuBarWidget.h"
 #include "Widgets/MainDashboardWidget.h"
 #include "Widgets/VocabularySettingsWidget.h"
-#include "helpers/LessonDataDecoder.h"
 #include "resources/IconsFontAwesome4.h"
 #include "imgui.h"
 #include "imgui_impl_dx11.h"
@@ -50,12 +49,13 @@ namespace tadaima
             */
             m_widgets[widget::Type::MenuBar] = std::make_unique<widget::MenuBarWidget>(m_logger);
             m_widgets[widget::Type::LessonTreeView] = std::make_unique<widget::LessonTreeViewWidget>();
-
-            m_widgets[widget::Type::LessonTreeView]->setObserver(std::bind(&Gui::handleWidgetEvent, this, std::placeholders::_1));
-            m_widgets[widget::Type::MenuBar]->setObserver(std::bind(&Gui::handleWidgetEvent, this, std::placeholders::_1));
-
             m_widgets[widget::Type::Dashboard] = std::make_unique<widget::MainDashboardWidget>();
             m_widgets[widget::Type::VocabularySettings] = std::make_unique<widget::VocabularySettingsWidget>();
+
+            for( const auto& [key, value] : m_widgets )
+            {
+                value->setObserver(std::bind(&Gui::handleWidgetEvent, this, std::placeholders::_1));
+            }
         }
 
         void Gui::initialize()
@@ -118,15 +118,22 @@ namespace tadaima
             return ::DefWindowProcW(hWnd, msg, wParam, lParam);
         }
 
-        void Gui::initializeWidget(widget::Type id, const tools::DataPackage& data)
+        void Gui::initializeWidget(const tools::DataPackage& data)
         {
-            if( m_widgets.contains(id) )
+            try
             {
-                m_widgets[id]->initialize(data);
+                for( const auto& [key, value] : m_widgets )
+                {
+                    value->initialize(data);
+                }
             }
-            else
+            catch( std::exception& exception )
             {
-                throw std::runtime_error(std::format("Widget with ID: {} not found", (uint8_t)id));
+                m_logger.log(std::format("Gui::initializeWidget: Can't initialize a wiget. Message: {}", exception.what()), tools::LogLevel::PROBLEM);
+            }
+            catch( ... )
+            {
+                m_logger.log("Gui::initializeWidget: Can't initialize a wiget.", tools::LogLevel::PROBLEM);
             }
         }
 
@@ -333,13 +340,19 @@ namespace tadaima
             {
                 if( data.getEventType() == tadaima::gui::widget::LessonTreeViewWidget::LessonTreeViewWidgetEvent::OnPlayMultipleChoiceQuiz )
                 {
-                    auto lessons = widget::LessonDataDecoder().decodeLessonDataPackage(data.getEventData());
-                    m_quizManager.startQuiz(quiz::QuizType::MultipleChoiceQuiz, lessons);
+                    widget::LessonDataPackage* package = dynamic_cast<widget::LessonDataPackage*>(data.getEventData());
+                    if( nullptr != package )
+                    {
+                        m_quizManager.startQuiz(quiz::QuizType::MultipleChoiceQuiz, package->decode());
+                    }
                 }
                 else if( data.getEventType() == tadaima::gui::widget::LessonTreeViewWidget::LessonTreeViewWidgetEvent::OnPlayVocabularyQuiz )
                 {
-                    auto lessons = widget::LessonDataDecoder().decodeLessonDataPackage(data.getEventData());
-                    m_quizManager.startQuiz(quiz::QuizType::VocabularyQuiz, lessons);
+                    widget::LessonDataPackage* package = dynamic_cast<widget::LessonDataPackage*>(data.getEventData());
+                    if( nullptr != package )
+                    {
+                        m_quizManager.startQuiz(quiz::QuizType::VocabularyQuiz, package->decode());
+                    }
                 }
                 else
                 {

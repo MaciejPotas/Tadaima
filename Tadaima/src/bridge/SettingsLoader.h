@@ -7,6 +7,7 @@
 
 #include "Application/ApplicationSettings.h"
 #include "widgets/ApplicationSettingsWidget.h"
+#include "widgets/packages/SettingsDataPackage.h"
 
 namespace tadaima
 {
@@ -29,13 +30,13 @@ namespace tadaima
          * @brief Loads the application settings into a SettingsDataPackage.
          * @return The loaded SettingsDataPackage.
          */
-        gui::widget::ApplicationSettingsWidget::SettingsDataPackage load() const
+        gui::widget::SettingsDataPackage load() const
         {
-            gui::widget::ApplicationSettingsWidget::SettingsDataPackage package;
-            package.set(gui::widget::ApplicationSettingsWidget::PackageKey::Username, m_settings.userName);
-            package.set(gui::widget::ApplicationSettingsWidget::PackageKey::DictionaryPath, m_settings.dictionaryPath);
-            package.set(gui::widget::ApplicationSettingsWidget::PackageKey::InputWord, m_settings.inputWord);
-            package.set(gui::widget::ApplicationSettingsWidget::PackageKey::TranslatedWord, m_settings.translatedWord);
+            gui::widget::SettingsDataPackage package;
+            package.set(gui::widget::PackageKey::Username, m_settings.userName);
+            package.set(gui::widget::PackageKey::DictionaryPath, m_settings.dictionaryPath);
+            package.set(gui::widget::PackageKey::InputWord, m_settings.inputWord);
+            package.set(gui::widget::PackageKey::TranslatedWord, m_settings.translatedWord);
 
             return package;
         }

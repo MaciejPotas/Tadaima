@@ -15,6 +15,8 @@
 
 #include <functional>
 #include <vector>
+#include "lessons/Lesson.h"
+#include "Widgets/Widget.h"
 
 namespace tadaima
 {
