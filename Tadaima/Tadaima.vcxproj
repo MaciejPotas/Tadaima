@@ -213,7 +213,6 @@ xcopy "$(ProjectDir)resources\forkawesome-webfont.ttf" "$(SolutionDir)bin\$(Plat
     <ClInclude Include="src\application\ApplicationEventList.h" />
     <ClInclude Include="src\Application\ApplicationSettings.h" />
     <ClInclude Include="src\bridge\EventBridge.h" />
-    <ClInclude Include="src\bridge\SettingsLoader.h" />
     <ClInclude Include="src\gui\helpers\SettingsDataDecoder.h" />
     <ClInclude Include="src\gui\quiz\Flashcard.h" />
     <ClInclude Include="src\gui\quiz\QuizManager.h" />

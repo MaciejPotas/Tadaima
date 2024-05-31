@@ -3,10 +3,11 @@
 #include "Gui/Gui.h"
 #include <stdexcept>
 #include <iostream>
-#include "SettingsLoader.h"
 #include "helpers/SettingsDataDecoder.h"
 #include "widgets/packages/LessonDataPackage.h"
 #include "Widgets/LessonTreeViewWidget.h"
+#include "widgets/packages/SettingsDataPackage.h"
+#include "widgets/ApplicationSettingsWidget.h"
 
 namespace tadaima
 {
@@ -27,7 +28,7 @@ namespace tadaima
 
     void EventBridge::initializeSettings(const application::ApplicationSettings& settings)
     {
-        auto package = SettingsLoader(settings).load();
+        gui::widget::SettingsDataPackage package(settings);
         m_gui->initializeWidget(package);
     }
 
@@ -125,9 +126,11 @@ namespace tadaima
 
     void EventBridge::onSettingsChanged(const tools::DataPackage* dataPackage)
     {
-        auto package = gui::widget::SettingsDataDecoder().decodeDataPackage(dataPackage);
-        m_app->setEvent(application::ApplicationEvent::OnSettingsChanged, package);
+        const gui::widget::SettingsDataPackage* package = dynamic_cast<const gui::widget::SettingsDataPackage*>(dataPackage);
+        if( nullptr != package )
+        {
+            m_app->setEvent(application::ApplicationEvent::OnSettingsChanged, package->decode());
+        }
     }
-
 }
 

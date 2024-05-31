@@ -9,6 +9,7 @@
 #include "Tools/DataPackage.h"
 #include <cstring>
 #include <string>
+#include "Application/ApplicationSettings.h"
 
 namespace tools { class Logger; }
 
@@ -40,6 +41,32 @@ namespace tadaima
                  * @brief Constructs a SettingsDataPackage object.
                  */
                 SettingsDataPackage() : ComplexDataPackage(PackageType::Settings) {}
+
+                SettingsDataPackage(const application::ApplicationSettings& settings) : SettingsDataPackage()
+                {
+                    set(gui::widget::SettingsPackageKey::Username, settings.userName);
+                    set(gui::widget::SettingsPackageKey::DictionaryPath, settings.dictionaryPath);
+                    set(gui::widget::SettingsPackageKey::InputWord, settings.inputWord);
+                    set(gui::widget::SettingsPackageKey::TranslatedWord, settings.translatedWord);
+                }
+
+                /**
+                 * @brief Decodes a data package into application settings.
+                 * @param dataPackage Pointer to the data package to decode.
+                 * @return The decoded application settings.
+                 * @throws std::invalid_argument if the data package is null or cannot be cast to SettingsDataPackage.
+                 */
+                application::ApplicationSettings decode() const
+                {
+                    application::ApplicationSettings settings;
+
+                    settings.userName = get<std::string>(SettingsPackageKey::Username);
+                    settings.dictionaryPath = get<std::string>(SettingsPackageKey::DictionaryPath);
+                    settings.inputWord = get<std::string>(SettingsPackageKey::InputWord);
+                    settings.translatedWord = get<std::string>(SettingsPackageKey::TranslatedWord);
+
+                    return settings;
+                }
             };
 
         }
