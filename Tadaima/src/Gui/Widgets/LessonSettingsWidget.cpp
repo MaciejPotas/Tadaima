@@ -1,5 +1,4 @@
 #include "LessonSettingsWidget.h"
-#include "Lessons/LessonManager.h"
 #include "imgui.h"
 #include <cstring>
 #include <iosfwd>

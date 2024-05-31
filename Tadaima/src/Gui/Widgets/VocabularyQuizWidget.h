@@ -53,6 +53,7 @@ namespace tadaima
                 void draw(bool* p_open) override;
 
             private:
+
                 /**
                  * @brief Initializes flashcards from a set of lessons.
                  *

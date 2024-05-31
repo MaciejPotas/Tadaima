@@ -15,31 +15,11 @@ namespace tadaima
                 if( package )
                 {
                     m_cashedLessons.clear();
-
                     std::map<std::string, LessonGroup> lessonMap;
+                    auto allLessons = package->decode();
 
-                    auto lessonPackages = package->get<std::vector<LessonPackage>>(PackageKey::LessonsPackage);
-                    for( const auto& lessonPackage : lessonPackages )
+                    for( const auto& lesson : allLessons )
                     {
-                        Lesson lesson;
-                        lesson.id = lessonPackage.get<int>(LessonDataKey::id);
-                        lesson.mainName = lessonPackage.get<std::string>(LessonDataKey::MainName);
-                        lesson.subName = lessonPackage.get<std::string>(LessonDataKey::SubName);
-
-                        auto wordPackages = lessonPackage.get<std::vector<WordDataPackage>>(LessonDataKey::Words);
-                        for( const auto& wordPackage : wordPackages )
-                        {
-                            Word word;
-                            word.id = wordPackage.get<int>(WordDataKey::id);
-                            word.kana = wordPackage.get<std::string>(WordDataKey::Kana);
-                            word.translation = wordPackage.get<std::string>(WordDataKey::Translation);
-                            word.romaji = wordPackage.get<std::string>(WordDataKey::Romaji);
-                            word.exampleSentence = wordPackage.get<std::string>(WordDataKey::ExampleSentence);
-                            word.tags = wordPackage.get<std::vector<std::string>>(WordDataKey::Tags);
-
-                            lesson.words.push_back(word);
-                        }
-
                         lessonMap[lesson.mainName].mainName = lesson.mainName;
                         lessonMap[lesson.mainName].subLessons.push_back(lesson);
                     }
@@ -51,51 +31,51 @@ namespace tadaima
                 }
             }
 
-            LessonTreeViewWidget::LessonDataPackage createLessonDataPackageFromLesson(const Lesson& lesson)
+            LessonDataPackage createLessonDataPackageFromLesson(const Lesson& lesson)
             {
                 // Create a LessonDataPackage with an identifier
-                LessonTreeViewWidget::LessonDataPackage lessonDataPackage(1);
+                LessonDataPackage lessonDataPackage;
 
                 // Create a vector to hold LessonPackage objects
-                std::vector<LessonTreeViewWidget::LessonPackage> lessonPackages;
+                std::vector<LessonPackage> lessonPackages;
 
                 // Create a new LessonPackage using the existing Lesson object
-                LessonTreeViewWidget::LessonPackage lessonPackage(lesson.id);
+                LessonPackage lessonPackage(lesson.id);
 
                 // Set the lesson details from the existing Lesson object
-                lessonPackage.set(LessonTreeViewWidget::LessonDataKey::id, lesson.id);
-                lessonPackage.set(LessonTreeViewWidget::LessonDataKey::MainName, lesson.mainName);
-                lessonPackage.set(LessonTreeViewWidget::LessonDataKey::SubName, lesson.subName);
+                lessonPackage.set(LessonDataKey::id, lesson.id);
+                lessonPackage.set(LessonDataKey::MainName, lesson.mainName);
+                lessonPackage.set(LessonDataKey::SubName, lesson.subName);
 
                 // Create a vector to hold WordDataPackage objects
-                std::vector<LessonTreeViewWidget::WordDataPackage> wordPackages;
+                std::vector<WordDataPackage> wordPackages;
 
                 // Iterate over the words in the existing Lesson object
                 for( const auto& word : lesson.words )
                 {
                     // Create a new WordDataPackage for each word
-                    LessonTreeViewWidget::WordDataPackage wordPackage(word.id);
+                    WordDataPackage wordPackage(word.id);
 
                     // Set the word details from the existing Word object
-                    wordPackage.set(LessonTreeViewWidget::WordDataKey::id, word.id);
-                    wordPackage.set(LessonTreeViewWidget::WordDataKey::Kana, word.kana);
-                    wordPackage.set(LessonTreeViewWidget::WordDataKey::Translation, word.translation);
-                    wordPackage.set(LessonTreeViewWidget::WordDataKey::Romaji, word.romaji);
-                    wordPackage.set(LessonTreeViewWidget::WordDataKey::ExampleSentence, word.exampleSentence);
-                    wordPackage.set(LessonTreeViewWidget::WordDataKey::Tags, word.tags);
+                    wordPackage.set(LessonWordDataKey::id, word.id);
+                    wordPackage.set(LessonWordDataKey::Kana, word.kana);
+                    wordPackage.set(LessonWordDataKey::Translation, word.translation);
+                    wordPackage.set(LessonWordDataKey::Romaji, word.romaji);
+                    wordPackage.set(LessonWordDataKey::ExampleSentence, word.exampleSentence);
+                    wordPackage.set(LessonWordDataKey::Tags, word.tags);
 
                     // Add the WordDataPackage to the vector of word packages
                     wordPackages.push_back(wordPackage);
                 }
 
                 // Set the words for the lesson
-                lessonPackage.set(LessonTreeViewWidget::LessonDataKey::Words, wordPackages);
+                lessonPackage.set(LessonDataKey::Words, wordPackages);
 
                 // Add the LessonPackage to the vector of lesson packages
                 lessonPackages.push_back(lessonPackage);
 
                 // Set the lessons package in the LessonDataPackage
-                lessonDataPackage.set(LessonTreeViewWidget::PackageKey::LessonsPackage, lessonPackages);
+                lessonDataPackage.set(LessonPackageKey::LessonsPackage, lessonPackages);
 
                 return lessonDataPackage;
             }
@@ -120,7 +100,7 @@ namespace tadaima
                 {
                     // Create a new lesson object
                     selectedLesson = Lesson();
-                    m_type = PackageType::LessonCreated;
+                    m_type = LessonPackageType::LessonCreated;
                     open_add_new_lesson = true;
                     m_lessonSettingsWidget.setLesson(selectedLesson);
                 }

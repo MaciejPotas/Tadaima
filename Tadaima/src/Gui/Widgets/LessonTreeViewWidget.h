@@ -8,6 +8,7 @@
 #include "Widget.h"
 #include "lessons/Lesson.h"
 #include "LessonSettingsWidget.h"
+#include "packages/LessonDataPackage.h"
 
 namespace tadaima
 {
@@ -21,6 +22,7 @@ namespace tadaima
             class LessonTreeViewWidget : public Widget
             {
             public:
+
                 /**
                  * @brief Constructs a LessonTreeViewWidget object.
                  */
@@ -37,72 +39,6 @@ namespace tadaima
                     OnLessonEdited,
                     OnPlayMultipleChoiceQuiz,
                     OnPlayVocabularyQuiz
-                };
-
-                /**
-                 * @brief Enum for package types.
-                 */
-                enum class PackageType : uint32_t
-                {
-                    LessonCreated,
-                    LessonModified,
-                    LessonDeleted
-                };
-
-                /**
-                 * @brief Enum for package keys.
-                 */
-                enum class PackageKey : uint32_t
-                {
-                    Type,
-                    LessonsPackage
-                };
-
-                /**
-                 * @brief Enum for lesson data keys.
-                 */
-                enum class LessonDataKey : uint32_t
-                {
-                    id,
-                    MainName,
-                    SubName,
-                    Words
-                };
-
-                /**
-                 * @brief Enum for word data keys.
-                 */
-                enum class WordDataKey : uint32_t
-                {
-                    id,
-                    Kana,
-                    Translation,
-                    Romaji,
-                    ExampleSentence,
-                    Tags
-                };
-
-                /**
-                 * @brief Alias for word data package.
-                 */
-                using WordDataPackage = tools::ComplexDataPackage<WordDataKey, int, std::string, std::vector<std::string>>;
-
-                /**
-                 * @brief Alias for lesson package.
-                 */
-                using LessonPackage = tools::ComplexDataPackage<LessonDataKey, int, std::string, std::vector<WordDataPackage>>;
-
-                /**
-                 * @brief Represents a package containing lesson data.
-                 */
-                class LessonDataPackage : public tools::ComplexDataPackage<PackageKey, PackageType, std::vector<LessonPackage>>
-                {
-                public:
-                    /**
-                     * @brief Constructs a LessonDataPackage object with the given identifier.
-                     * @param id The identifier of the package.
-                     */
-                    LessonDataPackage(tools::DataPackage::Identifier id) : ComplexDataPackage(id) {}
                 };
 
                 /**
@@ -131,7 +67,7 @@ namespace tadaima
                 };
 
                 std::vector<LessonGroup> m_cashedLessons; /**< Vector containing lesson groups. */
-                PackageType m_type; /**< The type of package. */
+                LessonPackageType m_type; /**< The type of package. */
                 LessonSettingsWidget m_lessonSettingsWidget; /**< The lesson settings widget. */
 
                 int m_selectedLessonIndex = -1;

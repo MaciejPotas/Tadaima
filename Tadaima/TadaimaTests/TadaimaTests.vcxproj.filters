@@ -13,8 +13,11 @@
     <Filter Include="Gui\Quiz">
       <UniqueIdentifier>{4b22c6c5-844f-4105-8c1d-67f5ac68f3ad}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Gui\Helper">
-      <UniqueIdentifier>{5d6cbb78-0bae-4d87-a8ba-f9ce611eb5fe}</UniqueIdentifier>
+    <Filter Include="Gui\Packages">
+      <UniqueIdentifier>{4572da2a-7003-4f16-9fd3-51d125aeb609}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tools">
+      <UniqueIdentifier>{f0a71bf0-c618-43e8-a30c-269739e32ad9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -35,9 +38,6 @@
     <ClCompile Include="Quiz\QuizGameTests.cpp">
       <Filter>Gui\Quiz</Filter>
     </ClCompile>
-    <ClCompile Include="Quiz\LessonDataDecoderTest.cpp">
-      <Filter>Gui\Helper</Filter>
-    </ClCompile>
     <ClCompile Include="Quiz\VocabularyQuizTests.cpp">
       <Filter>Gui\Quiz</Filter>
     </ClCompile>
@@ -47,7 +47,18 @@
     <ClCompile Include="..\src\gui\quiz\MultipleChoiceQuiz.cpp">
       <Filter>Gui\Quiz</Filter>
     </ClCompile>
-    <ClCompile Include="Tools\EventsDataTests.cpp" />
+    <ClCompile Include="Tools\EventsDataTests.cpp">
+      <Filter>Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\DataPackage.cpp">
+      <Filter>Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Gui\LessonPackageTests.cpp">
+      <Filter>Gui\Packages</Filter>
+    </ClCompile>
+    <ClCompile Include="Gui\SettingsDataPackageTest.cpp">
+      <Filter>Gui\Packages</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\MockGui.h">

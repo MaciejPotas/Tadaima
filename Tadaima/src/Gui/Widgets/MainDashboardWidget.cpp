@@ -10,7 +10,6 @@ namespace tadaima
     {
         namespace widget
         {
-
             void MainDashboardWidget::initialize([[maybe_unused]] const tools::DataPackage& r_package)
             {
 
