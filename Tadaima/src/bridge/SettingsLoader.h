@@ -33,10 +33,10 @@ namespace tadaima
         gui::widget::SettingsDataPackage load() const
         {
             gui::widget::SettingsDataPackage package;
-            package.set(gui::widget::PackageKey::Username, m_settings.userName);
-            package.set(gui::widget::PackageKey::DictionaryPath, m_settings.dictionaryPath);
-            package.set(gui::widget::PackageKey::InputWord, m_settings.inputWord);
-            package.set(gui::widget::PackageKey::TranslatedWord, m_settings.translatedWord);
+            package.set(gui::widget::SettingsPackageKey::Username, m_settings.userName);
+            package.set(gui::widget::SettingsPackageKey::DictionaryPath, m_settings.dictionaryPath);
+            package.set(gui::widget::SettingsPackageKey::InputWord, m_settings.inputWord);
+            package.set(gui::widget::SettingsPackageKey::TranslatedWord, m_settings.translatedWord);
 
             return package;
         }

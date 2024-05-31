@@ -36,7 +36,7 @@ namespace tadaima
                         throw std::invalid_argument("Invalid argument: dataPackage is null.");
                     }
 
-                    const ApplicationSettingsWidget::SettingsDataPackage* settingsDataPackage = dynamic_cast<const ApplicationSettingsWidget::SettingsDataPackage*>(dataPackage);
+                    const SettingsDataPackage* settingsDataPackage = dynamic_cast<const SettingsDataPackage*>(dataPackage);
                     if( !settingsDataPackage )
                     {
                         throw std::invalid_argument("Invalid argument: dataPackage cannot be cast to settingsDataPackage.");
@@ -44,10 +44,10 @@ namespace tadaima
 
                     application::ApplicationSettings settings;
 
-                    settings.userName = settingsDataPackage->get<std::string>(ApplicationSettingsWidget::PackageKey::Username);
-                    settings.dictionaryPath = settingsDataPackage->get<std::string>(ApplicationSettingsWidget::PackageKey::DictionaryPath);
-                    settings.inputWord = settingsDataPackage->get<std::string>(ApplicationSettingsWidget::PackageKey::InputWord);
-                    settings.translatedWord = settingsDataPackage->get<std::string>(ApplicationSettingsWidget::PackageKey::TranslatedWord);
+                    settings.userName = settingsDataPackage->get<std::string>(SettingsPackageKey::Username);
+                    settings.dictionaryPath = settingsDataPackage->get<std::string>(SettingsPackageKey::DictionaryPath);
+                    settings.inputWord = settingsDataPackage->get<std::string>(SettingsPackageKey::InputWord);
+                    settings.translatedWord = settingsDataPackage->get<std::string>(SettingsPackageKey::TranslatedWord);
 
                     return settings;
                 }

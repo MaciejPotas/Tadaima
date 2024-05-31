@@ -19,22 +19,22 @@ namespace tadaima
         namespace widget
         {
             /**
+             * @brief Enum class for package keys used in settings data packages.
+             */
+            enum class SettingsPackageKey : uint32_t
+            {
+                Username,       /**< Key for username. */
+                DictionaryPath, /**< Key for dictionary path. */
+                InputWord,      /**< Key for input word. */
+                TranslatedWord  /**< Key for translated word. */
+            };
+
+            /**
              * @brief Represents a package containing settings data.
              */
-            class SettingsDataPackage : public tools::ComplexDataPackage<uint32_t, std::string>
+            class SettingsDataPackage : public tools::ComplexDataPackage<SettingsPackageKey, std::string>
             {
             public:
-
-                /**
-                 * @brief Enum class for package keys used in settings data packages.
-                 */
-                enum PackageKey : uint32_t
-                {
-                    Username,       /**< Key for username. */
-                    DictionaryPath, /**< Key for dictionary path. */
-                    InputWord,      /**< Key for input word. */
-                    TranslatedWord  /**< Key for translated word. */
-                };
 
                 /**
                  * @brief Constructs a SettingsDataPackage object.

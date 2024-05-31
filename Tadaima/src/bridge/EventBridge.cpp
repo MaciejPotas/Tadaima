@@ -3,9 +3,10 @@
 #include "Gui/Gui.h"
 #include <stdexcept>
 #include <iostream>
-#include "LessonLoader.h"
 #include "SettingsLoader.h"
 #include "helpers/SettingsDataDecoder.h"
+#include "widgets/packages/LessonDataPackage.h"
+#include "Widgets/LessonTreeViewWidget.h"
 
 namespace tadaima
 {
@@ -20,7 +21,7 @@ namespace tadaima
 
     void EventBridge::initializeGui(const std::vector<Lesson>& lessons)
     {
-        auto lessonsPackage = LessonDataLoader(lessons).loadAllLessons();
+        gui::widget::LessonDataPackage lessonsPackage(lessons);
         m_gui->initializeWidget(lessonsPackage);
     }
 
@@ -88,26 +89,38 @@ namespace tadaima
 
     void EventBridge::onLessonCreated(const tools::DataPackage* dataPackage)
     {
-        auto lessons = gui::widget::LessonDataDecoder().decodeLessonDataPackage(dataPackage);
-        m_app->setEvent(application::ApplicationEvent::OnLessonCreated, lessons);
+        const gui::widget::LessonDataPackage* package = dynamic_cast<const gui::widget::LessonDataPackage*>(dataPackage);
+        if( nullptr != package )
+        {
+            m_app->setEvent(application::ApplicationEvent::OnLessonCreated, package->decode());
+        }
     }
 
     void EventBridge::onLessonRename(const tools::DataPackage* dataPackage)
     {
-        auto lessons = gui::widget::LessonDataDecoder().decodeLessonDataPackage(dataPackage);
-        m_app->setEvent(application::ApplicationEvent::OnLessonUpdate, lessons);
+        const gui::widget::LessonDataPackage* package = dynamic_cast<const gui::widget::LessonDataPackage*>(dataPackage);
+        if( nullptr != package )
+        {
+            m_app->setEvent(application::ApplicationEvent::OnLessonUpdate, package->decode());
+        }
     }
 
     void EventBridge::onLessonRemove(const tools::DataPackage* dataPackage)
     {
-        auto lessons = gui::widget::LessonDataDecoder().decodeLessonDataPackage(dataPackage);
-        m_app->setEvent(application::ApplicationEvent::OnLessonDelete, lessons);
+        const gui::widget::LessonDataPackage* package = dynamic_cast<const gui::widget::LessonDataPackage*>(dataPackage);
+        if( nullptr != package )
+        {
+            m_app->setEvent(application::ApplicationEvent::OnLessonDelete, package->decode());
+        }
     }
 
     void EventBridge::onLessonEdited(const tools::DataPackage* dataPackage)
     {
-        auto lessons = gui::widget::LessonDataDecoder().decodeLessonDataPackage(dataPackage);
-        m_app->setEvent(application::ApplicationEvent::OnLessonEdited, lessons);
+        const gui::widget::LessonDataPackage* package = dynamic_cast<const gui::widget::LessonDataPackage*>(dataPackage);
+        if( nullptr != package )
+        {
+            m_app->setEvent(application::ApplicationEvent::OnLessonEdited, package->decode());
+        }
     }
 
     void EventBridge::onSettingsChanged(const tools::DataPackage* dataPackage)

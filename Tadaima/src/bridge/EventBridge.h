@@ -11,8 +11,6 @@
 
 #include "application/ApplicationEventList.h"
 #include "gui/Widgets/WidgetTypes.h"
-#include "LessonLoader.h"
-
 #include <functional>
 #include <vector>
 #include "lessons/Lesson.h"

@@ -86,6 +86,39 @@ namespace tadaima
                  */
                 LessonDataPackage() : ComplexDataPackage(PackageType::Lessons) {}
 
+                LessonDataPackage(const std::vector<Lesson>& lessons)
+                {
+                    std::vector<gui::widget::LessonPackage> lessonPackages;
+
+                    for( const auto& lesson : lessons )
+                    {
+                        gui::widget::LessonPackage package(lesson.id);
+
+                        package.set(gui::widget::LessonDataKey::id, lesson.id);
+                        package.set(gui::widget::LessonDataKey::MainName, lesson.mainName);
+                        package.set(gui::widget::LessonDataKey::SubName, lesson.subName);
+
+                        std::vector<gui::widget::WordDataPackage> wordPackages;
+                        for( const auto& word : lesson.words )
+                        {
+                            gui::widget::WordDataPackage wordPackage(word.id);
+                            wordPackage.set(gui::widget::LessonWordDataKey::id, word.id);
+                            wordPackage.set(gui::widget::LessonWordDataKey::Kana, word.kana);
+                            wordPackage.set(gui::widget::LessonWordDataKey::Translation, word.translation);
+                            wordPackage.set(gui::widget::LessonWordDataKey::Romaji, word.romaji);
+                            wordPackage.set(gui::widget::LessonWordDataKey::ExampleSentence, word.exampleSentence);
+                            wordPackage.set(gui::widget::LessonWordDataKey::Tags, word.tags);
+
+                            wordPackages.push_back(wordPackage);
+                        }
+
+                        package.set(gui::widget::LessonDataKey::Words, wordPackages);
+                        lessonPackages.push_back(package);
+                    }
+
+                    set(gui::widget::LessonPackageKey::LessonsPackage, lessonPackages);
+                }
+
                 /**
                 * Desc
                 *

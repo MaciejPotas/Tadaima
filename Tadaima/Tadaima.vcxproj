@@ -212,7 +212,6 @@ xcopy "$(ProjectDir)resources\forkawesome-webfont.ttf" "$(SolutionDir)bin\$(Plat
     <ClCompile Include="src\gui\quiz\VocabularyQuiz.cpp" />
     <ClInclude Include="src\application\ApplicationEventList.h" />
     <ClInclude Include="src\Application\ApplicationSettings.h" />
-    <ClInclude Include="src\bridge\LessonLoader.h" />
     <ClInclude Include="src\bridge\EventBridge.h" />
     <ClInclude Include="src\bridge\SettingsLoader.h" />
     <ClInclude Include="src\gui\helpers\SettingsDataDecoder.h" />

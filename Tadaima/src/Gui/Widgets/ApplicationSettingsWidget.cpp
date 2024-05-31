@@ -58,10 +58,10 @@ namespace tadaima
                 try
                 {
                     SettingsDataPackage package;
-                    package.set(SettingsDataPackage::PackageKey::Username, std::string(m_username));
-                    package.set(SettingsDataPackage::PackageKey::DictionaryPath, std::string(m_dictionaryPath));
-                    package.set(SettingsDataPackage::PackageKey::InputWord, wordTypeToString((quiz::WordType)m_inputOption));
-                    package.set(SettingsDataPackage::PackageKey::TranslatedWord, wordTypeToString((quiz::WordType)m_translationOption));
+                    package.set(SettingsPackageKey::Username, std::string(m_username));
+                    package.set(SettingsPackageKey::DictionaryPath, std::string(m_dictionaryPath));
+                    package.set(SettingsPackageKey::InputWord, wordTypeToString((quiz::WordType)m_inputOption));
+                    package.set(SettingsPackageKey::TranslatedWord, wordTypeToString((quiz::WordType)m_translationOption));
 
                     emitEvent(WidgetEvent(*this, ApplicationSettingsWidgetEvent::OnSettingsChanged, &package));
                 }
@@ -84,16 +84,16 @@ namespace tadaima
                     {
                         m_logger.log("ApplicationSettingsWidget::initialize: Initializing.", tools::LogLevel::INFO);
 
-                        const std::string userName = package->get<std::string>(SettingsDataPackage::PackageKey::Username);
-                        const std::string dictionaryPath = package->get<std::string>(SettingsDataPackage::PackageKey::DictionaryPath);
+                        const std::string userName = package->get<std::string>(SettingsPackageKey::Username);
+                        const std::string dictionaryPath = package->get<std::string>(SettingsPackageKey::DictionaryPath);
 
                         memset(m_username, 0, sizeof(m_username));
                         memset(m_dictionaryPath, 0, sizeof(m_dictionaryPath));
                         memcpy(m_username, userName.c_str(), userName.size());
                         memcpy(m_dictionaryPath, dictionaryPath.c_str(), dictionaryPath.size());
 
-                        m_inputOption = stringToWordType(package->get<std::string>(SettingsDataPackage::PackageKey::InputWord));
-                        m_translationOption = stringToWordType(package->get<std::string>(SettingsDataPackage::PackageKey::TranslatedWord));
+                        m_inputOption = stringToWordType(package->get<std::string>(SettingsPackageKey::InputWord));
+                        m_translationOption = stringToWordType(package->get<std::string>(SettingsPackageKey::TranslatedWord));
                         m_logger.log("ApplicationSettingsWidget: Initialized.", tools::LogLevel::INFO);
                     }
                 }
