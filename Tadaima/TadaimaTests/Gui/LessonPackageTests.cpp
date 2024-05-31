@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include "gui/widgets/packages/LessonDataPackage.h"
 
 
 namespace tadaima
@@ -7,7 +8,6 @@ namespace tadaima
     {
         namespace widget
         {
-
             class LessonDataPackageTest : public ::testing::Test
             {
             protected:
@@ -75,6 +75,14 @@ namespace tadaima
                 EXPECT_EQ(decodedLessons[0].words[0].tags[0], "tag1");
             }
 
+            TEST_F(LessonDataPackageTest, HandleEmptyLessonPackages)
+            {
+                std::vector<LessonPackage> emptyLessonPackages;
+                package.set(LessonPackageKey::LessonsPackage, emptyLessonPackages);
+
+                auto retrievedLessonPackages = package.get<std::vector<LessonPackage>>(LessonPackageKey::LessonsPackage);
+                ASSERT_TRUE(retrievedLessonPackages.empty());
+            }
         } // namespace widget
     } // namespace gui
 } // namespace tadaima

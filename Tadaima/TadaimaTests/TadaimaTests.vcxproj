@@ -97,7 +97,6 @@
     <ClCompile Include="Gui\LessonPackageTests.cpp" />
     <ClCompile Include="LessonManager\LessonManagerTest.cpp" />
     <ClCompile Include="LessonManager\LessonTests.cpp" />
-    <ClCompile Include="Quiz\LessonDataDecoderTest.cpp" />
     <ClCompile Include="Quiz\QuizGameTests.cpp" />
     <ClCompile Include="Quiz\VocabularyQuizTests.cpp" />
     <ClCompile Include="Tools\DataPackage.cpp" />

@@ -13,9 +13,6 @@
     <Filter Include="Gui\Quiz">
       <UniqueIdentifier>{4b22c6c5-844f-4105-8c1d-67f5ac68f3ad}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Gui\Helper">
-      <UniqueIdentifier>{5d6cbb78-0bae-4d87-a8ba-f9ce611eb5fe}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Gui\Packages">
       <UniqueIdentifier>{4572da2a-7003-4f16-9fd3-51d125aeb609}</UniqueIdentifier>
     </Filter>
@@ -40,9 +37,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)src\gmock\gmock-all.cc" />
     <ClCompile Include="Quiz\QuizGameTests.cpp">
       <Filter>Gui\Quiz</Filter>
-    </ClCompile>
-    <ClCompile Include="Quiz\LessonDataDecoderTest.cpp">
-      <Filter>Gui\Helper</Filter>
     </ClCompile>
     <ClCompile Include="Quiz\VocabularyQuizTests.cpp">
       <Filter>Gui\Quiz</Filter>
