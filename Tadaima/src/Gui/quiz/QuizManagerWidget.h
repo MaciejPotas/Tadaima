@@ -14,7 +14,6 @@
 
 namespace tools { class Logger; }
 
-
 namespace tadaima
 {
     namespace gui
@@ -30,7 +29,7 @@ namespace tadaima
             public:
 
                 /**
-                 * @brief Constructs a new QuizManager object.
+                 * @brief Constructs a new QuizManagerWidget object.
                  *
                  * @param logger A reference to a Logger instance for logging.
                  */
@@ -41,6 +40,7 @@ namespace tadaima
                  *
                  * Initializes a new QuizWidget for the provided lessons.
                  *
+                 * @param type The type of quiz to start.
                  * @param lessons A vector containing Lesson objects to create a quiz for.
                  */
                 void startQuiz(QuizType type, const std::vector<Lesson>& lessons);
@@ -49,24 +49,27 @@ namespace tadaima
                  * @brief Draws the current quiz widget.
                  *
                  * Renders the quiz widget on the screen if it is open.
+                 *
+                 * @param p_open Pointer to a boolean indicating if the widget should remain open.
                  */
-              //  void draw();
-
-
-                void initialize(const tools::DataPackage& r_package) override;
-
-
                 void draw(bool* p_open = nullptr) override;
+
+                /**
+                 * @brief Initializes the QuizManagerWidget with the given data package.
+                 *
+                 * @param r_package The data package for initialization.
+                 */
+                void initialize(const tools::DataPackage& r_package) override;
 
             private:
 
                 quiz::WordType m_answerWordType = quiz::WordType::BaseWord; /**< Input option for word type. */
                 quiz::WordType m_askedWordType = quiz::WordType::Romaji; /**< Translation option for word type. */
 
-                QuizType m_quizType;
+                QuizType m_quizType; /**< The current quiz type. */
                 tools::Logger& m_logger; /**< Reference to the Logger instance for logging. */
                 std::unique_ptr<widget::Widget> m_quiz; /**< Unique pointer to the QuizWidget. */
-                bool quizWidgetOpen; /**< Boolean flag to track if the quiz widget is open. */
+                bool quizWidgetOpen = false; /**< Boolean flag to track if the quiz widget is open. */
             };
         }
     }
