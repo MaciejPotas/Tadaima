@@ -5,11 +5,12 @@
 
 #pragma once
 
+#include "QuizType.h"
+#include "widgets/Widget.h"
+#include "widgets/QuizWidget.h"
 #include "lessons/Lesson.h"
 #include <memory>
 #include <vector>
-#include "Widgets/QuizWidget.h"
-#include "QuizType.h"
 
 namespace tools { class Logger; }
 
@@ -24,15 +25,16 @@ namespace tadaima
              * @class QuizManager
              * @brief Manages the lifecycle and display of quiz widgets.
              */
-            class QuizManager
+            class QuizManagerWidget : public widget::Widget
             {
             public:
+
                 /**
                  * @brief Constructs a new QuizManager object.
                  *
                  * @param logger A reference to a Logger instance for logging.
                  */
-                QuizManager(tools::Logger& logger);
+                QuizManagerWidget(tools::Logger& logger);
 
                 /**
                  * @brief Starts a quiz for the given lessons.
@@ -48,9 +50,18 @@ namespace tadaima
                  *
                  * Renders the quiz widget on the screen if it is open.
                  */
-                void draw();
+              //  void draw();
+
+
+                void initialize(const tools::DataPackage& r_package) override;
+
+
+                void draw(bool* p_open = nullptr) override;
 
             private:
+
+                quiz::WordType m_answerWordType = quiz::WordType::BaseWord; /**< Input option for word type. */
+                quiz::WordType m_askedWordType = quiz::WordType::Romaji; /**< Translation option for word type. */
 
                 QuizType m_quizType;
                 tools::Logger& m_logger; /**< Reference to the Logger instance for logging. */

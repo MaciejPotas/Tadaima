@@ -60,8 +60,8 @@ namespace tadaima
                     SettingsDataPackage package;
                     package.set(SettingsPackageKey::Username, std::string(m_username));
                     package.set(SettingsPackageKey::DictionaryPath, std::string(m_dictionaryPath));
-                    package.set(SettingsPackageKey::InputWord, wordTypeToString((quiz::WordType)m_inputOption));
-                    package.set(SettingsPackageKey::TranslatedWord, wordTypeToString((quiz::WordType)m_translationOption));
+                    package.set(SettingsPackageKey::AskedWordType, static_cast<quiz::WordType>(m_inputOption));
+                    package.set(SettingsPackageKey::AnswerWordType, static_cast<quiz::WordType>(m_translationOption));
 
                     emitEvent(WidgetEvent(*this, ApplicationSettingsWidgetEvent::OnSettingsChanged, &package));
                 }
@@ -92,8 +92,9 @@ namespace tadaima
                         memcpy(m_username, userName.c_str(), userName.size());
                         memcpy(m_dictionaryPath, dictionaryPath.c_str(), dictionaryPath.size());
 
-                        m_inputOption = stringToWordType(package->get<std::string>(SettingsPackageKey::InputWord));
-                        m_translationOption = stringToWordType(package->get<std::string>(SettingsPackageKey::TranslatedWord));
+                        m_inputOption = package->get< quiz::WordType>(SettingsPackageKey::AskedWordType);
+                        m_translationOption = package->get<quiz::WordType>(SettingsPackageKey::AnswerWordType);
+
                         m_logger.log("ApplicationSettingsWidget: Initialized.", tools::LogLevel::INFO);
                     }
                 }
@@ -139,11 +140,11 @@ namespace tadaima
 
                         const char* translationOptions[] = { "BaseWord", "Kana", "Romaji" };
 
-                        ImGui::Text("Input Type");
+                        ImGui::Text(" Word option you will write ( Base, if you want to use your language ):");
                         ImGui::Combo("##input_type", &m_inputOption, translationOptions, IM_ARRAYSIZE(translationOptions));
                         ShowFieldHelp("Choose how you want to input words during the quiz.");
 
-                        ImGui::Text("Translation Type");
+                        ImGui::Text(" Word option you will be asked for:");
                         ImGui::Combo("##translation_type", &m_translationOption, translationOptions, IM_ARRAYSIZE(translationOptions));
                         ShowFieldHelp("Choose how you want the words to be translated during the quiz.");
 
