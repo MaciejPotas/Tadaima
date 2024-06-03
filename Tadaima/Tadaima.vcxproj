@@ -208,14 +208,15 @@ xcopy "$(ProjectDir)resources\forkawesome-webfont.ttf" "$(SolutionDir)bin\$(Plat
     <ClCompile Include="src\bridge\EventBridge.cpp" />
     <ClCompile Include="src\gui\GuiStyle.cpp" />
     <ClCompile Include="src\gui\quiz\MultipleChoiceQuiz.cpp" />
-    <ClCompile Include="src\gui\quiz\QuizManager.cpp" />
+    <ClCompile Include="src\gui\quiz\QuizManagerWidget.cpp" />
     <ClCompile Include="src\gui\quiz\VocabularyQuiz.cpp" />
     <ClInclude Include="src\application\ApplicationEventList.h" />
     <ClInclude Include="src\Application\ApplicationSettings.h" />
     <ClInclude Include="src\bridge\EventBridge.h" />
     <ClInclude Include="src\gui\quiz\Flashcard.h" />
-    <ClInclude Include="src\gui\quiz\QuizManager.h" />
+    <ClInclude Include="src\gui\quiz\QuizManagerWidget.h" />
     <ClInclude Include="src\gui\quiz\QuizType.h" />
+    <ClInclude Include="src\gui\quiz\QuizWord.h" />
     <ClInclude Include="src\gui\quiz\VocabularyQuiz.h" />
     <ClInclude Include="src\gui\widgets\LessonSettingsWidget.h" />
     <ClInclude Include="src\gui\widgets\packages\LessonDataPackage.h" />

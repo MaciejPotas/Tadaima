@@ -9,13 +9,16 @@
 #pragma once
 
 #include "Widget.h"
-#include "quiz/Flashcard.h"
 #include "quiz/VocabularyQuiz.h"
-#include "Tools/Logger.h"
+#include "tools/Logger.h"
 #include <unordered_set>
 #include <vector>
 #include <string>
 #include <memory>
+#include "lessons/Lesson.h"
+#include "quiz/QuizType.h"
+
+namespace tadaima { struct Word; }
 
 namespace tadaima
 {
@@ -33,15 +36,15 @@ namespace tadaima
             class VocabularyQuizWidget : public Widget
             {
             public:
+
                 /**
-                 * @brief Constructor for the VocabularyQuizWidget class.
-                 *
-                 * Initializes the widget with a logger and a set of lessons to generate flashcards from.
-                 *
-                 * @param logger Reference to a logger for logging purposes.
-                 * @param lessons Vector of lessons to generate flashcards from.
+                 * @brief Constructs a VocabularyQuizWidget object.
+                 * @param base The base word type for the quiz.
+                 * @param desired The desired word type for the quiz.
+                 * @param lessons Vector of lessons to initialize the quiz with.
+                 * @param logger Reference to a Logger instance for logging.
                  */
-                VocabularyQuizWidget(tools::Logger& logger, const std::vector<Lesson>& lessons);
+                VocabularyQuizWidget(quiz::WordType base, quiz::WordType desired, const std::vector<Lesson>& lessons, tools::Logger& logger);
 
                 /**
                  * @brief Draws the quiz widget.
@@ -53,6 +56,21 @@ namespace tadaima
                 void draw(bool* p_open) override;
 
             private:
+
+                /**
+                 * @brief Retrieves a word by its ID.
+                 * @param id The ID of the word to retrieve.
+                 * @return The Word object corresponding to the given ID.
+                 */
+                Word getWordById(int id);
+
+                /**
+                 * @brief Gets the translation of a word.
+                 * @param word The word to translate.
+                 * @param type The type of the word for translation.
+                 * @return A string containing the translation.
+                 */
+                std::string getTranslation(const Word& word, quiz::WordType type) const;
 
                 /**
                  * @brief Initializes flashcards from a set of lessons.
@@ -79,22 +97,12 @@ namespace tadaima
                  */
                 float calculateProgress();
 
-                /**
-                 * @brief Gets the correct answer for the specified flashcard.
-                 *
-                 * @param type The type of the word to get the correct answer for.
-                 * @param flashcard The flashcard to get the correct answer from.
-                 * @return A string containing the correct answer.
-                 */
-                std::string getCorrectAnswer(quiz::WordType type, const quiz::Flashcard& flashcard);
-
                 tools::Logger& m_logger; ///< Reference to the logger for logging purposes.
-                quiz::WordType m_motherType; ///< The mother language type.
-                quiz::WordType m_learnType; ///< The learning language type.
+                quiz::WordType m_baseWord; ///< The mother language type.
+                quiz::WordType m_inputWord; ///< The learning language type.
+                std::vector<Lesson> m_lessons; ///< Vector of lessons used to generate flashcards.
 
-                std::vector<quiz::Flashcard> m_flashcards; ///< Vector of flashcards for the quiz.
                 std::unique_ptr<quiz::VocabularyQuiz> m_quiz; ///< Unique pointer to the VocabularyQuiz instance.
-
                 char m_userInput[30] = { 0 }; ///< User input buffer.
                 std::unordered_set<int> m_revealedHints; ///< Set of indices of revealed hints.
 
