@@ -9,6 +9,8 @@
 
 namespace tadaima
 {
+
+
     void EventBridge::initialize(application::Application& app, gui::Gui& gui)
     {
         m_app = &app;
@@ -26,7 +28,13 @@ namespace tadaima
 
     void EventBridge::initializeSettings(const application::ApplicationSettings& settings)
     {
-        gui::widget::SettingsDataPackage package(settings);
+        gui::widget::SettingsDataPackage package;
+
+        package.set(gui::widget::SettingsPackageKey::Username, settings.userName);
+        package.set(gui::widget::SettingsPackageKey::DictionaryPath, settings.dictionaryPath);
+        package.set(gui::widget::SettingsPackageKey::AskedWordType, stringToWordType(settings.inputWord));
+        package.set(gui::widget::SettingsPackageKey::AnswerWordType, stringToWordType(settings.translatedWord));
+
         m_gui->initializeWidget(package);
     }
 
@@ -127,7 +135,43 @@ namespace tadaima
         const gui::widget::SettingsDataPackage* package = dynamic_cast<const gui::widget::SettingsDataPackage*>(dataPackage);
         if( nullptr != package )
         {
-            m_app->setEvent(application::ApplicationEvent::OnSettingsChanged, package->decode());
+            application::ApplicationSettings settings;
+            settings.userName = package->get<std::string>(gui::widget::SettingsPackageKey::Username);
+            settings.dictionaryPath = package->get<std::string>(gui::widget::SettingsPackageKey::DictionaryPath);
+            settings.inputWord = wordTypeToString(package->get<gui::quiz::WordType>(gui::widget::SettingsPackageKey::AskedWordType));
+            settings.translatedWord = wordTypeToString(package->get<gui::quiz::WordType>(gui::widget::SettingsPackageKey::AnswerWordType));
+
+            m_app->setEvent(application::ApplicationEvent::OnSettingsChanged, settings);
+        }
+    }
+
+    gui::quiz::WordType EventBridge::stringToWordType(const std::string& str)
+    {
+        static const std::unordered_map<std::string, gui::quiz::WordType> stringToWordTypeMap = {
+            {"BaseWord", gui::quiz::WordType::BaseWord},
+            {"Kana", gui::quiz::WordType::Kana},
+            {"Romaji", gui::quiz::WordType::Romaji}
+        };
+
+        auto it = stringToWordTypeMap.find(str);
+        if( it != stringToWordTypeMap.end() )
+        {
+            return it->second;
+        }
+        else
+        {
+            throw std::invalid_argument("Invalid WordType string: " + str);
+        }
+    }
+
+    std::string EventBridge::wordTypeToString(gui::quiz::WordType type)
+    {
+        switch( type )
+        {
+            case gui::quiz::WordType::BaseWord: return "BaseWord";
+            case gui::quiz::WordType::Kana: return "Kana";
+            case gui::quiz::WordType::Romaji: return "Romaji";
+            default: throw std::invalid_argument("Invalid WordType value");
         }
     }
 }

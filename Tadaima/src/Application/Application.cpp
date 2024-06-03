@@ -92,6 +92,7 @@ namespace tadaima
                             m_logger.log("OnSettingsChanged event occurred", tools::LogLevel::INFO);
                             m_logger.log(applicationSettings.toString(), tools::LogLevel::INFO);
                             m_database.saveSettings(applicationSettings);
+                            m_eventBridge.initializeSettings(applicationSettings);
                             m_event.clearEvent(ApplicationEvent::OnSettingsChanged);
                         }
                     }

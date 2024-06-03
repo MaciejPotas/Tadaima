@@ -15,6 +15,7 @@
 #include <vector>
 #include "lessons/Lesson.h"
 #include "Widgets/Widget.h"
+#include "quiz/QuizType.h"
 
 namespace tadaima
 {
@@ -62,6 +63,11 @@ namespace tadaima
         void handleEvent(const gui::widget::WidgetEvent* data);
 
     private:
+
+        gui::quiz::WordType stringToWordType(const std::string& str);
+
+        std::string wordTypeToString(gui::quiz::WordType type);
+
         application::Application* m_app = nullptr; /**< Pointer to the Application instance. */
         gui::Gui* m_gui = nullptr; /**< Pointer to the GUI instance. */
 

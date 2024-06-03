@@ -2,9 +2,11 @@
 #include "gmock/gmock.h"
 #include "gui/quiz/MultipleChoiceQuiz.h"
 #include "Tools/Logger.h"
+#include "gui/quiz/QuizType.h"
 
 using namespace tadaima;
 using namespace tadaima::gui::quiz;
+using namespace tadaima::gui;
 
 using ::testing::_;
 using ::testing::Return;
@@ -27,14 +29,14 @@ protected:
 TEST_F(QuizGameTest, InitializeQuizGame)
 {
 
-    MultipleChoiceQuiz quizGame(logger, lessons);
+    MultipleChoiceQuiz quizGame(quiz::WordType::BaseWord, quiz::WordType::Romaji, lessons, logger);
     quizGame.start();
     EXPECT_EQ(quizGame.getCurrentOptions().size(), 4);
 }
 
 TEST_F(QuizGameTest, StartQuiz)
 {
-    MultipleChoiceQuiz quizGame(logger, lessons);
+    MultipleChoiceQuiz quizGame(quiz::WordType::BaseWord, quiz::WordType::Romaji, lessons, logger);
     quizGame.start();
     EXPECT_FALSE(quizGame.isFinished());
     EXPECT_EQ(quizGame.getCurrentOptions().size(), 4);
@@ -42,7 +44,7 @@ TEST_F(QuizGameTest, StartQuiz)
 
 TEST_F(QuizGameTest, AdvanceQuiz)
 {
-    MultipleChoiceQuiz quizGame(logger, lessons);
+    MultipleChoiceQuiz quizGame(quiz::WordType::BaseWord, quiz::WordType::Romaji, lessons, logger);
     quizGame.start();
     quizGame.advance('a');
     EXPECT_EQ(quizGame.getCurrentOptions().size(), 4);
@@ -50,7 +52,7 @@ TEST_F(QuizGameTest, AdvanceQuiz)
 
 TEST_F(QuizGameTest, QuizFinished)
 {
-    MultipleChoiceQuiz quizGame(logger, lessons);
+    MultipleChoiceQuiz quizGame(quiz::WordType::BaseWord, quiz::WordType::Romaji, lessons, logger);
     quizGame.start();
     for( size_t i = 0; i < lessons.size(); ++i )
     {

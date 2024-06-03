@@ -35,7 +35,7 @@
     <ClCompile Include="src\bridge\EventBridge.cpp">
       <Filter>src\bridge</Filter>
     </ClCompile>
-    <ClCompile Include="src\gui\quiz\QuizManager.cpp">
+    <ClCompile Include="src\gui\quiz\QuizManagerWidget.cpp">
       <Filter>src\gui\quiz</Filter>
     </ClCompile>
     <ClCompile Include="src\gui\quiz\VocabularyQuiz.cpp">
@@ -106,7 +106,7 @@
     <ClInclude Include="src\bridge\EventBridge.h">
       <Filter>src\bridge</Filter>
     </ClInclude>
-    <ClInclude Include="src\gui\quiz\QuizManager.h">
+    <ClInclude Include="src\gui\quiz\QuizManagerWidget.h">
       <Filter>src\gui\quiz</Filter>
     </ClInclude>
     <ClInclude Include="src\gui\quiz\MultipleChoiceQuiz.h">
@@ -142,6 +142,9 @@
     <ClInclude Include="src\gui\widgets\packages\SettingsDataPackage.h">
       <Filter>src\gui\widgets\packages</Filter>
     </ClInclude>
+    <ClInclude Include="src\gui\quiz\QuizWord.h">
+      <Filter>src\gui\quiz</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -170,9 +173,6 @@
     </Filter>
     <Filter Include="src\bridge">
       <UniqueIdentifier>{e2862b6f-fe04-4976-8cc2-f6843989bea8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\gui\helper">
-      <UniqueIdentifier>{36d14a67-8707-4449-bdd5-0e63d98dc652}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\gui\quiz">
       <UniqueIdentifier>{246f87c4-3a89-49ca-b562-2831753c9a88}</UniqueIdentifier>

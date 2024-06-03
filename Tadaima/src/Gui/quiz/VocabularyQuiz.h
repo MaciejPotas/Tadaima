@@ -9,13 +9,12 @@
 
 #pragma once
 
+#include "QuizWord.h"
 #include <vector>
 #include <unordered_map>
 #include <string>
-#include <algorithm>
-#include <random>
-#include "Flashcard.h"
-#include "QuizType.h"
+
+
 
 namespace tadaima
 {
@@ -34,6 +33,28 @@ namespace tadaima
             class VocabularyQuiz
             {
             public:
+
+                /**
+                 * @struct WordStatistics
+                 * @brief A structure to hold statistics for each word in the quiz.
+                 *
+                 * This structure keeps track of the number of good and bad attempts
+                 * for each word and whether the word has been learnt.
+                 */
+                struct WordStatistics
+                {
+                    int goodAttempts; ///< Number of good attempts.
+                    int badAttempts; ///< Number of bad attempts.
+                    bool learnt; ///< Whether the word has been learnt.
+
+                    /**
+                     * @brief Constructor for WordStatistics.
+                     *
+                     * Initializes the statistics with zero attempts and not learnt status.
+                     */
+                    WordStatistics() : goodAttempts(0), badAttempts(0), learnt(false) {}
+                };
+
                 /**
                  * @brief Constructor for the VocabularyQuiz class.
                  *
@@ -41,11 +62,10 @@ namespace tadaima
                  * answers for each flashcard, and an option to shuffle the flashcards.
                  *
                  * @param flashcards Reference to a vector of flashcards to be used in the quiz.
-                 * @param answerType The type of answer expected (e.g., Romaji, Kanji).
                  * @param requiredCorrectAnswers The number of correct answers required for each flashcard.
                  * @param enableShuffle Boolean indicating whether to shuffle the flashcards.
                  */
-                VocabularyQuiz(std::vector<Flashcard>& flashcards, WordType answerType, int requiredCorrectAnswers, bool enableShuffle = true);
+                VocabularyQuiz(std::vector<QuizWord>& flashcards, int requiredCorrectAnswers, bool enableShuffle = true);
 
                 /**
                  * @brief Advances the quiz to the next flashcard based on the user's answer.
@@ -77,36 +97,37 @@ namespace tadaima
                 bool isQuizComplete() const;
 
                 /**
+                 * @brief Retrieves the number of flashcards in the quiz.
+                 *
+                 * @return The number of flashcards.
+                 */
+                uint32_t getNumberOflashcards() const;
+
+                /**
+                 * @brief Retrieves the number of learnt words in the quiz.
+                 *
+                 * @return The number of learnt words.
+                 */
+                uint32_t getLearntWords() const;
+
+                /**
+                 * @brief Retrieves the statistics for each word in the quiz.
+                 *
+                 * @return A const reference to an unordered map of word statistics.
+                 */
+                const std::unordered_map<int, WordStatistics>& getStatistics() const;
+
+                /**
                  * @brief Retrieves the current flashcard.
                  *
                  * This function returns a reference to the current flashcard.
                  *
                  * @return A reference to the current flashcard.
                  */
-                const Flashcard& getCurrentFlashCard() const;
-
-                /**
-                 * @brief Retrieves flashcards with a minimum number of mistakes.
-                 *
-                 * This function returns a vector of flashcards that have been answered incorrectly
-                 * at least the specified number of times.
-                 *
-                 * @param minMistakes The minimum number of mistakes a flashcard must have.
-                 * @return A vector of flashcards with at least minMistakes mistakes.
-                 */
-                std::vector<Flashcard> getFlashcardsWithMistakes(int minMistakes) const;
-
-                /**
-                 * @brief Retrieves the flashcards that have been learned.
-                 *
-                 * This function returns a vector of flashcards that have been answered correctly
-                 * the required number of times.
-                 *
-                 * @return A vector of learned flashcards.
-                 */
-                std::vector<Flashcard> getLearntWords() const;
+                const QuizWord& getCurrentFlashCard() const;
 
             private:
+
                 /**
                  * @brief Moves to the next flashcard in the quiz.
                  *
@@ -115,20 +136,12 @@ namespace tadaima
                  */
                 void moveToNextFlashcard();
 
-                /**
-                 * @brief Checks if all flashcards have been learned.
-                 *
-                 * This function returns true if all flashcards have been answered correctly the
-                 * required number of times.
-                 *
-                 * @return True if all flashcards have been learned, false otherwise.
-                 */
-                bool allFlashcardsLearned() const;
+                std::vector<QuizWord> m_flashcards; ///< The vector of flashcards used in the quiz.
+                std::unordered_map<int, WordStatistics> m_statistics; ///< Map of word IDs to their statistics.
+                std::unordered_map<int, bool> learntStatus; ///< Map of word IDs to their learnt status.
 
-                std::vector<Flashcard>& m_flashcards; ///< The vector of flashcards used in the quiz.
-                std::unordered_map<int, int> m_correctAnswers; ///< Map of word IDs to correct attempts.
-                Flashcard* m_currentFlashcard = nullptr; ///< Pointer to the current flashcard.
-                WordType m_answerType; ///< The type of answer expected (e.g., Romaji, Kanji).
+                QuizWord* m_currentFlashcard = nullptr; ///< Pointer to the current flashcard.
+
                 int m_currentIndex = 0; ///< Index of the current flashcard.
                 int m_requiredCorrectAnswers; ///< The number of correct answers required for each flashcard.
                 bool m_shuffleEnabled; ///< Boolean indicating whether shuffling is enabled.

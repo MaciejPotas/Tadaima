@@ -52,6 +52,7 @@ namespace tadaima
             m_widgets[widget::Type::Dashboard] = std::make_unique<widget::MainDashboardWidget>();
             m_widgets[widget::Type::VocabularySettings] = std::make_unique<widget::VocabularySettingsWidget>();
 
+
             for( const auto& [key, value] : m_widgets )
             {
                 value->setObserver(std::bind(&Gui::handleWidgetEvent, this, std::placeholders::_1));
@@ -126,6 +127,8 @@ namespace tadaima
                 {
                     value->initialize(data);
                 }
+
+                m_quizManager.initialize(data);
             }
             catch( std::exception& exception )
             {
