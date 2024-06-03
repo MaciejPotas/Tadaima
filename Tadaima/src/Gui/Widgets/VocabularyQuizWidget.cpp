@@ -5,8 +5,8 @@
 #include "Lessons/Lesson.h"
 #include <stdexcept>
 #include <format>
-#include <algorithm>
 #include <random>
+
 namespace tadaima
 {
     namespace gui
@@ -173,53 +173,50 @@ namespace tadaima
             {
                 try
                 {
-                    ImGui::SetNextWindowSize(ImVec2(600, 220), ImGuiCond_FirstUseEver);
+                    ImGui::SetNextWindowSize(ImVec2(600, 400), ImGuiCond_FirstUseEver);
                     if( ImGui::Begin("Quiz Game", p_open, ImGuiWindowFlags_NoCollapse) )
                     {
                         static bool setFocusOnInputField = true;
+                        static bool focusOnWrongButton = false;  // Variable to control focus on the "Wrong!" button
+                        static bool focusOnAcceptButton = false;  // Variable to control focus on the "Accept it!" button
+                        static bool enterPressed = false;  // Flag to detect Enter key press
 
-                        ImGui::Columns(2, NULL, true); // Create two columns
+                        // Detect Enter key press
+                        if( ImGui::IsKeyPressed(ImGuiKey_Enter) )
+                        {
+                            enterPressed = true;
+                        }
 
-                        // Left Column
-                        ImGui::SetColumnWidth(0, 300);
-                        ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 3);
+                        // Detect Left Arrow key press
+                        bool leftArrowPressed = ImGui::IsKeyPressed(ImGuiKey_LeftArrow);
+                        // Detect Right Arrow key press
+                        bool rightArrowPressed = ImGui::IsKeyPressed(ImGuiKey_RightArrow);
 
-                        // Use the calculateProgress function to get the progress value
+                        // Progress Section
+                        ImGui::Text("Progress");
                         float progress = calculateProgress();
-                        ImGui::ProgressBar(progress, ImVec2(-1, 0), "Progress");
-
-                        ImGui::Spacing();
-                        ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 3);
+                        ImGui::ProgressBar(progress, ImVec2(-1, 0));
                         ImGui::Text("Words to learn: %d", m_quiz->getNumberOflashcards() - m_quiz->getLearntWords());
 
-                        if( m_quiz->isQuizComplete() )
-                        {
-                            ImGui::Text("Quiz Complete!");
-                            ImGui::Separator();
-                            ImGui::Text("Quiz Statistics:");
+                        ImGui::Separator();
 
-                            const auto& statistics = m_quiz->getStatistics();
-                            for( const auto& entry : statistics )
-                            {
-                                auto word = getWordById(entry.first);
-                                auto translate = getTranslation(word, m_baseWord);
-                                ImGui::Text("Word: %s", translate.c_str());
-                                ImGui::SameLine();
-                                ImGui::Text("Attempts: %d", entry.second.badAttempts); // Assuming badAttempts and goodAttempts exist
-                            }
-                        }
-                        else
+                        // Quiz Section
+                        if( !m_quiz->isQuizComplete() )
                         {
                             const auto& flashcard = m_quiz->getCurrentFlashCard();
                             auto word = getWordById(flashcard.wordId);
                             auto translate = getTranslation(word, m_baseWord);
 
-                            ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 3);
-                            ImGui::Text("Word: %s", translate.c_str());
-                            ImGui::Spacing();
+                            ImGui::Text("Word:");
 
-                            ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 3);
-                            ImGui::PushItemWidth(-1);
+                            // Temporarily scale the font size
+                            ImGui::SetWindowFontScale(1.0f);  // Adjust the scale factor as needed
+
+                            ImGui::SameLine();
+                            ImGui::TextColored(ImVec4(0.8f, 0.2f, 0.2f, 1.0f), "%s", translate.c_str());
+
+                            // Revert to the original font scale
+                            ImGui::SetWindowFontScale(1.0f);
 
                             if( setFocusOnInputField )
                             {
@@ -227,7 +224,7 @@ namespace tadaima
                                 setFocusOnInputField = false;
                             }
 
-                            if( ImGui::InputText("Translation", m_userInput, sizeof(m_userInput), ImGuiInputTextFlags_EnterReturnsTrue) )
+                            if( ImGui::InputText("Your answer", m_userInput, sizeof(m_userInput), ImGuiInputTextFlags_EnterReturnsTrue) )
                             {
                                 m_translation = word.translation;
                                 m_kana = word.kana;
@@ -246,21 +243,52 @@ namespace tadaima
                                     m_correctAnswerMessage = "Your answer is correct!";
                                     m_revealedHints.clear();
                                     m_currentHint.clear();
+                                    focusOnWrongButton = false;
+                                    focusOnAcceptButton = false;
+                                    enterPressed = false;  // Clear Enter key press flag
                                 }
                                 else
                                 {
                                     m_correctAnswerMessage = "Your answer is incorrect.";
+                                    focusOnWrongButton = true;
+                                    focusOnAcceptButton = false;
                                 }
 
                                 m_overrideAnswer = false;
-
-                                // Set focus back to input field
                                 setFocusOnInputField = true;
+
+                                // Clear Enter key press flag after handling input
+                                enterPressed = false;
                             }
 
-                            ImGui::PopItemWidth();
+                            ImGui::Spacing();
+
+                            // Feedback Section
+                            ImGui::Separator();
+                            if( m_showCorrectAnswer )
+                            {
+                                ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "%s", m_correctAnswerMessage.c_str());
+                                ImGui::Text("Previous flashcard:");
+                                ImGui::BulletText("Translation: %s", m_translation.c_str());
+                                ImGui::BulletText("Kana: %s", m_kana.c_str());
+                                ImGui::BulletText("Romaji: %s", m_romaji.c_str());
+                                ImGui::BulletText("Example: %s", m_example.c_str());
+                            }
+                            else
+                            {
+                                ImGui::TextColored(ImVec4(0.0f, 0.0f, 0.0f, 1.0f), "%s", "Your answer.");
+
+                                ImGui::Text("Previous flashcard:");
+                                ImGui::BulletText("Translation: %s", m_translation.c_str());
+                                ImGui::BulletText("Kana: %s", m_kana.c_str());
+                                ImGui::BulletText("Romaji: %s", m_romaji.c_str());
+                                ImGui::BulletText("Example: %s", m_example.c_str());
+                            }
 
                             ImGui::Spacing();
+
+                            // Controls Section
+                            ImGui::Separator();
                             if( ImGui::Button("Hint") )
                             {
                                 if( m_currentHint.empty() )
@@ -270,10 +298,36 @@ namespace tadaima
                                 m_currentHint = getHint();
                             }
 
+                            ImGui::SameLine();
                             if( !m_overrideAnswer && m_correctAnswerMessage == "Your answer is incorrect." )
                             {
-                                ImGui::SameLine();
-                                if( ImGui::Button("Accept it!") )
+                                // Handle left arrow navigation to switch focus
+                                if( leftArrowPressed )
+                                {
+                                    if( focusOnWrongButton )
+                                    {
+                                        focusOnAcceptButton = true;
+                                        focusOnWrongButton = false;
+                                    }
+                                }
+                                // Handle right arrow navigation to switch focus
+                                if( rightArrowPressed )
+                                {
+                                    if( focusOnAcceptButton )
+                                    {
+                                        focusOnAcceptButton = false;
+                                        focusOnWrongButton = true;
+                                    }
+                                }
+
+                                // Accept it! button
+                                if( focusOnAcceptButton )
+                                {
+                                    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 1.0f, 0.0f, 1.0f));  // Change button color to green
+                                    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.4f, 1.0f, 0.4f, 1.0f));  // Change hover color
+                                    ImGui::SetKeyboardFocusHere();
+                                }
+                                if( ImGui::Button("Accept it!") || (focusOnAcceptButton && enterPressed) )
                                 {
                                     m_quiz->advance(flashcard.word);
                                     memset(m_userInput, 0, sizeof(m_userInput));
@@ -282,17 +336,46 @@ namespace tadaima
                                     m_revealedHints.clear();
                                     m_currentHint.clear();
                                     setFocusOnInputField = true;
+                                    enterPressed = false;  // Clear Enter key press flag
+                                    focusOnAcceptButton = false;
+                                    ImGui::PopStyleColor(2);  // Revert to the original button color
+                                }
+                                if( focusOnAcceptButton )
+                                {
+                                    ImGui::PopStyleColor(2);  // Revert to the original button color
                                 }
 
                                 ImGui::SameLine();
-                                if( ImGui::Button("Wrong!") )
+                                // Wrong! button
+                                if( focusOnWrongButton )
                                 {
-                                    m_quiz->advance(m_userInput);
-                                    memset(m_userInput, 0, sizeof(m_userInput));
-                                    m_correctAnswerMessage = "Your answer has been marked as wrong!";
-                                    m_revealedHints.clear();
-                                    m_currentHint.clear();
-                                    setFocusOnInputField = true;
+                                    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 0.0f, 0.0f, 1.0f));  // Change button color to red
+                                    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(1.0f, 0.4f, 0.4f, 1.0f));  // Change hover color
+                                    ImGui::SetKeyboardFocusHere();
+                                    if( ImGui::Button("Wrong!") || (focusOnWrongButton && enterPressed) )
+                                    {
+                                        m_quiz->advance(m_userInput);
+                                        memset(m_userInput, 0, sizeof(m_userInput));
+                                        m_correctAnswerMessage = "Your answer has been marked as wrong!";
+                                        m_revealedHints.clear();
+                                        m_currentHint.clear();
+                                        setFocusOnInputField = true;
+                                        focusOnWrongButton = false;
+                                        enterPressed = false;  // Clear Enter key press flag
+                                    }
+                                    ImGui::PopStyleColor(2);  // Revert to the original button color
+                                }
+                                else
+                                {
+                                    if( ImGui::Button("Wrong!") )
+                                    {
+                                        m_quiz->advance(m_userInput);
+                                        memset(m_userInput, 0, sizeof(m_userInput));
+                                        m_correctAnswerMessage = "Your answer has been marked as wrong!";
+                                        m_revealedHints.clear();
+                                        m_currentHint.clear();
+                                        setFocusOnInputField = true;
+                                    }
                                 }
                             }
 
@@ -300,49 +383,23 @@ namespace tadaima
                             {
                                 ImGui::Text("Hint: %s", m_currentHint.c_str());
                             }
-
-                            ImGui::NextColumn();
-
-                            // Right Column
-                            if( m_showCorrectAnswer )
-                            {
-                                ImGui::TextColored(ImVec4(0.0f, 0.0f, 1.0f, 1.0f), "%s", m_correctAnswerMessage.c_str());
-
-                                ImGui::Text("Previous flashcard:");
-
-                                ImGui::Text("Translation:");
-                                ImGui::SameLine();
-                                ImGui::TextColored(ImVec4(0.0f, 0.0f, 1.0f, 1.0f), "%s", m_translation.c_str());
-
-                                ImGui::Text("Kana:");
-                                ImGui::SameLine();
-                                ImGui::TextColored(ImVec4(0.0f, 0.0f, 1.0f, 1.0f), "%s", m_kana.c_str());
-
-                                ImGui::Text("Romaji:");
-                                ImGui::SameLine();
-                                ImGui::TextColored(ImVec4(0.0f, 0.0f, 1.0f, 1.0f), "%s", m_romaji.c_str());
-
-                                ImGui::Text("Example:");
-                                ImGui::SameLine();
-                                ImGui::TextColored(ImVec4(0.0f, 0.0f, 1.0f, 1.0f), "%s", m_example.c_str());
-                            }
-                            else
-                            {
-                                ImGui::TextColored(ImVec4(0.0f, 0.0f, 0.0f, 1.0f), "%s", "Your answer.");
-
-                                ImGui::Text("Previous flashcard:");
-                                ImGui::Text("Translation:");
-                                ImGui::Text("Kana:");
-                                ImGui::Text("Romaji:");
-                                ImGui::Text("Example:");
-                            }
-
-                            ImGui::Spacing();
                         }
-
-                        ImGui::Columns(1);
+                        else
+                        {
+                            ImGui::Text("Quiz Complete!");
+                            ImGui::Separator();
+                            ImGui::Text("Quiz Statistics:");
+                            const auto& statistics = m_quiz->getStatistics();
+                            for( const auto& entry : statistics )
+                            {
+                                auto word = getWordById(entry.first);
+                                auto translate = getTranslation(word, m_baseWord);
+                                ImGui::Text("Word: %s", translate.c_str());
+                                ImGui::SameLine();
+                                ImGui::Text("Attempts: %d", entry.second.badAttempts); // Assuming badAttempts and goodAttempts exist
+                            }
+                        }
                     }
-
                     ImGui::End();
                 }
                 catch( const std::exception& e )

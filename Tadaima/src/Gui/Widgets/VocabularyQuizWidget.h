@@ -9,7 +9,6 @@
 #pragma once
 
 #include "Widget.h"
-#include "quiz/Flashcard.h"
 #include "quiz/VocabularyQuiz.h"
 #include "tools/Logger.h"
 #include <unordered_set>
