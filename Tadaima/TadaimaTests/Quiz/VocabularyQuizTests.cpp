@@ -1,5 +1,4 @@
 #include "gui/quiz/VocabularyQuiz.h"
-#include "gui/quiz/Flashcard.h"
 #include <gtest/gtest.h>
 #include "Tools/Logger.h"
 #include "Lessons/Lesson.h"

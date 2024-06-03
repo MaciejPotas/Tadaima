@@ -19,7 +19,7 @@ namespace tadaima
                 {
                     m_quiz.reset();
                     m_logger.log("Starting MultipleChoiceQuiz.", tools::LogLevel::INFO);
-                    m_quiz = std::make_unique<widget::QuizWidget>(m_logger, lesson);
+                    m_quiz = std::make_unique<widget::QuizWidget>(m_askedWordType, m_answerWordType, lesson, m_logger);
                     quizWidgetOpen = true;
                 }
                 else if( QuizType::VocabularyQuiz == type )

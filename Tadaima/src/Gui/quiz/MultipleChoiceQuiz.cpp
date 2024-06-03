@@ -10,11 +10,11 @@ namespace tadaima
         namespace quiz
         {
 
-            MultipleChoiceQuiz::MultipleChoiceQuiz(tools::Logger& logger, const std::vector<Lesson>& lessons)
-                : m_logger(logger), rng(std::random_device{}()), currentWordIndex(0), correctCount(0)
+            MultipleChoiceQuiz::MultipleChoiceQuiz(quiz::WordType base, quiz::WordType desired, const std::vector<Lesson>& lessons, tools::Logger& logger)
+                : m_baseWord(base), m_inputWord(desired), m_logger(logger), rng(std::random_device{}()), currentWordIndex(0), correctCount(0)
             {
                 initialize(lessons);
-                if( !words.empty() )
+                if( !m_quizWords.empty() )
                 {
                     shuffleWords();
                 }
@@ -24,16 +24,41 @@ namespace tadaima
                 }
             }
 
+            std::string getTranslation(const Word& word, quiz::WordType type)
+            {
+                std::string correctAnswer;
+
+                switch( type )
+                {
+                    case quiz::WordType::BaseWord:
+                        correctAnswer = word.translation;
+                        break;
+
+                    case quiz::WordType::Kana:
+                        correctAnswer = word.kana;
+                        break;
+
+                    case quiz::WordType::Romaji:
+                        correctAnswer = word.romaji;
+                        break;
+
+                    default:
+                        break;
+                }
+
+                return correctAnswer;
+            }
+
             void MultipleChoiceQuiz::initialize(const std::vector<Lesson>& lessons)
             {
                 for( const auto& lesson : lessons )
                 {
                     for( const auto& word : lesson.words )
                     {
-                        words.push_back(word);
+                        m_quizWords.push_back(word);
                     }
                 }
-                if( words.empty() )
+                if( m_quizWords.empty() )
                 {
                     throw std::invalid_argument("No words available in the provided lessons.");
                 }
@@ -41,16 +66,18 @@ namespace tadaima
 
             std::vector<std::string> MultipleChoiceQuiz::generateOptions(const Word& correctWord)
             {
-                std::vector<std::string> options;
-                options.push_back(correctWord.translation);
+                std::string correctWordTranslation = getTranslation(correctWord, m_inputWord);
 
-                if( words.size() < 4 )
+                std::vector<std::string> options;
+                options.push_back(correctWordTranslation);
+
+                if( m_quizWords.size() < 4 )
                 {
-                    for( const auto& word : words )
+                    for( const auto& quizWord : m_quizWords )
                     {
-                        if( word.translation != correctWord.translation && options.size() < 4 )
+                        if( getTranslation(quizWord, m_baseWord) != correctWordTranslation && options.size() < 4 )
                         {
-                            options.push_back(word.translation);
+                            options.push_back(correctWordTranslation);
                         }
                     }
                     while( options.size() < 4 )
@@ -60,14 +87,15 @@ namespace tadaima
                 }
                 else
                 {
-                    std::unordered_set<std::string> usedTranslations{ correctWord.translation };
+                    std::unordered_set<std::string> usedTranslations{ getTranslation(correctWord, m_inputWord) };
                     while( options.size() < 4 )
                     {
-                        const Word& randomWord = words[rng() % words.size()];
-                        if( usedTranslations.find(randomWord.translation) == usedTranslations.end() )
+                        const Word& randomWord = m_quizWords[rng() % m_quizWords.size()];
+                        auto optionstring = getTranslation(randomWord, m_inputWord);
+                        if( usedTranslations.find(optionstring) == usedTranslations.end() )
                         {
-                            options.push_back(randomWord.translation);
-                            usedTranslations.insert(randomWord.translation);
+                            options.push_back(optionstring);
+                            usedTranslations.insert(optionstring);
                         }
                     }
                 }
@@ -75,7 +103,7 @@ namespace tadaima
                 std::shuffle(options.begin(), options.end(), rng);
 
                 // Store the correct answer index
-                auto it = std::find(options.begin(), options.end(), correctWord.translation);
+                auto it = std::find(options.begin(), options.end(), correctWordTranslation);
                 correctAnswerIndex = std::distance(options.begin(), it);
 
                 return options;
@@ -83,16 +111,16 @@ namespace tadaima
 
             void MultipleChoiceQuiz::shuffleWords()
             {
-                std::shuffle(words.begin(), words.end(), rng);
+                std::shuffle(m_quizWords.begin(), m_quizWords.end(), rng);
             }
 
             void MultipleChoiceQuiz::start()
             {
                 currentWordIndex = 0;
                 correctCount = 0;
-                if( !words.empty() )
+                if( !m_quizWords.empty() )
                 {
-                    currentOptions = generateOptions(words[currentWordIndex]);
+                    currentOptions = generateOptions(m_quizWords[currentWordIndex]);
                 }
                 else
                 {
@@ -113,7 +141,7 @@ namespace tadaima
                     throw std::out_of_range("Invalid answer choice.");
                 }
 
-                const auto& correctWord = words[currentWordIndex];
+                const auto& correctWord = m_quizWords[currentWordIndex];
 
                 if( currentOptions[answerIndex] == correctWord.translation )
                 {
@@ -124,20 +152,20 @@ namespace tadaima
 
                 if( !isFinished() )
                 {
-                    currentOptions = generateOptions(words[currentWordIndex]);
+                    currentOptions = generateOptions(m_quizWords[currentWordIndex]);
                 }
             }
 
             bool MultipleChoiceQuiz::isFinished() const
             {
-                return currentWordIndex >= words.size();
+                return currentWordIndex >= m_quizWords.size();
             }
 
             std::string MultipleChoiceQuiz::getCurrentQuestion() const
             {
                 if( !isFinished() )
                 {
-                    return "Translate the word: " + words[currentWordIndex].kana;
+                    return "Translate the word: " + getTranslation(m_quizWords[currentWordIndex], m_baseWord);
                 }
                 return "";
             }
@@ -150,7 +178,7 @@ namespace tadaima
             std::string MultipleChoiceQuiz::getResults() const
             {
                 std::ostringstream oss;
-                oss << "Quiz finished!\nYou got " << correctCount << " out of " << words.size() << " correct!";
+                oss << "Quiz finished!\nYou got " << correctCount << " out of " << m_quizWords.size() << " correct!";
                 return oss.str();
             }
 
@@ -161,7 +189,7 @@ namespace tadaima
 
             int MultipleChoiceQuiz::getTotalQuestions() const
             {
-                return static_cast<int>(words.size());
+                return static_cast<int>(m_quizWords.size());
             }
 
             int MultipleChoiceQuiz::getCorrectAnswerIndex() const

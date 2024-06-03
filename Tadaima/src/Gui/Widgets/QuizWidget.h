@@ -10,6 +10,7 @@
 #include <vector>
 #include <string>
 #include "Widget.h"
+#include "quiz/QuizType.h"
 
 namespace tadaima
 {
@@ -26,12 +27,13 @@ namespace tadaima
             public:
 
                 /**
-                 * @brief Constructs a new QuizWidget object.
-                 *
-                 * @param logger A reference to a Logger instance for logging.
-                 * @param lessons A vector containing Lesson objects to initialize the quiz.
+                 * @brief Constructs a VocabularyQuizWidget object.
+                 * @param base The base word type for the quiz.
+                 * @param desired The desired word type for the quiz.
+                 * @param lessons Vector of lessons to initialize the quiz with.
+                 * @param logger Reference to a Logger instance for logging.
                  */
-                QuizWidget(tools::Logger& logger, const std::vector<Lesson>& lessons);
+                QuizWidget(quiz::WordType base, quiz::WordType desired, const std::vector<Lesson>& lessons, tools::Logger& logger);
 
                 /**
                  * @brief Draws the quiz widget on the screen.
@@ -51,6 +53,8 @@ namespace tadaima
                 tools::Logger& m_logger; /**< Reference to the Logger instance for logging. */
                 quiz::MultipleChoiceQuiz quizGame; /**< Instance of QuizGame to manage quiz logic. */
 
+                quiz::WordType m_baseWord; ///< The mother language type.
+                quiz::WordType m_inputWord; ///< The learning language type.
                // bool isQuizWindowOpen = true; /**< Boolean flag to track if the quiz window is open. */
                 bool highlightCorrectAnswer = false; /**< Boolean flag to indicate if the correct answer should be highlighted. */
                 std::chrono::steady_clock::time_point highlightStartTime; /**< Time point for when the highlight started. */

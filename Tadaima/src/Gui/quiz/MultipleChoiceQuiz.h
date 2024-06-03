@@ -10,6 +10,7 @@
 #include <string>
 #include <algorithm>
 #include <random>
+#include "QuizType.h"
 
 namespace tools { class Logger; }
 
@@ -33,7 +34,7 @@ namespace tadaima
                  * @param logger A reference to a Logger instance for logging.
                  * @param lessons A vector containing Lesson objects to initialize the game.
                  */
-                MultipleChoiceQuiz(tools::Logger& logger, const std::vector<Lesson>& lessons);
+                MultipleChoiceQuiz(quiz::WordType base, quiz::WordType desired, const std::vector<Lesson>& lessons, tools::Logger& logger);
 
                 /**
                  * @brief Starts the quiz game.
@@ -115,6 +116,7 @@ namespace tadaima
                 int getCorrectAnswerIndex() const;
 
             private:
+
                 /**
                  * @brief Initializes the quiz game by extracting words from lessons.
                  *
@@ -141,8 +143,10 @@ namespace tadaima
                  */
                 void shuffleWords();
 
+                quiz::WordType m_baseWord; ///< The mother language type.
+                quiz::WordType m_inputWord; ///< The learning language type.
                 tools::Logger& m_logger; /**< Reference to the Logger instance for logging. */
-                std::vector<Word> words; /**< Vector of words extracted from lessons for the quiz. */
+                std::vector<Word> m_quizWords; /**< Vector of words extracted from lessons for the quiz. */
                 std::mt19937 rng; /**< Random number generator for shuffling words and generating options. */
                 size_t currentWordIndex; /**< Index of the current word in the quiz. */
                 int correctCount; /**< Count of correctly answered questions. */
