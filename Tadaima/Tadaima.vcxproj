@@ -225,7 +225,6 @@ xcopy "$(ProjectDir)resources\forkawesome-webfont.ttf" "$(SolutionDir)bin\$(Plat
     <ClInclude Include="src\gui\widgets\QuizWidget.h" />
     <ClInclude Include="src\gui\widgets\ApplicationSettingsWidget.h" />
     <ClInclude Include="src\gui\widgets\VocabularyQuizWidget.h" />
-    <ClInclude Include="src\gui\widgets\VocabularySettingsWidget.h" />
     <ClCompile Include="src\gui\widgets\ApplicationSettingsWidget.cpp" />
     <ClCompile Include="src\gui\widgets\LessonSettingsWidget.cpp" />
     <ClCompile Include="src\application\ApplicationDatabase.cpp" />
@@ -240,9 +239,6 @@ xcopy "$(ProjectDir)resources\forkawesome-webfont.ttf" "$(SolutionDir)bin\$(Plat
     <ClInclude Include="src\application\Application.h" />
     <ClCompile Include="src\gui\widgets\MainDashboardWidget.cpp" />
     <ClCompile Include="src\gui\widgets\LessonTreeViewWidget.cpp" />
-    <ClCompile Include="src\gui\widgets\VocabularySettingsWidget.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClInclude Include="src\gui\Gui.h" />
     <ClCompile Include="src\gui\widgets\MenuBarWidget.cpp" />
     <ClInclude Include="src\gui\widgets\LessonTreeViewWidget.h" />

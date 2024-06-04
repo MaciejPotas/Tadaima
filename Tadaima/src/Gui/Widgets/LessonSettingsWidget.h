@@ -36,16 +36,16 @@ namespace tadaima
                 void setLesson(Lesson& lesson);
 
             private:
-                bool m_isEditing = false;
-                char m_mainNameBuffer[50] = "";  // Buffer for the lesson main name
-                char m_subNameBuffer[50] = "";   // Buffer for the lesson sub name
-                char m_kanaBuffer[256] = "";      // Buffer for word kana
-                char m_translationBuffer[256] = ""; // Buffer for word translation
-                char m_romajiBuffer[256] = "";    // Buffer for word romaji
-                char m_exampleSentenceBuffer[256] = ""; // Buffer for example sentence
-                char m_tagBuffer[256] = "";       // Buffer for word tags
-
-                Lesson m_newLesson; // New lesson to be added or edited
+                bool m_isEditing = false; ///< Flag indicating whether the widget is in edit mode.
+                char m_mainNameBuffer[50] = ""; ///< Buffer for the lesson main name.
+                char m_subNameBuffer[50] = "";  ///< Buffer for the lesson sub name.
+                char m_kanaBuffer[50] = ""; ///< Buffer for word kana.
+                char m_translationBuffer[50] = ""; ///< Buffer for word translation.
+                char m_romajiBuffer[50] = ""; ///< Buffer for word romaji.
+                char m_exampleSentenceBuffer[100] = ""; ///< Buffer for example sentence.
+                char m_tagBuffer[100] = ""; ///< Buffer for word tags.
+                int m_selectedWordIndex = -1; ///< Index of the selected word in the list.
+                Lesson m_newLesson; ///< New lesson to be added or edited.
 
                 /**
                  * @brief Pointer to the lesson object.
