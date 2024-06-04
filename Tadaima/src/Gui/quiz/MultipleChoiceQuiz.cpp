@@ -141,9 +141,7 @@ namespace tadaima
                     throw std::out_of_range("Invalid answer choice.");
                 }
 
-                const auto& correctWord = m_quizWords[currentWordIndex];
-
-                if( currentOptions[answerIndex] == correctWord.translation )
+                if( currentOptions[answerIndex] == getTranslation(m_quizWords[currentWordIndex], m_inputWord) )
                 {
                     correctCount++;
                 }
