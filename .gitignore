@@ -13,7 +13,6 @@ Tadaima/Deploy/Release
 ipch
 *.opensdf
 *.log
-*.pdb
 *.ilk
 *.user
 *.sdf
@@ -21,7 +20,6 @@ ipch
 *.VC.db
 *.VC.VC.opendb
 *.idb
-*.lib
 
 ## Visual Studio Lint
 .visuallint/*

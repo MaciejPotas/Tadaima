@@ -97,9 +97,8 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;dxgi.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>
-      </AdditionalLibraryDirectories>
+      <AdditionalDependencies>SQLite3.lib;d3d11.lib;d3dcompiler.lib;dxgi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories);./../Libraries/SQLite3</AdditionalLibraryDirectories>
       <SubSystem>Console</SubSystem>
     </Link>
     <PreLinkEvent>
@@ -123,9 +122,8 @@ xcopy "$(ProjectDir)resources\forkawesome-webfont.ttf" "$(TargetDir)fonts\" /Y /
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;dxgi.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>
-      </AdditionalLibraryDirectories>
+      <AdditionalDependencies>SQLite3.lib;d3d11.lib;d3dcompiler.lib;dxgi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories);./../Libraries/SQLite3</AdditionalLibraryDirectories>
       <SubSystem>Console</SubSystem>
     </Link>
     <PreLinkEvent>
@@ -155,8 +153,8 @@ xcopy "$(ProjectDir)resources\forkawesome-webfont.ttf" "$(TargetDir)fonts\" /Y /
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;dxgi.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(DXSDK_DIR)/Lib/x86;%(AdditionalLibraryDirectories);./../Libraries/SQLite3;./..Libraries/SQLite3</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SQLite3.lib;d3d11.lib;d3dcompiler.lib;dxgi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(DXSDK_DIR)/Lib/x86;%(AdditionalLibraryDirectories);./../Libraries/SQLite3;./..Libraries/SQLite3;./../Libraries/SQLite3;./../Libraries/SQLite3</AdditionalLibraryDirectories>
       <SubSystem>Console</SubSystem>
     </Link>
     <PreLinkEvent>
@@ -188,8 +186,8 @@ xcopy "$(ProjectDir)resources\forkawesome-webfont.ttf" "$(SolutionDir)bin\$(Plat
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;dxgi.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(DXSDK_DIR)/Lib/x64;%(AdditionalLibraryDirectories);./../Libraries/SQLite3;./..Libraries/SQLite3</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SQLite3.lib;d3d11.lib;d3dcompiler.lib;dxgi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(DXSDK_DIR)/Lib/x64;%(AdditionalLibraryDirectories);./../Libraries/SQLite3;./..Libraries/SQLite3;./../Libraries/SQLite3;./../Libraries/SQLite3</AdditionalLibraryDirectories>
       <SubSystem>Console</SubSystem>
     </Link>
     <PreLinkEvent>
@@ -256,9 +254,6 @@ xcopy "$(ProjectDir)resources\forkawesome-webfont.ttf" "$(SolutionDir)bin\$(Plat
   <ItemGroup>
     <ProjectReference Include="..\Libraries\ImGui\ImGui.vcxproj">
       <Project>{87e38713-a145-45a6-a740-0e4a3caad791}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Libraries\SQLite3\SQLite3.vcxproj">
-      <Project>{a81d9145-8187-49e5-bedd-e73a375a284f}</Project>
     </ProjectReference>
     <ProjectReference Include="..\Libraries\Tools\Tools.vcxproj">
       <Project>{54a3962a-7bcf-4f78-b8e7-a98901f1ea0f}</Project>
