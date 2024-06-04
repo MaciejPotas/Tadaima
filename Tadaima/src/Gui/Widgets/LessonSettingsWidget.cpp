@@ -133,7 +133,7 @@ namespace tadaima
                         const auto& word = m_newLesson.words[index];
                         ImGui::PushID(static_cast<int>(index));
 
-                        if( ImGui::Selectable(word.kana.c_str(), index == m_selectedWordIndex) )
+                        if( ImGui::Selectable(word.kana.c_str(), index == static_cast<size_t>(m_selectedWordIndex)) )
                         {
                             // Fill the input fields with the selected word's data
                             m_selectedWordIndex = static_cast<int>(index);
