@@ -113,7 +113,7 @@ namespace tadaima
                 if( *p_open )
                 {
                     Open();
-                    ImGui::SetNextWindowSize(ImVec2(600, 300), ImGuiCond_Always);  // Adjust size as needed
+                    ImGui::SetNextWindowSize(ImVec2(600, 320), ImGuiCond_Always);  // Adjust size as needed
                     ImGui::PushStyleColor(ImGuiCol_PopupBg, ImGui::GetStyleColorVec4(ImGuiCol_WindowBg));
 
                     if( ImGui::BeginPopupModal("Application settings", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoResize) )
@@ -144,6 +144,14 @@ namespace tadaima
                         ImGui::Combo("##input_type", &m_inputOption, translationOptions, IM_ARRAYSIZE(translationOptions));
                         ShowFieldHelp("Choose how you want to input words during the quiz.");
 
+                        // Add the Flip button
+                        if( ImGui::Button("Flip", ImVec2(120, 0)) )
+                        {
+                            std::swap(m_inputOption, m_translationOption);
+                        }
+                        ImGui::SameLine();
+                        ShowFieldHelp("Click to swap the word input and translation options.");
+
                         ImGui::Text(" Word option you will be asked for:");
                         ImGui::Combo("##translation_type", &m_translationOption, translationOptions, IM_ARRAYSIZE(translationOptions));
                         ShowFieldHelp("Choose how you want the words to be translated during the quiz.");
@@ -170,6 +178,7 @@ namespace tadaima
                     ImGui::PopStyleColor();  // Restore previous style
                 }
             }
+
 
             void ApplicationSettingsWidget::ShowFieldHelp(const char* desc)
             {
