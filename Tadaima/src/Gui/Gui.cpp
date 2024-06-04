@@ -10,7 +10,6 @@
 #include "Widgets/LessonTreeViewWidget.h"
 #include "Widgets/MenuBarWidget.h"
 #include "Widgets/MainDashboardWidget.h"
-#include "Widgets/VocabularySettingsWidget.h"
 #include "resources/IconsFontAwesome4.h"
 #include "imgui.h"
 #include "imgui_impl_dx11.h"
@@ -50,8 +49,6 @@ namespace tadaima
             m_widgets[widget::Type::MenuBar] = std::make_unique<widget::MenuBarWidget>(m_logger);
             m_widgets[widget::Type::LessonTreeView] = std::make_unique<widget::LessonTreeViewWidget>();
             m_widgets[widget::Type::Dashboard] = std::make_unique<widget::MainDashboardWidget>();
-            m_widgets[widget::Type::VocabularySettings] = std::make_unique<widget::VocabularySettingsWidget>();
-
 
             for( const auto& [key, value] : m_widgets )
             {
