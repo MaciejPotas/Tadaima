@@ -9,6 +9,8 @@
 #include "lessons/Lesson.h"
 #include "LessonSettingsWidget.h"
 #include "packages/LessonDataPackage.h"
+#include <unordered_set>
+#include <deque>
 
 namespace tadaima
 {
@@ -55,7 +57,17 @@ namespace tadaima
 
             private:
 
+                LessonDataPackage createLessonDataPackageFromSelectedNodes(const std::unordered_set<int>& nodes);
+                LessonDataPackage createLessonDataPackageFromLessons(const std::vector<Lesson>& lessons);
+                LessonDataPackage createLessonDataPackageFromLesson(const Lesson& lesson);
+                LessonPackage createLessonPackage(const Lesson& lesson);
                 void ShowRenamePopup();
+                void handleAddNewLessonButton(bool& open_add_new_lesson, Lesson& selectedLesson);
+                void drawAddNewLessonWidget(bool& open_add_new_lesson, Lesson& selectedLesson);
+                void drawLessonsTree(bool clickedOutside, bool& open_edit_lesson, Lesson& selectedLesson, Lesson& originalLesson, bool& renamePopupOpen, bool& deleteLesson, bool ctrlPressed);
+                void drawEditLessonWidget(bool& open_edit_lesson, Lesson& selectedLesson, Lesson& originalLesson);
+                void handleDeleteLesson();
+                void saveRenamedLesson();
 
                 /**
                  * @brief Represents a group of lessons.
@@ -66,10 +78,11 @@ namespace tadaima
                     std::vector<Lesson> subLessons; /**< The sub-lessons within the group. */
                 };
 
-                std::vector<LessonGroup> m_cashedLessons; /**< Vector containing lesson groups. */
+                std::deque<LessonGroup> m_cashedLessons; /**< Vector containing lesson groups. */
                 LessonPackageType m_type; /**< The type of package. */
                 LessonSettingsWidget m_lessonSettingsWidget; /**< The lesson settings widget. */
 
+                std::unordered_set<int> m_selectedLessons; // Store indices of selected lessons
                 int m_selectedLessonIndex = -1;
                 int m_changedLessonGroupIndex = -1;
                 int m_changedLessonIndex = -1;
