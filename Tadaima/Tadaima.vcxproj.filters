@@ -8,9 +8,6 @@
     <ClCompile Include="src\gui\Gui.cpp">
       <Filter>src\gui</Filter>
     </ClCompile>
-    <ClCompile Include="src\gui\widgets\VocabularySettingsWidget.cpp">
-      <Filter>src\gui\widgets</Filter>
-    </ClCompile>
     <ClCompile Include="src\gui\widgets\MenuBarWidget.cpp">
       <Filter>src\gui\widgets</Filter>
     </ClCompile>
@@ -80,9 +77,6 @@
       <Filter>src\gui\widgets</Filter>
     </ClInclude>
     <ClInclude Include="src\gui\widgets\MenuBarWidget.h">
-      <Filter>src\gui\widgets</Filter>
-    </ClInclude>
-    <ClInclude Include="src\gui\widgets\VocabularySettingsWidget.h">
       <Filter>src\gui\widgets</Filter>
     </ClInclude>
     <ClInclude Include="src\lessons\LessonManager.h">
