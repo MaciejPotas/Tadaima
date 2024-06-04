@@ -92,6 +92,10 @@ namespace tadaima
                     {
                         const Word& randomWord = m_quizWords[rng() % m_quizWords.size()];
                         auto optionstring = getTranslation(randomWord, m_inputWord);
+                        if( optionstring == "" )
+                        {
+                            optionstring = "dummy_option_" + std::to_string(options.size());
+                        }
                         if( usedTranslations.find(optionstring) == usedTranslations.end() )
                         {
                             options.push_back(optionstring);
