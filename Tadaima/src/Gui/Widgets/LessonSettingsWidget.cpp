@@ -29,9 +29,9 @@ namespace tadaima
 
                     // Left Column: Word input fields
                     ImGui::Text("Add/Edit Word");
-                    ImGui::InputText("Word", m_translationBuffer, sizeof(m_translationBuffer));
-                    ImGui::InputText("Romaji", m_romajiBuffer, sizeof(m_romajiBuffer));
                     ImGui::InputText("Kana", m_kanaBuffer, sizeof(m_kanaBuffer));
+                    ImGui::InputText("Translation", m_translationBuffer, sizeof(m_translationBuffer));
+                    ImGui::InputText("Romaji", m_romajiBuffer, sizeof(m_romajiBuffer));
                     ImGui::InputText("Example Sentence", m_exampleSentenceBuffer, sizeof(m_exampleSentenceBuffer));
                     ImGui::InputText("Tags (comma-separated)", m_tagBuffer, sizeof(m_tagBuffer));
                     if( ImGui::IsItemHovered() )
@@ -128,7 +128,7 @@ namespace tadaima
                     ImGui::Text("Words in this Lesson:");
                     ImGui::Separator();
 
-                    for( auto index = 0; index < static_cast<int>(m_newLesson.words.size()); ++index )
+                    for( size_t index = 0; index < m_newLesson.words.size(); ++index )
                     {
                         const auto& word = m_newLesson.words[index];
                         ImGui::PushID(static_cast<int>(index));
@@ -196,6 +196,18 @@ namespace tadaima
                 }
 
                 ImGui::PopStyleColor();  // Restore previous style
+
+                // Check for clicks outside the selection to reset the selected word index
+                if( ImGui::IsMouseClicked(0) && !ImGui::IsAnyItemHovered() && !ImGui::IsWindowHovered(ImGuiHoveredFlags_AllowWhenBlockedByActiveItem) )
+                {
+                    m_selectedWordIndex = -1;
+                    // Clear the word input fields
+                    std::memset(m_kanaBuffer, 0, sizeof(m_kanaBuffer));
+                    std::memset(m_translationBuffer, 0, sizeof(m_translationBuffer));
+                    std::memset(m_romajiBuffer, 0, sizeof(m_romajiBuffer));
+                    std::memset(m_exampleSentenceBuffer, 0, sizeof(m_exampleSentenceBuffer));
+                    std::memset(m_tagBuffer, 0, sizeof(m_tagBuffer));
+                }
 
                 if( !ImGui::IsPopupOpen("Add New Lesson Modal") && !ImGui::IsPopupOpen("Edit Lesson Modal") )
                 {
