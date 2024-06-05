@@ -98,7 +98,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>SQLite3.lib;d3d11.lib;d3dcompiler.lib;dxgi.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories);./../Libraries/SQLite3</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories);./../Libraries/SQLite3;C:\Projects\Tadaima\Libraries\pugixml</AdditionalLibraryDirectories>
       <SubSystem>Console</SubSystem>
     </Link>
     <PreLinkEvent>
@@ -123,7 +123,7 @@ xcopy "$(ProjectDir)resources\forkawesome-webfont.ttf" "$(TargetDir)fonts\" /Y /
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>SQLite3.lib;d3d11.lib;d3dcompiler.lib;dxgi.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories);./../Libraries/SQLite3</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories);./../Libraries/SQLite3;C:\Projects\Tadaima\Libraries\pugixml</AdditionalLibraryDirectories>
       <SubSystem>Console</SubSystem>
     </Link>
     <PreLinkEvent>
@@ -154,7 +154,7 @@ xcopy "$(ProjectDir)resources\forkawesome-webfont.ttf" "$(TargetDir)fonts\" /Y /
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>SQLite3.lib;d3d11.lib;d3dcompiler.lib;dxgi.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(DXSDK_DIR)/Lib/x86;%(AdditionalLibraryDirectories);./../Libraries/SQLite3;./..Libraries/SQLite3;./../Libraries/SQLite3;./../Libraries/SQLite3</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(DXSDK_DIR)/Lib/x86;%(AdditionalLibraryDirectories);./../Libraries/SQLite3;./..Libraries/SQLite3;./../Libraries/SQLite3;./../Libraries/SQLite3;./../pugixml</AdditionalLibraryDirectories>
       <SubSystem>Console</SubSystem>
     </Link>
     <PreLinkEvent>
@@ -187,7 +187,7 @@ xcopy "$(ProjectDir)resources\forkawesome-webfont.ttf" "$(SolutionDir)bin\$(Plat
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>SQLite3.lib;d3d11.lib;d3dcompiler.lib;dxgi.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(DXSDK_DIR)/Lib/x64;%(AdditionalLibraryDirectories);./../Libraries/SQLite3;./..Libraries/SQLite3;./../Libraries/SQLite3;./../Libraries/SQLite3</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(DXSDK_DIR)/Lib/x64;%(AdditionalLibraryDirectories);./../Libraries/SQLite3;./..Libraries/SQLite3;./../Libraries/SQLite3;./../Libraries/SQLite3;./../pugixml</AdditionalLibraryDirectories>
       <SubSystem>Console</SubSystem>
     </Link>
     <PreLinkEvent>
@@ -216,6 +216,8 @@ xcopy "$(ProjectDir)resources\forkawesome-webfont.ttf" "$(SolutionDir)bin\$(Plat
     <ClInclude Include="src\gui\quiz\QuizType.h" />
     <ClInclude Include="src\gui\quiz\QuizWord.h" />
     <ClInclude Include="src\gui\quiz\VocabularyQuiz.h" />
+    <ClInclude Include="src\gui\widgets\ImGuiFileDialog.h" />
+    <ClInclude Include="src\gui\widgets\ImGuiFileDialogConfig.h" />
     <ClInclude Include="src\gui\widgets\LessonSettingsWidget.h" />
     <ClInclude Include="src\gui\widgets\packages\LessonDataPackage.h" />
     <ClInclude Include="src\gui\widgets\packages\PackageType.h" />
@@ -224,6 +226,7 @@ xcopy "$(ProjectDir)resources\forkawesome-webfont.ttf" "$(SolutionDir)bin\$(Plat
     <ClInclude Include="src\gui\widgets\ApplicationSettingsWidget.h" />
     <ClInclude Include="src\gui\widgets\VocabularyQuizWidget.h" />
     <ClCompile Include="src\gui\widgets\ApplicationSettingsWidget.cpp" />
+    <ClCompile Include="src\gui\widgets\ImGuiFileDialog.cpp" />
     <ClCompile Include="src\gui\widgets\LessonSettingsWidget.cpp" />
     <ClCompile Include="src\application\ApplicationDatabase.cpp" />
     <ClCompile Include="src\gui\widgets\QuizWidget.cpp" />

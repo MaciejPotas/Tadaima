@@ -3,6 +3,8 @@
 #include "imgui.h"
 #include <map>
 #include <unordered_set>
+#include "ImGuiFileDialog.h"
+#include "Tools/pugixml.hpp"
 
 namespace tadaima
 {
@@ -150,7 +152,7 @@ namespace tadaima
                     return;
                 }
 
-                if( ImGui::Button(ICON_FA_PLUS " Add New Lesson") )
+                if( ImGui::Button(ICON_FA_PLUS " Create") )
                 {
                     // Create a new lesson object
                     selectedLesson = Lesson();
@@ -170,6 +172,28 @@ namespace tadaima
                             emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnLessonCreated, &package));
                         }
                     }
+                }
+
+                ImGui::SameLine();
+                if( ImGui::Button(ICON_FA_PLUS " Import") )
+                {
+                    IGFD::FileDialogConfig config;
+
+                    ImGui::SetNextWindowSize(ImVec2(500, 400), ImGuiCond_Always);  // Adjust size as needed
+
+                    ImGuiFileDialog::Instance()->OpenDialog("ChooseFileDlgKey", "Choose File", ".xml", config);
+                }
+
+                if( ImGuiFileDialog::Instance()->Display("ChooseFileDlgKey") )
+                {
+                    // action if OK
+                    if( ImGuiFileDialog::Instance()->IsOk() )
+                    {
+                        std::string filePath = ImGuiFileDialog::Instance()->GetFilePathName();
+                        parseAndImportLessons(filePath);
+                    }
+                    // close
+                    ImGuiFileDialog::Instance()->Close();
                 }
 
                 bool clickedOutside = ImGui::IsMouseClicked(0) && !ImGui::IsAnyItemHovered() && !ImGui::IsMouseReleased(1);
@@ -356,32 +380,80 @@ namespace tadaima
                 ImGui::End();
             }
 
-           LessonDataPackage LessonTreeViewWidget::createLessonDataPackageFromSelectedNodes(const std::unordered_set<int>& nodes)
-           {
-               std::unordered_map<int, Lesson> lessonMap;
+            void LessonTreeViewWidget::parseAndImportLessons(const std::string& filePath)
+            {
+                pugi::xml_document doc;
+                pugi::xml_parse_result result = doc.load_file(filePath.c_str());
 
-               for( const auto& lessonGroup : m_cashedLessons )
-               {
-                   for( const auto& lesson : lessonGroup.subLessons )
-                   {
-                       lessonMap[lesson.id] = lesson;
-                   }
-               }
+                if( !result )
+                {
+                   // std::cerr << "Error: Could not load XML file!" << std::endl;
+                    return;
+                }
 
-               // Filter out the lessons that match the given node IDs
-               std::vector<Lesson> lessons;
-               lessons.reserve(nodes.size());  // Reserve space for optimization
+                std::map<std::string, LessonGroup> lessonMap;
 
-               for( int id : nodes )
-               {
-                   auto it = lessonMap.find(id);
-                   if( it != lessonMap.end() )
-                   {
-                       lessons.push_back(it->second);
-                   }
-               }
+                for( pugi::xml_node lessonNode : doc.child("lessons").children("lesson") )
+                {
+                    std::string lessonName = lessonNode.attribute("name").as_string();
 
-               return createLessonDataPackageFromLessons(lessons);
+                    LessonGroup& lessonGroup = lessonMap[lessonName];
+                    lessonGroup.mainName = lessonName;
+
+                    for( pugi::xml_node subnameNode : lessonNode.children("subname") )
+                    {
+                        Lesson lesson;
+                        lesson.mainName = lessonName;
+                        lesson.subName = subnameNode.attribute("name").as_string();
+
+                        for( pugi::xml_node wordNode : subnameNode.children("word") )
+                        {
+                            Word word;
+                            word.translation = wordNode.attribute("translation").as_string();
+                            word.romaji = wordNode.attribute("romaji").as_string();
+                            word.kana = wordNode.attribute("kana").as_string();
+
+                            lesson.words.push_back(word);
+                        }
+
+                        lessonGroup.subLessons.push_back(lesson);
+                    }
+                }
+
+          //      m_cashedLessons.clear();
+                for( const auto& pair : lessonMap )
+                {
+                    m_cashedLessons.push_back(pair.second);
+                }
+
+            }
+
+            LessonDataPackage LessonTreeViewWidget::createLessonDataPackageFromSelectedNodes(const std::unordered_set<int>& nodes)
+            {
+                std::unordered_map<int, Lesson> lessonMap;
+
+                for( const auto& lessonGroup : m_cashedLessons )
+                {
+                    for( const auto& lesson : lessonGroup.subLessons )
+                    {
+                        lessonMap[lesson.id] = lesson;
+                    }
+                }
+
+                // Filter out the lessons that match the given node IDs
+                std::vector<Lesson> lessons;
+                lessons.reserve(nodes.size());  // Reserve space for optimization
+
+                for( int id : nodes )
+                {
+                    auto it = lessonMap.find(id);
+                    if( it != lessonMap.end() )
+                    {
+                        lessons.push_back(it->second);
+                    }
+                }
+
+                return createLessonDataPackageFromLessons(lessons);
 
             }
 

@@ -11,6 +11,7 @@
 #include "packages/LessonDataPackage.h"
 #include <unordered_set>
 #include <deque>
+#include <map>
 
 namespace tadaima
 {
@@ -56,7 +57,20 @@ namespace tadaima
                 void draw(bool* p_open) override;
 
             private:
+                
+                /**
+                 * @brief Represents a group of lessons.
+                 */
+                struct LessonGroup
+                {
+                    std::string mainName; /**< The main name of the lesson group. */
+                    std::vector<Lesson> subLessons; /**< The sub-lessons within the group. */
+                };
 
+
+                void parseAndImportLessons(const std::string& filePath);
+                void addLessonsWithOverwriteCheck(const std::map<std::string, LessonGroup>& newLessons);
+                void drawOverwritePopup();
                 LessonDataPackage createLessonDataPackageFromSelectedNodes(const std::unordered_set<int>& nodes);
                 LessonDataPackage createLessonDataPackageFromLessons(const std::vector<Lesson>& lessons);
                 LessonDataPackage createLessonDataPackageFromLesson(const Lesson& lesson);
@@ -68,15 +82,6 @@ namespace tadaima
                 void drawEditLessonWidget(bool& open_edit_lesson, Lesson& selectedLesson, Lesson& originalLesson);
                 void handleDeleteLesson();
                 void saveRenamedLesson();
-
-                /**
-                 * @brief Represents a group of lessons.
-                 */
-                struct LessonGroup
-                {
-                    std::string mainName; /**< The main name of the lesson group. */
-                    std::vector<Lesson> subLessons; /**< The sub-lessons within the group. */
-                };
 
                 std::deque<LessonGroup> m_cashedLessons; /**< Vector containing lesson groups. */
                 LessonPackageType m_type; /**< The type of package. */
