@@ -7,6 +7,7 @@
 
 #include "Widget.h"
 #include "Lessons/Lesson.h"
+#include "tools/Dictionary.h"
 
 namespace tadaima
 {
@@ -23,6 +24,9 @@ namespace tadaima
             class LessonSettingsWidget : public Widget
             {
             public:
+
+                LessonSettingsWidget();
+
                 /**
                  * @brief Draws the lesson settings widget.
                  * @param p_open Pointer to a boolean indicating whether the widget is open.
@@ -35,7 +39,14 @@ namespace tadaima
                  */
                 void setLesson(Lesson& lesson);
 
+                /**
+                  * @brief Initializes the widget with data from a data package.
+                  * @param r_package The data package used for initialization.
+                  */
+                void initialize(const tools::DataPackage& r_package) override;
+
             private:
+
                 bool m_isEditing = false; ///< Flag indicating whether the widget is in edit mode.
                 char m_mainNameBuffer[50] = ""; ///< Buffer for the lesson main name.
                 char m_subNameBuffer[50] = "";  ///< Buffer for the lesson sub name.
@@ -46,6 +57,7 @@ namespace tadaima
                 char m_tagBuffer[100] = ""; ///< Buffer for word tags.
                 int m_selectedWordIndex = -1; ///< Index of the selected word in the list.
                 Lesson m_newLesson; ///< New lesson to be added or edited.
+                Dictionary m_dictionary;
 
                 /**
                  * @brief Pointer to the lesson object.

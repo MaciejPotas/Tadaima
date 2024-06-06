@@ -3,6 +3,8 @@
 #include <cstring>
 #include <iosfwd>
 #include <sstream>
+#include <stdexcept>
+#include "packages/SettingsDataPackage.h"
 
 namespace tadaima
 {
@@ -10,6 +12,18 @@ namespace tadaima
     {
         namespace widget
         {
+
+            LessonSettingsWidget::LessonSettingsWidget() : m_selectedWordIndex(-1), m_isEditing(false)
+            {
+                std::memset(m_mainNameBuffer, 0, sizeof(m_mainNameBuffer));
+                std::memset(m_subNameBuffer, 0, sizeof(m_subNameBuffer));
+                std::memset(m_translationBuffer, 0, sizeof(m_translationBuffer));
+                std::memset(m_romajiBuffer, 0, sizeof(m_romajiBuffer));
+                std::memset(m_kanaBuffer, 0, sizeof(m_kanaBuffer));
+                std::memset(m_exampleSentenceBuffer, 0, sizeof(m_exampleSentenceBuffer));
+                std::memset(m_tagBuffer, 0, sizeof(m_tagBuffer));
+            }
+
             void LessonSettingsWidget::draw(bool* p_open)
             {
                 if( *p_open )
@@ -29,9 +43,25 @@ namespace tadaima
 
                     // Left Column: Word input fields
                     ImGui::Text("Add/Edit Word");
-                    ImGui::InputText("Kana", m_kanaBuffer, sizeof(m_kanaBuffer));
                     ImGui::InputText("Translation", m_translationBuffer, sizeof(m_translationBuffer));
+
+                    // Button to translate using the dictionary
+                    if( ImGui::Button("Translate") )
+                    {
+                        try
+                        {
+                            Word translatedWord = m_dictionary.getTranslation(m_translationBuffer);
+                            std::strncpy(m_romajiBuffer, translatedWord.romaji.c_str(), sizeof(m_romajiBuffer));
+                            std::strncpy(m_kanaBuffer, translatedWord.kana.c_str(), sizeof(m_kanaBuffer));
+                        }
+                        catch( const std::exception& e )
+                        {
+                            ImGui::OpenPopup("Translation Error");
+                        }
+                    }
+
                     ImGui::InputText("Romaji", m_romajiBuffer, sizeof(m_romajiBuffer));
+                    ImGui::InputText("Kana", m_kanaBuffer, sizeof(m_kanaBuffer));
                     ImGui::InputText("Example Sentence", m_exampleSentenceBuffer, sizeof(m_exampleSentenceBuffer));
                     ImGui::InputText("Tags (comma-separated)", m_tagBuffer, sizeof(m_tagBuffer));
                     if( ImGui::IsItemHovered() )
@@ -233,6 +263,17 @@ namespace tadaima
                 m_isEditing = true; // Enable edit mode
                 m_selectedWordIndex = -1; // Reset selection
             }
+
+            void LessonSettingsWidget::initialize(const tools::DataPackage& r_package)
+            {
+                const SettingsDataPackage* package = dynamic_cast<const SettingsDataPackage*>(&r_package);
+                if( package )
+                {
+                    const std::string dictionaryPath = package->get<std::string>(SettingsPackageKey::DictionaryPath);
+                    m_dictionary.setPathForTranslator(dictionaryPath);
+                }
+            }
+
         }
     }
 }

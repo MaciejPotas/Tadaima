@@ -32,6 +32,8 @@ namespace tadaima
                         m_cashedLessons.push_back(pair.second);
                     }
                 }
+
+                m_lessonSettingsWidget.initialize(r_package);
             }
 
             LessonDataPackage LessonTreeViewWidget::createLessonDataPackageFromLessons(const std::vector<Lesson>& lessons)

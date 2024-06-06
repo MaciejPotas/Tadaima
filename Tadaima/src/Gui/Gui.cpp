@@ -11,6 +11,7 @@
 #include "Widgets/MenuBarWidget.h"
 #include "Widgets/MainDashboardWidget.h"
 #include "resources/IconsFontAwesome4.h"
+#include "tools/SystemTools.h"
 #include "imgui.h"
 #include "imgui_impl_dx11.h"
 #include "imgui_impl_win32.h"
@@ -19,15 +20,6 @@
 #include <string>
 #include <windows.h>
 #include "Tools/Logger.h"
-
-std::string getexepath()
-{
-    char buffer[MAX_PATH];
-    ::GetModuleFileNameA(NULL, buffer, MAX_PATH);
-    std::string::size_type pos = std::string(buffer).find_last_of("\\/");
-
-    return std::string(buffer).substr(0, pos);
-}
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 

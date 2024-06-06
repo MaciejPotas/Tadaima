@@ -203,6 +203,32 @@ namespace tadaima
                         // Quiz Section
                         if( !m_quiz->isQuizComplete() )
                         {
+
+
+
+
+                            if( m_showCorrectAnswer )
+                            {
+                                ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "%s", m_correctAnswerMessage.c_str());
+                                ImGui::Text("Previous flashcard:");
+                                ImGui::BulletText("Translation: %s", m_translation.c_str());
+                                ImGui::BulletText("Kana: %s", m_kana.c_str());
+                                ImGui::BulletText("Romaji: %s", m_romaji.c_str());
+                                ImGui::BulletText("Example: %s", m_example.c_str());
+                            }
+                            else
+                            {
+                                ImGui::TextColored(ImVec4(0.0f, 0.0f, 0.0f, 1.0f), "%s", "Your answer.");
+
+                                ImGui::Text("Previous flashcard:");
+                                ImGui::BulletText("Translation: %s", m_translation.c_str());
+                                ImGui::BulletText("Kana: %s", m_kana.c_str());
+                                ImGui::BulletText("Romaji: %s", m_romaji.c_str());
+                                ImGui::BulletText("Example: %s", m_example.c_str());
+                            }
+
+                            ImGui::Spacing();
+
                             const auto& flashcard = m_quiz->getCurrentFlashCard();
                             auto word = getWordById(flashcard.wordId);
                             auto translate = getTranslation(word, m_baseWord);
@@ -224,7 +250,7 @@ namespace tadaima
                                 setFocusOnInputField = false;
                             }
 
-                            if( ImGui::InputText("Your answer", m_userInput, sizeof(m_userInput), ImGuiInputTextFlags_EnterReturnsTrue) )
+                            if( ImGui::InputText(" ", m_userInput, sizeof(m_userInput), ImGuiInputTextFlags_EnterReturnsTrue) )
                             {
                                 m_translation = word.translation;
                                 m_kana = word.kana;
@@ -263,29 +289,6 @@ namespace tadaima
 
                             ImGui::Spacing();
 
-                            // Feedback Section
-                            ImGui::Separator();
-                            if( m_showCorrectAnswer )
-                            {
-                                ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "%s", m_correctAnswerMessage.c_str());
-                                ImGui::Text("Previous flashcard:");
-                                ImGui::BulletText("Translation: %s", m_translation.c_str());
-                                ImGui::BulletText("Kana: %s", m_kana.c_str());
-                                ImGui::BulletText("Romaji: %s", m_romaji.c_str());
-                                ImGui::BulletText("Example: %s", m_example.c_str());
-                            }
-                            else
-                            {
-                                ImGui::TextColored(ImVec4(0.0f, 0.0f, 0.0f, 1.0f), "%s", "Your answer.");
-
-                                ImGui::Text("Previous flashcard:");
-                                ImGui::BulletText("Translation: %s", m_translation.c_str());
-                                ImGui::BulletText("Kana: %s", m_kana.c_str());
-                                ImGui::BulletText("Romaji: %s", m_romaji.c_str());
-                                ImGui::BulletText("Example: %s", m_example.c_str());
-                            }
-
-                            ImGui::Spacing();
 
                             // Controls Section
                             ImGui::Separator();
