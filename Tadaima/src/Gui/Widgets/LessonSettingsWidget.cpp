@@ -242,7 +242,7 @@ namespace tadaima
                 ImGui::PopStyleColor();  // Restore previous style
 
                 // Check for clicks outside the selection to reset the selected word index
-                if( ImGui::IsMouseClicked(0) && !ImGui::IsAnyItemHovered() && !ImGui::IsWindowHovered(ImGuiHoveredFlags_AllowWhenBlockedByActiveItem) )
+                if( ImGui::IsMouseDoubleClicked(0) && !ImGui::IsAnyItemHovered() && !ImGui::IsWindowHovered(ImGuiHoveredFlags_AllowWhenBlockedByActiveItem) )
                 {
                     m_logger.log("Clicked outside selection, resetting selected word index", tools::LogLevel::DEBUG);
                     m_selectedWordIndex = -1;
