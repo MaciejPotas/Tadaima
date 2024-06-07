@@ -231,30 +231,18 @@ namespace tadaima
                                 {
                                     if( ImGui::MenuItem("vocabulary quiz") )
                                     {
-                                        if( m_selectedLessons.size() > 0 )
-                                        {
-                                            auto package = createLessonDataPackageFromSelectedNodes(m_selectedLessons);
-                                            emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnPlayVocabularyQuiz, &package));
-                                        }
-                                        else
-                                        {
-                                            LessonDataPackage package = createLessonDataPackageFromLesson(lesson);
-                                            emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnPlayVocabularyQuiz, &package));
-                                        }
+                                        auto package = (m_selectedLessons.size() > 0) ?
+                                            createLessonDataPackageFromSelectedNodes(m_selectedLessons) :
+                                            createLessonDataPackageFromLesson(lesson);
+                                        emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnPlayVocabularyQuiz, &package));
                                     }
 
                                     if( ImGui::MenuItem("multiple choice quiz") )
                                     {
-                                        if( m_selectedLessons.size() > 0 )
-                                        {
-                                            auto package = createLessonDataPackageFromSelectedNodes(m_selectedLessons);
-                                            emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnPlayMultipleChoiceQuiz, &package));
-                                        }
-                                        else
-                                        {
-                                            LessonDataPackage package = createLessonDataPackageFromLesson(lesson);
-                                            emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnPlayMultipleChoiceQuiz, &package));
-                                        }
+                                        auto package = (m_selectedLessons.size() > 0) ?
+                                            createLessonDataPackageFromSelectedNodes(m_selectedLessons) :
+                                            createLessonDataPackageFromLesson(lesson);
+                                        emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnPlayMultipleChoiceQuiz, &package));
                                     }
 
                                     ImGui::EndMenu();
@@ -318,7 +306,7 @@ namespace tadaima
                     {
                         std::string filePath = ImGuiFileDialog::Instance()->GetFilePathName();
                         m_logger.log("Save file selected: " + filePath);
-                        parseAndExportLessons(filePath, m_selectedLessons);
+                        parseAndExportLessons(filePath, lessonsToExport);
                     }
                     ImGuiFileDialog::Instance()->Close();
                 }
@@ -389,57 +377,23 @@ namespace tadaima
                 if( !result )
                 {
                     m_logger.log("Error: Could not load XML file!");
-                    parsedLessons;
+                    return parsedLessons;
                 }
 
-                std::map<std::string, LessonGroup> lessonMap;
+                std::unordered_set<std::string> uniqueLessons; // To track unique lessons
 
                 for( pugi::xml_node lessonNode : doc.child("lessons").children("lesson") )
                 {
-                    Lesson lesson;
                     std::string lessonName = lessonNode.attribute("name").as_string();
-                    LessonGroup lessonGroup;
-                    lessonGroup.mainName = lessonName;
 
                     for( pugi::xml_node subnameNode : lessonNode.children("subname") )
                     {
-
+                        Lesson lesson;
                         lesson.mainName = lessonName;
                         lesson.subName = subnameNode.attribute("name").as_string();
+                        std::string uniqueKey = lesson.mainName + ":" + lesson.subName;
 
-                        bool lessonExists = false;
-                        for( auto& existingGroup : m_cashedLessons )
-                        {
-                            if( existingGroup.mainName == lesson.mainName )
-                            {
-                                for( const auto& existingLesson : existingGroup.subLessons )
-                                {
-                                    if( existingLesson.subName == lesson.subName )
-                                    {
-                                        lessonExists = true;
-                                        break;
-                                    }
-                                }
-                                if( !lessonExists )
-                                {
-                                    for( pugi::xml_node wordNode : subnameNode.children("word") )
-                                    {
-                                        Word word;
-                                        word.translation = wordNode.attribute("translation").as_string();
-                                        word.romaji = wordNode.attribute("romaji").as_string();
-                                        word.kana = wordNode.attribute("kana").as_string();
-                                        lesson.words.push_back(word);
-                                    }
-                                    existingGroup.subLessons.push_back(lesson);
-                                }
-
-                                parsedLessons.push_back(lesson);
-                                lessonExists = true; // To ensure no duplicate groups are added
-                                break;
-                            }
-                        }
-
-                        if( !lessonExists )
+                        if( uniqueLessons.find(uniqueKey) == uniqueLessons.end() )
                         {
                             for( pugi::xml_node wordNode : subnameNode.children("word") )
                             {
@@ -450,42 +404,13 @@ namespace tadaima
                                 lesson.words.push_back(word);
                             }
 
-                            lessonGroup.subLessons.push_back(lesson);
+                            parsedLessons.push_back(lesson);
+                            uniqueLessons.insert(uniqueKey);
                         }
-                    }
-
-                    if( !lessonGroup.subLessons.empty() )
-                    {
-                        lessonMap[lessonName] = lessonGroup;
-                    }
-                }
-
-                for( const auto& pair : lessonMap )
-                {
-                    bool groupExists = false;
-                    for( auto& existingGroup : m_cashedLessons )
-                    {
-                        if( existingGroup.mainName == pair.first )
-                        {
-                            existingGroup.subLessons.insert(existingGroup.subLessons.end(), pair.second.subLessons.begin(), pair.second.subLessons.end());
-                            groupExists = true;
-                            break;
-                        }
-                    }
-
-                    if( !groupExists )
-                    {
-                        Lesson lesson;
-                        lesson.mainName = pair.second.mainName;
-                        lesson.subName = pair.second.subLessons[0].subName;
-                        lesson.words = pair.second.subLessons[0].words;
-
-                        parsedLessons.push_back(lesson);
                     }
                 }
 
                 m_logger.log("Lessons imported from file.");
-
                 return parsedLessons;
             }
 

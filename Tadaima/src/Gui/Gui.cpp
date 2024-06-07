@@ -167,7 +167,7 @@ namespace tadaima
             bool show_demo_window = false;
             bool show_another_window = false;
             ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-
+            bool showDashboard = true;
             initialize();
 
             // Main loop
@@ -229,9 +229,9 @@ namespace tadaima
 
                     /*          DASHBOARD          */
                     // Set the Main Dashboard next to Lessons Overview and non-movable
-                    //ImGui::SetNextWindowPos(ImVec2(250, 25), ImGuiCond_Always);
-                    //ImGui::SetNextWindowSize(ImVec2(540, 600), ImGuiCond_Always);  // Adjust remaining width
-                    //m_widgets[widget::Type::Dashboard]->draw(&showDashboard);
+                    ImGui::SetNextWindowPos(ImVec2(250, 25), ImGuiCond_Always);
+                    ImGui::SetNextWindowSize(ImVec2(540, 600), ImGuiCond_Always);  // Adjust remaining width
+                    m_widgets[widget::Type::Dashboard]->draw(&showDashboard);
                     /*          DASHBOARD          */
 
 
