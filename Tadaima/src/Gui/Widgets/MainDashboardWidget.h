@@ -31,6 +31,9 @@ namespace tadaima
                  * @param p_open Pointer to a boolean indicating whether the widget is open.
                  */
                 void draw(bool* p_open) override;
+
+            private:
+                std::string m_username = "Gakusei-dono";
             };
         }
     }

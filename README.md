@@ -15,6 +15,7 @@ Lesson Management
 - Custom Lessons: Users can create custom dictionary-like lessons with an unlimited number of words.
 - Structured Organization: Lessons can be grouped under main names (e.g., "Grammar", "Vocabulary") with sub-names (e.g., "Basics", "Lesson 1").
 - Lesson Overview: A tree view widget provides an overview of all lessons, grouped by their main names. Users can expand each main lesson to view sub-lessons and the words they contain.
+- Translation Support: Use a Python script to translate English words to Japanese and get their Hiragana and Romaji representations.
 
 Flashcards
 

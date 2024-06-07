@@ -98,7 +98,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>SQLite3.lib;d3d11.lib;d3dcompiler.lib;dxgi.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories);./../Libraries/SQLite3</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories);./../Libraries/SQLite3;C:\Projects\Tadaima\Libraries\pugixml</AdditionalLibraryDirectories>
       <SubSystem>Console</SubSystem>
     </Link>
     <PreLinkEvent>
@@ -107,7 +107,10 @@
     </PostBuildEvent>
     <PostBuildEvent>
       <Command>xcopy "$(ProjectDir)resources\NotoSansJP-Regular.ttf" "$(TargetDir)fonts\" /Y /I /Q
-xcopy "$(ProjectDir)resources\forkawesome-webfont.ttf" "$(TargetDir)fonts\" /Y /I /Q</Command>
+xcopy "$(ProjectDir)resources\forkawesome-webfont.ttf" "$(TargetDir)fonts\" /Y /I /Q
+xcopy "$(ProjectDir)..\scripts\Dictionary.py" "$(TargetDir)scripts\" /Y /I /Q
+xcopy "$(ProjectDir)..\scripts\requirements.txt" "$(TargetDir)scripts\" /Y /I /Q
+xcopy "$(ProjectDir)..\scripts\Setup.py" "$(TargetDir)scripts\" /Y /I /Q</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -123,7 +126,7 @@ xcopy "$(ProjectDir)resources\forkawesome-webfont.ttf" "$(TargetDir)fonts\" /Y /
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>SQLite3.lib;d3d11.lib;d3dcompiler.lib;dxgi.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories);./../Libraries/SQLite3</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories);./../Libraries/SQLite3;C:\Projects\Tadaima\Libraries\pugixml</AdditionalLibraryDirectories>
       <SubSystem>Console</SubSystem>
     </Link>
     <PreLinkEvent>
@@ -132,7 +135,10 @@ xcopy "$(ProjectDir)resources\forkawesome-webfont.ttf" "$(TargetDir)fonts\" /Y /
     </PostBuildEvent>
     <PostBuildEvent>
       <Command>xcopy "$(ProjectDir)resources\NotoSansJP-Regular.ttf" "$(TargetDir)fonts\" /Y /I /Q
-xcopy "$(ProjectDir)resources\forkawesome-webfont.ttf" "$(TargetDir)fonts\" /Y /I /Q</Command>
+xcopy "$(ProjectDir)resources\forkawesome-webfont.ttf" "$(TargetDir)fonts\" /Y /I /Q
+xcopy "$(ProjectDir)..\scripts\Dictionary.py" "$(TargetDir)scripts\" /Y /I /Q
+xcopy "$(ProjectDir)..\scripts\requirements.txt" "$(TargetDir)scripts\" /Y /I /Q
+xcopy "$(ProjectDir)..\scripts\Setup.py" "$(TargetDir)scripts\" /Y /I /Q</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -154,7 +160,7 @@ xcopy "$(ProjectDir)resources\forkawesome-webfont.ttf" "$(TargetDir)fonts\" /Y /
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>SQLite3.lib;d3d11.lib;d3dcompiler.lib;dxgi.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(DXSDK_DIR)/Lib/x86;%(AdditionalLibraryDirectories);./../Libraries/SQLite3;./..Libraries/SQLite3;./../Libraries/SQLite3;./../Libraries/SQLite3</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(DXSDK_DIR)/Lib/x86;%(AdditionalLibraryDirectories);./../Libraries/SQLite3;./..Libraries/SQLite3;./../Libraries/SQLite3;./../Libraries/SQLite3;./../pugixml</AdditionalLibraryDirectories>
       <SubSystem>Console</SubSystem>
     </Link>
     <PreLinkEvent>
@@ -163,9 +169,13 @@ xcopy "$(ProjectDir)resources\forkawesome-webfont.ttf" "$(TargetDir)fonts\" /Y /
     </PostBuildEvent>
     <PostBuildEvent>
       <Command>mkdir $(SolutionDir)bin\$(Platform)\fonts\ &gt;nul
+mkdir $(SolutionDir)bin\$(Platform)\scripts\ &gt;nul
 copy $(SolutionDir)build\$(Configuration)\$(Platform)\$(ProjectName)\$(ProjectName).exe $(SolutionDir)bin\$(Platform)\ &gt;nul
 xcopy "$(ProjectDir)resources\NotoSansJP-Regular.ttf" "$(SolutionDir)bin\$(Platform)\fonts" /Y /I /Q
-xcopy "$(ProjectDir)resources\forkawesome-webfont.ttf" "$(SolutionDir)bin\$(Platform)\fonts" /Y /I /Q</Command>
+xcopy "$(ProjectDir)resources\forkawesome-webfont.ttf" "$(SolutionDir)bin\$(Platform)\fonts" /Y /I /Q
+xcopy "$(ProjectDir)..\scripts\Dictionary.py" "$(SolutionDir)bin\$(Platform)\scripts" /Y /I /Q
+xcopy "$(ProjectDir)..\scripts\requirements.txt" "$(SolutionDir)bin\$(Platform)\scripts" /Y /I /Q
+xcopy "$(ProjectDir)..\scripts\Setup.py" "$(SolutionDir)bin\$(Platform)\scripts" /Y /I /Q</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -187,7 +197,7 @@ xcopy "$(ProjectDir)resources\forkawesome-webfont.ttf" "$(SolutionDir)bin\$(Plat
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>SQLite3.lib;d3d11.lib;d3dcompiler.lib;dxgi.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(DXSDK_DIR)/Lib/x64;%(AdditionalLibraryDirectories);./../Libraries/SQLite3;./..Libraries/SQLite3;./../Libraries/SQLite3;./../Libraries/SQLite3</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(DXSDK_DIR)/Lib/x64;%(AdditionalLibraryDirectories);./../Libraries/SQLite3;./..Libraries/SQLite3;./../Libraries/SQLite3;./../Libraries/SQLite3;./../pugixml</AdditionalLibraryDirectories>
       <SubSystem>Console</SubSystem>
     </Link>
     <PreLinkEvent>
@@ -196,9 +206,13 @@ xcopy "$(ProjectDir)resources\forkawesome-webfont.ttf" "$(SolutionDir)bin\$(Plat
     </PostBuildEvent>
     <PostBuildEvent>
       <Command>mkdir $(SolutionDir)bin\$(Platform)\fonts\ &gt;nul
+mkdir $(SolutionDir)bin\$(Platform)\scripts\ &gt;nul
 copy $(SolutionDir)build\$(Configuration)\$(Platform)\$(ProjectName)\$(ProjectName).exe $(SolutionDir)bin\$(Platform)\ &gt;nul
 xcopy "$(ProjectDir)resources\NotoSansJP-Regular.ttf" "$(SolutionDir)bin\$(Platform)\fonts" /Y /I /Q
-xcopy "$(ProjectDir)resources\forkawesome-webfont.ttf" "$(SolutionDir)bin\$(Platform)\fonts" /Y /I /Q</Command>
+xcopy "$(ProjectDir)resources\forkawesome-webfont.ttf" "$(SolutionDir)bin\$(Platform)\fonts" /Y /I /Q
+xcopy "$(ProjectDir)..\scripts\Dictionary.py" "$(SolutionDir)bin\$(Platform)\scripts" /Y /I /Q
+xcopy "$(ProjectDir)..\scripts\requirements.txt" "$(SolutionDir)bin\$(Platform)\scripts" /Y /I /Q
+xcopy "$(ProjectDir)..\scripts\Setup.py" "$(SolutionDir)bin\$(Platform)\scripts" /Y /I /Q</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -208,6 +222,7 @@ xcopy "$(ProjectDir)resources\forkawesome-webfont.ttf" "$(SolutionDir)bin\$(Plat
     <ClCompile Include="src\gui\quiz\MultipleChoiceQuiz.cpp" />
     <ClCompile Include="src\gui\quiz\QuizManagerWidget.cpp" />
     <ClCompile Include="src\gui\quiz\VocabularyQuiz.cpp" />
+    <ClCompile Include="src\tools\SystemTools.cpp" />
     <ClInclude Include="src\application\ApplicationEventList.h" />
     <ClInclude Include="src\Application\ApplicationSettings.h" />
     <ClInclude Include="src\bridge\EventBridge.h" />
@@ -216,6 +231,8 @@ xcopy "$(ProjectDir)resources\forkawesome-webfont.ttf" "$(SolutionDir)bin\$(Plat
     <ClInclude Include="src\gui\quiz\QuizType.h" />
     <ClInclude Include="src\gui\quiz\QuizWord.h" />
     <ClInclude Include="src\gui\quiz\VocabularyQuiz.h" />
+    <ClInclude Include="src\gui\widgets\ImGuiFileDialog.h" />
+    <ClInclude Include="src\gui\widgets\ImGuiFileDialogConfig.h" />
     <ClInclude Include="src\gui\widgets\LessonSettingsWidget.h" />
     <ClInclude Include="src\gui\widgets\packages\LessonDataPackage.h" />
     <ClInclude Include="src\gui\widgets\packages\PackageType.h" />
@@ -224,6 +241,7 @@ xcopy "$(ProjectDir)resources\forkawesome-webfont.ttf" "$(SolutionDir)bin\$(Plat
     <ClInclude Include="src\gui\widgets\ApplicationSettingsWidget.h" />
     <ClInclude Include="src\gui\widgets\VocabularyQuizWidget.h" />
     <ClCompile Include="src\gui\widgets\ApplicationSettingsWidget.cpp" />
+    <ClCompile Include="src\gui\widgets\ImGuiFileDialog.cpp" />
     <ClCompile Include="src\gui\widgets\LessonSettingsWidget.cpp" />
     <ClCompile Include="src\application\ApplicationDatabase.cpp" />
     <ClCompile Include="src\gui\widgets\QuizWidget.cpp" />
@@ -249,6 +267,8 @@ xcopy "$(ProjectDir)resources\forkawesome-webfont.ttf" "$(SolutionDir)bin\$(Plat
     <ClInclude Include="src\lessons\LessonManager.h" />
     <ClInclude Include="src\gui\quiz\MultipleChoiceQuiz.h" />
     <ClInclude Include="src\tools\Database.h" />
+    <ClInclude Include="src\tools\Dictionary.h" />
+    <ClInclude Include="src\tools\SystemTools.h" />
     <ClInclude Include="src\Version.h" />
   </ItemGroup>
   <ItemGroup>

@@ -11,6 +11,7 @@
 #include "Widgets/MenuBarWidget.h"
 #include "Widgets/MainDashboardWidget.h"
 #include "resources/IconsFontAwesome4.h"
+#include "tools/SystemTools.h"
 #include "imgui.h"
 #include "imgui_impl_dx11.h"
 #include "imgui_impl_win32.h"
@@ -19,15 +20,6 @@
 #include <string>
 #include <windows.h>
 #include "Tools/Logger.h"
-
-std::string getexepath()
-{
-    char buffer[MAX_PATH];
-    ::GetModuleFileNameA(NULL, buffer, MAX_PATH);
-    std::string::size_type pos = std::string(buffer).find_last_of("\\/");
-
-    return std::string(buffer).substr(0, pos);
-}
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -47,7 +39,7 @@ namespace tadaima
             *  Initialize widgets.
             */
             m_widgets[widget::Type::MenuBar] = std::make_unique<widget::MenuBarWidget>(m_logger);
-            m_widgets[widget::Type::LessonTreeView] = std::make_unique<widget::LessonTreeViewWidget>();
+            m_widgets[widget::Type::LessonTreeView] = std::make_unique<widget::LessonTreeViewWidget>(logger);
             m_widgets[widget::Type::Dashboard] = std::make_unique<widget::MainDashboardWidget>();
 
             for( const auto& [key, value] : m_widgets )
@@ -175,7 +167,7 @@ namespace tadaima
             bool show_demo_window = false;
             bool show_another_window = false;
             ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-
+            bool showDashboard = true;
             initialize();
 
             // Main loop
@@ -237,9 +229,9 @@ namespace tadaima
 
                     /*          DASHBOARD          */
                     // Set the Main Dashboard next to Lessons Overview and non-movable
-                    //ImGui::SetNextWindowPos(ImVec2(250, 25), ImGuiCond_Always);
-                    //ImGui::SetNextWindowSize(ImVec2(540, 600), ImGuiCond_Always);  // Adjust remaining width
-                    //m_widgets[widget::Type::Dashboard]->draw(&showDashboard);
+                    ImGui::SetNextWindowPos(ImVec2(250, 25), ImGuiCond_Always);
+                    ImGui::SetNextWindowSize(ImVec2(540, 600), ImGuiCond_Always);  // Adjust remaining width
+                    m_widgets[widget::Type::Dashboard]->draw(&showDashboard);
                     /*          DASHBOARD          */
 
 

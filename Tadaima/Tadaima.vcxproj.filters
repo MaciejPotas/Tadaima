@@ -50,6 +50,12 @@
     <ClCompile Include="src\gui\widgets\ApplicationSettingsWidget.cpp">
       <Filter>src\gui\widgets</Filter>
     </ClCompile>
+    <ClCompile Include="src\gui\widgets\ImGuiFileDialog.cpp">
+      <Filter>src\gui\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tools\SystemTools.cpp">
+      <Filter>src\tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Version.h">
@@ -138,6 +144,18 @@
     </ClInclude>
     <ClInclude Include="src\gui\quiz\QuizWord.h">
       <Filter>src\gui\quiz</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\widgets\ImGuiFileDialog.h">
+      <Filter>src\gui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\widgets\ImGuiFileDialogConfig.h">
+      <Filter>src\gui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tools\Dictionary.h">
+      <Filter>src\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tools\SystemTools.h">
+      <Filter>src\tools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
