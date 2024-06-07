@@ -118,6 +118,7 @@ namespace tadaima
                 static Lesson originalLesson;
                 static bool renamePopupOpen = false;
                 static bool deleteLesson = false;
+                static std::unordered_set<int> lessonsToExport;
                 bool ctrlPressed = ImGui::GetIO().KeyCtrl;
 
                 if( !ImGui::Begin("Lessons Overview", p_open, ImGuiWindowFlags_NoDecoration) )
@@ -164,7 +165,10 @@ namespace tadaima
                     {
                         std::string filePath = ImGuiFileDialog::Instance()->GetFilePathName();
                         m_logger.log("File selected: " + filePath);
-                        parseAndImportLessons(filePath);
+                        auto lessons = parseLessons(filePath);
+                        auto package = createLessonDataPackageFromLessons(lessons);
+                        emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnLessonCreated, &package));
+                        m_logger.log("New lesson imported.");
                     }
                     ImGuiFileDialog::Instance()->Close();
                 }
@@ -223,7 +227,7 @@ namespace tadaima
 
                             if( ImGui::BeginPopupContextItem(("context_" + std::to_string(groupIndex) + "_" + std::to_string(lessonIndex)).c_str()) )
                             {
-                                if( ImGui::BeginMenu(ICON_FA_PLAY"Play") )
+                                if( ImGui::BeginMenu(ICON_FA_PLAY "Play") )
                                 {
                                     if( ImGui::MenuItem("vocabulary quiz") )
                                     {
@@ -286,6 +290,18 @@ namespace tadaima
                                     deleteLesson = true;
                                     ImGui::CloseCurrentPopup();
                                 }
+
+                                if( ImGui::MenuItem(ICON_FA_ARROW_RIGHT " Export") )
+                                {
+                                    m_logger.log("Export lesson selected.");
+                                    lessonsToExport.clear();
+                                    lessonsToExport.insert(lesson.id);
+                                    ImGui::CloseCurrentPopup();
+                                    IGFD::FileDialogConfig config;
+                                    ImGui::SetNextWindowSize(ImVec2(500, 400), ImGuiCond_Always);
+                                    ImGuiFileDialog::Instance()->OpenDialog("SaveFileDlgKey", "Save File", ".xml", config);
+                                }
+
                                 ImGui::EndPopup();
                             }
 
@@ -294,6 +310,17 @@ namespace tadaima
                         ImGui::TreePop();
                     }
                     ImGui::PopID();
+                }
+
+                if( ImGuiFileDialog::Instance()->Display("SaveFileDlgKey") )
+                {
+                    if( ImGuiFileDialog::Instance()->IsOk() )
+                    {
+                        std::string filePath = ImGuiFileDialog::Instance()->GetFilePathName();
+                        m_logger.log("Save file selected: " + filePath);
+                        parseAndExportLessons(filePath, m_selectedLessons);
+                    }
+                    ImGuiFileDialog::Instance()->Close();
                 }
 
                 if( clickedOutside )
@@ -352,50 +379,163 @@ namespace tadaima
                 ImGui::End();
             }
 
-            void LessonTreeViewWidget::parseAndImportLessons(const std::string& filePath)
+            std::vector<Lesson> LessonTreeViewWidget::parseLessons(const std::string& filePath)
             {
                 m_logger.log("Parsing and importing lessons from file: " + filePath);
                 pugi::xml_document doc;
                 pugi::xml_parse_result result = doc.load_file(filePath.c_str());
+                std::vector<Lesson> parsedLessons;
 
                 if( !result )
                 {
                     m_logger.log("Error: Could not load XML file!");
-                    return;
+                    parsedLessons;
                 }
 
                 std::map<std::string, LessonGroup> lessonMap;
 
                 for( pugi::xml_node lessonNode : doc.child("lessons").children("lesson") )
                 {
+                    Lesson lesson;
                     std::string lessonName = lessonNode.attribute("name").as_string();
-                    LessonGroup& lessonGroup = lessonMap[lessonName];
+                    LessonGroup lessonGroup;
                     lessonGroup.mainName = lessonName;
 
                     for( pugi::xml_node subnameNode : lessonNode.children("subname") )
                     {
-                        Lesson lesson;
+
                         lesson.mainName = lessonName;
                         lesson.subName = subnameNode.attribute("name").as_string();
 
-                        for( pugi::xml_node wordNode : subnameNode.children("word") )
+                        bool lessonExists = false;
+                        for( auto& existingGroup : m_cashedLessons )
                         {
-                            Word word;
-                            word.translation = wordNode.attribute("translation").as_string();
-                            word.romaji = wordNode.attribute("romaji").as_string();
-                            word.kana = wordNode.attribute("kana").as_string();
-                            lesson.words.push_back(word);
+                            if( existingGroup.mainName == lesson.mainName )
+                            {
+                                for( const auto& existingLesson : existingGroup.subLessons )
+                                {
+                                    if( existingLesson.subName == lesson.subName )
+                                    {
+                                        lessonExists = true;
+                                        break;
+                                    }
+                                }
+                                if( !lessonExists )
+                                {
+                                    for( pugi::xml_node wordNode : subnameNode.children("word") )
+                                    {
+                                        Word word;
+                                        word.translation = wordNode.attribute("translation").as_string();
+                                        word.romaji = wordNode.attribute("romaji").as_string();
+                                        word.kana = wordNode.attribute("kana").as_string();
+                                        lesson.words.push_back(word);
+                                    }
+                                    existingGroup.subLessons.push_back(lesson);
+                                }
+
+                                parsedLessons.push_back(lesson);
+                                lessonExists = true; // To ensure no duplicate groups are added
+                                break;
+                            }
                         }
 
-                        lessonGroup.subLessons.push_back(lesson);
+                        if( !lessonExists )
+                        {
+                            for( pugi::xml_node wordNode : subnameNode.children("word") )
+                            {
+                                Word word;
+                                word.translation = wordNode.attribute("translation").as_string();
+                                word.romaji = wordNode.attribute("romaji").as_string();
+                                word.kana = wordNode.attribute("kana").as_string();
+                                lesson.words.push_back(word);
+                            }
+
+                            lessonGroup.subLessons.push_back(lesson);
+                        }
+                    }
+
+                    if( !lessonGroup.subLessons.empty() )
+                    {
+                        lessonMap[lessonName] = lessonGroup;
                     }
                 }
 
                 for( const auto& pair : lessonMap )
                 {
-                    m_cashedLessons.push_back(pair.second);
+                    bool groupExists = false;
+                    for( auto& existingGroup : m_cashedLessons )
+                    {
+                        if( existingGroup.mainName == pair.first )
+                        {
+                            existingGroup.subLessons.insert(existingGroup.subLessons.end(), pair.second.subLessons.begin(), pair.second.subLessons.end());
+                            groupExists = true;
+                            break;
+                        }
+                    }
+
+                    if( !groupExists )
+                    {
+                        Lesson lesson;
+                        lesson.mainName = pair.second.mainName;
+                        lesson.subName = pair.second.subLessons[0].subName;
+                        lesson.words = pair.second.subLessons[0].words;
+
+                        parsedLessons.push_back(lesson);
+                    }
                 }
+
                 m_logger.log("Lessons imported from file.");
+
+                return parsedLessons;
+            }
+
+            void LessonTreeViewWidget::parseAndExportLessons(const std::string& filePath, const std::unordered_set<int>& lessonsToExport)
+            {
+                m_logger.log("Parsing and exporting lessons to file: " + filePath);
+
+                pugi::xml_document doc;
+                pugi::xml_node root = doc.append_child("lessons");
+
+                std::unordered_map<int, Lesson> lessonMap;
+
+                for( const auto& lessonGroup : m_cashedLessons )
+                {
+                    for( const auto& lesson : lessonGroup.subLessons )
+                    {
+                        lessonMap[lesson.id] = lesson;
+                    }
+                }
+
+                for( int id : lessonsToExport )
+                {
+                    auto it = lessonMap.find(id);
+                    if( it != lessonMap.end() )
+                    {
+                        const Lesson& lesson = it->second;
+                        pugi::xml_node lessonNode = root.append_child("lesson");
+                        lessonNode.append_attribute("name") = lesson.mainName.c_str();
+
+                        pugi::xml_node subnameNode = lessonNode.append_child("subname");
+                        subnameNode.append_attribute("name") = lesson.subName.c_str();
+
+                        for( const auto& word : lesson.words )
+                        {
+                            pugi::xml_node wordNode = subnameNode.append_child("word");
+                            wordNode.append_attribute("translation") = word.translation.c_str();
+                            wordNode.append_attribute("romaji") = word.romaji.c_str();
+                            wordNode.append_attribute("kana") = word.kana.c_str();
+                        }
+                    }
+                }
+
+                if( !doc.save_file(filePath.c_str()) )
+                {
+                    m_logger.log("Error: Could not save XML file!");
+                }
+                else
+                {
+                    m_logger.log("Lessons exported to file: " + filePath);
+                }
             }
 
             LessonDataPackage LessonTreeViewWidget::createLessonDataPackageFromSelectedNodes(const std::unordered_set<int>& nodes)

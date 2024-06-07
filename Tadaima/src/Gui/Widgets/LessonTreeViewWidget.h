@@ -74,7 +74,7 @@ namespace tadaima
                  * @brief Parses and imports lessons from a file.
                  * @param filePath The path to the file containing lessons.
                  */
-                void parseAndImportLessons(const std::string& filePath);
+                std::vector<Lesson> parseLessons(const std::string& filePath);
 
                 /**
                  * @brief Adds lessons with an overwrite check.
@@ -154,6 +154,8 @@ namespace tadaima
                  */
                 void drawEditLessonWidget(bool& open_edit_lesson, Lesson& selectedLesson, Lesson& originalLesson);
 
+
+                void parseAndExportLessons(const std::string& filePath, const std::unordered_set<int>& lessonsToExport);
                 /**
                  * @brief Handles the delete lesson action.
                  */
