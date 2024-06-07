@@ -19,7 +19,7 @@ namespace tadaima
         {
             /// Constants for default values
             static constexpr const char* DEFAULT_USER_NAME = "";
-            static constexpr const char* DEFAULT_DICTIONARY_PATH = "Dictionary.py";
+            static constexpr const char* DEFAULT_DICTIONARY_PATH = "scripts/Dictionary.py";
             static constexpr const char* DEFAULT_INPUT_WORD = "BaseWord";
             static constexpr const char* DEFAULT_TRANSLATED_WORD = "Romaji";
 
