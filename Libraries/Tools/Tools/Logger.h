@@ -28,7 +28,7 @@ namespace tools
          * @param message The message to log.
          * @param level The log level of the message.
          */
-        virtual void log([[maybe_unused]] const std::string& message, [[maybe_unused]] LogLevel level) {}
+        virtual void log([[maybe_unused]] const std::string& message, [[maybe_unused]] LogLevel level = LogLevel::INFO) {}
 
         /**
          * @brief Virtual destructor.

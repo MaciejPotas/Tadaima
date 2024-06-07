@@ -108,7 +108,9 @@
     <PostBuildEvent>
       <Command>xcopy "$(ProjectDir)resources\NotoSansJP-Regular.ttf" "$(TargetDir)fonts\" /Y /I /Q
 xcopy "$(ProjectDir)resources\forkawesome-webfont.ttf" "$(TargetDir)fonts\" /Y /I /Q
-xcopy "$(ProjectDir)..\scripts\Dictionary.py" "$(TargetDir)scripts\" /Y /I /Q</Command>
+xcopy "$(ProjectDir)..\scripts\Dictionary.py" "$(TargetDir)scripts\" /Y /I /Q
+xcopy "$(ProjectDir)..\scripts\requirements.txt" "$(TargetDir)scripts\" /Y /I /Q
+xcopy "$(ProjectDir)..\scripts\Setup.py" "$(TargetDir)scripts\" /Y /I /Q</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -134,7 +136,9 @@ xcopy "$(ProjectDir)..\scripts\Dictionary.py" "$(TargetDir)scripts\" /Y /I /Q</C
     <PostBuildEvent>
       <Command>xcopy "$(ProjectDir)resources\NotoSansJP-Regular.ttf" "$(TargetDir)fonts\" /Y /I /Q
 xcopy "$(ProjectDir)resources\forkawesome-webfont.ttf" "$(TargetDir)fonts\" /Y /I /Q
-xcopy "$(ProjectDir)..\scripts\Dictionary.py" "$(TargetDir)scripts\" /Y /I /Q</Command>
+xcopy "$(ProjectDir)..\scripts\Dictionary.py" "$(TargetDir)scripts\" /Y /I /Q
+xcopy "$(ProjectDir)..\scripts\requirements.txt" "$(TargetDir)scripts\" /Y /I /Q
+xcopy "$(ProjectDir)..\scripts\Setup.py" "$(TargetDir)scripts\" /Y /I /Q</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -169,7 +173,9 @@ mkdir $(SolutionDir)bin\$(Platform)\scripts\ &gt;nul
 copy $(SolutionDir)build\$(Configuration)\$(Platform)\$(ProjectName)\$(ProjectName).exe $(SolutionDir)bin\$(Platform)\ &gt;nul
 xcopy "$(ProjectDir)resources\NotoSansJP-Regular.ttf" "$(SolutionDir)bin\$(Platform)\fonts" /Y /I /Q
 xcopy "$(ProjectDir)resources\forkawesome-webfont.ttf" "$(SolutionDir)bin\$(Platform)\fonts" /Y /I /Q
-xcopy "$(ProjectDir)..\scripts\Dictionary.py" "$(SolutionDir)bin\$(Platform)\scripts" /Y /I /Q</Command>
+xcopy "$(ProjectDir)..\scripts\Dictionary.py" "$(SolutionDir)bin\$(Platform)\scripts" /Y /I /Q
+xcopy "$(ProjectDir)..\scripts\requirements.txt" "$(SolutionDir)bin\$(Platform)\scripts" /Y /I /Q
+xcopy "$(ProjectDir)..\scripts\Setup.py" "$(SolutionDir)bin\$(Platform)\scripts" /Y /I /Q</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -204,7 +210,9 @@ mkdir $(SolutionDir)bin\$(Platform)\scripts\ &gt;nul
 copy $(SolutionDir)build\$(Configuration)\$(Platform)\$(ProjectName)\$(ProjectName).exe $(SolutionDir)bin\$(Platform)\ &gt;nul
 xcopy "$(ProjectDir)resources\NotoSansJP-Regular.ttf" "$(SolutionDir)bin\$(Platform)\fonts" /Y /I /Q
 xcopy "$(ProjectDir)resources\forkawesome-webfont.ttf" "$(SolutionDir)bin\$(Platform)\fonts" /Y /I /Q
-xcopy "$(ProjectDir)..\scripts\Dictionary.py" "$(SolutionDir)bin\$(Platform)\scripts" /Y /I /Q</Command>
+xcopy "$(ProjectDir)..\scripts\Dictionary.py" "$(SolutionDir)bin\$(Platform)\scripts" /Y /I /Q
+xcopy "$(ProjectDir)..\scripts\requirements.txt" "$(SolutionDir)bin\$(Platform)\scripts" /Y /I /Q
+xcopy "$(ProjectDir)..\scripts\Setup.py" "$(SolutionDir)bin\$(Platform)\scripts" /Y /I /Q</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

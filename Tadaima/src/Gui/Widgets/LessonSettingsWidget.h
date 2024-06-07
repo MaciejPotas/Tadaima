@@ -9,6 +9,8 @@
 #include "Lessons/Lesson.h"
 #include "tools/Dictionary.h"
 
+namespace tools { class Logger; }
+
 namespace tadaima
 {
     struct Lesson;
@@ -25,7 +27,7 @@ namespace tadaima
             {
             public:
 
-                LessonSettingsWidget();
+                LessonSettingsWidget(tools::Logger& logger);
 
                 /**
                  * @brief Draws the lesson settings widget.
@@ -58,6 +60,7 @@ namespace tadaima
                 int m_selectedWordIndex = -1; ///< Index of the selected word in the list.
                 Lesson m_newLesson; ///< New lesson to be added or edited.
                 Dictionary m_dictionary;
+                tools::Logger& m_logger;
 
                 /**
                  * @brief Pointer to the lesson object.

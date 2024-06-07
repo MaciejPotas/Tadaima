@@ -22,71 +22,6 @@
 namespace tadaima
 {
     /**
-     * @class PythonTranslator
-     * @brief Class responsible for handling the translation of words using a Python script.
-     */
-    class PythonTranslator
-    {
-    public:
-        /**
-         * @brief Sets the path for the translator script.
-         * @param scriptPath The relative path to the Python script used for translation.
-         */
-        void setPathForTranslator(const std::string& scriptPath)
-        {
-            std::filesystem::path exePath(getexepath());
-            std::filesystem::path script(scriptPath);
-            auto path = exePath / script;
-            m_scriptPath = path.string();
-        }
-
-        /**
-         * @brief Translates a given word by executing the Python script.
-         * @param word The word to be translated.
-         * @return The translation of the word.
-         */
-        std::string translate(const std::string& word)
-        {
-            if( !m_scriptPath.empty() )
-            {
-                std::string command = "py " + m_scriptPath + " " + word;
-                return exec(command.c_str());
-            }
-
-            return "";
-        }
-
-    private:
-        /**
-         * @brief Executes a system command and returns the output.
-         * @param cmd The command to be executed.
-         * @return The output of the command execution.
-         */
-        std::string exec(const char* cmd)
-        {
-            std::array<char, 128> buffer;
-            std::string result;
-            std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmd, "r"), pclose);
-            if( !pipe )
-            {
-                throw std::runtime_error("popen() failed!");
-            }
-            while( fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr )
-            {
-                result += buffer.data();
-            }
-            int returnCode = pclose(pipe.release());
-            if( returnCode != 0 )
-            {
-                throw std::runtime_error("Command execution failed with code " + std::to_string(returnCode));
-            }
-            return result;
-        }
-
-        std::string m_scriptPath; ///< Path to the Python script used for translation.
-    };
-
-    /**
      * @class Dictionary
      * @brief Class responsible for managing translations and caching them.
      */
@@ -136,6 +71,92 @@ namespace tadaima
         }
 
     private:
+
+        /**
+         * @class PythonTranslator
+         * @brief Class responsible for handling the translation of words using a Python script.
+         */
+        class PythonTranslator
+        {
+        public:
+            /**
+             * @brief Sets the path for the translator script.
+             * @param scriptPath The relative path to the Python script used for translation.
+             */
+            void setPathForTranslator(const std::string& scriptPath)
+            {
+                std::filesystem::path exePath(getexepath());
+                std::filesystem::path script(scriptPath);
+                m_venvPath = (exePath / std::string("scripts\\venv")).string();
+                m_scriptPath = ((exePath) / scriptPath).string();
+            }
+
+            /**
+             * @brief Translates a given word by executing the Python script.
+             * @param word The word to be translated.
+             * @return The translation of the word.
+             */
+            std::string translate(const std::string& word)
+            {
+                if( !m_scriptPath.empty() )
+                {
+                    std::string command;
+                    if( !m_venvPath.empty() )
+                    {
+                        if( std::filesystem::exists(m_venvPath) )
+                        {
+#ifdef _WIN32
+                            command = m_venvPath + "\\Scripts\\activate && python " + m_scriptPath + " " + word;
+#else
+                            command = ". " + m_venvPath + "/bin/activate && python " + m_scriptPath + " " + word;
+#endif
+                        }
+                        else
+                        {
+                            throw std::runtime_error("Virtual environment path does not exist!");
+                        }
+                    }
+                    else
+                    {
+                        command = "python " + m_scriptPath + " " + word;
+                    }
+                    return exec(command.c_str());
+                }
+
+                return "";
+            }
+
+        private:
+            /**
+             * @brief Executes a system command and returns the output.
+             * @param cmd The command to be executed.
+             * @return The output of the command execution.
+             */
+            std::string exec(const char* cmd)
+            {
+                std::array<char, 128> buffer;
+                std::string result;
+                std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmd, "r"), pclose);
+                if( !pipe )
+                {
+                    throw std::runtime_error("popen() failed!");
+                }
+                while( fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr )
+                {
+                    result += buffer.data();
+                }
+                int returnCode = pclose(pipe.release());
+                if( returnCode != 0 )
+                {
+                    throw std::runtime_error("Command execution failed with code " + std::to_string(returnCode));
+                }
+                return result;
+            }
+
+            std::string m_scriptPath; ///< Path to the Python script used for translation.
+            std::string m_venvPath; ///< Path to the virtual environment.
+        };
+
         PythonTranslator translator; ///< Instance of PythonTranslator to handle translations.
         std::unordered_map<std::string, std::unique_ptr<pugi::xml_document>> cache; ///< Cache for storing translations.
     };

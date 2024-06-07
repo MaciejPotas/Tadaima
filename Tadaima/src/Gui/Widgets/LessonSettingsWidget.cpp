@@ -5,6 +5,7 @@
 #include <sstream>
 #include <stdexcept>
 #include "packages/SettingsDataPackage.h"
+#include "Tools/Logger.h"
 
 namespace tadaima
 {
@@ -13,8 +14,10 @@ namespace tadaima
         namespace widget
         {
 
-            LessonSettingsWidget::LessonSettingsWidget() : m_selectedWordIndex(-1), m_isEditing(false)
+            LessonSettingsWidget::LessonSettingsWidget(tools::Logger& logger)
+                : m_logger(logger), m_selectedWordIndex(-1), m_isEditing(false)
             {
+                m_logger.log("Initializing LessonSettingsWidget", tools::LogLevel::DEBUG);
                 std::memset(m_mainNameBuffer, 0, sizeof(m_mainNameBuffer));
                 std::memset(m_subNameBuffer, 0, sizeof(m_subNameBuffer));
                 std::memset(m_translationBuffer, 0, sizeof(m_translationBuffer));
@@ -48,15 +51,20 @@ namespace tadaima
                     // Button to translate using the dictionary
                     if( ImGui::Button("Translate") )
                     {
+                        m_logger.log("Translating word: " + std::string(m_translationBuffer), tools::LogLevel::INFO);
                         try
                         {
                             Word translatedWord = m_dictionary.getTranslation(m_translationBuffer);
                             std::strncpy(m_romajiBuffer, translatedWord.romaji.c_str(), sizeof(m_romajiBuffer));
                             std::strncpy(m_kanaBuffer, translatedWord.kana.c_str(), sizeof(m_kanaBuffer));
+                            m_logger.log("Translated: ");
+                            m_logger.log(" ->: " + translatedWord.translation);
+                            m_logger.log(" ->: " + translatedWord.romaji);
+                            m_logger.log(" ->: " + translatedWord.kana);
                         }
                         catch( const std::exception& e )
                         {
-                            ImGui::OpenPopup("Translation Error");
+                            m_logger.log(std::string("Translation error: ") + e.what(), tools::LogLevel::PROBLEM);
                         }
                     }
 
@@ -71,6 +79,7 @@ namespace tadaima
 
                     if( ImGui::Button("Add Word") )
                     {
+                        m_logger.log("Adding word", tools::LogLevel::INFO);
                         // Ensure required fields are set
                         if( std::strlen(m_translationBuffer) > 0 && std::strlen(m_kanaBuffer) > 0 )
                         {
@@ -108,6 +117,7 @@ namespace tadaima
                         ImGui::SameLine();
                         if( ImGui::Button("Update Word") )
                         {
+                            m_logger.log("Updating word at index: " + std::to_string(m_selectedWordIndex), tools::LogLevel::INFO);
                             if( std::strlen(m_translationBuffer) > 0 && std::strlen(m_kanaBuffer) > 0 )
                             {
                                 Word updatedWord;
@@ -140,6 +150,7 @@ namespace tadaima
                         ImGui::SameLine();
                         if( ImGui::Button("Remove Word") )
                         {
+                            m_logger.log("Removing word at index: " + std::to_string(m_selectedWordIndex), tools::LogLevel::INFO);
                             m_newLesson.words.erase(m_newLesson.words.begin() + m_selectedWordIndex);
                             m_selectedWordIndex = -1; // Reset selection after removal
                             // Clear the word input fields
@@ -165,6 +176,7 @@ namespace tadaima
 
                         if( ImGui::Selectable(word.kana.c_str(), index == static_cast<size_t>(m_selectedWordIndex)) )
                         {
+                            m_logger.log("Selected word at index: " + std::to_string(index), tools::LogLevel::DEBUG);
                             // Fill the input fields with the selected word's data
                             m_selectedWordIndex = static_cast<int>(index);
                             std::strncpy(m_kanaBuffer, word.kana.c_str(), sizeof(m_kanaBuffer));
@@ -192,6 +204,7 @@ namespace tadaima
 
                     if( ImGui::Button("Save Lesson") )
                     {
+                        m_logger.log("Saving lesson", tools::LogLevel::INFO);
                         if( strlen(m_mainNameBuffer) > 0 && strlen(m_subNameBuffer) > 0 && !m_newLesson.words.empty() )
                         {
                             // Set the lesson's main name and sub name from the buffers
@@ -207,6 +220,7 @@ namespace tadaima
 
                     if( ImGui::Button("Cancel") )
                     {
+                        m_logger.log("Canceling lesson settings", tools::LogLevel::INFO);
                         // Clear the buffers and reset the new lesson
                         std::memset(m_mainNameBuffer, 0, sizeof(m_mainNameBuffer));
                         std::memset(m_subNameBuffer, 0, sizeof(m_subNameBuffer));
@@ -230,6 +244,7 @@ namespace tadaima
                 // Check for clicks outside the selection to reset the selected word index
                 if( ImGui::IsMouseClicked(0) && !ImGui::IsAnyItemHovered() && !ImGui::IsWindowHovered(ImGuiHoveredFlags_AllowWhenBlockedByActiveItem) )
                 {
+                    m_logger.log("Clicked outside selection, resetting selected word index", tools::LogLevel::DEBUG);
                     m_selectedWordIndex = -1;
                     // Clear the word input fields
                     std::memset(m_kanaBuffer, 0, sizeof(m_kanaBuffer));
@@ -241,6 +256,7 @@ namespace tadaima
 
                 if( !ImGui::IsPopupOpen("Add New Lesson Modal") && !ImGui::IsPopupOpen("Edit Lesson Modal") )
                 {
+                    m_logger.log("Closing lesson settings widget", tools::LogLevel::DEBUG);
                     std::memset(m_mainNameBuffer, 0, sizeof(m_mainNameBuffer));
                     std::memset(m_subNameBuffer, 0, sizeof(m_subNameBuffer));
                     std::memset(m_kanaBuffer, 0, sizeof(m_kanaBuffer));
@@ -255,6 +271,7 @@ namespace tadaima
 
             void LessonSettingsWidget::setLesson(Lesson& lesson)
             {
+                m_logger.log("Setting lesson for editing", tools::LogLevel::INFO);
                 m_lesson = &lesson;
                 // Populate buffers with the current lesson data for editing
                 std::strncpy(m_mainNameBuffer, lesson.mainName.c_str(), sizeof(m_mainNameBuffer));
@@ -266,11 +283,13 @@ namespace tadaima
 
             void LessonSettingsWidget::initialize(const tools::DataPackage& r_package)
             {
+                m_logger.log("Initializing LessonSettingsWidget with data package", tools::LogLevel::INFO);
                 const SettingsDataPackage* package = dynamic_cast<const SettingsDataPackage*>(&r_package);
                 if( package )
                 {
                     const std::string dictionaryPath = package->get<std::string>(SettingsPackageKey::DictionaryPath);
                     m_dictionary.setPathForTranslator(dictionaryPath);
+                    m_logger.log("Dictionary path set to: " + dictionaryPath, tools::LogLevel::DEBUG);
                 }
             }
 
