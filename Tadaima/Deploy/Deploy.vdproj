@@ -15,6 +15,12 @@
     {
         "Entry"
         {
+        "MsmKey" = "8:_229F09CDC8914790AD9BA4DC94C9FB82"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_77D64E32AAE54D0C89B8D861128ABBA6"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -22,6 +28,12 @@
         "Entry"
         {
         "MsmKey" = "8:_AB1C92BE2B0244F48D0619B06B2D0454"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_AE40DEB9D4CF41F48C896120A0DD2342"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -124,12 +136,52 @@
         }
         "File"
         {
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_229F09CDC8914790AD9BA4DC94C9FB82"
+            {
+            "SourcePath" = "8:..\\..\\Scripts\\Setup.py"
+            "TargetName" = "8:Setup.py"
+            "Tag" = "8:"
+            "Folder" = "8:_36983B812C384701847F1EDAA2145137"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_AB1C92BE2B0244F48D0619B06B2D0454"
             {
             "SourcePath" = "8:..\\resources\\forkawesome-webfont.ttf"
             "TargetName" = "8:forkawesome-webfont.ttf"
             "Tag" = "8:"
             "Folder" = "8:_F0A06DBF0BE84385B7ABA91242D5F99B"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_AE40DEB9D4CF41F48C896120A0DD2342"
+            {
+            "SourcePath" = "8:..\\..\\Scripts\\requirements.txt"
+            "TargetName" = "8:requirements.txt"
+            "Tag" = "8:"
+            "Folder" = "8:_36983B812C384701847F1EDAA2145137"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
