@@ -63,6 +63,11 @@ def clean_kana_romaji(text):
     # Remove leading '～' and any leading or trailing spaces
     return re.sub(r'^[\s～]+|[\s]+$', '', text).lower()
 
+# Function to process field value
+def process_field(field):
+    # Split the field by semicolon and take the first part
+    return field.split(';')[0]
+
 # Transform the notes into the desired XML format if there are any notes
 if notes:
     lessons_root = ET.Element("lessons")
@@ -75,8 +80,8 @@ if notes:
         field_list = fields.split('\x1f')
         # Assuming the format is Japanese (kana), English (translation)
         if len(field_list) >= 2:
-            kana = clean_kana_romaji(field_list[0].split()[0])  # Use the first word in kana and clean it
-            english_translation = clean_translation(field_list[1].split()[0])  # Use the first word in translation and clean it
+            kana = clean_kana_romaji(process_field(field_list[0]))  # Clean and process kana
+            english_translation = clean_translation(process_field(field_list[1]))  # Clean and process translation
             
             # Convert kana to romaji and clean it
             romaji = clean_kana_romaji(jaconv.kana2alphabet(kana))
