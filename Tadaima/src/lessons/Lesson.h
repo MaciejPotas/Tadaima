@@ -60,7 +60,7 @@ namespace tadaima
      */
     struct Lesson
     {
-        int id; /**< The ID of the lesson. */
+        int id = 0; /**< The ID of the lesson. */
         std::string mainName; /**< The main name of the lesson. */
         std::string subName; /**< The sub name of the lesson. */
         std::vector<Word> words; /**< Words associated with the lesson. */

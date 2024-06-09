@@ -13,6 +13,7 @@ namespace tadaima
     {
         namespace widget
         {
+
             LessonTreeViewWidget::LessonTreeViewWidget(tools::Logger& logger)
                 : Widget(Type::LessonTreeView), m_lessonSettingsWidget(logger), m_logger(logger)
             {
@@ -110,10 +111,9 @@ namespace tadaima
                 return lessonDataPackage;
             }
 
-
             Lesson LessonTreeViewWidget::findLessonWithId(int id)
             {
-                m_logger.log("Creating LessonDataPackage from selected nodes.");
+                m_logger.log("Finding lesson with ID.");
                 std::unordered_map<int, Lesson> lessonMap;
 
                 for( const auto& lessonGroup : m_cashedLessons )
@@ -124,13 +124,11 @@ namespace tadaima
                     }
                 }
 
-
-                    auto it = lessonMap.find(id);
-                    if( it != lessonMap.end() )
-                    {
-                        return it->second;
-                    }
-                
+                auto it = lessonMap.find(id);
+                if( it != lessonMap.end() )
+                {
+                    return it->second;
+                }
 
                 return Lesson();
             }
@@ -460,6 +458,9 @@ namespace tadaima
                     createNewLessonPopupOpen = false;
                 }
 
+
+
+
                 if( ImGui::BeginPopupModal("Create New Lesson", NULL, ImGuiWindowFlags_AlwaysAutoResize) )
                 {
                     ImGui::InputText("Main Name", newLessonMainNameBuffer, sizeof(newLessonMainNameBuffer));
@@ -524,10 +525,6 @@ namespace tadaima
 
                             toEdit.push_back(newLesson);
 
-                        //    markedWords.clear();
-                         //   LessonDataPackage package = createLessonDataPackageFromLesson(newLesson);
-                         //   emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnLessonCreated, &package));
-                           // m_logger.log("New lesson created with marked words.");
                         }
                         else
                         {
@@ -565,19 +562,7 @@ namespace tadaima
                             }
 
                             toEdit.push_back(*existingLesson);
-
-                          //  markedWords.clear();
-                          //  LessonDataPackage package = createLessonDataPackageFromLesson(*existingLesson);
-                          // emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnLessonEdited, &package));
-                            m_logger.log("Existing lesson updated with marked words.");
                         }
-
-
-
-
-
-
-
 
                         std::unordered_set<int> affectedLessonIDs;
 
@@ -624,7 +609,6 @@ namespace tadaima
 
                     ImGui::EndPopup();
                 }
-
 
                 ShowRenamePopup();
                 ImGui::End();
@@ -726,8 +710,6 @@ namespace tadaima
                 }
             }
 
-
-
             LessonDataPackage LessonTreeViewWidget::createLessonDataPackageFromSelectedNodes(const std::unordered_set<int>& nodes)
             {
                 m_logger.log("Creating LessonDataPackage from selected nodes.");
@@ -816,6 +798,6 @@ namespace tadaima
                 }
             }
 
-        }
-    }
-}
+        } // namespace widget
+    } // namespace gui
+} // namespace tadaima
