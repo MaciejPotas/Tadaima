@@ -110,6 +110,31 @@ namespace tadaima
                 return lessonDataPackage;
             }
 
+
+            Lesson LessonTreeViewWidget::findLessonWithId(int id)
+            {
+                m_logger.log("Creating LessonDataPackage from selected nodes.");
+                std::unordered_map<int, Lesson> lessonMap;
+
+                for( const auto& lessonGroup : m_cashedLessons )
+                {
+                    for( const auto& lesson : lessonGroup.subLessons )
+                    {
+                        lessonMap[lesson.id] = lesson;
+                    }
+                }
+
+
+                    auto it = lessonMap.find(id);
+                    if( it != lessonMap.end() )
+                    {
+                        return it->second;
+                    }
+                
+
+                return Lesson();
+            }
+
             void LessonTreeViewWidget::draw(bool* p_open)
             {
                 static bool open_add_new_lesson = false;
@@ -121,8 +146,7 @@ namespace tadaima
                 static std::unordered_set<int> lessonsToExport;
                 static std::unordered_set<int> markedWords; // Store marked word IDs
                 static bool createNewLessonPopupOpen = false; // Track if the create new lesson popup should be open
-                static char newLessonMainNameBuffer[256] = ""; // Buffer for the new lesson's main name
-                static char newLessonSubNameBuffer[256] = ""; // Buffer for the new lesson's sub name
+
                 bool ctrlPressed = ImGui::GetIO().KeyCtrl;
 
                 if( !ImGui::Begin("Lessons Overview", p_open, ImGuiWindowFlags_NoDecoration) )
@@ -203,6 +227,9 @@ namespace tadaima
                                 {
                                     const auto& word = lesson.words[wordIndex];
                                     ImGui::PushID(static_cast<int>(wordIndex));
+
+                                    memset(newLessonMainNameBuffer, 0, sizeof(newLessonMainNameBuffer));
+                                    memcpy(newLessonMainNameBuffer, lessonGroup.mainName.c_str(), lessonGroup.mainName.size());
 
                                     // Check if the word is marked
                                     bool isWordMarked = markedWords.find(word.id) != markedWords.end();
@@ -444,6 +471,8 @@ namespace tadaima
                         std::string subName(newLessonSubNameBuffer);
                         Lesson* existingLesson = nullptr;
 
+                        std::vector<Lesson> toEdit;
+
                         // Check if a lesson with the same name and subname already exists
                         for( auto& lessonGroup : m_cashedLessons )
                         {
@@ -493,10 +522,12 @@ namespace tadaima
                                 }
                             }
 
-                            markedWords.clear();
-                            LessonDataPackage package = createLessonDataPackageFromLesson(newLesson);
-                            emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnLessonCreated, &package));
-                            m_logger.log("New lesson created with marked words.");
+                            toEdit.push_back(newLesson);
+
+                        //    markedWords.clear();
+                         //   LessonDataPackage package = createLessonDataPackageFromLesson(newLesson);
+                         //   emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnLessonCreated, &package));
+                           // m_logger.log("New lesson created with marked words.");
                         }
                         else
                         {
@@ -526,19 +557,62 @@ namespace tadaima
                                             else
                                             {
                                                 existingLesson->words.push_back(*it); // Add new word
+                                                existingLesson->words.back().id = 0;
                                             }
                                         }
                                     }
                                 }
                             }
 
-                            markedWords.clear();
-                            LessonDataPackage package = createLessonDataPackageFromLesson(*existingLesson);
-                            emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnLessonEdited, &package));
+                            toEdit.push_back(*existingLesson);
+
+                          //  markedWords.clear();
+                          //  LessonDataPackage package = createLessonDataPackageFromLesson(*existingLesson);
+                          // emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnLessonEdited, &package));
                             m_logger.log("Existing lesson updated with marked words.");
                         }
 
+
+
+
+
+
+
+
+                        std::unordered_set<int> affectedLessonIDs;
+
+                        // Remove marked words from all lessons
+                        for( auto& lessonGroupToDelete : m_cashedLessons )
+                        {
+                            for( auto& lessonToDelete : lessonGroupToDelete.subLessons )
+                            {
+                                for( int wordID : markedWords )
+                                {
+                                    auto it = std::remove_if(lessonToDelete.words.begin(), lessonToDelete.words.end(), [wordID](const Word& word)
+                                        {
+                                            return word.id == wordID;
+                                        });
+                                    if( it != lessonToDelete.words.end() )
+                                    {
+                                        affectedLessonIDs.insert(lessonToDelete.id);
+                                        lessonToDelete.words.erase(it, lessonToDelete.words.end());
+                                    }
+                                }
+                            }
+                        }
+
+                        for( auto id : affectedLessonIDs )
+                        {
+                            toEdit.push_back(findLessonWithId(id));
+                        }
+
+                        auto package = createLessonDataPackageFromLessons(toEdit);
+                        emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnLessonEdited, &package));
+
+                        memset(newLessonSubNameBuffer, 0, sizeof(newLessonSubNameBuffer));
                         ImGui::CloseCurrentPopup();
+
+                        markedWords.clear();
                     }
 
                     ImGui::SameLine();
@@ -651,6 +725,8 @@ namespace tadaima
                     m_logger.log("Lessons exported to file: " + filePath);
                 }
             }
+
+
 
             LessonDataPackage LessonTreeViewWidget::createLessonDataPackageFromSelectedNodes(const std::unordered_set<int>& nodes)
             {

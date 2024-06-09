@@ -22,6 +22,22 @@ namespace tadaima
         std::string exampleSentence; /**< An example sentence using the word. */
         std::vector<std::string> tags; /**< Tags associated with the word. */
 
+        // Default constructor
+        Word() : id(-1) {}
+
+        // Parameterized constructor
+        Word(int id, const std::string& kana, const std::string& translation, const std::string& romaji, const std::string& exampleSentence, const std::vector<std::string>& tags)
+            : id(id), kana(kana), translation(translation), romaji(romaji), exampleSentence(exampleSentence), tags(tags)
+        {
+        }
+
+        // Copy constructor
+        Word(const Word& other)
+            : id(other.id), kana(other.kana), translation(other.translation), romaji(other.romaji), exampleSentence(other.exampleSentence), tags(other.tags)
+        {
+        }
+
+
         // Comparison operators
         bool operator==(const Word& other) const
         {

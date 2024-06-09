@@ -256,7 +256,6 @@ namespace tadaima
                     m_widgets[widget::Type::Dashboard]->draw(&showDashboard);
                     /*          DASHBOARD          */
 
-
                     ImGui::PopFont();
 
                     m_quizManager.draw();

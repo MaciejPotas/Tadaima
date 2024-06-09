@@ -165,6 +165,7 @@ namespace tadaima
                  * @brief Saves the renamed lesson.
                  */
                 void saveRenamedLesson();
+                Lesson findLessonWithId(int id);
 
                 std::deque<LessonGroup> m_cashedLessons; /**< Deque containing lesson groups. */
                 LessonPackageType m_type; /**< The type of package. */
@@ -177,6 +178,8 @@ namespace tadaima
                 int m_changedLessonIndex = -1; /**< Index of the changed lesson. */
                 char renameMainNameBuffer[256] = ""; /**< Buffer for renaming the main name. */
                 char renameSubNameBuffer[256] = ""; /**< Buffer for renaming the sub-name. */
+                char newLessonMainNameBuffer[256] = ""; // Buffer for the new lesson's main name
+                char newLessonSubNameBuffer[256] = ""; // Buffer for the new lesson's sub name
             };
         }
     }
