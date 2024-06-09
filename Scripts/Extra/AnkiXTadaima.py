@@ -7,6 +7,7 @@ import xml.etree.ElementTree as ET
 from googletrans import Translator
 from tqdm import tqdm
 import jaconv
+import re
 
 # Argument parser setup
 parser = argparse.ArgumentParser(description='Process an Anki .apkg file and extract vocabulary.')
@@ -52,6 +53,16 @@ else:
 # Initialize the translator
 translator = Translator()
 
+# Define a function to clean up the English translation
+def clean_translation(translation):
+    # Remove leading and trailing unwanted characters (spaces, dots, semicolons, etc.)
+    return re.sub(r'^[\s.;]+|[\s.;]+$', '', translation).lower()
+
+# Define a function to clean up kana and romaji
+def clean_kana_romaji(text):
+    # Remove leading '～' and any leading or trailing spaces
+    return re.sub(r'^[\s～]+|[\s]+$', '', text).lower()
+
 # Transform the notes into the desired XML format if there are any notes
 if notes:
     lessons_root = ET.Element("lessons")
@@ -64,14 +75,11 @@ if notes:
         field_list = fields.split('\x1f')
         # Assuming the format is Japanese (kana), English (translation)
         if len(field_list) >= 2:
-            kana = field_list[0].lower().split()[0]  # Use the first word in kana
-            english_translation = field_list[1].lower().split()[0]  # Use the first word in translation
+            kana = clean_kana_romaji(field_list[0].split()[0])  # Use the first word in kana and clean it
+            english_translation = clean_translation(field_list[1].split()[0])  # Use the first word in translation and clean it
             
-            # Remove leading dots or spaces from the English translation
-            english_translation = english_translation.lstrip(' .')
-            
-            # Convert kana to romaji
-            romaji = jaconv.kana2alphabet(kana)
+            # Convert kana to romaji and clean it
+            romaji = clean_kana_romaji(jaconv.kana2alphabet(kana))
             # Translate the English translation to Polish
             polish_translation = translator.translate(english_translation, src='en', dest='pl').text.lower()
             comments = english_translation
