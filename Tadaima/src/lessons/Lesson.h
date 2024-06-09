@@ -25,8 +25,7 @@ namespace tadaima
         // Comparison operators
         bool operator==(const Word& other) const
         {
-            return id == other.id &&
-                kana == other.kana &&
+            return kana == other.kana &&
                 translation == other.translation &&
                 romaji == other.romaji &&
                 exampleSentence == other.exampleSentence &&

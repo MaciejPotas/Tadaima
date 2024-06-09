@@ -55,6 +55,7 @@ namespace tadaima
             */
             std::string pathToFont = getexepath() + "\\fonts\\NotoSansJP-Regular.ttf";
             std::string pathToIcons = getexepath() + "\\fonts\\forkawesome-webfont.ttf";
+            std::string p = getexepath() +  "\\fonts\\NotoSans-Regular.ttf";
 
             ImGuiIO& io = ImGui::GetIO();
             io.Fonts->AddFontDefault();
@@ -65,6 +66,16 @@ namespace tadaima
                 0x4E00, 0x9FAF, // Common Kanji
                 0,
             };
+            static const ImWchar ranges[] =
+            {
+                0x0020, 0x00FF, // Basic Latin + Latin Supplement
+                0x00A0, 0x02D9, // Polish characters 
+                0,
+            };
+
+         //   ImGuiIO& io = ImGui::GetIO();
+            float fontSize = 18.0f * io.FontGlobalScale; // Adjust based on your DPI scaling
+            io.Fonts->Clear();
 
             static const ImWchar icon_ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
 
@@ -73,8 +84,19 @@ namespace tadaima
             font_config.MergeMode = true; // Set to true if adding to existing font
             font_config.PixelSnapH = true; // Align text to pixels
 
-            io.Fonts->AddFontFromFileTTF(pathToIcons.c_str(), 16.0f, &font_config, icon_ranges);
-            m_fontToUse = io.Fonts->AddFontFromFileTTF(pathToFont.c_str(), 18.0f, &font_config, icons_ranges);
+            font_config.OversampleH = 3; // Horizontal oversampling
+            font_config.OversampleV = 3; // Vertical oversampling
+            font_config.PixelSnapH = true; // Align text to pixel boundaries
+
+            io.Fonts->TexUvScale = ImVec2(1.0f, 1.0f); // Ensure UV scaling is correct
+            io.Fonts->TexUvWhitePixel = ImVec2(1.0f, 1.0f); // Ensure white pixel texture is correct
+            ImGui::GetStyle().AntiAliasedFill = true;
+            ImGui::GetStyle().AntiAliasedLines = true;
+
+            io.Fonts->AddFontFromFileTTF(p.c_str(), fontSize, NULL, ranges);
+
+            io.Fonts->AddFontFromFileTTF(pathToIcons.c_str(), fontSize, &font_config, icon_ranges);
+            m_fontToUse = io.Fonts->AddFontFromFileTTF(pathToFont.c_str(), fontSize, &font_config, icons_ranges);
 
             io.Fonts->Build();
         }
@@ -222,14 +244,14 @@ namespace tadaima
 
                     /*          VARIABLES LIST          */
 
-                    ImGui::SetNextWindowPos(ImVec2(0, 24), ImGuiCond_Always);
+                    ImGui::SetNextWindowPos(ImVec2(0, 29), ImGuiCond_Always);
                     ImGui::SetNextWindowSize(ImVec2(250, 600), ImGuiCond_Always);  // Adjust size as needed
                     m_widgets[widget::Type::LessonTreeView]->draw(&showLessonTreeView);
                     /*          VARIABLES LIST          */
 
                     /*          DASHBOARD          */
                     // Set the Main Dashboard next to Lessons Overview and non-movable
-                    ImGui::SetNextWindowPos(ImVec2(250, 25), ImGuiCond_Always);
+                    ImGui::SetNextWindowPos(ImVec2(250, 29), ImGuiCond_Always);
                     ImGui::SetNextWindowSize(ImVec2(540, 600), ImGuiCond_Always);  // Adjust remaining width
                     m_widgets[widget::Type::Dashboard]->draw(&showDashboard);
                     /*          DASHBOARD          */

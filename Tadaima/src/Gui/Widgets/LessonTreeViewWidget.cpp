@@ -119,6 +119,10 @@ namespace tadaima
                 static bool renamePopupOpen = false;
                 static bool deleteLesson = false;
                 static std::unordered_set<int> lessonsToExport;
+                static std::unordered_set<int> markedWords; // Store marked word IDs
+                static bool createNewLessonPopupOpen = false; // Track if the create new lesson popup should be open
+                static char newLessonMainNameBuffer[256] = ""; // Buffer for the new lesson's main name
+                static char newLessonSubNameBuffer[256] = ""; // Buffer for the new lesson's sub name
                 bool ctrlPressed = ImGui::GetIO().KeyCtrl;
 
                 if( !ImGui::Begin("Lessons Overview", p_open, ImGuiWindowFlags_NoDecoration) )
@@ -199,7 +203,81 @@ namespace tadaima
                                 {
                                     const auto& word = lesson.words[wordIndex];
                                     ImGui::PushID(static_cast<int>(wordIndex));
+
+                                    // Check if the word is marked
+                                    bool isWordMarked = markedWords.find(word.id) != markedWords.end();
+                                    if( isWordMarked )
+                                    {
+                                        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.0f, 0.0f, 1.0f)); // Marked words in red
+                                    }
+
                                     ImGui::Text(" %s - %s", word.translation.c_str(), word.kana.c_str());
+
+                                    // Mark the word if control is pressed and clicked
+                                    if( ctrlPressed && ImGui::IsItemClicked(0) )
+                                    {
+                                        if( isWordMarked )
+                                        {
+                                            markedWords.erase(word.id);
+                                        }
+                                        else
+                                        {
+                                            markedWords.insert(word.id);
+                                        }
+                                    }
+
+                                    // Open context menu on right-click
+                                    if( ImGui::IsItemClicked(1) )
+                                    {
+                                        ImGui::OpenPopup("WordContextMenu");
+                                    }
+
+                                    if( isWordMarked )
+                                    {
+                                        ImGui::PopStyleColor();
+                                    }
+
+                                    if( ImGui::BeginPopup("WordContextMenu") )
+                                    {
+                                        if( ImGui::MenuItem("Move Marked Words to New Lesson") )
+                                        {
+                                            createNewLessonPopupOpen = true;
+                                            ImGui::CloseCurrentPopup();
+                                        }
+
+                                        if( ImGui::MenuItem("Delete Marked Words") )
+                                        {
+                                            std::unordered_set<int> affectedLessonIDs;
+                                            // Remove marked words from all lessons
+                                            for( auto& lessonGroupToDelete : m_cashedLessons )
+                                            {
+                                                for( auto& lessonToDelete : lessonGroupToDelete.subLessons )
+                                                {
+                                                    for( int wordID : markedWords )
+                                                    {
+                                                        auto it = std::remove_if(lessonToDelete.words.begin(), lessonToDelete.words.end(), [wordID](const Word& word)
+                                                            {
+                                                                return word.id == wordID;
+                                                            });
+                                                        if( it != lessonToDelete.words.end() )
+                                                        {
+                                                            affectedLessonIDs.insert(lessonToDelete.id);
+                                                            lessonToDelete.words.erase(it, lessonToDelete.words.end());
+                                                        }
+                                                    }
+                                                }
+                                            }
+
+                                            auto package = createLessonDataPackageFromSelectedNodes(affectedLessonIDs);
+                                            emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnLessonEdited, &package));
+
+                                            markedWords.clear();
+                                            ImGui::CloseCurrentPopup();
+                                        }
+
+                                        ImGui::EndPopup();
+                                    }
+
                                     ImGui::PopID();
                                 }
                                 ImGui::TreePop();
@@ -210,45 +288,15 @@ namespace tadaima
                                 ImGui::PopStyleColor();
                             }
 
-                            if( ImGui::IsItemClicked(0) )
+                            // Context menu for lesson node
+                            if( ImGui::IsItemClicked(1) )
                             {
-                                if( ctrlPressed )
-                                {
-                                    if( isSelected )
-                                        m_selectedLessons.erase(lesson.id);
-                                    else
-                                        m_selectedLessons.insert(lesson.id);
-                                }
-                                else
-                                {
-                                    m_selectedLessons.clear();
-                                }
+                                ImGui::OpenPopup("LessonContextMenu");
                             }
 
-                            if( ImGui::BeginPopupContextItem(("context_" + std::to_string(groupIndex) + "_" + std::to_string(lessonIndex)).c_str()) )
+                            if( ImGui::BeginPopup("LessonContextMenu") )
                             {
-                                if( ImGui::BeginMenu(ICON_FA_PLAY "Play") )
-                                {
-                                    if( ImGui::MenuItem("vocabulary quiz") )
-                                    {
-                                        auto package = (m_selectedLessons.size() > 0) ?
-                                            createLessonDataPackageFromSelectedNodes(m_selectedLessons) :
-                                            createLessonDataPackageFromLesson(lesson);
-                                        emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnPlayVocabularyQuiz, &package));
-                                    }
-
-                                    if( ImGui::MenuItem("multiple choice quiz") )
-                                    {
-                                        auto package = (m_selectedLessons.size() > 0) ?
-                                            createLessonDataPackageFromSelectedNodes(m_selectedLessons) :
-                                            createLessonDataPackageFromLesson(lesson);
-                                        emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnPlayMultipleChoiceQuiz, &package));
-                                    }
-
-                                    ImGui::EndMenu();
-                                }
-
-                                if( ImGui::MenuItem(ICON_FA_PENCIL "Edit") )
+                                if( ImGui::MenuItem(ICON_FA_PENCIL " Edit") )
                                 {
                                     m_logger.log("Edit lesson selected.");
                                     m_changedLessonGroupIndex = static_cast<int>(groupIndex);
@@ -260,7 +308,7 @@ namespace tadaima
                                     ImGui::CloseCurrentPopup();
                                 }
 
-                                if( ImGui::MenuItem(ICON_FA_PENCIL "Rename") )
+                                if( ImGui::MenuItem(ICON_FA_PENCIL " Rename") )
                                 {
                                     m_logger.log("Rename lesson selected.");
                                     m_changedLessonGroupIndex = static_cast<int>(groupIndex);
@@ -270,6 +318,7 @@ namespace tadaima
                                     renamePopupOpen = true;
                                     ImGui::CloseCurrentPopup();
                                 }
+
                                 if( ImGui::MenuItem(ICON_FA_TRASH " Delete") )
                                 {
                                     m_logger.log("Delete lesson selected.");
@@ -291,6 +340,21 @@ namespace tadaima
                                 }
 
                                 ImGui::EndPopup();
+                            }
+
+                            if( ImGui::IsItemClicked(0) )
+                            {
+                                if( ctrlPressed )
+                                {
+                                    if( isSelected )
+                                        m_selectedLessons.erase(lesson.id);
+                                    else
+                                        m_selectedLessons.insert(lesson.id);
+                                }
+                                else
+                                {
+                                    m_selectedLessons.clear();
+                                }
                             }
 
                             ImGui::PopID();
@@ -349,19 +413,144 @@ namespace tadaima
                     {
                         if( m_changedLessonGroupIndex >= 0 && m_changedLessonGroupIndex < static_cast<int>(m_cashedLessons.size()) )
                         {
-                            auto& lessonGroup = m_cashedLessons[m_changedLessonGroupIndex];
-                            if( m_changedLessonIndex >= 0 && m_changedLessonIndex < static_cast<int>(lessonGroup.subLessons.size()) )
+                            auto& lessonGroupToDelete = m_cashedLessons[m_changedLessonGroupIndex];
+                            if( m_changedLessonIndex >= 0 && m_changedLessonIndex < static_cast<int>(lessonGroupToDelete.subLessons.size()) )
                             {
-                                auto& lesson = lessonGroup.subLessons[m_changedLessonIndex];
-                                LessonDataPackage package = createLessonDataPackageFromLesson(lesson);
+                                auto& lessonToDelete = lessonGroupToDelete.subLessons[m_changedLessonIndex];
+                                LessonDataPackage package = createLessonDataPackageFromLesson(lessonToDelete);
                                 emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnLessonDelete, &package));
-                                m_logger.log("Lesson deleted: " + lesson.mainName + " - " + lesson.subName);
+                                m_logger.log("Lesson deleted: " + lessonToDelete.mainName + " - " + lessonToDelete.subName);
                             }
                         }
                     }
 
                     deleteLesson = false;
                 }
+
+                if( createNewLessonPopupOpen )
+                {
+                    ImGui::OpenPopup("Create New Lesson");
+                    createNewLessonPopupOpen = false;
+                }
+
+                if( ImGui::BeginPopupModal("Create New Lesson", NULL, ImGuiWindowFlags_AlwaysAutoResize) )
+                {
+                    ImGui::InputText("Main Name", newLessonMainNameBuffer, sizeof(newLessonMainNameBuffer));
+                    ImGui::InputText("Sub Name", newLessonSubNameBuffer, sizeof(newLessonSubNameBuffer));
+
+                    if( ImGui::Button("Create") )
+                    {
+                        std::string mainName(newLessonMainNameBuffer);
+                        std::string subName(newLessonSubNameBuffer);
+                        Lesson* existingLesson = nullptr;
+
+                        // Check if a lesson with the same name and subname already exists
+                        for( auto& lessonGroup : m_cashedLessons )
+                        {
+                            for( auto& lesson : lessonGroup.subLessons )
+                            {
+                                if( lesson.mainName == mainName && lesson.subName == subName )
+                                {
+                                    existingLesson = &lesson;
+                                    break;
+                                }
+                            }
+                            if( existingLesson )
+                                break;
+                        }
+
+                        if( !existingLesson )
+                        {
+                            // Create a new lesson if it doesn't exist
+                            Lesson newLesson;
+                            newLesson.mainName = mainName;
+                            newLesson.subName = subName;
+
+                            for( auto& lessonGroup : m_cashedLessons )
+                            {
+                                for( auto& lesson : lessonGroup.subLessons )
+                                {
+                                    // Find marked words in the current lesson
+                                    for( int wordID : markedWords )
+                                    {
+                                        auto it = std::find_if(lesson.words.begin(), lesson.words.end(), [wordID](const Word& word)
+                                            {
+                                                return word.id == wordID;
+                                            });
+                                        if( it != lesson.words.end() )
+                                        {
+                                            // Check if the word already exists in the new lesson based on content
+                                            auto existingWordIt = std::find_if(newLesson.words.begin(), newLesson.words.end(), [it](const Word& word)
+                                                {
+                                                    return *it == word; // Using operator== to compare content
+                                                });
+                                            if( existingWordIt == newLesson.words.end() )
+                                            {
+                                                newLesson.words.push_back(*it);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            markedWords.clear();
+                            LessonDataPackage package = createLessonDataPackageFromLesson(newLesson);
+                            emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnLessonCreated, &package));
+                            m_logger.log("New lesson created with marked words.");
+                        }
+                        else
+                        {
+                            // Add or overwrite words in the existing lesson
+                            for( auto& lessonGroup : m_cashedLessons )
+                            {
+                                for( auto& lesson : lessonGroup.subLessons )
+                                {
+                                    // Find marked words in the current lesson
+                                    for( int wordID : markedWords )
+                                    {
+                                        auto it = std::find_if(lesson.words.begin(), lesson.words.end(), [wordID](const Word& word)
+                                            {
+                                                return word.id == wordID;
+                                            });
+                                        if( it != lesson.words.end() )
+                                        {
+                                            // Check if word already exists in the existing lesson based on content
+                                            auto existingWordIt = std::find_if(existingLesson->words.begin(), existingLesson->words.end(), [it](const Word& word)
+                                                {
+                                                    return *it == word; // Using operator== to compare content
+                                                });
+                                            if( existingWordIt != existingLesson->words.end() )
+                                            {
+                                                *existingWordIt = *it; // Overwrite the word
+                                            }
+                                            else
+                                            {
+                                                existingLesson->words.push_back(*it); // Add new word
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            markedWords.clear();
+                            LessonDataPackage package = createLessonDataPackageFromLesson(*existingLesson);
+                            emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnLessonEdited, &package));
+                            m_logger.log("Existing lesson updated with marked words.");
+                        }
+
+                        ImGui::CloseCurrentPopup();
+                    }
+
+                    ImGui::SameLine();
+
+                    if( ImGui::Button("Cancel") )
+                    {
+                        ImGui::CloseCurrentPopup();
+                    }
+
+                    ImGui::EndPopup();
+                }
+
 
                 ShowRenamePopup();
                 ImGui::End();
