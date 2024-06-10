@@ -74,7 +74,7 @@ namespace tadaima
             };
 
          //   ImGuiIO& io = ImGui::GetIO();
-            float fontSize = 18.0f * io.FontGlobalScale; // Adjust based on your DPI scaling
+            float fontSize = 17.0f * io.FontGlobalScale; // Adjust based on your DPI scaling
             io.Fonts->Clear();
 
             static const ImWchar icon_ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
