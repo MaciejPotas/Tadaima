@@ -321,6 +321,27 @@ namespace tadaima
 
                             if( ImGui::BeginPopup("LessonContextMenu") )
                             {
+                                if( ImGui::BeginMenu(ICON_FA_PLAY "Play") )
+                                {
+                                    if( ImGui::MenuItem("vocabulary quiz") )
+                                    {
+                                        auto package = (m_selectedLessons.size() > 0) ?
+                                            createLessonDataPackageFromSelectedNodes(m_selectedLessons) :
+                                            createLessonDataPackageFromLesson(lesson);
+                                        emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnPlayVocabularyQuiz, &package));
+                                    }
+
+                                    if( ImGui::MenuItem("multiple choice quiz") )
+                                    {
+                                        auto package = (m_selectedLessons.size() > 0) ?
+                                            createLessonDataPackageFromSelectedNodes(m_selectedLessons) :
+                                            createLessonDataPackageFromLesson(lesson);
+                                        emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnPlayMultipleChoiceQuiz, &package));
+                                    }
+
+                                    ImGui::EndMenu();
+                                }
+
                                 if( ImGui::MenuItem(ICON_FA_PENCIL " Edit") )
                                 {
                                     m_logger.log("Edit lesson selected.");
