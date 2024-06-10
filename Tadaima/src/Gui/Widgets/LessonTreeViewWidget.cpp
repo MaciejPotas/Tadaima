@@ -517,6 +517,7 @@ namespace tadaima
                                             if( existingWordIt == newLesson.words.end() )
                                             {
                                                 newLesson.words.push_back(*it);
+                                                newLesson.words.back().id = 0;
                                             }
                                         }
                                     }

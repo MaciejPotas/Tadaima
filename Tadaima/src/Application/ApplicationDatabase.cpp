@@ -182,6 +182,8 @@ namespace tadaima
         {
             try
             {
+                int lessonId = lesson.id;
+
                 // Start transaction
                 const char* beginTransaction = "BEGIN TRANSACTION;";
                 sqlite3_exec(db, beginTransaction, 0, 0, 0);
@@ -237,21 +239,12 @@ namespace tadaima
                 else
                 {
                     // Insert new lesson
-                    const char* insertLessonSql = "INSERT INTO lessons (id, main_name, sub_name) VALUES (?, ?, ?);";
-                    sqlite3_stmt* insertLessonStmt;
-                    if( sqlite3_prepare_v2(db, insertLessonSql, -1, &insertLessonStmt, 0) == SQLITE_OK )
+                    int newLessonId = addLesson(lesson.mainName, lesson.subName);
+                    if( newLessonId == -1 )
                     {
-                        sqlite3_bind_int(insertLessonStmt, 1, lesson.id);
-                        sqlite3_bind_text(insertLessonStmt, 2, lesson.mainName.c_str(), -1, SQLITE_STATIC);
-                        sqlite3_bind_text(insertLessonStmt, 3, lesson.subName.c_str(), -1, SQLITE_STATIC);
-                        if( sqlite3_step(insertLessonStmt) != SQLITE_DONE )
-                        {
-                            m_logger.log("Database: SQL error while inserting lesson: " + std::string(sqlite3_errmsg(db)), tools::LogLevel::PROBLEM);
-                            sqlite3_finalize(insertLessonStmt);
-                            throw std::runtime_error("Failed to insert lesson");
-                        }
-                        sqlite3_finalize(insertLessonStmt);
+                        throw std::runtime_error("Failed to insert lesson");
                     }
+                    lessonId = newLessonId;
                 }
 
                 // Insert updated words
@@ -261,7 +254,7 @@ namespace tadaima
                 {
                     if( sqlite3_prepare_v2(db, insertWordSql, -1, &insertWordStmt, 0) == SQLITE_OK )
                     {
-                        sqlite3_bind_int(insertWordStmt, 1, lesson.id);
+                        sqlite3_bind_int(insertWordStmt, 1, lessonId);
                         sqlite3_bind_text(insertWordStmt, 2, word.kana.c_str(), -1, SQLITE_STATIC);
                         sqlite3_bind_text(insertWordStmt, 3, word.translation.c_str(), -1, SQLITE_STATIC);
                         sqlite3_bind_text(insertWordStmt, 4, word.romaji.c_str(), -1, SQLITE_STATIC);
