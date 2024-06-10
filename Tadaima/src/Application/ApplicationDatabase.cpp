@@ -182,40 +182,69 @@ namespace tadaima
         {
             try
             {
+                int lessonId = lesson.id;
+
                 // Start transaction
                 const char* beginTransaction = "BEGIN TRANSACTION;";
                 sqlite3_exec(db, beginTransaction, 0, 0, 0);
 
-                // Update lesson details
-                const char* updateLessonSql = "UPDATE lessons SET main_name = ?, sub_name = ? WHERE id = ?;";
-                sqlite3_stmt* updateLessonStmt;
-                if( sqlite3_prepare_v2(db, updateLessonSql, -1, &updateLessonStmt, 0) == SQLITE_OK )
+                // Check if lesson exists
+                const char* checkLessonSql = "SELECT COUNT(*) FROM lessons WHERE id = ?;";
+                sqlite3_stmt* checkLessonStmt;
+                bool lessonExists = false;
+                if( sqlite3_prepare_v2(db, checkLessonSql, -1, &checkLessonStmt, 0) == SQLITE_OK )
                 {
-                    sqlite3_bind_text(updateLessonStmt, 1, lesson.mainName.c_str(), -1, SQLITE_STATIC);
-                    sqlite3_bind_text(updateLessonStmt, 2, lesson.subName.c_str(), -1, SQLITE_STATIC);
-                    sqlite3_bind_int(updateLessonStmt, 3, lesson.id);
-                    if( sqlite3_step(updateLessonStmt) != SQLITE_DONE )
+                    sqlite3_bind_int(checkLessonStmt, 1, lesson.id);
+                    if( sqlite3_step(checkLessonStmt) == SQLITE_ROW )
                     {
-                        m_logger.log("Database: SQL error while updating lesson: " + std::string(sqlite3_errmsg(db)), tools::LogLevel::PROBLEM);
-                        sqlite3_finalize(updateLessonStmt);
-                        throw std::runtime_error("Failed to update lesson");
+                        lessonExists = sqlite3_column_int(checkLessonStmt, 0) > 0;
                     }
-                    sqlite3_finalize(updateLessonStmt);
+                    sqlite3_finalize(checkLessonStmt);
                 }
 
-                // Delete existing words associated with the lesson
-                const char* deleteWordsSql = "DELETE FROM words WHERE lesson_id = ?;";
-                sqlite3_stmt* deleteWordsStmt;
-                if( sqlite3_prepare_v2(db, deleteWordsSql, -1, &deleteWordsStmt, 0) == SQLITE_OK )
+                if( lessonExists )
                 {
-                    sqlite3_bind_int(deleteWordsStmt, 1, lesson.id);
-                    if( sqlite3_step(deleteWordsStmt) != SQLITE_DONE )
+                    // Update lesson details
+                    const char* updateLessonSql = "UPDATE lessons SET main_name = ?, sub_name = ? WHERE id = ?;";
+                    sqlite3_stmt* updateLessonStmt;
+                    if( sqlite3_prepare_v2(db, updateLessonSql, -1, &updateLessonStmt, 0) == SQLITE_OK )
                     {
-                        m_logger.log("Database: SQL error while deleting words: " + std::string(sqlite3_errmsg(db)), tools::LogLevel::PROBLEM);
-                        sqlite3_finalize(deleteWordsStmt);
-                        throw std::runtime_error("Failed to delete words");
+                        sqlite3_bind_text(updateLessonStmt, 1, lesson.mainName.c_str(), -1, SQLITE_STATIC);
+                        sqlite3_bind_text(updateLessonStmt, 2, lesson.subName.c_str(), -1, SQLITE_STATIC);
+                        sqlite3_bind_int(updateLessonStmt, 3, lesson.id);
+                        if( sqlite3_step(updateLessonStmt) != SQLITE_DONE )
+                        {
+                            m_logger.log("Database: SQL error while updating lesson: " + std::string(sqlite3_errmsg(db)), tools::LogLevel::PROBLEM);
+                            sqlite3_finalize(updateLessonStmt);
+                            throw std::runtime_error("Failed to update lesson");
+                        }
+                        sqlite3_finalize(updateLessonStmt);
                     }
-                    sqlite3_finalize(deleteWordsStmt);
+
+                    // Delete existing words associated with the lesson
+                    const char* deleteWordsSql = "DELETE FROM words WHERE lesson_id = ?;";
+                    sqlite3_stmt* deleteWordsStmt;
+                    if( sqlite3_prepare_v2(db, deleteWordsSql, -1, &deleteWordsStmt, 0) == SQLITE_OK )
+                    {
+                        sqlite3_bind_int(deleteWordsStmt, 1, lesson.id);
+                        if( sqlite3_step(deleteWordsStmt) != SQLITE_DONE )
+                        {
+                            m_logger.log("Database: SQL error while deleting words: " + std::string(sqlite3_errmsg(db)), tools::LogLevel::PROBLEM);
+                            sqlite3_finalize(deleteWordsStmt);
+                            throw std::runtime_error("Failed to delete words");
+                        }
+                        sqlite3_finalize(deleteWordsStmt);
+                    }
+                }
+                else
+                {
+                    // Insert new lesson
+                    int newLessonId = addLesson(lesson.mainName, lesson.subName);
+                    if( newLessonId == -1 )
+                    {
+                        throw std::runtime_error("Failed to insert lesson");
+                    }
+                    lessonId = newLessonId;
                 }
 
                 // Insert updated words
@@ -225,7 +254,7 @@ namespace tadaima
                 {
                     if( sqlite3_prepare_v2(db, insertWordSql, -1, &insertWordStmt, 0) == SQLITE_OK )
                     {
-                        sqlite3_bind_int(insertWordStmt, 1, lesson.id);
+                        sqlite3_bind_int(insertWordStmt, 1, lessonId);
                         sqlite3_bind_text(insertWordStmt, 2, word.kana.c_str(), -1, SQLITE_STATIC);
                         sqlite3_bind_text(insertWordStmt, 3, word.translation.c_str(), -1, SQLITE_STATIC);
                         sqlite3_bind_text(insertWordStmt, 4, word.romaji.c_str(), -1, SQLITE_STATIC);

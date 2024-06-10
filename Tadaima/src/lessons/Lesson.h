@@ -22,11 +22,26 @@ namespace tadaima
         std::string exampleSentence; /**< An example sentence using the word. */
         std::vector<std::string> tags; /**< Tags associated with the word. */
 
+        // Default constructor
+        Word() : id(-1) {}
+
+        // Parameterized constructor
+        Word(int id, const std::string& kana, const std::string& translation, const std::string& romaji, const std::string& exampleSentence, const std::vector<std::string>& tags)
+            : id(id), kana(kana), translation(translation), romaji(romaji), exampleSentence(exampleSentence), tags(tags)
+        {
+        }
+
+        // Copy constructor
+        Word(const Word& other)
+            : id(other.id), kana(other.kana), translation(other.translation), romaji(other.romaji), exampleSentence(other.exampleSentence), tags(other.tags)
+        {
+        }
+
+
         // Comparison operators
         bool operator==(const Word& other) const
         {
-            return id == other.id &&
-                kana == other.kana &&
+            return kana == other.kana &&
                 translation == other.translation &&
                 romaji == other.romaji &&
                 exampleSentence == other.exampleSentence &&
@@ -45,7 +60,7 @@ namespace tadaima
      */
     struct Lesson
     {
-        int id; /**< The ID of the lesson. */
+        int id = 0; /**< The ID of the lesson. */
         std::string mainName; /**< The main name of the lesson. */
         std::string subName; /**< The sub name of the lesson. */
         std::vector<Word> words; /**< Words associated with the lesson. */

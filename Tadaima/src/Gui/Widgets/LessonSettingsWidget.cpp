@@ -174,7 +174,7 @@ namespace tadaima
                         const auto& word = m_newLesson.words[index];
                         ImGui::PushID(static_cast<int>(index));
 
-                        if( ImGui::Selectable(word.kana.c_str(), index == static_cast<size_t>(m_selectedWordIndex)) )
+                        if( ImGui::Selectable(word.translation.c_str(), index == static_cast<size_t>(m_selectedWordIndex)) )
                         {
                             m_logger.log("Selected word at index: " + std::to_string(index), tools::LogLevel::DEBUG);
                             // Fill the input fields with the selected word's data

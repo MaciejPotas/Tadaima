@@ -6,11 +6,14 @@
 #include <chrono>
 #include <iomanip>
 #include <sstream>
+#include <mutex>
 
 namespace tools
 {
-    void ConsoleLogger::log(const std::string& message, LogLevel level) 
+    void ConsoleLogger::log(const std::string& message, LogLevel level)
     {
+        static std::mutex logMutex; // Mutex for thread safety
+        std::lock_guard<std::mutex> lock(logMutex); // Lock the mutex
         if( level >= verbosityLevel )
         {
             std::string timestamp = getCurrentTime();
@@ -31,7 +34,6 @@ namespace tools
                 case LogLevel::PROBLEM:
                     std::cout << "\033[33m[" << timestamp << "][ERROR]: " << message << "\033[0m" << std::endl;
                     break;
-
             }
         }
     }

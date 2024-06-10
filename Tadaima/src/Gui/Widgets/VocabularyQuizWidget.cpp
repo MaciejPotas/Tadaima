@@ -264,13 +264,13 @@ namespace tadaima
 
                                 if( isCorrect )
                                 {
-                                    m_quiz->advance(m_userInput);
-                                    memset(m_userInput, 0, sizeof(m_userInput));
+                                    //    m_quiz->advance(m_userInput);
+                                //        memset(m_userInput, 0, sizeof(m_userInput));
                                     m_correctAnswerMessage = "Your answer is correct!";
                                     m_revealedHints.clear();
                                     m_currentHint.clear();
                                     focusOnWrongButton = false;
-                                    focusOnAcceptButton = false;
+                                    focusOnAcceptButton = true;
                                     enterPressed = false;  // Clear Enter key press flag
                                 }
                                 else
@@ -302,6 +302,42 @@ namespace tadaima
                             }
 
                             ImGui::SameLine();
+
+                            if( !m_overrideAnswer && m_correctAnswerMessage == "Your answer is correct!" )
+                            {
+                                // Accept it! button
+                                if( focusOnAcceptButton )
+                                {
+                                    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 1.0f, 0.0f, 1.0f));  // Change button color to green
+                                    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.4f, 1.0f, 0.4f, 1.0f));  // Change hover color
+                                    ImGui::SetKeyboardFocusHere();
+                                }
+                                if( ImGui::Button("Correct!") || (focusOnAcceptButton && enterPressed) )
+                                {
+                                    m_quiz->advance(flashcard.word);
+                                    memset(m_userInput, 0, sizeof(m_userInput));
+                                    m_overrideAnswer = true;
+                                    m_correctAnswerMessage = "Your answer has been marked as correct!";
+                                    m_revealedHints.clear();
+                                    m_currentHint.clear();
+                                    setFocusOnInputField = true;
+                                    enterPressed = false;  // Clear Enter key press flag
+                                    focusOnAcceptButton = false;
+                                    ImGui::PopStyleColor(2);  // Revert to the original button color
+
+                                    m_translation.clear();
+                                    m_kana.clear();
+                                    m_romaji.clear();
+                                    m_example.clear();
+
+                                }
+                                if( focusOnAcceptButton )
+                                {
+                                    ImGui::PopStyleColor(2);  // Revert to the original button color
+                                }
+
+                            }
+
                             if( !m_overrideAnswer && m_correctAnswerMessage == "Your answer is incorrect." )
                             {
                                 // Handle left arrow navigation to switch focus
@@ -342,6 +378,10 @@ namespace tadaima
                                     enterPressed = false;  // Clear Enter key press flag
                                     focusOnAcceptButton = false;
                                     ImGui::PopStyleColor(2);  // Revert to the original button color
+                                    m_translation.clear();
+                                    m_kana.clear();
+                                    m_romaji.clear();
+                                    m_example.clear();
                                 }
                                 if( focusOnAcceptButton )
                                 {
@@ -365,6 +405,10 @@ namespace tadaima
                                         setFocusOnInputField = true;
                                         focusOnWrongButton = false;
                                         enterPressed = false;  // Clear Enter key press flag
+                                        m_translation.clear();
+                                        m_kana.clear();
+                                        m_romaji.clear();
+                                        m_example.clear();
                                     }
                                     ImGui::PopStyleColor(2);  // Revert to the original button color
                                 }
