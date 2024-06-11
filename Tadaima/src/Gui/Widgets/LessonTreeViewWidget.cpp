@@ -46,6 +46,7 @@ namespace tadaima
                 m_logger.log("LessonTreeViewWidget initialized.");
             }
 
+
             LessonDataPackage LessonTreeViewWidget::createLessonDataPackageFromLessons(const std::vector<Lesson>& lessons)
             {
                 m_logger.log("Creating LessonDataPackage from lessons.");
@@ -133,25 +134,11 @@ namespace tadaima
                 return Lesson();
             }
 
-            void LessonTreeViewWidget::draw(bool* p_open)
+
+            void LessonTreeViewWidget::drawTopButtons()
             {
                 static bool open_add_new_lesson = false;
-                static bool open_edit_lesson = false;
                 static Lesson selectedLesson;
-                static Lesson originalLesson;
-                static bool renamePopupOpen = false;
-                static bool deleteLesson = false;
-                static std::unordered_set<int> lessonsToExport;
-                static std::unordered_set<int> markedWords; // Store marked word IDs
-                static bool createNewLessonPopupOpen = false; // Track if the create new lesson popup should be open
-
-                bool ctrlPressed = ImGui::GetIO().KeyCtrl;
-
-                if( !ImGui::Begin("Lessons Overview", p_open, ImGuiWindowFlags_NoDecoration) )
-                {
-                    ImGui::End();
-                    return;
-                }
 
                 if( ImGui::Button(ICON_FA_PLUS " Create") )
                 {
@@ -198,8 +185,12 @@ namespace tadaima
                     }
                     ImGuiFileDialog::Instance()->Close();
                 }
+            }
 
-                bool clickedOutside = ImGui::IsMouseClicked(0) && !ImGui::IsAnyItemHovered() && !ImGui::IsMouseReleased(1);
+
+            void LessonTreeViewWidget::drawLessonsTree(std::unordered_set<int>& markedWords, std::unordered_set<int>& lessonsToExport, bool& open_edit_lesson, Lesson& selectedLesson, Lesson& originalLesson, bool& renamePopupOpen, bool& deleteLesson, bool& createNewLessonPopupOpen)
+            {
+                bool ctrlPressed = ImGui::GetIO().KeyCtrl;
 
                 for( size_t groupIndex = 0; groupIndex < m_cashedLessons.size(); groupIndex++ )
                 {
@@ -410,6 +401,15 @@ namespace tadaima
                     ImGui::PopID();
                 }
 
+                if( ImGui::IsMouseClicked(0) && !ImGui::IsAnyItemHovered() && !ImGui::IsMouseReleased(1) )
+                {
+                    m_selectedLessons.clear();
+                }
+
+            }
+
+            void LessonTreeViewWidget::handleExportLessons(std::unordered_set<int> lessonsToExport)
+            {
                 if( ImGuiFileDialog::Instance()->Display("SaveFileDlgKey") )
                 {
                     if( ImGuiFileDialog::Instance()->IsOk() )
@@ -420,12 +420,11 @@ namespace tadaima
                     }
                     ImGuiFileDialog::Instance()->Close();
                 }
+            }
 
-                if( clickedOutside )
-                {
-                    m_selectedLessons.clear();
-                }
 
+            void LessonTreeViewWidget::handleLessonEdit(bool& open_edit_lesson, Lesson& originalLesson, Lesson& selectedLesson)
+            {
                 if( open_edit_lesson )
                 {
                     m_lessonSettingsWidget.draw(&open_edit_lesson);
@@ -436,16 +435,15 @@ namespace tadaima
                             LessonDataPackage package = createLessonDataPackageFromLesson(selectedLesson);
                             emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnLessonEdited, &package));
                             m_logger.log("Lesson edited.");
+                            open_edit_lesson = false;
                         }
                     }
                 }
+            }
 
-                if( renamePopupOpen )
-                {
-                    ImGui::OpenPopup("Rename Lesson");
-                    renamePopupOpen = false;
-                }
 
+            void LessonTreeViewWidget::handleLessonDelete(bool& deleteLesson)
+            {
                 if( deleteLesson )
                 {
                     if( m_selectedLessons.size() > 0 )
@@ -472,15 +470,16 @@ namespace tadaima
 
                     deleteLesson = false;
                 }
+            }
+
+            void LessonTreeViewWidget::handleWordsMove(bool& createNewLessonPopupOpen, std::unordered_set<int>& markedWords)
+            {
 
                 if( createNewLessonPopupOpen )
                 {
                     ImGui::OpenPopup("Create New Lesson");
                     createNewLessonPopupOpen = false;
                 }
-
-
-
 
                 if( ImGui::BeginPopupModal("Create New Lesson", NULL, ImGuiWindowFlags_AlwaysAutoResize) )
                 {
@@ -631,8 +630,63 @@ namespace tadaima
 
                     ImGui::EndPopup();
                 }
+            }
 
-                ShowRenamePopup();
+            void LessonTreeViewWidget::draw(bool* p_open)
+            {
+                static bool open_add_new_lesson = false;
+                static bool open_edit_lesson = false;
+                static Lesson selectedLesson;
+                static Lesson originalLesson;
+                static bool renamePopupOpen = false;
+                static bool deleteLesson = false;
+                static std::unordered_set<int> lessonsToExport;
+                static std::unordered_set<int> markedWords; // Store marked word IDs
+                static bool createNewLessonPopupOpen = false; // Track if the create new lesson popup should be open
+
+                if( !ImGui::Begin("Lessons Overview", p_open, ImGuiWindowFlags_NoDecoration) )
+                {
+                    ImGui::End();
+                    return;
+                }
+
+                /*
+                    Handle top layer of the tree view. Buttons.
+                */
+                drawTopButtons();
+
+                /*
+                    Draw lessons tree and mark all events that can occur on it.
+                */
+                drawLessonsTree(markedWords, lessonsToExport, open_edit_lesson, selectedLesson, originalLesson, renamePopupOpen, deleteLesson, createNewLessonPopupOpen);
+
+
+
+                /*
+                *
+                * Handle creataion of new lesson.
+                */
+                handleLessonEdit(open_edit_lesson, originalLesson, selectedLesson);
+
+
+
+
+                handleLessonDelete(deleteLesson);
+
+
+
+                handleWordsMove(createNewLessonPopupOpen, markedWords);
+
+                    /*
+                    handle lesson export.
+                */
+                handleExportLessons(lessonsToExport);
+
+                ShowRenamePopup(renamePopupOpen);
+
+
+
+
                 ImGui::End();
             }
 
@@ -760,8 +814,14 @@ namespace tadaima
                 return createLessonDataPackageFromLessons(lessons);
             }
 
-            void LessonTreeViewWidget::ShowRenamePopup()
+            void LessonTreeViewWidget::ShowRenamePopup(bool& renamePopupOpen)
             {
+                if( renamePopupOpen )
+                {
+                    ImGui::OpenPopup("Rename Lesson");
+                    renamePopupOpen = false;
+                }
+
                 if( ImGui::BeginPopupModal("Rename Lesson", nullptr, ImGuiWindowFlags_AlwaysAutoResize) )
                 {
                     ImGui::TextWrapped("Please enter the new names for the lesson:");

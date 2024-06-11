@@ -203,10 +203,6 @@ namespace tadaima
                         // Quiz Section
                         if( !m_quiz->isQuizComplete() )
                         {
-
-
-
-
                             if( m_showCorrectAnswer )
                             {
                                 ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "%s", m_correctAnswerMessage.c_str());

@@ -54,6 +54,17 @@ namespace tadaima
                 void initialize(const tools::DataPackage& r_package) override;
 
                 /**
+                 * @brief Draws the top buttons for creating and importing lessons.
+                 */
+                void drawTopButtons();
+
+                /**
+                 * @brief Handles the tree view for marking words.
+                 * @param markedWords Set of marked word IDs.
+                 */
+                void handleTreeView(std::unordered_set<int>& markedWords);
+
+                /**
                  * @brief Draws the lesson tree view widget.
                  * @param p_open Pointer to a boolean indicating whether the widget is open.
                  */
@@ -73,6 +84,7 @@ namespace tadaima
                 /**
                  * @brief Parses and imports lessons from a file.
                  * @param filePath The path to the file containing lessons.
+                 * @return A vector of parsed lessons.
                  */
                 std::vector<Lesson> parseLessons(const std::string& filePath);
 
@@ -117,47 +129,59 @@ namespace tadaima
 
                 /**
                  * @brief Shows the rename popup.
+                 * @param renamePopupOpen Boolean reference indicating if the rename popup is open.
                  */
-                void ShowRenamePopup();
+                void ShowRenamePopup(bool& renamePopupOpen);
 
                 /**
-                 * @brief Handles the add new lesson button.
-                 * @param open_add_new_lesson Reference to a boolean indicating if the add new lesson widget is open.
-                 * @param selectedLesson Reference to the selected lesson.
+                 * @brief Handles moving marked words to a new lesson.
+                 * @param createNewLessonPopupOpen Boolean reference indicating if the create new lesson popup should be open.
+                 * @param markedWords Set of marked word IDs.
                  */
-                void handleAddNewLessonButton(bool& open_add_new_lesson, Lesson& selectedLesson);
+                void handleWordsMove(bool& createNewLessonPopupOpen, std::unordered_set<int>& markedWords);
 
                 /**
-                 * @brief Draws the add new lesson widget.
-                 * @param open_add_new_lesson Reference to a boolean indicating if the add new lesson widget is open.
-                 * @param selectedLesson Reference to the selected lesson.
+                 * @brief Handles the deletion of a lesson.
+                 * @param deleteLesson Boolean reference indicating if a lesson is to be deleted.
                  */
-                void drawAddNewLessonWidget(bool& open_add_new_lesson, Lesson& selectedLesson);
-
-                /**
-                 * @brief Draws the lessons tree.
-                 * @param clickedOutside Indicates if a click was made outside the widget.
-                 * @param open_edit_lesson Reference to a boolean indicating if the edit lesson widget is open.
-                 * @param selectedLesson Reference to the selected lesson.
-                 * @param originalLesson Reference to the original lesson.
-                 * @param renamePopupOpen Reference to a boolean indicating if the rename popup is open.
-                 * @param deleteLesson Reference to a boolean indicating if a lesson is to be deleted.
-                 * @param ctrlPressed Indicates if the control key is pressed.
-                 */
-                void drawLessonsTree(bool clickedOutside, bool& open_edit_lesson, Lesson& selectedLesson, Lesson& originalLesson, bool& renamePopupOpen, bool& deleteLesson, bool ctrlPressed);
+                void handleLessonDelete(bool& deleteLesson);
 
                 /**
                  * @brief Draws the edit lesson widget.
-                 * @param open_edit_lesson Reference to a boolean indicating if the edit lesson widget is open.
+                 * @param open_edit_lesson Boolean reference indicating if the edit lesson widget is open.
+                 * @param originalLesson Reference to the original lesson.
+                 * @param selectedLesson Reference to the selected lesson.
+                 */
+                void handleLessonEdit(bool& open_edit_lesson, Lesson& originalLesson, Lesson& selectedLesson);
+
+                /**
+                 * @brief Handles the export of lessons.
+                 * @param lessonsToExport Set of lesson IDs to be exported.
+                 */
+                void handleExportLessons(std::unordered_set<int> lessonsToExport);
+
+                /**
+                 * @brief Draws the lessons tree.
+                 * @param markedWords Set of marked word IDs.
+                 * @param lessonsToExport Set of lesson IDs to be exported.
+                 * @param open_edit_lesson Boolean reference indicating if the edit lesson widget is open.
                  * @param selectedLesson Reference to the selected lesson.
                  * @param originalLesson Reference to the original lesson.
+                 * @param renamePopupOpen Boolean reference indicating if the rename popup is open.
+                 * @param deleteLesson Boolean reference indicating if a lesson is to be deleted.
+                 * @param createNewLessonPopupOpen Boolean reference indicating if the create new lesson popup should be open.
                  */
-                void drawEditLessonWidget(bool& open_edit_lesson, Lesson& selectedLesson, Lesson& originalLesson);
+                void drawLessonsTree(std::unordered_set<int>& markedWords, std::unordered_set<int>& lessonsToExport, bool& open_edit_lesson, Lesson& selectedLesson, Lesson& originalLesson, bool& renamePopupOpen, bool& deleteLesson, bool& createNewLessonPopupOpen);
 
-
-                void parseAndExportLessons(const std::string& filePath, const std::unordered_set<int>& lessonsToExport);
                 /**
-                 * @brief Handles the delete lesson action.
+                 * @brief Parses and exports lessons to a file.
+                 * @param filePath The path to the file to export lessons to.
+                 * @param lessonsToExport Set of lesson IDs to be exported.
+                 */
+                void parseAndExportLessons(const std::string& filePath, const std::unordered_set<int>& lessonsToExport);
+
+                /**
+                 * @brief Handles the deletion of a lesson.
                  */
                 void handleDeleteLesson();
 
@@ -165,12 +189,18 @@ namespace tadaima
                  * @brief Saves the renamed lesson.
                  */
                 void saveRenamedLesson();
+
+                /**
+                 * @brief Finds a lesson by its ID.
+                 * @param id The ID of the lesson to find.
+                 * @return The found lesson, or an empty lesson if not found.
+                 */
                 Lesson findLessonWithId(int id);
 
                 std::deque<LessonGroup> m_cashedLessons; /**< Deque containing lesson groups. */
                 LessonPackageType m_type; /**< The type of package. */
                 LessonSettingsWidget m_lessonSettingsWidget; /**< The lesson settings widget. */
-                tools::Logger& m_logger;
+                tools::Logger& m_logger; /**< Reference to the logger. */
 
                 std::unordered_set<int> m_selectedLessons; /**< Set storing indices of selected lessons. */
                 int m_selectedLessonIndex = -1; /**< Index of the selected lesson. */
@@ -178,8 +208,8 @@ namespace tadaima
                 int m_changedLessonIndex = -1; /**< Index of the changed lesson. */
                 char renameMainNameBuffer[256] = ""; /**< Buffer for renaming the main name. */
                 char renameSubNameBuffer[256] = ""; /**< Buffer for renaming the sub-name. */
-                char newLessonMainNameBuffer[256] = ""; // Buffer for the new lesson's main name
-                char newLessonSubNameBuffer[256] = ""; // Buffer for the new lesson's sub name
+                char newLessonMainNameBuffer[256] = ""; /**< Buffer for the new lesson's main name. */
+                char newLessonSubNameBuffer[256] = ""; /**< Buffer for the new lesson's sub name. */
             };
         }
     }
