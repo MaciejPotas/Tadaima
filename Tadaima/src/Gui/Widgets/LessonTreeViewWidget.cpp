@@ -187,10 +187,12 @@ namespace tadaima
                 }
             }
 
-
             void LessonTreeViewWidget::drawLessonsTree(std::unordered_set<int>& markedWords, std::unordered_set<int>& lessonsToExport, bool& open_edit_lesson, Lesson& selectedLesson, Lesson& originalLesson, bool& renamePopupOpen, bool& deleteLesson, bool& createNewLessonPopupOpen)
             {
-                bool ctrlPressed = ImGui::GetIO().KeyCtrl;
+                const bool ctrlPressed = ImGui::GetIO().KeyCtrl;
+                const bool shiftPressed = ImGui::GetIO().KeyShift; // Track shift key state
+
+                static int lastSelectedWordId = -1; // Track last selected word ID
 
                 for( size_t groupIndex = 0; groupIndex < m_cashedLessons.size(); groupIndex++ )
                 {
@@ -217,9 +219,6 @@ namespace tadaima
                                     const auto& word = lesson.words[wordIndex];
                                     ImGui::PushID(static_cast<int>(wordIndex));
 
-                                    memset(newLessonMainNameBuffer, 0, sizeof(newLessonMainNameBuffer));
-                                    memcpy(newLessonMainNameBuffer, lessonGroup.mainName.c_str(), lessonGroup.mainName.size());
-
                                     // Check if the word is marked
                                     bool isWordMarked = markedWords.find(word.id) != markedWords.end();
                                     if( isWordMarked )
@@ -229,16 +228,54 @@ namespace tadaima
 
                                     ImGui::Text(" %s - %s", word.translation.c_str(), word.kana.c_str());
 
-                                    // Mark the word if control is pressed and clicked
-                                    if( ctrlPressed && ImGui::IsItemClicked(0) )
+                                    // Mark the word if control or shift is pressed and clicked
+                                    if( ImGui::IsItemClicked(0) )
                                     {
-                                        if( isWordMarked )
+                                        memcpy(newLessonMainNameBuffer, lessonGroup.mainName.c_str(), lessonGroup.mainName.size());
+                                        if( ctrlPressed )
                                         {
-                                            markedWords.erase(word.id);
+                                            if( isWordMarked )
+                                            {
+                                                markedWords.erase(word.id);
+                                            }
+                                            else
+                                            {
+                                                markedWords.insert(word.id);
+                                            }
+                                            lastSelectedWordId = word.id;
+                                        }
+                                        else if( shiftPressed )
+                                        {
+                                            if( lastSelectedWordId != -1 && lastSelectedWordId != word.id )
+                                            {
+                                                int startId = std::min(lastSelectedWordId, word.id);
+                                                int endId = std::max(lastSelectedWordId, word.id);
+                                                bool marking = false;
+                                                for( size_t markWordIndex = 0; markWordIndex < lesson.words.size(); markWordIndex++ )
+                                                {
+                                                    const auto& markWord = lesson.words[markWordIndex];
+                                                    if( markWord.id == startId || markWord.id == endId )
+                                                    {
+                                                        marking = !marking;
+                                                        markedWords.insert(markWord.id);
+                                                    }
+                                                    if( marking || markWord.id == startId || markWord.id == endId )
+                                                    {
+                                                        markedWords.insert(markWord.id);
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                markedWords.insert(word.id);
+                                            }
+                                            lastSelectedWordId = word.id;
                                         }
                                         else
                                         {
+                                            markedWords.clear();
                                             markedWords.insert(word.id);
+                                            lastSelectedWordId = word.id;
                                         }
                                     }
 
@@ -391,6 +428,7 @@ namespace tadaima
                                 else
                                 {
                                     m_selectedLessons.clear();
+                                    //  m_selectedLessons.insert(lesson.id);
                                 }
                             }
 
@@ -405,7 +443,6 @@ namespace tadaima
                 {
                     m_selectedLessons.clear();
                 }
-
             }
 
             void LessonTreeViewWidget::handleExportLessons(std::unordered_set<int> lessonsToExport)
@@ -677,9 +714,9 @@ namespace tadaima
 
                 handleWordsMove(createNewLessonPopupOpen, markedWords);
 
-                    /*
-                    handle lesson export.
-                */
+                /*
+                handle lesson export.
+            */
                 handleExportLessons(lessonsToExport);
 
                 ShowRenamePopup(renamePopupOpen);
