@@ -60,6 +60,7 @@ namespace tadaima
                     SettingsDataPackage package;
                     package.set(SettingsPackageKey::Username, std::string(m_username));
                     package.set(SettingsPackageKey::DictionaryPath, std::string(m_dictionaryPath));
+                    package.set(SettingsPackageKey::QuizzesScriptsPath, std::string(m_scriptPaths));
                     package.set(SettingsPackageKey::AskedWordType, static_cast<quiz::WordType>(m_inputOption));
                     package.set(SettingsPackageKey::AnswerWordType, static_cast<quiz::WordType>(m_translationOption));
 
@@ -86,11 +87,14 @@ namespace tadaima
 
                         const std::string userName = package->get<std::string>(SettingsPackageKey::Username);
                         const std::string dictionaryPath = package->get<std::string>(SettingsPackageKey::DictionaryPath);
+                        const std::string quizzesScripts = package->get<std::string>(SettingsPackageKey::QuizzesScriptsPath);
 
                         memset(m_username, 0, sizeof(m_username));
                         memset(m_dictionaryPath, 0, sizeof(m_dictionaryPath));
+                        memset(m_scriptPaths, 0, sizeof(m_scriptPaths));
                         memcpy(m_username, userName.c_str(), userName.size());
                         memcpy(m_dictionaryPath, dictionaryPath.c_str(), dictionaryPath.size());
+                        memcpy(m_scriptPaths, quizzesScripts.c_str(), quizzesScripts.size());
 
                         m_inputOption = package->get< quiz::WordType>(SettingsPackageKey::AskedWordType);
                         m_translationOption = package->get<quiz::WordType>(SettingsPackageKey::AnswerWordType);
@@ -128,6 +132,10 @@ namespace tadaima
 
                         ImGui::InputText("Path to the directory", m_dictionaryPath, IM_ARRAYSIZE(m_dictionaryPath));
                         ShowFieldHelp("Select the directory where your Japanese word files are stored.");
+
+
+                        ImGui::InputText("Path to scripted quizes", m_scriptPaths, IM_ARRAYSIZE(m_scriptPaths));
+                        ShowFieldHelp("Select the directory where all the scripted quizes are. Usually should be script/quizes.");       
 
                         ImGui::Spacing();
                         ImGui::Separator();

@@ -44,7 +44,8 @@ namespace tadaima
                     OnLessonDelete, /**< Event triggered when a lesson is deleted. */
                     OnLessonEdited, /**< Event triggered when a lesson is edited. */
                     OnPlayMultipleChoiceQuiz, /**< Event triggered to play a multiple choice quiz. */
-                    OnPlayVocabularyQuiz /**< Event triggered to play a vocabulary quiz. */
+                    OnPlayVocabularyQuiz, /**< Event triggered to play a vocabulary quiz. */
+                    OnQuizSelect
                 };
 
                 /**

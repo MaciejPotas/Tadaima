@@ -27,6 +27,7 @@ namespace tadaima
             {
                 Username,       /**< Key for username. */
                 DictionaryPath, /**< Key for dictionary path. */
+                QuizzesScriptsPath, /**< Key for scripted quizes path. */
                 AskedWordType,  /**< Key for input word. */
                 AnswerWordType  /**< Key for translated word. */
             };

@@ -56,6 +56,7 @@ namespace tadaima
                 void initialize(const tools::DataPackage& r_package) override;
 
             private:
+
                 /**
                  * @brief Applies the current settings.
                  */
@@ -88,7 +89,8 @@ namespace tadaima
                 void ShowFieldHelp(const char* desc);
 
                 tools::Logger& m_logger; /**< Reference to the Logger instance for logging. */
-                char m_dictionaryPath[100] = ""; /**< Path to the dictionary. */
+                char m_dictionaryPath[50] = ""; /**< Path to the dictionary. */
+                char m_scriptPaths[50] = ""; /**< Path to the dictionary. */
                 char m_username[30] = ""; /**< Username for the application. */
                 int m_inputOption = quiz::WordType::BaseWord; /**< Input option for word type. */
                 int m_translationOption = quiz::WordType::Romaji; /**< Translation option for word type. */

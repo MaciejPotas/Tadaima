@@ -32,6 +32,7 @@ namespace tadaima
 
         package.set(gui::widget::SettingsPackageKey::Username, settings.userName);
         package.set(gui::widget::SettingsPackageKey::DictionaryPath, settings.dictionaryPath);
+        package.set(gui::widget::SettingsPackageKey::QuizzesScriptsPath, settings.quizzesPaths);
         package.set(gui::widget::SettingsPackageKey::AskedWordType, stringToWordType(settings.inputWord));
         package.set(gui::widget::SettingsPackageKey::AnswerWordType, stringToWordType(settings.translatedWord));
 
@@ -138,6 +139,7 @@ namespace tadaima
             application::ApplicationSettings settings;
             settings.userName = package->get<std::string>(gui::widget::SettingsPackageKey::Username);
             settings.dictionaryPath = package->get<std::string>(gui::widget::SettingsPackageKey::DictionaryPath);
+            settings.quizzesPaths = package->get<std::string>(gui::widget::SettingsPackageKey::QuizzesScriptsPath);
             settings.inputWord = wordTypeToString(package->get<gui::quiz::WordType>(gui::widget::SettingsPackageKey::AskedWordType));
             settings.translatedWord = wordTypeToString(package->get<gui::quiz::WordType>(gui::widget::SettingsPackageKey::AnswerWordType));
 

@@ -111,7 +111,8 @@ xcopy "$(ProjectDir)resources\forkawesome-webfont.ttf" "$(TargetDir)fonts\" /Y /
 xcopy "$(ProjectDir)resources\NotoSans-Regular.ttf" "$(TargetDir)fonts\" /Y /I /Q
 xcopy "$(ProjectDir)..\scripts\Dictionary.py" "$(TargetDir)scripts\" /Y /I /Q
 xcopy "$(ProjectDir)..\scripts\requirements.txt" "$(TargetDir)scripts\" /Y /I /Q
-xcopy "$(ProjectDir)..\scripts\Setup.py" "$(TargetDir)scripts\" /Y /I /Q</Command>
+xcopy "$(ProjectDir)..\scripts\Setup.py" "$(TargetDir)scripts\" /Y /I /Q
+xcopy "$(ProjectDir)..\scripts\Quizzes\ageguesser.py" "$(TargetDir)scripts\Quizzes\" /Y /I /Q</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -140,7 +141,8 @@ xcopy "$(ProjectDir)resources\forkawesome-webfont.ttf" "$(TargetDir)fonts\" /Y /
 xcopy "$(ProjectDir)resources\NotoSans-Regular.ttf" "$(TargetDir)fonts\" /Y /I /Q
 xcopy "$(ProjectDir)..\scripts\Dictionary.py" "$(TargetDir)scripts\" /Y /I /Q
 xcopy "$(ProjectDir)..\scripts\requirements.txt" "$(TargetDir)scripts\" /Y /I /Q
-xcopy "$(ProjectDir)..\scripts\Setup.py" "$(TargetDir)scripts\" /Y /I /Q</Command>
+xcopy "$(ProjectDir)..\scripts\Setup.py" "$(TargetDir)scripts\" /Y /I /Q
+xcopy "$(ProjectDir)..\scripts\Quizzes\ageguesser.py" "$(TargetDir)scripts\Quizzes\" /Y /I /Q</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -172,13 +174,15 @@ xcopy "$(ProjectDir)..\scripts\Setup.py" "$(TargetDir)scripts\" /Y /I /Q</Comman
     <PostBuildEvent>
       <Command>mkdir $(SolutionDir)bin\$(Platform)\fonts\ &gt;nul
 mkdir $(SolutionDir)bin\$(Platform)\scripts\ &gt;nul
+mkdir $(SolutionDir)bin\$(Platform)\scripts\Extra\ &gt;nul
 copy $(SolutionDir)build\$(Configuration)\$(Platform)\$(ProjectName)\$(ProjectName).exe $(SolutionDir)bin\$(Platform)\ &gt;nul
 xcopy "$(ProjectDir)resources\NotoSansJP-Regular.ttf" "$(SolutionDir)bin\$(Platform)\fonts" /Y /I /Q
 xcopy "$(ProjectDir)resources\forkawesome-webfont.ttf" "$(SolutionDir)bin\$(Platform)\fonts" /Y /I /Q
 xcopy "$(ProjectDir)resources\NotoSans-Regular.ttf"  "$(SolutionDir)bin\$(Platform)\fonts" /Y /I /Q
 xcopy "$(ProjectDir)..\scripts\Dictionary.py" "$(SolutionDir)bin\$(Platform)\scripts" /Y /I /Q
 xcopy "$(ProjectDir)..\scripts\requirements.txt" "$(SolutionDir)bin\$(Platform)\scripts" /Y /I /Q
-xcopy "$(ProjectDir)..\scripts\Setup.py" "$(SolutionDir)bin\$(Platform)\scripts" /Y /I /Q</Command>
+xcopy "$(ProjectDir)..\scripts\Setup.py" "$(SolutionDir)bin\$(Platform)\scripts" /Y /I /Q
+xcopy "$(ProjectDir)..\scripts\Extra\AnkiXTadaima.py" "$(TargetDir)scripts\Extra\" /Y /I /Q</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -210,13 +214,15 @@ xcopy "$(ProjectDir)..\scripts\Setup.py" "$(SolutionDir)bin\$(Platform)\scripts"
     <PostBuildEvent>
       <Command>mkdir $(SolutionDir)bin\$(Platform)\fonts\ &gt;nul
 mkdir $(SolutionDir)bin\$(Platform)\scripts\ &gt;nul
+mkdir $(SolutionDir)bin\$(Platform)\scripts\Extra\ &gt;nul
 copy $(SolutionDir)build\$(Configuration)\$(Platform)\$(ProjectName)\$(ProjectName).exe $(SolutionDir)bin\$(Platform)\ &gt;nul
 xcopy "$(ProjectDir)resources\NotoSansJP-Regular.ttf" "$(SolutionDir)bin\$(Platform)\fonts" /Y /I /Q
 xcopy "$(ProjectDir)resources\forkawesome-webfont.ttf" "$(SolutionDir)bin\$(Platform)\fonts" /Y /I /Q
 xcopy "$(ProjectDir)resources\NotoSans-Regular.ttf"  "$(SolutionDir)bin\$(Platform)\fonts" /Y /I /Q
 xcopy "$(ProjectDir)..\scripts\Dictionary.py" "$(SolutionDir)bin\$(Platform)\scripts" /Y /I /Q
 xcopy "$(ProjectDir)..\scripts\requirements.txt" "$(SolutionDir)bin\$(Platform)\scripts" /Y /I /Q
-xcopy "$(ProjectDir)..\scripts\Setup.py" "$(SolutionDir)bin\$(Platform)\scripts" /Y /I /Q</Command>
+xcopy "$(ProjectDir)..\scripts\Setup.py" "$(SolutionDir)bin\$(Platform)\scripts" /Y /I /Q
+xcopy "$(ProjectDir)..\scripts\Extra\AnkiXTadaima.py" "$(TargetDir)scripts\Extra\" /Y /I /Q</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -226,6 +232,7 @@ xcopy "$(ProjectDir)..\scripts\Setup.py" "$(SolutionDir)bin\$(Platform)\scripts"
     <ClCompile Include="src\gui\quiz\MultipleChoiceQuiz.cpp" />
     <ClCompile Include="src\gui\quiz\QuizManagerWidget.cpp" />
     <ClCompile Include="src\gui\quiz\VocabularyQuiz.cpp" />
+    <ClCompile Include="src\gui\widgets\ScriptQuizRunnerWidget.cpp" />
     <ClCompile Include="src\tools\SystemTools.cpp" />
     <ClInclude Include="src\application\ApplicationEventList.h" />
     <ClInclude Include="src\Application\ApplicationSettings.h" />
@@ -243,6 +250,7 @@ xcopy "$(ProjectDir)..\scripts\Setup.py" "$(SolutionDir)bin\$(Platform)\scripts"
     <ClInclude Include="src\gui\widgets\packages\SettingsDataPackage.h" />
     <ClInclude Include="src\gui\widgets\QuizWidget.h" />
     <ClInclude Include="src\gui\widgets\ApplicationSettingsWidget.h" />
+    <ClInclude Include="src\gui\widgets\ScriptQuizRunnerWidget.h" />
     <ClInclude Include="src\gui\widgets\VocabularyQuizWidget.h" />
     <ClCompile Include="src\gui\widgets\ApplicationSettingsWidget.cpp" />
     <ClCompile Include="src\gui\widgets\ImGuiFileDialog.cpp" />

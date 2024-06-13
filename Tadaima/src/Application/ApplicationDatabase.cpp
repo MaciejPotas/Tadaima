@@ -455,6 +455,7 @@ namespace tadaima
 
             saveSetting("userName", settings.userName);
             saveSetting("dictionaryPath", settings.dictionaryPath);
+            saveSetting("QuizzesPath", settings.quizzesPaths);
             saveSetting("inputWord", settings.inputWord);
             saveSetting("translatedWord", settings.translatedWord);
         }
@@ -482,6 +483,7 @@ namespace tadaima
 
             loadSetting("userName", settings.userName);
             loadSetting("dictionaryPath", settings.dictionaryPath);
+            loadSetting("QuizzesPath", settings.quizzesPaths);
             loadSetting("inputWord", settings.inputWord);
             loadSetting("translatedWord", settings.translatedWord);
 

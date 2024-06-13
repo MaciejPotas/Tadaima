@@ -7,6 +7,7 @@
 
 #include "Widget.h"
 #include "ApplicationSettingsWidget.h"
+#include "ScriptQuizRunnerWidget.h"
 
 namespace tools { class Logger; }
 
@@ -56,7 +57,10 @@ namespace tadaima
                 void showAboutWindow(bool* p_open);
 
                 bool show_settings = false; /**< Flag to track the settings window state. */
+                bool show_quiz_runner = false;
+
                 ApplicationSettingsWidget m_ApplicationSettingsWidget; /**< The application settings widget. */
+                ScriptQuizRunnerWidget m_ScriptQuizRunnerWidget;
             };
         }
     }

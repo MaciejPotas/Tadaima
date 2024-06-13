@@ -20,6 +20,8 @@
 #include <string>
 #include <windows.h>
 #include "Tools/Logger.h"
+#include "Widgets/WidgetTypes.h"
+#include "widgets/ScriptQuizRunnerWidget.h"
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
