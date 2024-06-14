@@ -74,6 +74,22 @@ namespace tadaima
 
                     if( ImGui::BeginPopupModal("Script Runner", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoResize) )
                     {
+                        // Draw close button ('X') on the title bar area
+                        ImGui::SetCursorPosX(ImGui::GetCursorPosX() + ImGui::GetWindowContentRegionMax().x - 40);
+                        if( ImGui::Button("X") )
+                        {
+                            *p_open = false;
+                            stop_script();
+                            if( script_thread.joinable() )
+                            {
+                                script_thread.join();
+                            }
+
+                            output.clear();
+                            cleanup();
+                            ImGui::CloseCurrentPopup();
+                        }
+
                         // Add padding inside the window
                         ImGui::Dummy(ImVec2(0, 10));
                         ImGui::Columns(2);
@@ -115,16 +131,18 @@ namespace tadaima
 
                         ImGui::NextColumn();
 
-                        // Output display
+                        // Output display with word wrapping
                         ImGui::BeginChild("Output", ImVec2(0, -ImGui::GetFrameHeightWithSpacing() - 40), true);
                         ImGui::Text("Script Output");
                         ImGui::Separator();
                         {
                             std::lock_guard<std::mutex> lock(output_mutex);
+                            ImGui::PushTextWrapPos();
                             for( const auto& line : output )
                             {
-                                ImGui::Text(line.c_str());
+                                ImGui::TextUnformatted(line.c_str());
                             }
+                            ImGui::PopTextWrapPos();
 
                             // Auto-scroll to the bottom
                             if( ImGui::GetScrollY() >= ImGui::GetScrollMaxY() )
@@ -202,6 +220,7 @@ namespace tadaima
                 // Check if script has finished
                 check_script_completion();
             }
+
 
 
 

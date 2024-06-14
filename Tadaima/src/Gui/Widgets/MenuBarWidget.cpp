@@ -69,6 +69,17 @@ namespace tadaima
                     //    ImGui::MenuItem("Save", NULL, false, true);
                     //    ImGui::EndMenu();
                     //}
+ 
+
+                    if( ImGui::BeginMenu("Settings") )
+                    {
+                        if( ImGui::MenuItem("Open Settings") )
+                        {
+                            show_settings = true;
+                        }
+                        ImGui::EndMenu();
+                    }
+
                     if( ImGui::BeginMenu("Quiz") )
                     {
                         if( ImGui::MenuItem("Play", NULL, false, true) )
@@ -81,16 +92,6 @@ namespace tadaima
                         //}
                         ImGui::EndMenu();
                     }
-
-                    if( ImGui::BeginMenu("Settings") )
-                    {
-                        if( ImGui::MenuItem("Open Settings") )
-                        {
-                            show_settings = true;
-                        }
-                        ImGui::EndMenu();
-                    }
-
 
                     if( ImGui::BeginMenu("Help") )
                     {
