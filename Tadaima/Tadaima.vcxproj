@@ -112,7 +112,7 @@ xcopy "$(ProjectDir)resources\NotoSans-Regular.ttf" "$(TargetDir)fonts\" /Y /I /
 xcopy "$(ProjectDir)..\scripts\Dictionary.py" "$(TargetDir)scripts\" /Y /I /Q
 xcopy "$(ProjectDir)..\scripts\requirements.txt" "$(TargetDir)scripts\" /Y /I /Q
 xcopy "$(ProjectDir)..\scripts\Setup.py" "$(TargetDir)scripts\" /Y /I /Q
-xcopy "$(ProjectDir)..\scripts\Quizzes\ageguesser.py" "$(TargetDir)scripts\Quizzes\" /Y /I /Q</Command>
+xcopy "$(ProjectDir)..\scripts\Quizzes\AgeQuiz.py" "$(TargetDir)scripts\Quizzes\" /Y /I /Q</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -142,7 +142,7 @@ xcopy "$(ProjectDir)resources\NotoSans-Regular.ttf" "$(TargetDir)fonts\" /Y /I /
 xcopy "$(ProjectDir)..\scripts\Dictionary.py" "$(TargetDir)scripts\" /Y /I /Q
 xcopy "$(ProjectDir)..\scripts\requirements.txt" "$(TargetDir)scripts\" /Y /I /Q
 xcopy "$(ProjectDir)..\scripts\Setup.py" "$(TargetDir)scripts\" /Y /I /Q
-xcopy "$(ProjectDir)..\scripts\Quizzes\ageguesser.py" "$(TargetDir)scripts\Quizzes\" /Y /I /Q</Command>
+xcopy "$(ProjectDir)..\scripts\Quizzes\AgeQuiz.py" "$(TargetDir)scripts\Quizzes\" /Y /I /Q</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -175,6 +175,7 @@ xcopy "$(ProjectDir)..\scripts\Quizzes\ageguesser.py" "$(TargetDir)scripts\Quizz
       <Command>mkdir $(SolutionDir)bin\$(Platform)\fonts\ &gt;nul
 mkdir $(SolutionDir)bin\$(Platform)\scripts\ &gt;nul
 mkdir $(SolutionDir)bin\$(Platform)\scripts\Extra\ &gt;nul
+mkdir $(SolutionDir)bin\$(Platform)\scripts\Quizzes\ &gt;nul
 copy $(SolutionDir)build\$(Configuration)\$(Platform)\$(ProjectName)\$(ProjectName).exe $(SolutionDir)bin\$(Platform)\ &gt;nul
 xcopy "$(ProjectDir)resources\NotoSansJP-Regular.ttf" "$(SolutionDir)bin\$(Platform)\fonts" /Y /I /Q
 xcopy "$(ProjectDir)resources\forkawesome-webfont.ttf" "$(SolutionDir)bin\$(Platform)\fonts" /Y /I /Q
@@ -182,7 +183,8 @@ xcopy "$(ProjectDir)resources\NotoSans-Regular.ttf"  "$(SolutionDir)bin\$(Platfo
 xcopy "$(ProjectDir)..\scripts\Dictionary.py" "$(SolutionDir)bin\$(Platform)\scripts" /Y /I /Q
 xcopy "$(ProjectDir)..\scripts\requirements.txt" "$(SolutionDir)bin\$(Platform)\scripts" /Y /I /Q
 xcopy "$(ProjectDir)..\scripts\Setup.py" "$(SolutionDir)bin\$(Platform)\scripts" /Y /I /Q
-xcopy "$(ProjectDir)..\scripts\Extra\AnkiXTadaima.py" "$(TargetDir)scripts\Extra\" /Y /I /Q</Command>
+xcopy "$(ProjectDir)..\scripts\Extra\AnkiXTadaima.py" "$(TargetDir)scripts\Extra\" /Y /I /Q
+xcopy "$(ProjectDir)..\scripts\Quizzes\AgeQuiz.py" "$(TargetDir)scripts\Quizzes\" /Y /I /Q</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -215,6 +217,7 @@ xcopy "$(ProjectDir)..\scripts\Extra\AnkiXTadaima.py" "$(TargetDir)scripts\Extra
       <Command>mkdir $(SolutionDir)bin\$(Platform)\fonts\ &gt;nul
 mkdir $(SolutionDir)bin\$(Platform)\scripts\ &gt;nul
 mkdir $(SolutionDir)bin\$(Platform)\scripts\Extra\ &gt;nul
+mkdir $(SolutionDir)bin\$(Platform)\scripts\Quizzes\ &gt;nul
 copy $(SolutionDir)build\$(Configuration)\$(Platform)\$(ProjectName)\$(ProjectName).exe $(SolutionDir)bin\$(Platform)\ &gt;nul
 xcopy "$(ProjectDir)resources\NotoSansJP-Regular.ttf" "$(SolutionDir)bin\$(Platform)\fonts" /Y /I /Q
 xcopy "$(ProjectDir)resources\forkawesome-webfont.ttf" "$(SolutionDir)bin\$(Platform)\fonts" /Y /I /Q
@@ -222,7 +225,8 @@ xcopy "$(ProjectDir)resources\NotoSans-Regular.ttf"  "$(SolutionDir)bin\$(Platfo
 xcopy "$(ProjectDir)..\scripts\Dictionary.py" "$(SolutionDir)bin\$(Platform)\scripts" /Y /I /Q
 xcopy "$(ProjectDir)..\scripts\requirements.txt" "$(SolutionDir)bin\$(Platform)\scripts" /Y /I /Q
 xcopy "$(ProjectDir)..\scripts\Setup.py" "$(SolutionDir)bin\$(Platform)\scripts" /Y /I /Q
-xcopy "$(ProjectDir)..\scripts\Extra\AnkiXTadaima.py" "$(TargetDir)scripts\Extra\" /Y /I /Q</Command>
+xcopy "$(ProjectDir)..\scripts\Extra\AnkiXTadaima.py" "$(TargetDir)scripts\Extra\" /Y /I /Q
+xcopy "$(ProjectDir)..\scripts\Quizzes\AgeQuiz.py" "$(TargetDir)scripts\Quizzes\" /Y /I /Q</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
