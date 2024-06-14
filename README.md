@@ -34,14 +34,8 @@ The Japanese Vocabulary and Grammar Learning Tool is a desktop application desig
 
 ### Extra Features
 - **Python Script Execution**: The application supports running extra python scripts for additional quizes.
-
-Sure, here is an expanded section on the script execution feature, focusing on how it supports running extra scripts for additional functionality, allowing for extensibility and customization.
-
-Script Execution
-The Tadaima application supports running additional scripts, providing a powerful mechanism for extensibility and customization. This feature allows users to enhance the application's capabilities by executing custom scripts and integrating them seamlessly into the existing workflow. The script execution functionality is managed by the ScriptRunner class, which handles the intricacies of running scripts, sending inputs, and processing outputs.
-
-Key Features
-Flexible Script Support: The application can run any script, typically Python, that adheres to the input/output requirements.
+- 
+Flexible Script Support: The application can run any script, Python, that adheres to the input/output requirements.
 Interactive Execution: Users can interact with the running scripts in real-time, sending inputs and receiving outputs dynamically.
 Extensibility: Custom scripts can be added to extend the application's functionality without modifying the core application code.
 Seamless Integration: The output from the scripts can be displayed within the application interface, making it easy to incorporate script results into the user experience.
