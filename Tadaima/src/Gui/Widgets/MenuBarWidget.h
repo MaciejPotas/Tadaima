@@ -18,6 +18,7 @@ namespace tadaima
         namespace widget
         {
             /**
+             * @class MenuBarWidget
              * @brief A widget representing the menu bar.
              */
             class MenuBarWidget : public Widget
@@ -31,7 +32,7 @@ namespace tadaima
 
                 /**
                  * @brief Initializes the menu bar widget.
-                 * @param r_package The data package for initialization.
+                 * @param package The data package for initialization.
                  */
                 void initialize(const tools::DataPackage& package) override;
 
@@ -57,10 +58,10 @@ namespace tadaima
                 void showAboutWindow(bool* p_open);
 
                 bool show_settings = false; /**< Flag to track the settings window state. */
-                bool show_quiz_runner = false;
+                bool show_quiz_runner = false; /**< Flag to track the quiz runner window state. */
 
                 ApplicationSettingsWidget m_ApplicationSettingsWidget; /**< The application settings widget. */
-                ScriptQuizRunnerWidget m_ScriptQuizRunnerWidget;
+                ScriptQuizRunnerWidget m_ScriptQuizRunnerWidget; /**< The script quiz runner widget. */
             };
         }
     }
