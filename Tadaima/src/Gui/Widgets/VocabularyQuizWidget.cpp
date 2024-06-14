@@ -14,7 +14,7 @@ namespace tadaima
         namespace widget
         {
             VocabularyQuizWidget::VocabularyQuizWidget(quiz::WordType base, quiz::WordType desired, const std::vector<Lesson>& lessons, tools::Logger& logger)
-                : m_baseWord(base), m_inputWord(desired), m_lessons(lessons), m_logger(logger)
+                : m_baseWord(base), m_inputWord(desired), m_lessons(lessons), m_logger(logger), m_correctAnswerMessage("You're answer is ...")
             {
                 try
                 {
@@ -203,29 +203,43 @@ namespace tadaima
                         // Quiz Section
                         if( !m_quiz->isQuizComplete() )
                         {
+                            ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "%s", m_correctAnswerMessage.c_str());
+                            ImGui::Text("Previous flashcard:");
 
-
-
-
-                            if( m_showCorrectAnswer )
+                            if( m_inputWord == quiz::WordType::BaseWord && !m_translation.empty() )
                             {
-                                ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "%s", m_correctAnswerMessage.c_str());
-                                ImGui::Text("Previous flashcard:");
+                                ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.8f, 0.2f, 0.2f, 1.0f));
                                 ImGui::BulletText("Translation: %s", m_translation.c_str());
-                                ImGui::BulletText("Kana: %s", m_kana.c_str());
-                                ImGui::BulletText("Romaji: %s", m_romaji.c_str());
-                                ImGui::BulletText("Example: %s", m_example.c_str());
+                                ImGui::PopStyleColor();
                             }
                             else
                             {
-                                ImGui::TextColored(ImVec4(0.0f, 0.0f, 0.0f, 1.0f), "%s", "Your answer.");
-
-                                ImGui::Text("Previous flashcard:");
                                 ImGui::BulletText("Translation: %s", m_translation.c_str());
-                                ImGui::BulletText("Kana: %s", m_kana.c_str());
-                                ImGui::BulletText("Romaji: %s", m_romaji.c_str());
-                                ImGui::BulletText("Example: %s", m_example.c_str());
                             }
+
+                            if( m_inputWord == quiz::WordType::Kana && !m_kana.empty() )
+                            {
+                                ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.8f, 0.2f, 0.2f, 1.0f));
+                                ImGui::BulletText("Kana: %s", m_kana.c_str());
+                                ImGui::PopStyleColor();
+                            }
+                            else
+                            {
+                                ImGui::BulletText("Kana: %s", m_kana.c_str());
+                            }
+
+                            if( m_inputWord == quiz::WordType::Romaji && !m_romaji.empty() )
+                            {
+                                ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.8f, 0.2f, 0.2f, 1.0f));
+                                ImGui::BulletText("Romaji: %s", m_romaji.c_str());
+                                ImGui::PopStyleColor();
+                            }
+                            else
+                            {
+                                ImGui::BulletText("Romaji: %s", m_romaji.c_str());
+                            }
+
+                            ImGui::BulletText("Example: %s", m_example.c_str());
 
                             ImGui::Spacing();
 
@@ -234,16 +248,8 @@ namespace tadaima
                             auto translate = getTranslation(word, m_baseWord);
 
                             ImGui::Text("Word:");
-
-                            // Temporarily scale the font size
-                            ImGui::SetWindowFontScale(1.0f);  // Adjust the scale factor as needed
-
                             ImGui::SameLine();
                             ImGui::TextColored(ImVec4(0.8f, 0.2f, 0.2f, 1.0f), "%s", translate.c_str());
-
-                            // Revert to the original font scale
-                            ImGui::SetWindowFontScale(1.0f);
-
                             if( setFocusOnInputField )
                             {
                                 ImGui::SetKeyboardFocusHere();
@@ -264,8 +270,6 @@ namespace tadaima
 
                                 if( isCorrect )
                                 {
-                                    //    m_quiz->advance(m_userInput);
-                                //        memset(m_userInput, 0, sizeof(m_userInput));
                                     m_correctAnswerMessage = "Your answer is correct!";
                                     m_revealedHints.clear();
                                     m_currentHint.clear();
@@ -288,7 +292,6 @@ namespace tadaima
                             }
 
                             ImGui::Spacing();
-
 
                             // Controls Section
                             ImGui::Separator();

@@ -56,6 +56,9 @@
     <ClCompile Include="src\tools\SystemTools.cpp">
       <Filter>src\tools</Filter>
     </ClCompile>
+    <ClCompile Include="src\gui\widgets\ScriptQuizRunnerWidget.cpp">
+      <Filter>src\gui\widgets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Version.h">
@@ -156,6 +159,9 @@
     </ClInclude>
     <ClInclude Include="src\tools\SystemTools.h">
       <Filter>src\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\widgets\ScriptQuizRunnerWidget.h">
+      <Filter>src\gui\widgets</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

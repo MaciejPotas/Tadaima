@@ -47,7 +47,7 @@ namespace tools
          *
          * @param verbosity The verbosity level of the logger.
          */
-        ConsoleLogger(LogLevel verbosity = LogLevel::INFO) : verbosityLevel(verbosity) {}
+        ConsoleLogger(LogLevel verbosity = LogLevel::DEBUG) : verbosityLevel(verbosity) {}
 
         /**
          * @brief Logs a message to the console with a specific log level.

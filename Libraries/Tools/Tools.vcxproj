@@ -25,10 +25,12 @@
     <ClInclude Include="Tools\EventDispatcher.h" />
     <ClInclude Include="Tools\EventsData.h" />
     <ClInclude Include="Tools\random.h" />
+    <ClInclude Include="Tools\ScriptRunner.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Tools\Logger.cpp" />
     <ClCompile Include="Tools\pugixml.cpp" />
+    <ClCompile Include="Tools\ScriptRunner.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

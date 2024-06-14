@@ -23,7 +23,8 @@ namespace tadaima
                 VocabularySettings = 3,     ///< ID for the vocabulary settings widget.
                 ApplicationSettings = 4,    ///< ID for the application settings widget.
                 QuizManager = 5,            ///< ID for the quiz manager.
-                Npc = 6
+                ScriptedQuizRunner = 6,
+                Npc = 7
             };
 
             /**

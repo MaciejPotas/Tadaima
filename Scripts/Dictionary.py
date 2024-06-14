@@ -12,7 +12,7 @@ kakasi_instance = kakasi()
 
 def translate_english_to_japanese(english_word):
     # Translate trs to Japanese
-    translation = translator.translate(english_word, src='pl', dest='ja')
+    translation = translator.translate(english_word, src='en', dest='ja')
     japanese_text = translation.text
     
     # Convert to hiragana and romaji using the new Kakasi API

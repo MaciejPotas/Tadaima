@@ -20,12 +20,14 @@ namespace tadaima
             /// Constants for default values
             static constexpr const char* DEFAULT_USER_NAME = "";
             static constexpr const char* DEFAULT_DICTIONARY_PATH = "scripts/Dictionary.py";
+            static constexpr const char* DEFAULT_SCRIPTED_QUIZ_PATH = "scripts/Quizzes";
             static constexpr const char* DEFAULT_INPUT_WORD = "BaseWord";
             static constexpr const char* DEFAULT_TRANSLATED_WORD = "Romaji";
 
             /// Application settings
             std::string userName = DEFAULT_USER_NAME;           /**< The username for the application. */
             std::string dictionaryPath = DEFAULT_DICTIONARY_PATH; /**< The path to the dictionary file. */
+            std::string quizzesPaths = DEFAULT_SCRIPTED_QUIZ_PATH;
 
             /// Quiz settings
             std::string inputWord = DEFAULT_INPUT_WORD;         /**< The type of input word for the quiz. */

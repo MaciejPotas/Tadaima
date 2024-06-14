@@ -103,7 +103,7 @@ namespace tadaima
                 std::vector<Lesson> m_lessons; ///< Vector of lessons used to generate flashcards.
 
                 std::unique_ptr<quiz::VocabularyQuiz> m_quiz; ///< Unique pointer to the VocabularyQuiz instance.
-                char m_userInput[30] = { 0 }; ///< User input buffer.
+                char m_userInput[50] = { 0 }; ///< User input buffer.
                 std::unordered_set<int> m_revealedHints; ///< Set of indices of revealed hints.
 
                 std::string m_currentHint; ///< Current hint for the user.

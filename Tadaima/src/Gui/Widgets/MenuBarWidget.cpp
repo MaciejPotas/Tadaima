@@ -12,7 +12,7 @@ namespace tadaima
         namespace widget
         {
 
-            MenuBarWidget::MenuBarWidget(tools::Logger& logger) : m_logger(logger), m_ApplicationSettingsWidget(logger)
+            MenuBarWidget::MenuBarWidget(tools::Logger& logger) : m_logger(logger), m_ApplicationSettingsWidget(logger), m_ScriptQuizRunnerWidget(logger)
             {
 
             }
@@ -20,6 +20,7 @@ namespace tadaima
             void MenuBarWidget::initialize(const tools::DataPackage& r_package)
             {
                 m_ApplicationSettingsWidget.initialize(r_package);
+                m_ScriptQuizRunnerWidget.initialize(r_package);
             }
 
             void MenuBarWidget::showAboutWindow(bool* p_open)
@@ -49,6 +50,11 @@ namespace tadaima
                     showAboutWindow(&show_help);
                 }
 
+                if( show_quiz_runner )
+                {
+                    m_ScriptQuizRunnerWidget.draw(&show_quiz_runner);
+                }
+
                 if( show_settings )
                 {
                     m_ApplicationSettingsWidget.draw(&show_settings);
@@ -63,18 +69,7 @@ namespace tadaima
                     //    ImGui::MenuItem("Save", NULL, false, true);
                     //    ImGui::EndMenu();
                     //}
-                    if( ImGui::BeginMenu("Dictionary") )
-                    {
-                        if( ImGui::MenuItem("Show", NULL, false, true) )
-                        {
-                            // Trigger show dictionary
-                        }
-                        if( ImGui::MenuItem("Edit", NULL, false, true) )
-                        {
-                            // Trigger edit dictionary
-                        }
-                        ImGui::EndMenu();
-                    }
+ 
 
                     if( ImGui::BeginMenu("Settings") )
                     {
@@ -85,6 +80,18 @@ namespace tadaima
                         ImGui::EndMenu();
                     }
 
+                    if( ImGui::BeginMenu("Quiz") )
+                    {
+                        if( ImGui::MenuItem("Play", NULL, false, true) )
+                        {
+                            show_quiz_runner = true;
+                        }
+                        //if( ImGui::MenuItem("Edit", NULL, false, true) )
+                        //{
+                        //    // Trigger edit dictionary
+                        //}
+                        ImGui::EndMenu();
+                    }
 
                     if( ImGui::BeginMenu("Help") )
                     {

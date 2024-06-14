@@ -68,6 +68,41 @@ def process_field(field):
     # Split the field by semicolon and take the first part
     return field.split(';')[0]
 
+# Function to convert kana to romaji, ensuring the result is accurate for both hiragana and katakana
+def convert_kana_to_romaji(kana):
+    # Remove exactly '(ゅ)' from kana if found
+    kana = kana.replace('(ゅ)', '')
+
+    # Normalize kana to ensure consistency
+    normalized_kana = jaconv.normalize(kana)
+    # Convert kana to romaji
+    romaji = jaconv.kana2alphabet(normalized_kana)
+    
+    # Handling small kana characters and double consonants manually
+    romaji = jaconv.hira2kata(romaji)  # Ensure everything is in katakana for consistency
+    romaji = jaconv.kata2alphabet(romaji)  # Convert to romaji
+    
+    # Additional cleanup for common issues
+    romaji = re.sub(r'ッ([kstnhmyrw])', r'\1\1', romaji)  # Double consonant handling (small tsu)
+    romaji = re.sub(r'([aeiou])ー', r'\1\1', romaji)  # Prolonged sound mark to same vowel
+    
+    # Specific replacements for small kana characters
+    replacements = {
+        'shiyu': 'shu',
+        'chiyu': 'chu',
+        'jiyu': 'ju',
+        'shiyo': 'sho',
+        'chiyo': 'cho',
+        'jiyo': 'jo',
+        'shiya': 'sha',
+        'chiya': 'cha',
+        'jiya': 'ja'
+    }
+    for key, value in replacements.items():
+        romaji = romaji.replace(key, value)
+    
+    return romaji
+
 # Transform the notes into the desired XML format if there are any notes
 if notes:
     lessons_root = ET.Element("lessons")
@@ -78,13 +113,15 @@ if notes:
         note_id, fields = note
         # Split fields by the separator (Anki uses '\x1f' by default)
         field_list = fields.split('\x1f')
+        print(field_list)
         # Assuming the format is Japanese (kana), English (translation)
         if len(field_list) >= 2:
             kana = clean_kana_romaji(process_field(field_list[0]))  # Clean and process kana
             english_translation = clean_translation(process_field(field_list[1]))  # Clean and process translation
             
             # Convert kana to romaji and clean it
-            romaji = clean_kana_romaji(jaconv.kana2alphabet(kana))
+            romaji = clean_kana_romaji(convert_kana_to_romaji(kana))
+            print(romaji)
             # Translate the English translation to Polish
             polish_translation = translator.translate(english_translation, src='en', dest='pl').text.lower()
             comments = english_translation
