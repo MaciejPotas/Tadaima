@@ -25,6 +25,12 @@ namespace tadaima
 
             ScriptQuizRunnerWidget::~ScriptQuizRunnerWidget()
             {
+                stop_script();
+                if( script_thread.joinable() )
+                {
+                    script_thread.join();
+                }
+
                 cleanup();
             }
 
@@ -42,7 +48,7 @@ namespace tadaima
                         std::filesystem::path script(scriptPaths);
                         auto fullPath = ((exePath) / script).string();
 
-                        m_scripts = getPythonScripts(fullPath); 
+                        m_scripts = getPythonScripts(fullPath);
                     }
                 }
                 catch( std::exception& exception )
@@ -60,13 +66,23 @@ namespace tadaima
                 if( *p_open == true )
                 {
                     ImGui::OpenPopup("Script Runner");
-                    ImGui::SetNextWindowSize(ImVec2(600, 360), ImGuiCond_Always);
+                    ImGui::SetNextWindowSize(ImVec2(600, 400), ImGuiCond_Always);
+
+                    // Set the window padding to 10 pixels
+                    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(10, 10));
                     ImGui::PushStyleColor(ImGuiCol_PopupBg, ImGui::GetStyleColorVec4(ImGuiCol_WindowBg));
 
                     if( ImGui::BeginPopupModal("Script Runner", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoResize) )
                     {
+                        // Add padding inside the window
+                        ImGui::Dummy(ImVec2(0, 10));
+                        ImGui::Columns(2);
+                        ImGui::SetColumnWidth(0, 200); // Set the width of the first column to 200 pixels (1/4 of 800)
+
                         // Script selection
-                        ImGui::BeginChild("Scripts", ImVec2(200, 200), true);
+                        ImGui::BeginChild("Scripts", ImVec2(0, 0), true);
+                        ImGui::Text("Available Scripts");
+                        ImGui::Separator();
                         for( const auto& script : m_scripts )
                         {
                             std::string scriptName = getFileName(script);
@@ -97,15 +113,23 @@ namespace tadaima
                         }
                         ImGui::EndChild();
 
-                        ImGui::SameLine();
+                        ImGui::NextColumn();
 
                         // Output display
                         ImGui::BeginChild("Output", ImVec2(0, -ImGui::GetFrameHeightWithSpacing() - 40), true);
+                        ImGui::Text("Script Output");
+                        ImGui::Separator();
                         {
                             std::lock_guard<std::mutex> lock(output_mutex);
                             for( const auto& line : output )
                             {
-                                ImGui::TextUnformatted(line.c_str());
+                                ImGui::Text(line.c_str());
+                            }
+
+                            // Auto-scroll to the bottom
+                            if( ImGui::GetScrollY() >= ImGui::GetScrollMaxY() )
+                            {
+                                ImGui::SetScrollHereY(1.0f);
                             }
                         }
                         ImGui::EndChild();
@@ -116,6 +140,7 @@ namespace tadaima
                         {
                             send_input_flag = true;
                             m_logger.log("User input ready to send: " + std::string(user_input), tools::LogLevel::INFO);
+                            ImGui::SetKeyboardFocusHere(-1); // Set focus back to the input field
                         }
                         ImGui::PopItemWidth();
 
@@ -148,12 +173,20 @@ namespace tadaima
                             stop_script();
                         }
 
+                        ImGui::SameLine();
+
+                        if( ImGui::Button("Clear window") )
+                        {
+                            output.clear();
+                        }
+
                         ImGui::PopItemWidth();
                         ImGui::EndChild();
 
                         ImGui::EndPopup();
                     }
                     ImGui::PopStyleColor();
+                    ImGui::PopStyleVar();
                 }
 
                 if( send_input_flag )
@@ -169,6 +202,9 @@ namespace tadaima
                 // Check if script has finished
                 check_script_completion();
             }
+
+
+
             void ScriptQuizRunnerWidget::check_script_completion()
             {
                 if( script_running && WaitForSingleObject(hChildProcess, 0) == WAIT_OBJECT_0 )
@@ -186,6 +222,7 @@ namespace tadaima
                     cleanup();
                 }
             }
+
             std::wstring string_to_wstring(const std::string& str)
             {
                 int len;
@@ -309,9 +346,6 @@ namespace tadaima
                 output_thread = std::thread(&ScriptQuizRunnerWidget::fetch_script_output, this);
             }
 
-
-
-
             void ScriptQuizRunnerWidget::stop_script()
             {
                 if( script_running )
@@ -322,6 +356,7 @@ namespace tadaima
                     m_logger.log("Script process terminated", tools::LogLevel::INFO);
                 }
             }
+
             void ScriptQuizRunnerWidget::send_input()
             {
                 if( hChildStd_IN_Wr != NULL )
@@ -348,8 +383,6 @@ namespace tadaima
                     m_logger.log("No active script process to send input.", tools::LogLevel::WARNING);
                 }
             }
-
-
 
             void ScriptQuizRunnerWidget::fetch_script_output()
             {
@@ -392,10 +425,6 @@ namespace tadaima
                 script_running = false;
             }
 
-
-
-
-
             void ScriptQuizRunnerWidget::cleanup()
             {
                 fetch_output = false;
@@ -423,7 +452,12 @@ namespace tadaima
                     output_thread.join();
                 }
 
-                //  output.clear();
+                if( input_thread.joinable() )
+                {
+                    input_thread.join();
+                }
+
+
                 m_logger.log("Cleaned up script process resources", tools::LogLevel::INFO);
             }
 

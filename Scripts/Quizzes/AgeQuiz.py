@@ -3,7 +3,7 @@ import time
 
 # Romaji representations for numbers with exceptions
 romaji_numbers = {
-    0: "zero", 1: "ichi", 2: "ni", 3: "san", 4: "yon", 5: "go",
+    0: "zero", 1: "is", 2: "ni", 3: "san", 4: "yon", 5: "go",
     6: "roku", 7: "nana", 8: "hachi", 9: "kyuu", 10: "juu",
     20: "nijuu", 30: "sanjuu", 40: "yonjuu", 50: "gojuu",
     60: "rokujuu", 70: "nanajuu", 80: "hachijuu", 90: "kyuujuu",

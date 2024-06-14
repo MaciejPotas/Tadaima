@@ -117,7 +117,7 @@ namespace tadaima
                 if( *p_open )
                 {
                     Open();
-                    ImGui::SetNextWindowSize(ImVec2(600, 360), ImGuiCond_Always);  // Adjust size as needed
+                    ImGui::SetNextWindowSize(ImVec2(550, 380), ImGuiCond_Always);  // Adjust size as needed
                     ImGui::PushStyleColor(ImGuiCol_PopupBg, ImGui::GetStyleColorVec4(ImGuiCol_WindowBg));
 
                     if( ImGui::BeginPopupModal("Application settings", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoResize) )
