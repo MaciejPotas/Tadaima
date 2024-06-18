@@ -107,7 +107,8 @@
     </PostBuildEvent>
     <PostBuildEvent>
       <Command>xcopy "$(ProjectDir)resources" "$(TargetDir)fonts\" /Y /I /Q /E
-xcopy "$(ProjectDir)..\scripts\Dictionary.py" "$(TargetDir)scripts\" /Y /I /Q /E</Command>
+xcopy "$(ProjectDir)..\scripts\" "$(TargetDir)scripts\" /Y /I /Q /E
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -132,7 +133,8 @@ xcopy "$(ProjectDir)..\scripts\Dictionary.py" "$(TargetDir)scripts\" /Y /I /Q /E
     </PostBuildEvent>
     <PostBuildEvent>
       <Command>xcopy "$(ProjectDir)resources" "$(TargetDir)fonts\" /Y /I /Q /E
-xcopy "$(ProjectDir)..\scripts\Dictionary.py" "$(TargetDir)scripts\" /Y /I /Q /E</Command>
+xcopy "$(ProjectDir)..\scripts\" "$(TargetDir)scripts\" /Y /I /Q /E
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

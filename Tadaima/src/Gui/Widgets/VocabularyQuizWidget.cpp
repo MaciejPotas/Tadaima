@@ -191,6 +191,8 @@ namespace tadaima
                         bool leftArrowPressed = ImGui::IsKeyPressed(ImGuiKey_LeftArrow);
                         // Detect Right Arrow key press
                         bool rightArrowPressed = ImGui::IsKeyPressed(ImGuiKey_RightArrow);
+                        // Detect H key press for hint
+                        bool f1KeyPressed = ImGui::IsKeyPressed(ImGuiKey_F1);
 
                         // Progress Section
                         ImGui::Text("Progress");
@@ -295,7 +297,7 @@ namespace tadaima
 
                             // Controls Section
                             ImGui::Separator();
-                            if( ImGui::Button("Hint") )
+                            if( ImGui::Button("Hint") || f1KeyPressed )
                             {
                                 if( m_currentHint.empty() )
                                 {
@@ -332,13 +334,11 @@ namespace tadaima
                                     m_kana.clear();
                                     m_romaji.clear();
                                     m_example.clear();
-
                                 }
                                 if( focusOnAcceptButton )
                                 {
                                     ImGui::PopStyleColor(2);  // Revert to the original button color
                                 }
-
                             }
 
                             if( !m_overrideAnswer && m_correctAnswerMessage == "Your answer is incorrect." )
@@ -457,6 +457,7 @@ namespace tadaima
                     m_logger.log(std::format("Error in draw method: {}", e.what()), tools::LogLevel::PROBLEM);
                 }
             }
+
         }
     }
 }
