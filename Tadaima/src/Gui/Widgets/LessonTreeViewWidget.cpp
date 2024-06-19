@@ -46,6 +46,32 @@ namespace tadaima
                 m_logger.log("LessonTreeViewWidget initialized.");
             }
 
+            Lesson LessonTreeViewWidget::copyWordsToNewLesson(const std::unordered_set<int>& wordIds)
+            {
+                m_logger.log("Copying words to a new lesson.");
+
+                Lesson newLesson;
+                newLesson.mainName = "Mixed vocabulary";
+                newLesson.subName = "Mixed vocabulary";
+
+                std::unordered_set<int> wordIdSet(wordIds.begin(), wordIds.end());
+
+                for( auto& lessonGroup : m_cashedLessons )
+                {
+                    for( auto& lesson : lessonGroup.subLessons )
+                    {
+                        for( const auto& word : lesson.words )
+                        {
+                            if( wordIdSet.find(word.id) != wordIdSet.end() )
+                            {
+                                newLesson.words.push_back(word);
+                            }
+                        }
+                    }
+                }
+
+                return newLesson;
+            }
 
             LessonDataPackage LessonTreeViewWidget::createLessonDataPackageFromLessons(const std::vector<Lesson>& lessons)
             {
@@ -209,6 +235,7 @@ namespace tadaima
                 const bool ctrlPressed = ImGui::GetIO().KeyCtrl;
                 const bool shiftPressed = ImGui::GetIO().KeyShift; // Track shift key state
                 static int rightClickedLessonGroupId = -1; // Track last right-clicked lesson group ID
+                bool popupShown = false;
 
                 static int lastSelectedWordId = -1; // Track last selected word ID
 
@@ -310,6 +337,22 @@ namespace tadaima
 
                                     if( ImGui::BeginPopup("WordContextMenu") )
                                     {
+                                        if( ImGui::BeginMenu(ICON_FA_PLAY "PlayMixedVocabulary") )
+                                        {
+                                            auto package = createLessonDataPackageFromLesson(copyWordsToNewLesson(markedWords));
+                                            if( ImGui::MenuItem("vocabulary quiz") )
+                                            {
+                                                emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnPlayVocabularyQuiz, &package));
+                                            }
+
+                                            if( ImGui::MenuItem("multiple choice quiz") )
+                                            {
+                                                emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnPlayMultipleChoiceQuiz, &package));
+                                            }
+
+                                            ImGui::EndMenu();
+                                        }
+
                                         if( ImGui::MenuItem("Move Marked Words to New Lesson") )
                                         {
                                             createNewLessonPopupOpen = true;
@@ -362,6 +405,7 @@ namespace tadaima
                             // Context menu for lesson node
                             if( ImGui::IsItemClicked(1) )
                             {
+                                popupShown = true;
                                 ImGui::OpenPopup("LessonContextMenu");
                             }
 
@@ -446,7 +490,6 @@ namespace tadaima
                                 else
                                 {
                                     m_selectedLessons.clear();
-                                    //  m_selectedLessons.insert(lesson.id);
                                 }
                             }
 
@@ -456,23 +499,30 @@ namespace tadaima
                     }
                     ImGui::PopID();
 
-                    if( ImGui::IsItemClicked(1) )
-                    { 
+                    if( ImGui::IsItemClicked(1) && !popupShown )
+                    {
                         rightClickedLessonGroupId = static_cast<int>(groupIndex);
                         ImGui::OpenPopup("LessonGroupContextMenu");
                     }
 
                     if( rightClickedLessonGroupId == groupIndex && ImGui::BeginPopup("LessonGroupContextMenu") )
                     {
+
                         if( ImGui::MenuItem(ICON_FA_TRASH " Delete Group") )
                         {
+                            m_selectedLessons.clear();
+                            for( auto& lesson : m_cashedLessons[rightClickedLessonGroupId].subLessons )
+                            {
+                                m_selectedLessons.insert(lesson.id);
+                            }
+
                             // Delete the entire lesson group
                             m_logger.log("Delete lesson group selected.");
-                            m_cashedLessons.erase(m_cashedLessons.begin() + groupIndex);
                             rightClickedLessonGroupId = -1;
+                            deleteLesson = true;
                             ImGui::CloseCurrentPopup();
                             // Break out of the loop since the group is deleted
-                            break;
+                           // break;
                         }
 
                         ImGui::EndPopup();

@@ -160,6 +160,8 @@ namespace tadaima
                  * @param lessonsToExport Set of lesson IDs to be exported.
                  */
                 void handleExportLessons(std::unordered_set<int> lessonsToExport);
+    
+                Lesson copyWordsToNewLesson(const std::unordered_set<int>& wordIds);
 
                 /**
                  * @brief Draws the lessons tree.
