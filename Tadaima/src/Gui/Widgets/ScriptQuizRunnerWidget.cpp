@@ -82,17 +82,13 @@ namespace tadaima
                         }
                         ImGui::PopStyleColor(2);
 
-                        // Learning header section
-                        ImGui::TextColored(ImVec4(0.2f, 0.4f, 0.8f, 1.0f), "Learn how to run scripts efficiently!");
-                        ImGui::TextWrapped("Here, you can select and run scripts. Double-click on a script to start it. The output will be displayed on the right. "
-                            "You can input commands in the box below and manage the script execution using the buttons.");
 
                         // Add padding inside the window
                         ImGui::Dummy(ImVec2(0, 10));
                         ImGui::Columns(2, "##columns", false);
 
                         // Script selection with a cheerful border and scrolling area
-                        ImGui::SetColumnWidth(0, 130); // Set the width of the script list column
+                        ImGui::SetColumnWidth(0, 150); // Set the width of the script list column
                         ImGui::BeginChild("Scripts", ImVec2(0, 0), true, ImGuiWindowFlags_AlwaysVerticalScrollbar);
                         ImGui::TextColored(ImVec4(0.2f, 0.4f, 0.8f, 1.0f), "Available Scripts");
                         ImGui::Separator();
@@ -136,6 +132,12 @@ namespace tadaima
                         ImGui::EndChild();
 
                         ImGui::NextColumn();
+
+                        // Learning header section
+                        ImGui::TextColored(ImVec4(0.2f, 0.4f, 0.8f, 1.0f), "Learn how to run scripts efficiently!");
+                        ImGui::TextWrapped("Here, you can select and run scripts. Double-click on a script to start it. The output will be displayed on the right. "
+                            "You can input commands in the box below and manage the script execution using the buttons.");
+
 
                         // Output display with word wrapping and cheerful text color
                         ImGui::BeginChild("Output", ImVec2(0, -ImGui::GetFrameHeightWithSpacing() - 40), true);
