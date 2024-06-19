@@ -27,25 +27,25 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_37D10DFB632A4C46973E4899F87BCC21"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_3F01BC83070940799978A59FA70BF753"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_56A5B24CA1C4458C860B7C34BB2BDC00"
+        "MsmKey" = "8:_655AC6495387411A84C580E09CE5A217"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_77D64E32AAE54D0C89B8D861128ABBA6"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_A4BC5B4519C94AC19C95E6C80E36BD33"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -69,7 +69,13 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_E7DBD23F290A48BB8633C755AC6E4236"
+        "MsmKey" = "8:_D4516552B1E74EFB83CD7F2A3EC7270A"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_E94B7F44EAEB4C858B292999A565BB24"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -82,6 +88,12 @@
         "Entry"
         {
         "MsmKey" = "8:_EEB4AFB674904B98AF316BBD86513D51"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_FDCB51E86C8044A4B2F3D8004212C97C"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -212,6 +224,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_37D10DFB632A4C46973E4899F87BCC21"
+            {
+            "SourcePath" = "8:..\\..\\Scripts\\Quizzes\\MinutesQuiz.py"
+            "TargetName" = "8:MinutesQuiz.py"
+            "Tag" = "8:"
+            "Folder" = "8:_135D3A1E1B794E98B18B0E4636DF170D"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3F01BC83070940799978A59FA70BF753"
             {
             "SourcePath" = "8:..\\resources\\NotoSans-Regular.ttf"
@@ -232,30 +264,10 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_56A5B24CA1C4458C860B7C34BB2BDC00"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_655AC6495387411A84C580E09CE5A217"
             {
-            "SourcePath" = "8:..\\..\\Scripts\\Quizzes\\JapanesePhoneNumberGame.py"
-            "TargetName" = "8:PhoneNumberQuiz.py"
-            "Tag" = "8:"
-            "Folder" = "8:_135D3A1E1B794E98B18B0E4636DF170D"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A4BC5B4519C94AC19C95E6C80E36BD33"
-            {
-            "SourcePath" = "8:..\\..\\Scripts\\Quizzes\\ShoppingGame.py"
-            "TargetName" = "8:ShoppingGame.py"
+            "SourcePath" = "8:..\\..\\Scripts\\Quizzes\\AgeQuiz.py"
+            "TargetName" = "8:AgeQuiz.py"
             "Tag" = "8:"
             "Folder" = "8:_135D3A1E1B794E98B18B0E4636DF170D"
             "Condition" = "8:"
@@ -332,10 +344,30 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E7DBD23F290A48BB8633C755AC6E4236"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D4516552B1E74EFB83CD7F2A3EC7270A"
             {
-            "SourcePath" = "8:..\\..\\Scripts\\Quizzes\\AgeQuiz.py"
-            "TargetName" = "8:AgeQuiz.py"
+            "SourcePath" = "8:..\\..\\Scripts\\Quizzes\\TimeQuiz.py"
+            "TargetName" = "8:TimeQuiz.py"
+            "Tag" = "8:"
+            "Folder" = "8:_135D3A1E1B794E98B18B0E4636DF170D"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E94B7F44EAEB4C858B292999A565BB24"
+            {
+            "SourcePath" = "8:..\\..\\Scripts\\Quizzes\\HoursQuiz.py"
+            "TargetName" = "8:HoursQuiz.py"
             "Tag" = "8:"
             "Folder" = "8:_135D3A1E1B794E98B18B0E4636DF170D"
             "Condition" = "8:"
@@ -378,6 +410,26 @@
             "TargetName" = "8:NotoSansJP-Regular.ttf"
             "Tag" = "8:"
             "Folder" = "8:_F0A06DBF0BE84385B7ABA91242D5F99B"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_FDCB51E86C8044A4B2F3D8004212C97C"
+            {
+            "SourcePath" = "8:..\\..\\Scripts\\Quizzes\\LocationQuiz.py"
+            "TargetName" = "8:LocationQuiz.py"
+            "Tag" = "8:"
+            "Folder" = "8:_135D3A1E1B794E98B18B0E4636DF170D"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
