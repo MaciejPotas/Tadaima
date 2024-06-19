@@ -20,19 +20,19 @@ namespace tools
             switch( level )
             {
                 case LogLevel::VERBOSE:
-                    std::cout << "\033[35m[" << timestamp << "][VERBOSE]: " << message << "\033[0m" << std::endl;
+                    std::cout << "\033[38;5;219m[" << timestamp << "][VERBOSE]: " << message << "\033[0m" << std::endl; // Light Purple
                     break;
                 case LogLevel::DEBUG:
-                    std::cout << "\033[34m[" << timestamp << "][DEBUG]: " << message << "\033[0m" << std::endl;
+                    std::cout << "\033[36m[" << timestamp << "][DEBUG]: " << message << "\033[0m" << std::endl; // Cyan
                     break;
                 case LogLevel::INFO:
-                    std::cout << "\033[32m[" << timestamp << "][INFO]: " << message << "\033[0m" << std::endl;
+                    std::cout << "\038[35m[" << timestamp << "][INFO]: " << message << "\033[0m" << std::endl; // Green
                     break;
                 case LogLevel::WARNING:
-                    std::cout << "\033[33m[" << timestamp << "][WARNING]: " << message << "\033[0m" << std::endl;
+                    std::cout << "\033[33m[" << timestamp << "][WARNING]: " << message << "\033[0m" << std::endl; // Yellow
                     break;
                 case LogLevel::PROBLEM:
-                    std::cout << "\033[33m[" << timestamp << "][ERROR]: " << message << "\033[0m" << std::endl;
+                    std::cout << "\033[31m[" << timestamp << "][ERROR]: " << message << "\033[0m" << std::endl; // Red
                     break;
             }
         }
@@ -49,4 +49,4 @@ namespace tools
             << '.' << std::setfill('0') << std::setw(3) << milliseconds.count();
         return ss.str();
     }
-};
+}

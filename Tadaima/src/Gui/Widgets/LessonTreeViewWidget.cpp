@@ -134,12 +134,24 @@ namespace tadaima
                 return Lesson();
             }
 
-
             void LessonTreeViewWidget::drawTopButtons()
             {
                 static bool open_add_new_lesson = false;
                 static Lesson selectedLesson;
 
+                // Style for buttons
+                ImVec4 buttonColor = ImVec4(0.95f, 0.77f, 0.06f, 1.0f);  // Yellow
+                ImVec4 buttonHoveredColor = ImVec4(0.85f, 0.67f, 0.06f, 1.0f);  // Darker Yellow
+                ImVec4 buttonActiveColor = ImVec4(0.75f, 0.57f, 0.06f, 1.0f);  // Even Darker Yellow
+
+                // Push style for buttons
+                ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.87f, 0.93f, 0.97f, 1.0f));  // Light blue
+                ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.53f, 0.81f, 0.92f, 0.6f));  // Light blue on hover
+                ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.95f, 0.77f, 0.06f, 1.0f));  // Yellow on active
+                ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(10, 5));
+
+
+                // Create button
                 if( ImGui::Button(ICON_FA_PLUS " Create") )
                 {
                     m_logger.log("Create button clicked.");
@@ -164,7 +176,8 @@ namespace tadaima
                 }
 
                 ImGui::SameLine();
-                if( ImGui::Button(ICON_FA_PLUS " Import") )
+                // Import button
+                if( ImGui::Button(ICON_FA_UPLOAD " Import") )
                 {
                     m_logger.log("Import button clicked.");
                     IGFD::FileDialogConfig config;
@@ -185,12 +198,17 @@ namespace tadaima
                     }
                     ImGuiFileDialog::Instance()->Close();
                 }
+
+                // Pop style for buttons
+                ImGui::PopStyleColor(3);
+                ImGui::PopStyleVar();
             }
 
             void LessonTreeViewWidget::drawLessonsTree(std::unordered_set<int>& markedWords, std::unordered_set<int>& lessonsToExport, bool& open_edit_lesson, Lesson& selectedLesson, Lesson& originalLesson, bool& renamePopupOpen, bool& deleteLesson, bool& createNewLessonPopupOpen)
             {
                 const bool ctrlPressed = ImGui::GetIO().KeyCtrl;
                 const bool shiftPressed = ImGui::GetIO().KeyShift; // Track shift key state
+                static int rightClickedLessonGroupId = -1; // Track last right-clicked lesson group ID
 
                 static int lastSelectedWordId = -1; // Track last selected word ID
 
@@ -437,6 +455,29 @@ namespace tadaima
                         ImGui::TreePop();
                     }
                     ImGui::PopID();
+
+                    if( ImGui::IsItemClicked(1) )
+                    { 
+                        rightClickedLessonGroupId = static_cast<int>(groupIndex);
+                        ImGui::OpenPopup("LessonGroupContextMenu");
+                    }
+
+                    if( rightClickedLessonGroupId == groupIndex && ImGui::BeginPopup("LessonGroupContextMenu") )
+                    {
+                        if( ImGui::MenuItem(ICON_FA_TRASH " Delete Group") )
+                        {
+                            // Delete the entire lesson group
+                            m_logger.log("Delete lesson group selected.");
+                            m_cashedLessons.erase(m_cashedLessons.begin() + groupIndex);
+                            rightClickedLessonGroupId = -1;
+                            ImGui::CloseCurrentPopup();
+                            // Break out of the loop since the group is deleted
+                            break;
+                        }
+
+                        ImGui::EndPopup();
+                    }
+
                 }
 
                 if( ImGui::IsMouseClicked(0) && !ImGui::IsAnyItemHovered() && !ImGui::IsMouseReleased(1) )

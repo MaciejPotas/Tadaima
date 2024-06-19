@@ -26,7 +26,9 @@ namespace tadaima
 
             void QuizWidget::draw(bool* p_open)
             {
-                ImGui::SetNextWindowSize(ImVec2(600, 400), ImGuiCond_FirstUseEver);
+                ImGui::SetNextWindowSize(ImVec2(600, 300), ImGuiCond_FirstUseEver);
+                ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.98f, 0.92f, 0.84f, 1.0f)); // Light peach background
+                ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(10, 10)); // Add padding
 
                 if( ImGui::Begin("Quiz Game", p_open, ImGuiWindowFlags_NoCollapse) )
                 {
@@ -50,9 +52,11 @@ namespace tadaima
                             char optionLabel = static_cast<char>('a' + index);
                             if( highlightCorrectAnswer && index == correctAnswerIndex )
                             {
-                                ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 1.0f, 0.0f, 1.0f)); // Green for correct answer
+                                ImVec4 buttonColor = (selectedOption == optionLabel) ? ImVec4(0.0f, 1.0f, 0.0f, 1.0f) : ImVec4(1.0f, 0.0f, 0.0f, 1.0f); // Green if correct, Red if incorrect
+                                ImGui::PushStyleColor(ImGuiCol_Button, buttonColor);
+                                ImGui::PushStyleColor(ImGuiCol_ButtonHovered, buttonColor);
                                 ImGui::Button((std::string(1, optionLabel) + ") " + bufferedOptions[index]).c_str(), ImVec2(550, 0));
-                                ImGui::PopStyleColor();
+                                ImGui::PopStyleColor(2);
                             }
                             else
                             {
@@ -105,6 +109,8 @@ namespace tadaima
                 }
 
                 ImGui::End();
+                ImGui::PopStyleColor();  // Restore previous style
+                ImGui::PopStyleVar();  // Restore previous padding
             }
         }
     }

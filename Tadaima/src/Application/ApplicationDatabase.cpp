@@ -458,6 +458,7 @@ namespace tadaima
             saveSetting("QuizzesPath", settings.quizzesPaths);
             saveSetting("inputWord", settings.inputWord);
             saveSetting("translatedWord", settings.translatedWord);
+            saveSetting("showLogs", settings.showLogs ? "true" : "false");
         }
 
         ApplicationSettings ApplicationDatabase::loadSettings()
@@ -481,11 +482,14 @@ namespace tadaima
                     }
                 };
 
+            std::string showLogs = "";
             loadSetting("userName", settings.userName);
             loadSetting("dictionaryPath", settings.dictionaryPath);
             loadSetting("QuizzesPath", settings.quizzesPaths);
             loadSetting("inputWord", settings.inputWord);
             loadSetting("translatedWord", settings.translatedWord);
+            loadSetting("showLogs", showLogs);
+            settings.showLogs = showLogs == "true" ? true : false;
 
             return settings;
         }

@@ -27,7 +27,8 @@ namespace tadaima
             /// Application settings
             std::string userName = DEFAULT_USER_NAME;           /**< The username for the application. */
             std::string dictionaryPath = DEFAULT_DICTIONARY_PATH; /**< The path to the dictionary file. */
-            std::string quizzesPaths = DEFAULT_SCRIPTED_QUIZ_PATH;
+            std::string quizzesPaths = DEFAULT_SCRIPTED_QUIZ_PATH; /**< The path to the quizzes directory. */
+            bool showLogs = false; /**< Flag to determine if logs should be shown. */
 
             /// Quiz settings
             std::string inputWord = DEFAULT_INPUT_WORD;         /**< The type of input word for the quiz. */
@@ -37,14 +38,16 @@ namespace tadaima
              * @brief Converts the application settings to a string representation.
              * @return A string representation of the application settings.
              */
-            std::string toString()
+            std::string toString() const
             {
                 std::string log;
-                log += "Application settings: \n";
-                log += std::format("  -> Username: {} \n", userName);
-                log += std::format("  -> Dictionary Path: {} \n", dictionaryPath);
-                log += std::format("  -> Input Word: {} \n", inputWord);
-                log += std::format("  -> Translated Word: {} \n", translatedWord);
+                log += "Application settings:\n";
+                log += std::format("  -> Username: {}\n", userName);
+                log += std::format("  -> Dictionary Path: {}\n", dictionaryPath);
+                log += std::format("  -> Quizzes Path: {}\n", quizzesPaths);
+                log += std::format("  -> Show Logs: {}\n", showLogs ? "true" : "false");
+                log += std::format("  -> Input Word: {}\n", inputWord);
+                log += std::format("  -> Translated Word: {}\n", translatedWord);
 
                 return log;
             }

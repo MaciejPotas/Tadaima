@@ -1,3 +1,5 @@
+#pragma once
+
 #include "LessonSettingsWidget.h"
 #include "imgui.h"
 #include <cstring>
@@ -17,7 +19,7 @@ namespace tadaima
             LessonSettingsWidget::LessonSettingsWidget(tools::Logger& logger)
                 : m_logger(logger), m_selectedWordIndex(-1), m_isEditing(false)
             {
-                m_logger.log("Initializing LessonSettingsWidget", tools::LogLevel::DEBUG);
+                m_logger.log("Initializing LessonSettingsWidget", tools::LogLevel::INFO);
                 std::memset(m_mainNameBuffer, 0, sizeof(m_mainNameBuffer));
                 std::memset(m_subNameBuffer, 0, sizeof(m_subNameBuffer));
                 std::memset(m_translationBuffer, 0, sizeof(m_translationBuffer));
@@ -34,19 +36,43 @@ namespace tadaima
                     ImGui::OpenPopup(m_isEditing ? "Edit Lesson Modal" : "Add New Lesson Modal");
                 }
 
-                ImGui::SetNextWindowSize(ImVec2(700, 400), ImGuiCond_Always);  // Adjust size as needed
-                ImGui::PushStyleColor(ImGuiCol_PopupBg, ImGui::GetStyleColorVec4(ImGuiCol_WindowBg));
+                ImGui::SetNextWindowSize(ImVec2(700, 500), ImGuiCond_Always);  // Adjust size as needed
+                ImGui::PushStyleColor(ImGuiCol_PopupBg, ImVec4(0.98f, 0.92f, 0.84f, 1.0f)); // Light peach background
+                ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(10, 10)); // Add padding
 
                 // Open the modal window
                 if( ImGui::BeginPopupModal(m_isEditing ? "Edit Lesson Modal" : "Add New Lesson Modal", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoResize) )
                 {
+                    // Header section
+                    ImGui::TextColored(ImVec4(0.8f, 0.2f, 0.2f, 1.0f), m_isEditing ? "Edit Lesson" : "Add New Lesson");
+                    ImGui::Separator();
+                    ImGui::Text("Use this form to add or edit lessons. Fill out the fields below and manage the words in the lesson.");
+                    ImGui::Spacing();
+
+                    // Input fields for lesson name
+                    ImGui::InputText("##MainName", m_mainNameBuffer, sizeof(m_mainNameBuffer));
+                    ImGui::SameLine();
+                    ImGui::Text("Main Name");
+
+                    ImGui::InputText("##SubName", m_subNameBuffer, sizeof(m_subNameBuffer));
+                    ImGui::SameLine();
+                    ImGui::Text("Sub Name");
+
+                    ImGui::Spacing();
+                    ImGui::Separator();
+                    ImGui::Spacing();
+
                     ImGui::Columns(2);
-                    ImGui::InputText("Main Name", m_mainNameBuffer, sizeof(m_mainNameBuffer));
-                    ImGui::InputText("Sub Name", m_subNameBuffer, sizeof(m_subNameBuffer));
 
                     // Left Column: Word input fields
-                    ImGui::Text("Add/Edit Word");
-                    ImGui::InputText("Translation", m_translationBuffer, sizeof(m_translationBuffer));
+                    ImGui::TextColored(ImVec4(0.2f, 0.4f, 0.8f, 1.0f), "Add/Edit Word");
+                    ImGui::Spacing();
+
+                    ImGui::InputText("##Translation", m_translationBuffer, sizeof(m_translationBuffer));
+                    ImGui::SameLine();
+                    ImGui::Text("Translation");
+
+                    ImGui::Spacing();
 
                     // Button to translate using the dictionary
                     if( ImGui::Button("Translate") )
@@ -68,14 +94,29 @@ namespace tadaima
                         }
                     }
 
-                    ImGui::InputText("Romaji", m_romajiBuffer, sizeof(m_romajiBuffer));
-                    ImGui::InputText("Kana", m_kanaBuffer, sizeof(m_kanaBuffer));
-                    ImGui::InputText("Example Sentence", m_exampleSentenceBuffer, sizeof(m_exampleSentenceBuffer));
-                    ImGui::InputText("Tags (comma-separated)", m_tagBuffer, sizeof(m_tagBuffer));
+                    ImGui::Spacing();
+
+                    ImGui::InputText("##Romaji", m_romajiBuffer, sizeof(m_romajiBuffer));
+                    ImGui::SameLine();
+                    ImGui::Text("Romaji");
+
+                    ImGui::InputText("##Kana", m_kanaBuffer, sizeof(m_kanaBuffer));
+                    ImGui::SameLine();
+                    ImGui::Text("Kana");
+
+                    ImGui::InputText("##ExampleSentence", m_exampleSentenceBuffer, sizeof(m_exampleSentenceBuffer));
+                    ImGui::SameLine();
+                    ImGui::Text("Example Sentence");
+
+                    ImGui::InputText("##Tags", m_tagBuffer, sizeof(m_tagBuffer));
+                    ImGui::SameLine();
+                    ImGui::Text("Tags (comma-separated)");
                     if( ImGui::IsItemHovered() )
                     {
                         ImGui::SetTooltip("Enter tags separated by commas, e.g., tag1,tag2,tag3");
                     }
+
+                    ImGui::Spacing();
 
                     if( ImGui::Button("Add Word") )
                     {
@@ -165,10 +206,11 @@ namespace tadaima
                     ImGui::NextColumn();
 
                     // Right Column: List of words
-                    ImGui::BeginChild("WordsList", ImVec2(0, -ImGui::GetFrameHeightWithSpacing()));
-                    ImGui::Text("Words in this Lesson:");
+                    ImGui::TextColored(ImVec4(0.2f, 0.4f, 0.8f, 1.0f), "Words in this Lesson");
                     ImGui::Separator();
+                    ImGui::Spacing();
 
+                    ImGui::BeginChild("WordsList", ImVec2(0, -ImGui::GetFrameHeightWithSpacing() - 40));
                     for( size_t index = 0; index < m_newLesson.words.size(); ++index )
                     {
                         const auto& word = m_newLesson.words[index];
@@ -197,12 +239,15 @@ namespace tadaima
 
                         ImGui::PopID();
                     }
-
                     ImGui::EndChild();
 
                     ImGui::Columns(1);
 
-                    if( ImGui::Button("Save Lesson") )
+                    ImGui::Spacing();
+                    ImGui::Separator();
+                    ImGui::Spacing();
+
+                    if( ImGui::Button("Save Lesson", ImVec2(120, 0)) )
                     {
                         m_logger.log("Saving lesson", tools::LogLevel::INFO);
                         if( strlen(m_mainNameBuffer) > 0 && strlen(m_subNameBuffer) > 0 && !m_newLesson.words.empty() )
@@ -218,7 +263,7 @@ namespace tadaima
 
                     ImGui::SameLine();
 
-                    if( ImGui::Button("Cancel") )
+                    if( ImGui::Button("Cancel", ImVec2(120, 0)) )
                     {
                         m_logger.log("Canceling lesson settings", tools::LogLevel::INFO);
                         // Clear the buffers and reset the new lesson
@@ -240,6 +285,7 @@ namespace tadaima
                 }
 
                 ImGui::PopStyleColor();  // Restore previous style
+                ImGui::PopStyleVar();  // Restore previous padding
 
                 // Check for clicks outside the selection to reset the selected word index
                 if( ImGui::IsMouseDoubleClicked(0) && !ImGui::IsAnyItemHovered() && !ImGui::IsWindowHovered(ImGuiHoveredFlags_AllowWhenBlockedByActiveItem) )
@@ -289,7 +335,7 @@ namespace tadaima
                 {
                     const std::string dictionaryPath = package->get<std::string>(SettingsPackageKey::DictionaryPath);
                     m_dictionary.setPathForTranslator(dictionaryPath);
-                    m_logger.log("Dictionary path set to: " + dictionaryPath, tools::LogLevel::DEBUG);
+                    m_logger.log("Dictionary path set to: " + dictionaryPath, tools::LogLevel::INFO);
                 }
             }
 

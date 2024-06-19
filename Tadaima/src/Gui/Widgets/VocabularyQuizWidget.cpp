@@ -174,6 +174,9 @@ namespace tadaima
                 try
                 {
                     ImGui::SetNextWindowSize(ImVec2(600, 400), ImGuiCond_FirstUseEver);
+                    ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.98f, 0.92f, 0.84f, 1.0f)); // Light peach background
+                    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(10, 10)); // Add padding
+
                     if( ImGui::Begin("Quiz Game", p_open, ImGuiWindowFlags_NoCollapse) )
                     {
                         static bool setFocusOnInputField = true;
@@ -451,6 +454,9 @@ namespace tadaima
                         }
                     }
                     ImGui::End();
+
+                    ImGui::PopStyleColor();  // Restore previous style
+                    ImGui::PopStyleVar();  // Restore previous padding
                 }
                 catch( const std::exception& e )
                 {

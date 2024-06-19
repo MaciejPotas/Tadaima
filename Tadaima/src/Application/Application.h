@@ -68,17 +68,32 @@ namespace tadaima
              */
             void Initialize();
 
+            /**
+             * @brief Sets an event with the given data.
+             *
+             * This template method sets an application event with the provided data and notifies
+             * the worker thread.
+             *
+             * @tparam DataType The type of the data associated with the event.
+             * @param event The application event to set.
+             * @param data The data associated with the event.
+             */
             template<typename DataType>
             void setEvent(ApplicationEvent event, const DataType& data)
             {
                 m_event.setEvent(event, data);
                 m_threadRaise.notify_one();
                 m_logger.log("Event set: " + eventToString(event), tools::LogLevel::DEBUG);
-
-                
-           }
+            }
 
         private:
+
+            /**
+             * @brief Applies the given application settings.
+             *
+             * @param settings The application settings to apply.
+             */
+            void applySettings(ApplicationSettings& settings);
 
             /**
              * @brief Converts a list of lessons to a string representation.
@@ -116,9 +131,7 @@ namespace tadaima
             EventBridge& m_eventBridge; /**< Reference to the EventBridge for event handling. */
             tools::Logger& m_logger; /**< Reference to the Logger instance for logging. */
 
-            tools::EventsData<std::vector<Lesson>, ApplicationSettings > m_event; /**< Event data structure. */
-
-
+            tools::EventsData<std::vector<Lesson>, ApplicationSettings> m_event; /**< Event data structure. */
 
             gui::Gui* m_gui = nullptr; /**< Pointer to the GUI instance. */
             std::thread workerThread; /**< Worker thread for background tasks. */

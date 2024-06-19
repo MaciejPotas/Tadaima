@@ -91,6 +91,7 @@ namespace tadaima
                             ApplicationSettings applicationSettings = m_event.getEventData<ApplicationSettings>(ApplicationEvent::OnSettingsChanged);
                             m_logger.log("OnSettingsChanged event occurred", tools::LogLevel::INFO);
                             m_logger.log(applicationSettings.toString(), tools::LogLevel::INFO);
+                            applySettings(applicationSettings);
                             m_database.saveSettings(applicationSettings);
                             m_eventBridge.initializeSettings(applicationSettings);
                             m_event.clearEvent(ApplicationEvent::OnSettingsChanged);
@@ -124,18 +125,20 @@ namespace tadaima
 
         void Application::Initialize()
         {
+            auto settings = m_database.loadSettings();
+            applySettings(settings);
             m_eventBridge.initializeGui(m_lessonManager.getAllLessons());
-            m_eventBridge.initializeSettings(m_database.loadSettings());
+            m_eventBridge.initializeSettings(settings);
 
             m_logger.log("Application initialized.", tools::LogLevel::INFO);
         }
 
-        //void Application::setEvent(ApplicationEvent event, const std::vector<Lesson>& lessons)
-        //{
-        //    m_event.setEvent(event, lessons);
-        //    m_threadRaise.notify_one();
-        //    m_logger.log("Event set: " + eventToString(event) + ". Lessons: " + lessonsToString(lessons), tools::LogLevel::DEBUG);
-        //}
+        void Application::applySettings(ApplicationSettings& settings)
+        {
+            auto hwnd = GetConsoleWindow();
+            auto option = settings.showLogs ? SW_SHOW : SW_HIDE;
+            ShowWindow(hwnd, option);
+        }
 
         std::string Application::lessonsToString(const std::vector<Lesson>& lessons)
         {
