@@ -208,6 +208,7 @@ namespace tadaima
             {
                 const bool ctrlPressed = ImGui::GetIO().KeyCtrl;
                 const bool shiftPressed = ImGui::GetIO().KeyShift; // Track shift key state
+                static int rightClickedLessonGroupId = -1; // Track last right-clicked lesson group ID
 
                 static int lastSelectedWordId = -1; // Track last selected word ID
 
@@ -454,6 +455,29 @@ namespace tadaima
                         ImGui::TreePop();
                     }
                     ImGui::PopID();
+
+                    if( ImGui::IsItemClicked(1) )
+                    { 
+                        rightClickedLessonGroupId = static_cast<int>(groupIndex);
+                        ImGui::OpenPopup("LessonGroupContextMenu");
+                    }
+
+                    if( rightClickedLessonGroupId == groupIndex && ImGui::BeginPopup("LessonGroupContextMenu") )
+                    {
+                        if( ImGui::MenuItem(ICON_FA_TRASH " Delete Group") )
+                        {
+                            // Delete the entire lesson group
+                            m_logger.log("Delete lesson group selected.");
+                            m_cashedLessons.erase(m_cashedLessons.begin() + groupIndex);
+                            rightClickedLessonGroupId = -1;
+                            ImGui::CloseCurrentPopup();
+                            // Break out of the loop since the group is deleted
+                            break;
+                        }
+
+                        ImGui::EndPopup();
+                    }
+
                 }
 
                 if( ImGui::IsMouseClicked(0) && !ImGui::IsAnyItemHovered() && !ImGui::IsMouseReleased(1) )

@@ -58,7 +58,7 @@ namespace tadaima
                 if( *p_open == true )
                 {
                     ImGui::OpenPopup("Script Runner");
-                    ImGui::SetNextWindowSize(ImVec2(600, 400), ImGuiCond_Always);
+                    ImGui::SetNextWindowSize(ImVec2(600, 420), ImGuiCond_Always); // Keep the window size
 
                     // Set the window padding to 10 pixels and apply a cheerful color scheme
                     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(15, 15));
@@ -83,7 +83,6 @@ namespace tadaima
                         ImGui::PopStyleColor(2);
 
                         // Learning header section
-                        ImGui::Dummy(ImVec2(0, 10));
                         ImGui::TextColored(ImVec4(0.2f, 0.4f, 0.8f, 1.0f), "Learn how to run scripts efficiently!");
                         ImGui::TextWrapped("Here, you can select and run scripts. Double-click on a script to start it. The output will be displayed on the right. "
                             "You can input commands in the box below and manage the script execution using the buttons.");
@@ -93,6 +92,7 @@ namespace tadaima
                         ImGui::Columns(2, "##columns", false);
 
                         // Script selection with a cheerful border and scrolling area
+                        ImGui::SetColumnWidth(0, 130); // Set the width of the script list column
                         ImGui::BeginChild("Scripts", ImVec2(0, 0), true, ImGuiWindowFlags_AlwaysVerticalScrollbar);
                         ImGui::TextColored(ImVec4(0.2f, 0.4f, 0.8f, 1.0f), "Available Scripts");
                         ImGui::Separator();
@@ -121,6 +121,11 @@ namespace tadaima
                                         ImGui::BeginDisabled();
                                     }
                                 }
+                            }
+
+                            if( ImGui::IsItemHovered() )
+                            {
+                                ImGui::SetTooltip("%s", scriptName.c_str());
                             }
 
                             if( m_scriptRunner.isScriptRunning() )
@@ -215,14 +220,13 @@ namespace tadaima
                 m_scriptRunner.checkScriptCompletion();
             }
 
-
             std::string ScriptQuizRunnerWidget::getFileName(const std::string& fullPath)
             {
                 std::filesystem::path pathObj(fullPath);
                 return pathObj.filename().string();
             }
 
-            bool ScriptQuizRunnerWidget::isPythonScript(const std::string& path) 
+            bool ScriptQuizRunnerWidget::isPythonScript(const std::string& path)
             {
                 return std::filesystem::path(path).extension() == ".py";
             }
