@@ -25,17 +25,18 @@ namespace tadaima
              */
             enum class SettingsPackageKey : uint32_t
             {
-                Username,       /**< Key for username. */
-                DictionaryPath, /**< Key for dictionary path. */
-                QuizzesScriptsPath, /**< Key for scripted quizes path. */
-                AskedWordType,  /**< Key for input word. */
-                AnswerWordType  /**< Key for translated word. */
+                Username,               /**< Key for username. */
+                DictionaryPath,         /**< Key for dictionary path. */
+                QuizzesScriptsPath,     /**< Key for scripted quizes path. */
+                AskedWordType,          /**< Key for input word. */
+                AnswerWordType,         /**< Key for translated word. */
+                ShowLogs                /**< Key for showing console logs */
             };
 
             /**
              * @brief Represents a package containing settings data.
              */
-            class SettingsDataPackage : public tools::ComplexDataPackage<SettingsPackageKey, std::string, quiz::WordType>
+            class SettingsDataPackage : public tools::ComplexDataPackage<SettingsPackageKey, bool, std::string, quiz::WordType>
             {
             public:
 

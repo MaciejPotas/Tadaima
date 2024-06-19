@@ -1,3 +1,5 @@
+#pragma once
+
 #include "ApplicationSettingsWidget.h"
 #include "packages/SettingsDataPackage.h"
 #include "imgui.h"
@@ -10,9 +12,9 @@ namespace tadaima
         namespace widget
         {
 
-            ApplicationSettingsWidget::ApplicationSettingsWidget(tools::Logger& logger) : Widget(Type::ApplicationSettings), m_logger(logger)
+            ApplicationSettingsWidget::ApplicationSettingsWidget(tools::Logger& logger)
+                : Widget(Type::ApplicationSettings), m_logger(logger)
             {
-
             }
 
             void ApplicationSettingsWidget::Open()
@@ -63,6 +65,7 @@ namespace tadaima
                     package.set(SettingsPackageKey::QuizzesScriptsPath, std::string(m_scriptPaths));
                     package.set(SettingsPackageKey::AskedWordType, static_cast<quiz::WordType>(m_inputOption));
                     package.set(SettingsPackageKey::AnswerWordType, static_cast<quiz::WordType>(m_translationOption));
+                    package.set(SettingsPackageKey::ShowLogs, m_showlogs);
 
                     emitEvent(WidgetEvent(*this, ApplicationSettingsWidgetEvent::OnSettingsChanged, &package));
                 }
@@ -72,7 +75,7 @@ namespace tadaima
                 }
                 catch( ... )
                 {
-                    m_logger.log("Exception caught in ApplicationSettingsWidget::ApplySettings: Unkown problem.", tools::LogLevel::PROBLEM);
+                    m_logger.log("Exception caught in ApplicationSettingsWidget::ApplySettings: Unknown problem.", tools::LogLevel::PROBLEM);
                 }
             }
 
@@ -96,8 +99,9 @@ namespace tadaima
                         memcpy(m_dictionaryPath, dictionaryPath.c_str(), dictionaryPath.size());
                         memcpy(m_scriptPaths, quizzesScripts.c_str(), quizzesScripts.size());
 
-                        m_inputOption = package->get< quiz::WordType>(SettingsPackageKey::AskedWordType);
+                        m_inputOption = package->get<quiz::WordType>(SettingsPackageKey::AskedWordType);
                         m_translationOption = package->get<quiz::WordType>(SettingsPackageKey::AnswerWordType);
+                        m_showlogs = package->get<bool>(SettingsPackageKey::ShowLogs);
 
                         m_logger.log("ApplicationSettingsWidget: Initialized.", tools::LogLevel::INFO);
                     }
@@ -108,7 +112,7 @@ namespace tadaima
                 }
                 catch( ... )
                 {
-                    m_logger.log("Exception caught in ApplicationSettingsWidget::initialize.Unkown problem.", tools::LogLevel::PROBLEM);
+                    m_logger.log("Exception caught in ApplicationSettingsWidget::initialize: Unknown problem.", tools::LogLevel::PROBLEM);
                 }
             }
 
@@ -117,56 +121,80 @@ namespace tadaima
                 if( *p_open )
                 {
                     Open();
-                    ImGui::SetNextWindowSize(ImVec2(550, 380), ImGuiCond_Always);  // Adjust size as needed
-                    ImGui::PushStyleColor(ImGuiCol_PopupBg, ImGui::GetStyleColorVec4(ImGuiCol_WindowBg));
+                    ImGui::SetNextWindowSize(ImVec2(550, 280), ImGuiCond_Always);  // Adjust size as needed
+                    ImGui::PushStyleColor(ImGuiCol_PopupBg, ImVec4(0.98f, 0.92f, 0.84f, 1.0f)); // Light peach background
+                    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(10, 10)); // Add padding
 
                     if( ImGui::BeginPopupModal("Application settings", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoResize) )
                     {
-                        // Application Settings Section
-                        ImGui::Text("Application Settings");
-                        ImGui::Separator();
-                        ImGui::Spacing();
-
-                        ImGui::InputText("User name", m_username, IM_ARRAYSIZE(m_username));
-                        ShowFieldHelp("Enter your user name for personalized settings.");
-
-                        ImGui::InputText("Path to the directory", m_dictionaryPath, IM_ARRAYSIZE(m_dictionaryPath));
-                        ShowFieldHelp("Select the directory where your Japanese word files are stored.");
-
-
-                        ImGui::InputText("Path to scripted quizes", m_scriptPaths, IM_ARRAYSIZE(m_scriptPaths));
-                        ShowFieldHelp("Select the directory where all the scripted quizes are. Usually should be script/quizes.");       
-
-                        ImGui::Spacing();
-                        ImGui::Separator();
-                        ImGui::Spacing();
-
-                        // Quiz Settings Section
-                        ImGui::Text("Quiz Settings");
-                        ImGui::Separator();
-                        ImGui::Spacing();
-
-                        const char* translationOptions[] = { "BaseWord", "Kana", "Romaji" };
-
-                        ImGui::Text(" Word option you will write ( Base, if you want to use your language ):");
-                        ImGui::Combo("##input_type", &m_inputOption, translationOptions, IM_ARRAYSIZE(translationOptions));
-                        ShowFieldHelp("Choose how you want to input words during the quiz.");
-
-                        // Add the Flip button
-                        if( ImGui::Button("Flip", ImVec2(120, 0)) )
+                        if( ImGui::BeginTabBar("SettingsTabs") )
                         {
-                            std::swap(m_inputOption, m_translationOption);
+                            if( ImGui::BeginTabItem("General Settings") )
+                            {
+                                // General Settings Section
+                                ImGui::TextColored(ImVec4(0.8f, 0.2f, 0.2f, 1.0f), "General Settings");
+                                ImGui::Separator();
+                                ImGui::Spacing();
+
+                                ImGui::InputText("##Username", m_username, IM_ARRAYSIZE(m_username));
+                                ImGui::SameLine();
+                                ImGui::Text("User name");
+                                ShowFieldHelp("Enter your user name for personalized settings.");
+
+                                ImGui::InputText("##DictionaryPath", m_dictionaryPath, IM_ARRAYSIZE(m_dictionaryPath));
+                                ImGui::SameLine();
+                                ImGui::Text("Path to the directory");
+                                ShowFieldHelp("Select the directory where your Japanese word files are stored.");
+
+                                ImGui::InputText("##ScriptPaths", m_scriptPaths, IM_ARRAYSIZE(m_scriptPaths));
+                                ImGui::SameLine();
+                                ImGui::Text("Path to scripted quizzes");
+                                ShowFieldHelp("Select the directory where all the scripted quizzes are. Usually should be script/quizzes.");
+
+                                ImGui::Checkbox("Show Logs", &m_showlogs);
+                                ShowFieldHelp("Enable or disable logging.");
+
+                                ImGui::Spacing();
+                                ImGui::Separator();
+                                ImGui::Spacing();
+
+                                ImGui::EndTabItem();
+                            }
+
+                            if( ImGui::BeginTabItem("Quiz Settings") )
+                            {
+                                // Quiz Settings Section
+                                ImGui::TextColored(ImVec4(0.8f, 0.2f, 0.2f, 1.0f), "Quiz Settings");
+                                ImGui::Separator();
+                                ImGui::Spacing();
+
+                                const char* translationOptions[] = { "BaseWord", "Kana", "Romaji" };
+
+                                ImGui::Text("Word option you will write (Base, if you want to use your language):");
+                                ImGui::Combo("##input_type", &m_inputOption, translationOptions, IM_ARRAYSIZE(translationOptions));
+                                ShowFieldHelp("Choose how you want to input words during the quiz.");
+
+                                // Add the Flip button
+                                if( ImGui::Button("Flip", ImVec2(120, 0)) )
+                                {
+                                    std::swap(m_inputOption, m_translationOption);
+                                }
+                                ImGui::SameLine();
+                                ShowFieldHelp("Click to swap the word input and translation options.");
+
+                                ImGui::Text("Word option you will be asked for:");
+                                ImGui::Combo("##translation_type", &m_translationOption, translationOptions, IM_ARRAYSIZE(translationOptions));
+                                ShowFieldHelp("Choose how you want the words to be translated during the quiz.");
+
+                                ImGui::Spacing();
+                                ImGui::Separator();
+                                ImGui::Spacing();
+
+                                ImGui::EndTabItem();
+                            }
+
+                            ImGui::EndTabBar();
                         }
-                        ImGui::SameLine();
-                        ShowFieldHelp("Click to swap the word input and translation options.");
-
-                        ImGui::Text(" Word option you will be asked for:");
-                        ImGui::Combo("##translation_type", &m_translationOption, translationOptions, IM_ARRAYSIZE(translationOptions));
-                        ShowFieldHelp("Choose how you want the words to be translated during the quiz.");
-
-                        ImGui::Spacing();
-                        ImGui::Separator();
-                        ImGui::Spacing();
 
                         if( ImGui::Button("OK", ImVec2(120, 0)) )
                         {
@@ -184,9 +212,9 @@ namespace tadaima
                     }
 
                     ImGui::PopStyleColor();  // Restore previous style
+                    ImGui::PopStyleVar();  // Restore previous padding
                 }
             }
-
 
             void ApplicationSettingsWidget::ShowFieldHelp(const char* desc)
             {

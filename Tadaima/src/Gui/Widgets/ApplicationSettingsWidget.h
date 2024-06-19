@@ -94,6 +94,7 @@ namespace tadaima
                 char m_username[30] = ""; /**< Username for the application. */
                 int m_inputOption = quiz::WordType::BaseWord; /**< Input option for word type. */
                 int m_translationOption = quiz::WordType::Romaji; /**< Translation option for word type. */
+                bool m_showlogs = false;
             };
         }
     }

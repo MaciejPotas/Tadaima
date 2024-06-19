@@ -11,6 +11,6 @@ namespace tadaima
     namespace versioning
     {
         constexpr std::string_view State = "alhpa";
-        constexpr std::string_view Revision = "0.0";
+        constexpr std::string_view Revision = "1.0";
     }
 }
