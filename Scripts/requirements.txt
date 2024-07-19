@@ -1,5 +1,5 @@
-googletrans==4.0.0-rc1
-pykakasi==2.1.1
+translate
+pykakasi
 setuptools
 tqdm
 jaconv
