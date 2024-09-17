@@ -92,6 +92,7 @@ namespace tadaima
                         WordDataPackage wordPackage(word.id);
                         wordPackage.set(LessonWordDataKey::id, word.id);
                         wordPackage.set(LessonWordDataKey::Kana, word.kana);
+                        wordPackage.set(LessonWordDataKey::Kanji, word.kanji);
                         wordPackage.set(LessonWordDataKey::Translation, word.translation);
                         wordPackage.set(LessonWordDataKey::Romaji, word.romaji);
                         wordPackage.set(LessonWordDataKey::ExampleSentence, word.exampleSentence);
@@ -124,6 +125,7 @@ namespace tadaima
                     WordDataPackage wordPackage(word.id);
                     wordPackage.set(LessonWordDataKey::id, word.id);
                     wordPackage.set(LessonWordDataKey::Kana, word.kana);
+                    wordPackage.set(LessonWordDataKey::Kanji, word.kanji);
                     wordPackage.set(LessonWordDataKey::Translation, word.translation);
                     wordPackage.set(LessonWordDataKey::Romaji, word.romaji);
                     wordPackage.set(LessonWordDataKey::ExampleSentence, word.exampleSentence);
@@ -236,6 +238,7 @@ namespace tadaima
                 const bool shiftPressed = ImGui::GetIO().KeyShift; // Track shift key state
                 static int rightClickedLessonGroupId = -1; // Track last right-clicked lesson group ID
                 bool popupShown = false;
+static                bool showDeleteGroupConfirmation = false;
 
                 static int lastSelectedWordId = -1; // Track last selected word ID
 
@@ -507,22 +510,11 @@ namespace tadaima
 
                     if( rightClickedLessonGroupId == groupIndex && ImGui::BeginPopup("LessonGroupContextMenu") )
                     {
-
                         if( ImGui::MenuItem(ICON_FA_TRASH " Delete Group") )
                         {
-                            m_selectedLessons.clear();
-                            for( auto& lesson : m_cashedLessons[rightClickedLessonGroupId].subLessons )
-                            {
-                                m_selectedLessons.insert(lesson.id);
-                            }
-
-                            // Delete the entire lesson group
-                            m_logger.log("Delete lesson group selected.");
-                            rightClickedLessonGroupId = -1;
-                            deleteLesson = true;
+                            // Show the delete group confirmation popup instead of deleting immediately
+                            showDeleteGroupConfirmation = true;
                             ImGui::CloseCurrentPopup();
-                            // Break out of the loop since the group is deleted
-                           // break;
                         }
 
                         ImGui::EndPopup();
@@ -533,6 +525,49 @@ namespace tadaima
                 if( ImGui::IsMouseClicked(0) && !ImGui::IsAnyItemHovered() && !ImGui::IsMouseReleased(1) )
                 {
                     m_selectedLessons.clear();
+                }
+
+                // Show the delete group confirmation popup
+                if( showDeleteGroupConfirmation )
+                {
+                    ImGui::OpenPopup("Delete Group Confirmation");
+                    showDeleteGroupConfirmation = false;
+                }
+
+                // Confirmation popup
+                if( ImGui::BeginPopupModal("Delete Group Confirmation", NULL, ImGuiWindowFlags_AlwaysAutoResize) )
+                {
+                    ImGui::Text("Are you sure you want to delete this group?");
+                    ImGui::Spacing();
+                    ImGui::Separator();
+                    ImGui::Spacing();
+
+                    if( ImGui::Button("Yes", ImVec2(120, 0)) )
+                    {
+                        // Perform the delete action
+                        m_selectedLessons.clear();
+                        for( auto& lesson : m_cashedLessons[rightClickedLessonGroupId].subLessons )
+                        {
+                            m_selectedLessons.insert(lesson.id);
+                        }
+
+                        // Delete the entire lesson group
+                        m_logger.log("Delete lesson group confirmed.");
+                        rightClickedLessonGroupId = -1;
+                        deleteLesson = true;
+
+                        ImGui::CloseCurrentPopup();
+                    }
+
+                    ImGui::SameLine();
+
+                    if( ImGui::Button("No", ImVec2(120, 0)) )
+                    {
+                        // Cancel the delete action
+                        ImGui::CloseCurrentPopup();
+                    }
+
+                    ImGui::EndPopup();
                 }
             }
 

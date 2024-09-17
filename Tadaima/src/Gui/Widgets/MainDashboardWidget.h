@@ -5,6 +5,8 @@
 #pragma once
 
 #include "Widget.h"
+#include <string>
+#include <array>
 
 namespace tadaima
 {
@@ -34,6 +36,11 @@ namespace tadaima
 
             private:
                 std::string m_username = "Gakusei-dono";
+                float m_progress = 0.0f;
+                std::string m_wordOfTheDay;
+                std::string m_wordMeaning;
+                std::array<float, 10> m_vocabPerformance = { 0.7f, 0.8f, 0.6f, 0.9f, 0.5f, 0.6f, 0.7f, 0.8f, 0.6f, 0.9f };
+                std::array<float, 10> m_pronunciationPerformance = { 0.6f, 0.7f, 0.8f, 0.7f, 0.6f, 0.7f, 0.8f, 0.6f, 0.7f, 0.8f };
             };
         }
     }

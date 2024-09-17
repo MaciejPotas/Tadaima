@@ -53,18 +53,15 @@ namespace tadaima
                 char m_mainNameBuffer[50] = ""; ///< Buffer for the lesson main name.
                 char m_subNameBuffer[50] = "";  ///< Buffer for the lesson sub name.
                 char m_kanaBuffer[50] = ""; ///< Buffer for word kana.
+                char m_kanjiBuffer[50] = ""; ///< Buffer for Kanji.
                 char m_translationBuffer[50] = ""; ///< Buffer for word translation.
                 char m_romajiBuffer[50] = ""; ///< Buffer for word romaji.
-                char m_exampleSentenceBuffer[100] = ""; ///< Buffer for example sentence.
+                char m_exampleSentenceBuffer[300] = ""; ///< Buffer for example sentence.
                 char m_tagBuffer[100] = ""; ///< Buffer for word tags.
                 int m_selectedWordIndex = -1; ///< Index of the selected word in the list.
                 Lesson m_newLesson; ///< New lesson to be added or edited.
                 Dictionary m_dictionary;
                 tools::Logger& m_logger;
-
-                /**
-                 * @brief Pointer to the lesson object.
-                 */
                 Lesson* m_lesson;
             };
         }

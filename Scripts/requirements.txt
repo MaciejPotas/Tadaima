@@ -3,3 +3,6 @@ pykakasi
 setuptools
 tqdm
 jaconv
+requests
+bs4
+googletrans

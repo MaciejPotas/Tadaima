@@ -15,6 +15,12 @@
     {
         "Entry"
         {
+        "MsmKey" = "8:_03581393A43C485D8A957A523BDCA7BA"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_229F09CDC8914790AD9BA4DC94C9FB82"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -57,7 +63,19 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_ACB4C06075984003941D4A27822B68E9"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_AE40DEB9D4CF41F48C896120A0DD2342"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_CD78ABBC46AE4F489CC40ECF1147AD5C"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -76,12 +94,6 @@
         "Entry"
         {
         "MsmKey" = "8:_E94B7F44EAEB4C858B292999A565BB24"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_EBDFB15FDFD849F0B1E23F1291345D4D"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -184,6 +196,26 @@
         }
         "File"
         {
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_03581393A43C485D8A957A523BDCA7BA"
+            {
+            "SourcePath" = "8:..\\..\\Scripts\\Dictionaries\\Google.py"
+            "TargetName" = "8:Google.py"
+            "Tag" = "8:"
+            "Folder" = "8:_E43DBE1987D347B3A060763C1D414ECF"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_229F09CDC8914790AD9BA4DC94C9FB82"
             {
             "SourcePath" = "8:..\\..\\Scripts\\Setup.py"
@@ -304,12 +336,52 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_ACB4C06075984003941D4A27822B68E9"
+            {
+            "SourcePath" = "8:..\\..\\Scripts\\Dictionaries\\takoboto.py"
+            "TargetName" = "8:takoboto.py"
+            "Tag" = "8:"
+            "Folder" = "8:_E43DBE1987D347B3A060763C1D414ECF"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_AE40DEB9D4CF41F48C896120A0DD2342"
             {
             "SourcePath" = "8:..\\..\\Scripts\\requirements.txt"
             "TargetName" = "8:requirements.txt"
             "Tag" = "8:"
             "Folder" = "8:_36983B812C384701847F1EDAA2145137"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_CD78ABBC46AE4F489CC40ECF1147AD5C"
+            {
+            "SourcePath" = "8:..\\..\\Scripts\\Dictionaries\\Tangorin.py"
+            "TargetName" = "8:Tangorin.py"
+            "Tag" = "8:"
+            "Folder" = "8:_E43DBE1987D347B3A060763C1D414ECF"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -370,26 +442,6 @@
             "TargetName" = "8:HoursQuiz.py"
             "Tag" = "8:"
             "Folder" = "8:_135D3A1E1B794E98B18B0E4636DF170D"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_EBDFB15FDFD849F0B1E23F1291345D4D"
-            {
-            "SourcePath" = "8:..\\..\\Scripts\\Dictionary.py"
-            "TargetName" = "8:Dictionary.py"
-            "Tag" = "8:"
-            "Folder" = "8:_36983B812C384701847F1EDAA2145137"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -509,6 +561,17 @@
                             "Condition" = "8:"
                             "Transitive" = "11:FALSE"
                             "Property" = "8:_B38B978DC3384A3B928FEA061043D84F"
+                                "Folders"
+                                {
+                                }
+                            }
+                            "{9EF0B969-E518-4E46-987F-47570745A589}:_E43DBE1987D347B3A060763C1D414ECF"
+                            {
+                            "Name" = "8:Dictionaries"
+                            "AlwaysCreate" = "11:FALSE"
+                            "Condition" = "8:"
+                            "Transitive" = "11:FALSE"
+                            "Property" = "8:_3B710677CEEB4C32A6B9287B7C616184"
                                 "Folders"
                                 {
                                 }

@@ -57,6 +57,7 @@ namespace tadaima
             {
                 id,
                 Kana,
+                Kanji,
                 Translation,
                 Romaji,
                 ExampleSentence,
@@ -104,6 +105,7 @@ namespace tadaima
                             gui::widget::WordDataPackage wordPackage(word.id);
                             wordPackage.set(gui::widget::LessonWordDataKey::id, word.id);
                             wordPackage.set(gui::widget::LessonWordDataKey::Kana, word.kana);
+                            wordPackage.set(gui::widget::LessonWordDataKey::Kanji, word.kanji);
                             wordPackage.set(gui::widget::LessonWordDataKey::Translation, word.translation);
                             wordPackage.set(gui::widget::LessonWordDataKey::Romaji, word.romaji);
                             wordPackage.set(gui::widget::LessonWordDataKey::ExampleSentence, word.exampleSentence);
@@ -143,6 +145,7 @@ namespace tadaima
                             Word word;
                             word.id = wordPackage.get<int>(LessonWordDataKey::id);
                             word.kana = wordPackage.get<std::string>(LessonWordDataKey::Kana);
+                            word.kanji = wordPackage.get<std::string>(LessonWordDataKey::Kanji);
                             word.translation = wordPackage.get<std::string>(LessonWordDataKey::Translation);
                             word.romaji = wordPackage.get<std::string>(LessonWordDataKey::Romaji);
                             word.exampleSentence = wordPackage.get<std::string>(LessonWordDataKey::ExampleSentence);

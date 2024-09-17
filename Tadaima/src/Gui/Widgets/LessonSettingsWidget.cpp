@@ -8,14 +8,12 @@
 #include <stdexcept>
 #include "packages/SettingsDataPackage.h"
 #include "Tools/Logger.h"
-
 namespace tadaima
 {
     namespace gui
     {
         namespace widget
         {
-
             LessonSettingsWidget::LessonSettingsWidget(tools::Logger& logger)
                 : m_logger(logger), m_selectedWordIndex(-1), m_isEditing(false)
             {
@@ -27,6 +25,7 @@ namespace tadaima
                 std::memset(m_kanaBuffer, 0, sizeof(m_kanaBuffer));
                 std::memset(m_exampleSentenceBuffer, 0, sizeof(m_exampleSentenceBuffer));
                 std::memset(m_tagBuffer, 0, sizeof(m_tagBuffer));
+                std::memset(m_kanjiBuffer, 0, sizeof(m_kanjiBuffer)); 
             }
 
             void LessonSettingsWidget::draw(bool* p_open)
@@ -36,7 +35,7 @@ namespace tadaima
                     ImGui::OpenPopup(m_isEditing ? "Edit Lesson Modal" : "Add New Lesson Modal");
                 }
 
-                ImGui::SetNextWindowSize(ImVec2(700, 500), ImGuiCond_Always);  // Adjust size as needed
+                ImGui::SetNextWindowSize(ImVec2(700, 560), ImGuiCond_Always);  // Adjust size as needed
                 ImGui::PushStyleColor(ImGuiCol_PopupBg, ImVec4(0.98f, 0.92f, 0.84f, 1.0f)); // Light peach background
                 ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(10, 10)); // Add padding
 
@@ -81,12 +80,17 @@ namespace tadaima
                         try
                         {
                             Word translatedWord = m_dictionary.getTranslation(m_translationBuffer);
+                            std::strncpy(m_translationBuffer, translatedWord.translation.c_str(), sizeof(m_translationBuffer));
                             std::strncpy(m_romajiBuffer, translatedWord.romaji.c_str(), sizeof(m_romajiBuffer));
                             std::strncpy(m_kanaBuffer, translatedWord.kana.c_str(), sizeof(m_kanaBuffer));
+                            std::strncpy(m_kanjiBuffer, translatedWord.kanji.c_str(), sizeof(m_kanjiBuffer)); // Set the kanji
+                            std::strncpy(m_exampleSentenceBuffer, translatedWord.exampleSentence.c_str(), sizeof(m_exampleSentenceBuffer)); // Set the kanji
                             m_logger.log("Translated: ");
                             m_logger.log(" ->: " + translatedWord.translation);
                             m_logger.log(" ->: " + translatedWord.romaji);
                             m_logger.log(" ->: " + translatedWord.kana);
+                            m_logger.log(" ->: " + translatedWord.kanji); 
+                            m_logger.log(" ->: " + translatedWord.exampleSentence); 
                         }
                         catch( const std::exception& e )
                         {
@@ -104,9 +108,19 @@ namespace tadaima
                     ImGui::SameLine();
                     ImGui::Text("Kana");
 
+                    // Add Kanji Input Field
+                    ImGui::InputText("##Kanji", m_kanjiBuffer, sizeof(m_kanjiBuffer));
+                    ImGui::SameLine();
+                    ImGui::Text("Kanji");
+
+                    // Example Sentence with Tooltip
                     ImGui::InputText("##ExampleSentence", m_exampleSentenceBuffer, sizeof(m_exampleSentenceBuffer));
                     ImGui::SameLine();
                     ImGui::Text("Example Sentence");
+                    if( ImGui::IsItemHovered() )
+                    {
+                        ImGui::SetTooltip("%s", m_exampleSentenceBuffer);
+                    }
 
                     ImGui::InputText("##Tags", m_tagBuffer, sizeof(m_tagBuffer));
                     ImGui::SameLine();
@@ -117,6 +131,7 @@ namespace tadaima
                     }
 
                     ImGui::Spacing();
+                    ImGui::Spacing();
 
                     if( ImGui::Button("Add Word") )
                     {
@@ -126,6 +141,7 @@ namespace tadaima
                         {
                             Word newWord;
                             newWord.kana = std::string(m_kanaBuffer);
+                            newWord.kanji = std::string(m_kanjiBuffer);
                             newWord.translation = std::string(m_translationBuffer);
                             newWord.romaji = std::string(m_romajiBuffer);
                             newWord.exampleSentence = std::string(m_exampleSentenceBuffer);
@@ -146,6 +162,7 @@ namespace tadaima
 
                             // Clear the word input fields for the next word
                             std::memset(m_kanaBuffer, 0, sizeof(m_kanaBuffer));
+                            std::memset(m_kanjiBuffer, 0, sizeof(m_kanjiBuffer));
                             std::memset(m_translationBuffer, 0, sizeof(m_translationBuffer));
                             std::memset(m_romajiBuffer, 0, sizeof(m_romajiBuffer));
                             std::memset(m_exampleSentenceBuffer, 0, sizeof(m_exampleSentenceBuffer));
@@ -163,6 +180,7 @@ namespace tadaima
                             {
                                 Word updatedWord;
                                 updatedWord.kana = std::string(m_kanaBuffer);
+                                updatedWord.kanji = std::string(m_kanjiBuffer);
                                 updatedWord.translation = std::string(m_translationBuffer);
                                 updatedWord.romaji = std::string(m_romajiBuffer);
                                 updatedWord.exampleSentence = std::string(m_exampleSentenceBuffer);
@@ -181,6 +199,7 @@ namespace tadaima
 
                                 // Clear the word input fields
                                 std::memset(m_kanaBuffer, 0, sizeof(m_kanaBuffer));
+                                std::memset(m_kanjiBuffer, 0, sizeof(m_kanjiBuffer));
                                 std::memset(m_translationBuffer, 0, sizeof(m_translationBuffer));
                                 std::memset(m_romajiBuffer, 0, sizeof(m_romajiBuffer));
                                 std::memset(m_exampleSentenceBuffer, 0, sizeof(m_exampleSentenceBuffer));
@@ -196,6 +215,7 @@ namespace tadaima
                             m_selectedWordIndex = -1; // Reset selection after removal
                             // Clear the word input fields
                             std::memset(m_kanaBuffer, 0, sizeof(m_kanaBuffer));
+                            std::memset(m_kanjiBuffer, 0, sizeof(m_kanjiBuffer));
                             std::memset(m_translationBuffer, 0, sizeof(m_translationBuffer));
                             std::memset(m_romajiBuffer, 0, sizeof(m_romajiBuffer));
                             std::memset(m_exampleSentenceBuffer, 0, sizeof(m_exampleSentenceBuffer));
@@ -222,6 +242,7 @@ namespace tadaima
                             // Fill the input fields with the selected word's data
                             m_selectedWordIndex = static_cast<int>(index);
                             std::strncpy(m_kanaBuffer, word.kana.c_str(), sizeof(m_kanaBuffer));
+                            std::strncpy(m_kanjiBuffer, word.kanji.c_str(), sizeof(m_kanjiBuffer));
                             std::strncpy(m_translationBuffer, word.translation.c_str(), sizeof(m_translationBuffer));
                             std::strncpy(m_romajiBuffer, word.romaji.c_str(), sizeof(m_romajiBuffer));
                             std::strncpy(m_exampleSentenceBuffer, word.exampleSentence.c_str(), sizeof(m_exampleSentenceBuffer));
@@ -270,6 +291,7 @@ namespace tadaima
                         std::memset(m_mainNameBuffer, 0, sizeof(m_mainNameBuffer));
                         std::memset(m_subNameBuffer, 0, sizeof(m_subNameBuffer));
                         std::memset(m_kanaBuffer, 0, sizeof(m_kanaBuffer));
+                        std::memset(m_kanjiBuffer, 0, sizeof(m_kanjiBuffer));
                         std::memset(m_translationBuffer, 0, sizeof(m_translationBuffer));
                         std::memset(m_romajiBuffer, 0, sizeof(m_romajiBuffer));
                         std::memset(m_exampleSentenceBuffer, 0, sizeof(m_exampleSentenceBuffer));
@@ -294,6 +316,7 @@ namespace tadaima
                     m_selectedWordIndex = -1;
                     // Clear the word input fields
                     std::memset(m_kanaBuffer, 0, sizeof(m_kanaBuffer));
+                    std::memset(m_kanjiBuffer, 0, sizeof(m_kanjiBuffer));
                     std::memset(m_translationBuffer, 0, sizeof(m_translationBuffer));
                     std::memset(m_romajiBuffer, 0, sizeof(m_romajiBuffer));
                     std::memset(m_exampleSentenceBuffer, 0, sizeof(m_exampleSentenceBuffer));
@@ -306,6 +329,7 @@ namespace tadaima
                     std::memset(m_mainNameBuffer, 0, sizeof(m_mainNameBuffer));
                     std::memset(m_subNameBuffer, 0, sizeof(m_subNameBuffer));
                     std::memset(m_kanaBuffer, 0, sizeof(m_kanaBuffer));
+                    std::memset(m_kanjiBuffer, 0, sizeof(m_kanjiBuffer));
                     std::memset(m_translationBuffer, 0, sizeof(m_translationBuffer));
                     std::memset(m_romajiBuffer, 0, sizeof(m_romajiBuffer));
                     std::memset(m_exampleSentenceBuffer, 0, sizeof(m_exampleSentenceBuffer));

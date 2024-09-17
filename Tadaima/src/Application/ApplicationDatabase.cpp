@@ -45,27 +45,36 @@ namespace tadaima
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, "
                 "main_name TEXT NOT NULL, "
                 "sub_name TEXT NOT NULL);";
+
             const char* createWordsTable =
                 "CREATE TABLE IF NOT EXISTS words ("
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, "
                 "lesson_id INTEGER, "
                 "kana TEXT NOT NULL, "
+                "kanji TEXT, "  // New Kanji column
                 "translation TEXT NOT NULL, "
                 "romaji TEXT, "
                 "example_sentence TEXT, "
                 "FOREIGN KEY(lesson_id) REFERENCES lessons(id));";
+
             const char* createTagsTable =
                 "CREATE TABLE IF NOT EXISTS tags ("
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, "
                 "word_id INTEGER, "
                 "tag TEXT NOT NULL, "
                 "FOREIGN KEY(word_id) REFERENCES words(id));";
+
             const char* createSettingsTable =
                 "CREATE TABLE IF NOT EXISTS settings ("
                 "key TEXT PRIMARY KEY, "
                 "value TEXT NOT NULL);";
 
+            // Add this query to alter the `words` table to include `kanji` if it doesn't already exist
+            const char* alterWordsTable = "ALTER TABLE words ADD COLUMN kanji TEXT;";
+
             char* errMsg = nullptr;
+
+            // Execute the `CREATE TABLE` statements
             if( sqlite3_exec(db, createLessonsTable, 0, 0, &errMsg) != SQLITE_OK )
             {
                 m_logger.log("Database: SQL error while creating lessons table: " + std::string(errMsg), tools::LogLevel::PROBLEM);
@@ -89,6 +98,20 @@ namespace tadaima
                 m_logger.log("Database: SQL error while creating settings table: " + std::string(errMsg), tools::LogLevel::PROBLEM);
                 sqlite3_free(errMsg);
                 return false;
+            }
+
+            // Attempt to alter the `words` table to add `kanji` column
+            if( sqlite3_exec(db, alterWordsTable, 0, 0, &errMsg) != SQLITE_OK )
+            {
+                // Ignore the error if it indicates that the column already exists
+                std::string errorMsg = std::string(errMsg);
+                if( errorMsg.find("duplicate column name") == std::string::npos )
+                {
+                    m_logger.log("Database: SQL error while altering words table: " + errorMsg, tools::LogLevel::PROBLEM);
+                    sqlite3_free(errMsg);
+                    return false;
+                }
+                sqlite3_free(errMsg);  // Free the error message
             }
 
             return true;
@@ -119,16 +142,18 @@ namespace tadaima
         int ApplicationDatabase::addWord(int lessonId, const Word& word)
         {
             const char* sql =
-                "INSERT INTO words (lesson_id, kana, translation, romaji, example_sentence) "
-                "VALUES (?, ?, ?, ?, ?);";
+                "INSERT INTO words (lesson_id, kana, kanji, translation, romaji, example_sentence) "
+                "VALUES (?, ?, ?, ?, ?, ?);";  // Added kanji column
             sqlite3_stmt* stmt;
             if( sqlite3_prepare_v2(db, sql, -1, &stmt, 0) == SQLITE_OK )
             {
                 sqlite3_bind_int(stmt, 1, lessonId);
                 sqlite3_bind_text(stmt, 2, word.kana.c_str(), -1, SQLITE_STATIC);
-                sqlite3_bind_text(stmt, 3, word.translation.c_str(), -1, SQLITE_STATIC);
-                sqlite3_bind_text(stmt, 4, word.romaji.c_str(), -1, SQLITE_STATIC);
-                sqlite3_bind_text(stmt, 5, word.exampleSentence.c_str(), -1, SQLITE_STATIC);
+                sqlite3_bind_text(stmt, 3, word.kanji.empty() ? "N/A" : word.kanji.c_str(), -1, SQLITE_STATIC);  // Bind kanji with default value if empty
+                sqlite3_bind_text(stmt, 4, word.translation.c_str(), -1, SQLITE_STATIC);
+                sqlite3_bind_text(stmt, 5, word.romaji.c_str(), -1, SQLITE_STATIC);
+                sqlite3_bind_text(stmt, 6, word.exampleSentence.c_str(), -1, SQLITE_STATIC);
+
                 if( sqlite3_step(stmt) != SQLITE_DONE )
                 {
                     m_logger.log("Database: SQL error while adding word: " + std::string(sqlite3_errmsg(db)), tools::LogLevel::PROBLEM);
@@ -140,8 +165,10 @@ namespace tadaima
                 m_logger.log("Database: Added word with ID " + std::to_string(wordId) + " to lesson ID " + std::to_string(lessonId), tools::LogLevel::INFO);
                 return wordId;
             }
+            m_logger.log("Database: Failed to prepare statement for adding word.", tools::LogLevel::PROBLEM);
             return -1;
         }
+
 
         void ApplicationDatabase::addTag(int wordId, const std::string& tag)
         {
@@ -248,7 +275,7 @@ namespace tadaima
                 }
 
                 // Insert updated words
-                const char* insertWordSql = "INSERT INTO words (lesson_id, kana, translation, romaji, example_sentence) VALUES (?, ?, ?, ?, ?);";
+                const char* insertWordSql = "INSERT INTO words (lesson_id, kana, kanji, translation, romaji, example_sentence) VALUES (?, ?, ?, ?, ?, ?);";  // Updated to include kanji
                 sqlite3_stmt* insertWordStmt;
                 for( const auto& word : lesson.words )
                 {
@@ -256,9 +283,10 @@ namespace tadaima
                     {
                         sqlite3_bind_int(insertWordStmt, 1, lessonId);
                         sqlite3_bind_text(insertWordStmt, 2, word.kana.c_str(), -1, SQLITE_STATIC);
-                        sqlite3_bind_text(insertWordStmt, 3, word.translation.c_str(), -1, SQLITE_STATIC);
-                        sqlite3_bind_text(insertWordStmt, 4, word.romaji.c_str(), -1, SQLITE_STATIC);
-                        sqlite3_bind_text(insertWordStmt, 5, word.exampleSentence.c_str(), -1, SQLITE_STATIC);
+                        sqlite3_bind_text(insertWordStmt, 3, word.kanji.empty() ? "N/A" : word.kanji.c_str(), -1, SQLITE_STATIC);  // Bind kanji
+                        sqlite3_bind_text(insertWordStmt, 4, word.translation.c_str(), -1, SQLITE_STATIC);
+                        sqlite3_bind_text(insertWordStmt, 5, word.romaji.c_str(), -1, SQLITE_STATIC);
+                        sqlite3_bind_text(insertWordStmt, 6, word.exampleSentence.c_str(), -1, SQLITE_STATIC);
                         if( sqlite3_step(insertWordStmt) != SQLITE_DONE )
                         {
                             m_logger.log("Database: SQL error while inserting word: " + std::string(sqlite3_errmsg(db)), tools::LogLevel::PROBLEM);
@@ -306,21 +334,30 @@ namespace tadaima
 
         void ApplicationDatabase::updateWord(int wordId, const Word& updatedWord)
         {
-            const char* sql = "UPDATE words SET kana = ?, translation = ?, romaji = ?, example_sentence = ? WHERE id = ?;";
+            const char* sql = "UPDATE words SET kana = ?, kanji = ?, translation = ?, romaji = ?, example_sentence = ? WHERE id = ?;";  // Added kanji column
             sqlite3_stmt* stmt;
             if( sqlite3_prepare_v2(db, sql, -1, &stmt, 0) == SQLITE_OK )
             {
                 sqlite3_bind_text(stmt, 1, updatedWord.kana.c_str(), -1, SQLITE_STATIC);
-                sqlite3_bind_text(stmt, 2, updatedWord.translation.c_str(), -1, SQLITE_STATIC);
-                sqlite3_bind_text(stmt, 3, updatedWord.romaji.c_str(), -1, SQLITE_STATIC);
-                sqlite3_bind_text(stmt, 4, updatedWord.exampleSentence.c_str(), -1, SQLITE_STATIC);
-                sqlite3_bind_int(stmt, 5, wordId);
+                sqlite3_bind_text(stmt, 2, updatedWord.kanji.empty() ? "N/A" : updatedWord.kanji.c_str(), -1, SQLITE_STATIC);  // Bind kanji with default value if empty
+                sqlite3_bind_text(stmt, 3, updatedWord.translation.c_str(), -1, SQLITE_STATIC);
+                sqlite3_bind_text(stmt, 4, updatedWord.romaji.c_str(), -1, SQLITE_STATIC);
+                sqlite3_bind_text(stmt, 5, updatedWord.exampleSentence.c_str(), -1, SQLITE_STATIC);
+                sqlite3_bind_int(stmt, 6, wordId);
+
                 if( sqlite3_step(stmt) != SQLITE_DONE )
                 {
                     m_logger.log("Database: SQL error while updating word: " + std::string(sqlite3_errmsg(db)), tools::LogLevel::PROBLEM);
                 }
+                else
+                {
+                    m_logger.log("Database: Updated word ID " + std::to_string(wordId), tools::LogLevel::INFO);
+                }
                 sqlite3_finalize(stmt);
-                m_logger.log("Database: Updated word ID " + std::to_string(wordId), tools::LogLevel::INFO);
+            }
+            else
+            {
+                m_logger.log("Database: Failed to prepare statement for updating word.", tools::LogLevel::PROBLEM);
             }
         }
 
@@ -376,7 +413,7 @@ namespace tadaima
         std::vector<Word> ApplicationDatabase::getWordsInLesson(int lessonId) const
         {
             std::vector<Word> words;
-            const char* sql = "SELECT id, kana, translation, romaji, example_sentence FROM words WHERE lesson_id = ?;";
+            const char* sql = "SELECT id, kana, kanji, translation, romaji, example_sentence FROM words WHERE lesson_id = ?;"; // Added kanji to the SELECT statement
             sqlite3_stmt* stmt;
             if( sqlite3_prepare_v2(db, sql, -1, &stmt, 0) == SQLITE_OK )
             {
@@ -386,9 +423,12 @@ namespace tadaima
                     Word word;
                     word.id = sqlite3_column_int(stmt, 0);
                     word.kana = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
-                    word.translation = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2));
-                    word.romaji = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 3));
-                    word.exampleSentence = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 4));
+                    // Check if the kanji column is NULL
+                    const char* kanjiText = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2));
+                    word.kanji = kanjiText ? kanjiText : "N/A";  // Use "N/A" if kanji is NULL
+                    word.translation = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 3));
+                    word.romaji = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 4));
+                    word.exampleSentence = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 5));
 
                     // Get tags for this word
                     const char* tagSql = "SELECT tag FROM tags WHERE word_id = ?;";
@@ -408,6 +448,7 @@ namespace tadaima
             }
             return words;
         }
+
 
         std::vector<Lesson> ApplicationDatabase::getAllLessons() const
         {

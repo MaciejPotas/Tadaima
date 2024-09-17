@@ -13,6 +13,9 @@
 #include "tools/SystemTools.h"
 #include "Lessons/Lesson.h"
 #include <filesystem>
+#include <thread>
+#include <future>
+#include <chrono>
 
 #ifdef _WIN32
 #define popen _popen
@@ -42,10 +45,10 @@ namespace tadaima
          * @param englishWord The English word to be translated.
          * @return A Word object containing the translation and related information.
          */
-        Word getTranslation(const std::string& englishWord)
+        Word getTranslation(const std::string& wordToTranslate)
         {
             // Translate the word and store it in the cache
-            std::string xmlStr = translator.translate(englishWord);
+            std::string xmlStr = translator.translate(wordToTranslate);
             pugi::xml_document doc;
             pugi::xml_parse_result result = doc.load_string(xmlStr.c_str());
             if( !result )
@@ -64,7 +67,8 @@ namespace tadaima
             word.translation = root.child("trs").child_value();
             word.romaji = root.child("romaji").child_value();
             word.kana = root.child("hiragana").child_value();
-            word.exampleSentence = ""; // This example doesn't provide sentences
+            word.kanji = root.child("kanji").child_value();
+            word.exampleSentence = root.child("example").child_value();
             word.tags = {}; // This example doesn't provide tags
 
             return word;
@@ -132,25 +136,38 @@ namespace tadaima
              * @param cmd The command to be executed.
              * @return The output of the command execution.
              */
-            std::string exec(const char* cmd)
+            std::string exec(const char* cmd, int timeoutSeconds = 10)
             {
-                std::array<char, 128> buffer;
-                std::string result;
-                std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmd, "r"), pclose);
-                if( !pipe )
+                // Launch the command in a separate thread using std::async
+                auto future = std::async(std::launch::async, [cmd]()
+                    {
+                        std::array<char, 128> buffer;
+                        std::string result;
+                        std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmd, "r"), pclose);
+                        if( !pipe )
+                        {
+                            throw std::runtime_error("popen() failed!");
+                        }
+                        while( fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr )
+                        {
+                            result += buffer.data();
+                        }
+                        int returnCode = pclose(pipe.release());
+                        if( returnCode != 0 )
+                        {
+                            throw std::runtime_error("Command execution failed with code " + std::to_string(returnCode));
+                        }
+                        return result;
+                    });
+
+                // Wait for the command to complete or for the timeout to occur
+                if( future.wait_for(std::chrono::seconds(timeoutSeconds)) == std::future_status::timeout )
                 {
-                    throw std::runtime_error("popen() failed!");
+                    throw std::runtime_error("Command execution timed out!");
                 }
-                while( fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr )
-                {
-                    result += buffer.data();
-                }
-                int returnCode = pclose(pipe.release());
-                if( returnCode != 0 )
-                {
-                    throw std::runtime_error("Command execution failed with code " + std::to_string(returnCode));
-                }
-                return result;
+
+                // Get the result of the command execution
+                return future.get();
             }
 
             std::string m_scriptPath; ///< Path to the Python script used for translation.
