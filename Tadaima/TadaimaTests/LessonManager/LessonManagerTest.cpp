@@ -16,26 +16,16 @@ protected:
 
 TEST_F(LessonManagerTest, AddLesson)
 {
-    Word word1;
-    word1.kana = "kana1";
-    word1.translation = "translation1";
-    word1.romaji = "romaji1";
-    word1.exampleSentence = "example1";
-    word1.tags = { "tag1" };
-
-    Word word2;
-    word2.kana = "kana2";
-    word2.translation = "translation2";
-    word2.romaji = "romaji2";
-    word2.exampleSentence = "example2";
-    word2.tags = { "tag2" };
+    Word word1{ 1, "kana1", "kanji1", "translation1", "romaji1", "example1", {"tag1"} };
+    Word word2{ 2, "kana2", "kanji2", "translation2", "romaji2", "example2", {"tag2"} };
 
     Lesson lesson;
+    lesson.groupName = "Group Name";
     lesson.mainName = "Main Name";
     lesson.subName = "Sub Name";
     lesson.words = { word1, word2 };
 
-    EXPECT_CALL(mockDatabase, addLesson("Main Name", "Sub Name")).WillOnce(Return(1));
+    EXPECT_CALL(mockDatabase, addLesson("Main Name", "Sub Name", "Group Name")).WillOnce(Return(1));
     EXPECT_CALL(mockDatabase, addWord(1, word1)).WillOnce(Return(2));
     EXPECT_CALL(mockDatabase, addTag(2, "tag1"));
     EXPECT_CALL(mockDatabase, addWord(1, word2)).WillOnce(Return(3));
@@ -48,36 +38,19 @@ TEST_F(LessonManagerTest, AddLesson)
 
 TEST_F(LessonManagerTest, AddLessons)
 {
-    Word word1;
-    word1.kana = "kana1";
-    word1.translation = "translation1";
-    word1.romaji = "romaji1";
-    word1.exampleSentence = "example1";
-    word1.tags = { "tag1" };
+    Word word1{ 1, "kana1", "kanji1", "translation1", "romaji1", "example1", {"tag1"} };
+    Word word2{ 2, "kana2", "kanji2", "translation2", "romaji2", "example2", {"tag2"} };
 
-    Word word2;
-    word2.kana = "kana2";
-    word2.translation = "translation2";
-    word2.romaji = "romaji2";
-    word2.exampleSentence = "example2";
-    word2.tags = { "tag2" };
-
-    Lesson lesson1;
-    lesson1.mainName = "Main Name 1";
-    lesson1.subName = "Sub Name 1";
-    lesson1.words = { word1 };
-
-    Lesson lesson2;
-    lesson2.mainName = "Main Name 2";
-    lesson2.subName = "Sub Name 2";
-    lesson2.words = { word2 };
+    Lesson lesson1{ 1, "Group 1", "Main Name 1", "Sub Name 1", {word1} };
+    Lesson lesson2{ 2, "Group 2", "Main Name 2", "Sub Name 2", {word2} };
 
     std::vector<Lesson> lessons = { lesson1, lesson2 };
 
-    EXPECT_CALL(mockDatabase, addLesson("Main Name 1", "Sub Name 1")).WillOnce(Return(1));
+    EXPECT_CALL(mockDatabase, addLesson("Main Name 1", "Sub Name 1", "Group 1")).WillOnce(Return(1));
     EXPECT_CALL(mockDatabase, addWord(1, word1)).WillOnce(Return(2));
     EXPECT_CALL(mockDatabase, addTag(2, "tag1"));
-    EXPECT_CALL(mockDatabase, addLesson("Main Name 2", "Sub Name 2")).WillOnce(Return(3));
+
+    EXPECT_CALL(mockDatabase, addLesson("Main Name 2", "Sub Name 2", "Group 2")).WillOnce(Return(3));
     EXPECT_CALL(mockDatabase, addWord(3, word2)).WillOnce(Return(4));
     EXPECT_CALL(mockDatabase, addTag(4, "tag2"));
 
@@ -86,13 +59,13 @@ TEST_F(LessonManagerTest, AddLessons)
 
 TEST_F(LessonManagerTest, RenameLessons)
 {
-    Lesson lesson1{ 1, "Main Name 1", "Sub Name 1", {} };
-    Lesson lesson2{ 2, "Main Name 2", "Sub Name 2", {} };
+    Lesson lesson1{ 1, "Group 1", "Main Name 1", "Sub Name 1", {} };
+    Lesson lesson2{ 2, "Group 2", "Main Name 2", "Sub Name 2", {} };
 
     std::vector<Lesson> lessons = { lesson1, lesson2 };
 
-    EXPECT_CALL(mockDatabase, updateLesson(1, "Main Name 1", "Sub Name 1"));
-    EXPECT_CALL(mockDatabase, updateLesson(2, "Main Name 2", "Sub Name 2"));
+    EXPECT_CALL(mockDatabase, updateLesson(1, "Group 1", "Main Name 1", "Sub Name 1"));
+    EXPECT_CALL(mockDatabase, updateLesson(2, "Group 2", "Main Name 2", "Sub Name 2"));
 
     lessonManager.renameLessons(lessons);
 }
@@ -100,8 +73,8 @@ TEST_F(LessonManagerTest, RenameLessons)
 TEST_F(LessonManagerTest, GetAllLessons)
 {
     std::vector<Lesson> lessons = {
-        {1, "Main Name 1", "Sub Name 1", {}},
-        {2, "Main Name 2", "Sub Name 2", {}}
+        {1, "Group 1", "Main Name 1", "Sub Name 1", {}},
+        {2, "Group 2", "Main Name 2", "Sub Name 2", {}}
     };
 
     EXPECT_CALL(mockDatabase, getAllLessons()).WillOnce(Return(lessons));
@@ -113,12 +86,7 @@ TEST_F(LessonManagerTest, GetAllLessons)
 
 TEST_F(LessonManagerTest, AddWordToLesson)
 {
-    Word word;
-    word.kana = "kana";
-    word.translation = "translation";
-    word.romaji = "romaji";
-    word.exampleSentence = "example";
-    word.tags = { "tag1", "tag2" };
+    Word word{ 0, "kana", "kanji", "translation", "romaji", "example", {"tag1", "tag2"} };
 
     EXPECT_CALL(mockDatabase, addWord(1, word)).WillOnce(Return(2));
     EXPECT_CALL(mockDatabase, addTag(2, "tag1"));
@@ -141,8 +109,8 @@ TEST_F(LessonManagerTest, GetLessonNames)
 TEST_F(LessonManagerTest, GetWordsInLesson)
 {
     std::vector<Word> words = {
-        {1, "kana1", "translation1", "romaji1", "example1", {"tag1"}},
-        {2, "kana2", "translation2", "romaji2", "example2", {"tag2"}}
+        {1, "kana1", "kanji1", "translation1", "romaji1", "example1", {"tag1"}},
+        {2, "kana2", "kanji2", "translation2", "romaji2", "example2", {"tag2"}}
     };
 
     EXPECT_CALL(mockDatabase, getWordsInLesson(1)).WillOnce(Return(words));
@@ -154,10 +122,10 @@ TEST_F(LessonManagerTest, GetWordsInLesson)
     EXPECT_EQ(result[1].translation, "translation2");
 }
 
-TEST_F(LessonManagerTest, EditALesson)
+TEST_F(LessonManagerTest, EditLessons)
 {
-    Lesson lesson1{ 1, "Main Name 1", "Sub Name 1", {} };
-    Lesson lesson2{ 2, "Main Name 2", "Sub Name 2", {} };
+    Lesson lesson1{ 1, "Group 1", "Main Name 1", "Sub Name 1", {} };
+    Lesson lesson2{ 2, "Group 2", "Main Name 2", "Sub Name 2", {} };
 
     std::vector<Lesson> lessons = { lesson1, lesson2 };
 
@@ -166,4 +134,3 @@ TEST_F(LessonManagerTest, EditALesson)
 
     lessonManager.editLessons(lessons);
 }
-

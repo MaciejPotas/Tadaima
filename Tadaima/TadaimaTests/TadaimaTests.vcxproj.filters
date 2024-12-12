@@ -19,6 +19,9 @@
     <Filter Include="Tools">
       <UniqueIdentifier>{f0a71bf0-c618-43e8-a30c-269739e32ad9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Mocks">
+      <UniqueIdentifier>{edb0045b-05f0-411d-95a1-94d764d2b69f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\lessons\LessonManager.cpp">
@@ -29,9 +32,6 @@
     </ClCompile>
     <ClCompile Include="LessonManager\LessonTests.cpp">
       <Filter>LessonManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\EventBridgeTest.cpp">
-      <Filter>Application</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)src\gtest\gtest-all.cc" />
     <ClCompile Include="$(MSBuildThisFileDirectory)src\gmock\gmock-all.cc" />
@@ -61,14 +61,14 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Application\MockGui.h">
-      <Filter>Application</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\MockApplication.h">
-      <Filter>Application</Filter>
-    </ClInclude>
     <ClInclude Include="LessonManager\MockDatabase.h">
       <Filter>LessonManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Mocks\MockGui.h">
+      <Filter>Mocks</Filter>
+    </ClInclude>
+    <ClInclude Include="Mocks\MockApplication.h">
+      <Filter>Mocks</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

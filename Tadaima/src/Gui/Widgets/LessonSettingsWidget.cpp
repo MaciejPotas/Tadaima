@@ -20,12 +20,13 @@ namespace tadaima
                 m_logger.log("Initializing LessonSettingsWidget", tools::LogLevel::INFO);
                 std::memset(m_mainNameBuffer, 0, sizeof(m_mainNameBuffer));
                 std::memset(m_subNameBuffer, 0, sizeof(m_subNameBuffer));
+                std::memset(m_groupNameBuffer, 0, sizeof(m_groupNameBuffer)); // Added groupName buffer initialization
                 std::memset(m_translationBuffer, 0, sizeof(m_translationBuffer));
                 std::memset(m_romajiBuffer, 0, sizeof(m_romajiBuffer));
                 std::memset(m_kanaBuffer, 0, sizeof(m_kanaBuffer));
                 std::memset(m_exampleSentenceBuffer, 0, sizeof(m_exampleSentenceBuffer));
                 std::memset(m_tagBuffer, 0, sizeof(m_tagBuffer));
-                std::memset(m_kanjiBuffer, 0, sizeof(m_kanjiBuffer)); 
+                std::memset(m_kanjiBuffer, 0, sizeof(m_kanjiBuffer));
             }
 
             void LessonSettingsWidget::draw(bool* p_open)
@@ -35,7 +36,7 @@ namespace tadaima
                     ImGui::OpenPopup(m_isEditing ? "Edit Lesson Modal" : "Add New Lesson Modal");
                 }
 
-                ImGui::SetNextWindowSize(ImVec2(700, 560), ImGuiCond_Always);  // Adjust size as needed
+                ImGui::SetNextWindowSize(ImVec2(700, 600), ImGuiCond_Always);  // Adjust size as needed
                 ImGui::PushStyleColor(ImGuiCol_PopupBg, ImVec4(0.98f, 0.92f, 0.84f, 1.0f)); // Light peach background
                 ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(10, 10)); // Add padding
 
@@ -47,6 +48,11 @@ namespace tadaima
                     ImGui::Separator();
                     ImGui::Text("Use this form to add or edit lessons. Fill out the fields below and manage the words in the lesson.");
                     ImGui::Spacing();
+
+                    // Input fields for lesson group name
+                    ImGui::InputText("##GroupName", m_groupNameBuffer, sizeof(m_groupNameBuffer));
+                    ImGui::SameLine();
+                    ImGui::Text("Group Name");
 
                     // Input fields for lesson name
                     ImGui::InputText("##MainName", m_mainNameBuffer, sizeof(m_mainNameBuffer));
@@ -89,8 +95,8 @@ namespace tadaima
                             m_logger.log(" ->: " + translatedWord.translation);
                             m_logger.log(" ->: " + translatedWord.romaji);
                             m_logger.log(" ->: " + translatedWord.kana);
-                            m_logger.log(" ->: " + translatedWord.kanji); 
-                            m_logger.log(" ->: " + translatedWord.exampleSentence); 
+                            m_logger.log(" ->: " + translatedWord.kanji);
+                            m_logger.log(" ->: " + translatedWord.exampleSentence);
                         }
                         catch( const std::exception& e )
                         {
@@ -155,6 +161,7 @@ namespace tadaima
                                 newWord.tags.push_back(tag);
                             }
 
+                            m_newLesson.groupName = std::string(m_groupNameBuffer);
                             m_newLesson.mainName = std::string(m_mainNameBuffer);
                             m_newLesson.subName = std::string(m_subNameBuffer);
 
@@ -271,9 +278,9 @@ namespace tadaima
                     if( ImGui::Button("Save Lesson", ImVec2(120, 0)) )
                     {
                         m_logger.log("Saving lesson", tools::LogLevel::INFO);
-                        if( strlen(m_mainNameBuffer) > 0 && strlen(m_subNameBuffer) > 0 && !m_newLesson.words.empty() )
+                        if( strlen(m_groupNameBuffer) > 0 && strlen(m_mainNameBuffer) > 0 && strlen(m_subNameBuffer) > 0 && !m_newLesson.words.empty() )
                         {
-                            // Set the lesson's main name and sub name from the buffers
+                            m_lesson->groupName = std::string(m_groupNameBuffer);
                             m_lesson->mainName = std::string(m_mainNameBuffer);
                             m_lesson->subName = std::string(m_subNameBuffer);
                             m_lesson->words = m_newLesson.words;
@@ -288,6 +295,7 @@ namespace tadaima
                     {
                         m_logger.log("Canceling lesson settings", tools::LogLevel::INFO);
                         // Clear the buffers and reset the new lesson
+                        std::memset(m_groupNameBuffer, 0, sizeof(m_groupNameBuffer));
                         std::memset(m_mainNameBuffer, 0, sizeof(m_mainNameBuffer));
                         std::memset(m_subNameBuffer, 0, sizeof(m_subNameBuffer));
                         std::memset(m_kanaBuffer, 0, sizeof(m_kanaBuffer));
@@ -326,6 +334,7 @@ namespace tadaima
                 if( !ImGui::IsPopupOpen("Add New Lesson Modal") && !ImGui::IsPopupOpen("Edit Lesson Modal") )
                 {
                     m_logger.log("Closing lesson settings widget", tools::LogLevel::DEBUG);
+                    std::memset(m_groupNameBuffer, 0, sizeof(m_groupNameBuffer));
                     std::memset(m_mainNameBuffer, 0, sizeof(m_mainNameBuffer));
                     std::memset(m_subNameBuffer, 0, sizeof(m_subNameBuffer));
                     std::memset(m_kanaBuffer, 0, sizeof(m_kanaBuffer));
@@ -344,6 +353,7 @@ namespace tadaima
                 m_logger.log("Setting lesson for editing", tools::LogLevel::INFO);
                 m_lesson = &lesson;
                 // Populate buffers with the current lesson data for editing
+                std::strncpy(m_groupNameBuffer, lesson.groupName.c_str(), sizeof(m_groupNameBuffer));
                 std::strncpy(m_mainNameBuffer, lesson.mainName.c_str(), sizeof(m_mainNameBuffer));
                 std::strncpy(m_subNameBuffer, lesson.subName.c_str(), sizeof(m_subNameBuffer));
                 m_newLesson = lesson; // Copy the lesson to the newLesson object for editing

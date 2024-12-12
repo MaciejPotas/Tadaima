@@ -13,8 +13,8 @@ namespace tadaima
     {
         namespace widget
         {
-            VocabularyQuizWidget::VocabularyQuizWidget(quiz::WordType base, quiz::WordType desired, const std::vector<Lesson>& lessons, tools::Logger& logger)
-                : m_baseWord(base), m_inputWord(desired), m_lessons(lessons), m_logger(logger), m_correctAnswerMessage("You're answer is ...")
+            VocabularyQuizWidget::VocabularyQuizWidget(quiz::WordType base, quiz::WordType desired, uint8_t numberOfTries, const std::vector<Lesson>& lessons, tools::Logger& logger)
+                : m_baseWord(base), m_inputWord(desired), m_lessons(lessons), m_logger(logger), m_correctAnswerMessage("You're answer is ..."), m_numberOfTries(numberOfTries)
             {
                 try
                 {
@@ -37,7 +37,7 @@ namespace tadaima
                         throw std::runtime_error("No valid flashcards could be created.");
                     }
 
-                    m_quiz = std::make_unique<quiz::VocabularyQuiz>(flashcards, 2, true);
+                    m_quiz = std::make_unique<quiz::VocabularyQuiz>(flashcards, m_numberOfTries, true);
                 }
                 catch( const std::exception& e )
                 {
@@ -141,7 +141,7 @@ namespace tadaima
                 try
                 {
                     int totalWords = m_quiz->getNumberOflashcards();
-                    int maxProgress = totalWords * 2; // Maximum progress is number of words * 2
+                    int maxProgress = totalWords * m_numberOfTries; // Maximum progress is number of words * 2
 
                     // Calculate net progress based on correct and incorrect attempts
                     int correctAttempts = 0;
@@ -442,6 +442,16 @@ namespace tadaima
                             ImGui::Text("Quiz Complete!");
                             ImGui::Separator();
                             ImGui::Text("Quiz Statistics:");
+                            if( ImGui::Button("Create a lesson from bad attempts!") )
+                            {
+
+
+
+
+
+
+                            }
+
                             const auto& statistics = m_quiz->getStatistics();
                             for( const auto& entry : statistics )
                             {

@@ -28,6 +28,7 @@ namespace tadaima
                 Username,               /**< Key for username. */
                 DictionaryPath,         /**< Key for dictionary path. */
                 QuizzesScriptsPath,     /**< Key for scripted quizes path. */
+                TriesForQuiz,
                 AskedWordType,          /**< Key for input word. */
                 AnswerWordType,         /**< Key for translated word. */
                 ShowLogs                /**< Key for showing console logs */

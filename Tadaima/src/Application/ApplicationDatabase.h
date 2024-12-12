@@ -1,6 +1,6 @@
 /**
  * @file ApplicationDatabase.h
- * @brief Defines the ApplicationDatabase class, providing functionality to interact with a SQLite database for managing lessons and words.
+ * @brief Defines the ApplicationDatabase class, providing functionality to interact with a SQLite database for managing lessons, words, and application settings.
  */
 
 #pragma once
@@ -19,7 +19,7 @@ namespace tadaima
     {
         /**
          * @brief The ApplicationDatabase class provides functionality to interact with a SQLite database
-         * for managing lessons and words.
+         * for managing lessons, words, and application settings.
          */
         class ApplicationDatabase : public Database
         {
@@ -27,17 +27,17 @@ namespace tadaima
             /**
              * @brief Constructs an ApplicationDatabase object.
              * @param dbPath The file path to the SQLite database.
-             * @param logger Reference to a Logger instance for logging.
+             * @param logger Reference to a Logger instance for logging activities.
              */
             ApplicationDatabase(const std::string& dbPath, tools::Logger& logger);
 
             /**
-             * @brief Destroys the ApplicationDatabase object.
+             * @brief Destroys the ApplicationDatabase object and closes the database connection.
              */
             ~ApplicationDatabase();
 
             /**
-             * @brief Initializes the SQLite database.
+             * @brief Initializes the SQLite database by creating necessary tables and ensuring schema integrity.
              * @return True if initialization is successful, false otherwise.
              */
             bool initDatabase();
@@ -46,44 +46,46 @@ namespace tadaima
              * @brief Adds a new lesson to the database.
              * @param mainName The main name of the lesson.
              * @param subName The sub name of the lesson.
-             * @return The ID of the added lesson, or -1 on failure.
+             * @param groupName The group name of the lesson.
+             * @return The ID of the added lesson, or -1 if the operation fails.
              */
-            int addLesson(const std::string& mainName, const std::string& subName) override;
+            int addLesson(const std::string& mainName, const std::string& subName, const std::string& groupName) override;
 
             /**
              * @brief Edits an existing lesson in the database.
-             * @param lesson The lesson to edit.
+             * @param lesson The lesson object containing updated information.
              * @return True if the lesson was successfully edited, false otherwise.
              */
             bool editLesson(const Lesson& lesson) override;
 
             /**
-             * @brief Adds a word to a lesson in the database.
-             * @param lessonId The ID of the lesson.
-             * @param word The word to add to the lesson.
-             * @return The ID of the added word, or -1 on failure.
+             * @brief Adds a new word to a specific lesson in the database.
+             * @param lessonId The ID of the lesson to which the word will be added.
+             * @param word The word object to add.
+             * @return The ID of the added word, or -1 if the operation fails.
              */
             int addWord(int lessonId, const Word& word) override;
 
             /**
-             * @brief Adds a tag to a word in the database.
-             * @param wordId The ID of the word.
-             * @param tag The tag to add to the word.
+             * @brief Adds a tag to a specific word in the database.
+             * @param wordId The ID of the word to which the tag will be added.
+             * @param tag The tag string to add.
              */
             void addTag(int wordId, const std::string& tag) override;
 
             /**
-             * @brief Updates an existing lesson in the database.
+             * @brief Updates an existing lesson's information in the database.
              * @param lessonId The ID of the lesson to update.
-             * @param newMainName The new main name of the lesson.
-             * @param newSubName The new sub name of the lesson.
+             * @param newGroupName The new group name for the lesson.
+             * @param newMainName The new main name for the lesson.
+             * @param newSubName The new sub name for the lesson.
              */
-            void updateLesson(int lessonId, const std::string& newMainName, const std::string& newSubName) override;
+            void updateLesson(int lessonId, const std::string& newGroupName, const std::string& newMainName, const std::string& newSubName) override;
 
             /**
-             * @brief Updates an existing word in the database.
+             * @brief Updates an existing word's details in the database.
              * @param wordId The ID of the word to update.
-             * @param updatedWord The updated word data.
+             * @param updatedWord The updated word object containing new data.
              */
             void updateWord(int wordId, const Word& updatedWord) override;
 
@@ -100,39 +102,39 @@ namespace tadaima
             void deleteWord(int wordId) override;
 
             /**
-             * @brief Retrieves the names of all lessons from the database.
-             * @return A vector containing the names of all lessons.
+             * @brief Retrieves the names of all lessons in the database.
+             * @return A vector of strings containing the names of all lessons.
              */
             std::vector<std::string> getLessonNames() const override;
 
             /**
-             * @brief Retrieves all words in a lesson from the database.
+             * @brief Retrieves all words in a specific lesson.
              * @param lessonId The ID of the lesson.
-             * @return A vector containing all words in the specified lesson.
+             * @return A vector of Word objects representing all words in the specified lesson.
              */
             std::vector<Word> getWordsInLesson(int lessonId) const override;
 
             /**
              * @brief Retrieves all lessons from the database.
-             * @return A vector containing all lessons.
+             * @return A vector of Lesson objects representing all lessons in the database.
              */
             std::vector<Lesson> getAllLessons() const override;
 
             /**
              * @brief Saves the application settings to the database.
-             * @param settings The application settings to save.
+             * @param settings The ApplicationSettings object containing settings to save.
              */
             void saveSettings(const ApplicationSettings& settings);
 
             /**
              * @brief Loads the application settings from the database.
-             * @return The loaded application settings.
+             * @return An ApplicationSettings object populated with settings from the database.
              */
             ApplicationSettings loadSettings();
 
         private:
-            sqlite3* db; /**< Pointer to the SQLite database. */
-            tools::Logger& m_logger; /**< Reference to the Logger instance for logging. */
+            sqlite3* db; /**< Pointer to the SQLite database connection. */
+            tools::Logger& m_logger; /**< Reference to the Logger instance for logging operations and errors. */
         };
     }
 }

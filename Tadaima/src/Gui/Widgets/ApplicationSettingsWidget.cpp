@@ -66,6 +66,7 @@ namespace tadaima
                     package.set(SettingsPackageKey::AskedWordType, static_cast<quiz::WordType>(m_inputOption));
                     package.set(SettingsPackageKey::AnswerWordType, static_cast<quiz::WordType>(m_translationOption));
                     package.set(SettingsPackageKey::ShowLogs, m_showlogs);
+                    package.set(SettingsPackageKey::TriesForQuiz, std::to_string(m_numberOfTries));
 
                     emitEvent(WidgetEvent(*this, ApplicationSettingsWidgetEvent::OnSettingsChanged, &package));
                 }
@@ -91,6 +92,7 @@ namespace tadaima
                         const std::string userName = package->get<std::string>(SettingsPackageKey::Username);
                         const std::string dictionaryPath = package->get<std::string>(SettingsPackageKey::DictionaryPath);
                         const std::string quizzesScripts = package->get<std::string>(SettingsPackageKey::QuizzesScriptsPath);
+                        const std::string numberOfTries = package->get<std::string>(SettingsPackageKey::TriesForQuiz);
 
                         memset(m_username, 0, sizeof(m_username));
                         memset(m_dictionaryPath, 0, sizeof(m_dictionaryPath));
@@ -101,6 +103,7 @@ namespace tadaima
 
                         m_inputOption = package->get<quiz::WordType>(SettingsPackageKey::AskedWordType);
                         m_translationOption = package->get<quiz::WordType>(SettingsPackageKey::AnswerWordType);
+                        m_numberOfTries = std::stoi(numberOfTries);
                         m_showlogs = package->get<bool>(SettingsPackageKey::ShowLogs);
 
                         m_logger.log("ApplicationSettingsWidget: Initialized.", tools::LogLevel::INFO);
@@ -121,7 +124,7 @@ namespace tadaima
                 if( *p_open )
                 {
                     Open();
-                    ImGui::SetNextWindowSize(ImVec2(550, 280), ImGuiCond_Always);  // Adjust size as needed
+                    ImGui::SetNextWindowSize(ImVec2(550, 330), ImGuiCond_Always);  // Adjust size as needed
                     ImGui::PushStyleColor(ImGuiCol_PopupBg, ImVec4(0.98f, 0.92f, 0.84f, 1.0f)); // Light peach background
                     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(10, 10)); // Add padding
 
@@ -185,6 +188,9 @@ namespace tadaima
                                 ImGui::Text("Word option you will be asked for:");
                                 ImGui::Combo("##translation_type", &m_translationOption, translationOptions, IM_ARRAYSIZE(translationOptions));
                                 ShowFieldHelp("Choose how you want the words to be translated during the quiz.");
+
+                                ImGui::Text("Set the number of tries allowed for each word during the quiz.");
+                                ImGui::SliderInt(" ", &m_numberOfTries, 1, 10, "%d");
 
                                 ImGui::Spacing();
                                 ImGui::Separator();

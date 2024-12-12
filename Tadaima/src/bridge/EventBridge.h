@@ -62,7 +62,7 @@ namespace tadaima
          */
         void handleEvent(const gui::widget::WidgetEvent* data);
 
-    private:
+    protected:
 
         gui::quiz::WordType stringToWordType(const std::string& str);
 

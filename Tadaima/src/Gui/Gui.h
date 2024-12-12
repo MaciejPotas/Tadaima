@@ -44,6 +44,8 @@ namespace tadaima
              */
             Gui(tools::Logger& logger, const config& r_config);
 
+            virtual ~Gui() = default;
+
             /**
              * @brief Initializes the GUI thread.
              */
@@ -55,7 +57,7 @@ namespace tadaima
              * @param widget The widget to listen to.
              * @param listener The event listener function.
              */
-            void addListener(widget::Type widget, EventListener listener);
+            virtual void addListener(widget::Type widget, EventListener listener);
 
             /**
              * @brief Initializes a widget with provided data.
@@ -63,7 +65,7 @@ namespace tadaima
              * @param widget The widget to initialize.
              * @param data The data package for initialization.
              */
-            void initializeWidget(const tools::DataPackage& data);
+            virtual void initializeWidget(const tools::DataPackage& data);
 
             /**
              * @brief Runs the GUI thread.

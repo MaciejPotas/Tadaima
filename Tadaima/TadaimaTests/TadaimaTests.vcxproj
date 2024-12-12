@@ -46,7 +46,7 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>./../src;./../../Libraries/Tools;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./../src;./../src/gui;./../../;./../../Libraries/Tools;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -68,7 +68,7 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <AdditionalIncludeDirectories>./../src;./../../Libraries/Tools;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./../src;./../src/gui;./../../;./../../Libraries/Tools;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -82,18 +82,14 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Application\MockApplication.h" />
-    <ClInclude Include="Application\MockGui.h" />
+    <ClInclude Include="Mocks\MockApplication.h" />
+    <ClInclude Include="Mocks\MockGui.h" />
     <ClInclude Include="LessonManager\MockDatabase.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\gui\quiz\MultipleChoiceQuiz.cpp" />
     <ClCompile Include="..\src\gui\quiz\VocabularyQuiz.cpp" />
     <ClCompile Include="..\src\lessons\LessonManager.cpp" />
-    <ClCompile Include="Application\EventBridgeTest.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='UnitTest|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='UnitTest|x64'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="Gui\LessonPackageTests.cpp" />
     <ClCompile Include="Gui\SettingsDataPackageTest.cpp" />
     <ClCompile Include="LessonManager\LessonManagerTest.cpp" />

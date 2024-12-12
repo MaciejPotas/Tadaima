@@ -36,6 +36,7 @@ namespace tadaima
         package.set(gui::widget::SettingsPackageKey::AskedWordType, stringToWordType(settings.inputWord));
         package.set(gui::widget::SettingsPackageKey::AnswerWordType, stringToWordType(settings.translatedWord));
         package.set(gui::widget::SettingsPackageKey::ShowLogs, settings.showLogs);
+        package.set(gui::widget::SettingsPackageKey::TriesForQuiz, settings.maxTriesForQuiz);
 
         m_gui->initializeWidget(package);
     }
@@ -143,6 +144,7 @@ namespace tadaima
             settings.inputWord = wordTypeToString(package->get<gui::quiz::WordType>(gui::widget::SettingsPackageKey::AskedWordType));
             settings.translatedWord = wordTypeToString(package->get<gui::quiz::WordType>(gui::widget::SettingsPackageKey::AnswerWordType));
             settings.showLogs = package->get<bool>(gui::widget::SettingsPackageKey::ShowLogs);
+            settings.maxTriesForQuiz = package->get<std::string>(gui::widget::SettingsPackageKey::TriesForQuiz);
 
             m_app->setEvent(application::ApplicationEvent::OnSettingsChanged, settings);
         }

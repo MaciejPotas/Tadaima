@@ -52,6 +52,7 @@ namespace tadaima
                 bool m_isEditing = false; ///< Flag indicating whether the widget is in edit mode.
                 char m_mainNameBuffer[50] = ""; ///< Buffer for the lesson main name.
                 char m_subNameBuffer[50] = "";  ///< Buffer for the lesson sub name.
+                char m_groupNameBuffer[50] = "";
                 char m_kanaBuffer[50] = ""; ///< Buffer for word kana.
                 char m_kanjiBuffer[50] = ""; ///< Buffer for Kanji.
                 char m_translationBuffer[50] = ""; ///< Buffer for word translation.

@@ -5,9 +5,9 @@ namespace tadaima
 {
     LessonManager::LessonManager(Database& db) : m_database(db) {}
 
-    int LessonManager::addLesson(const std::string& mainName, const std::string& subName)
+    int LessonManager::addLesson(const std::string& mainName, const std::string& subName, const std::string& groupName)
     {
-        return m_database.addLesson(mainName, subName);
+        return m_database.addLesson(mainName, subName, groupName);
     }
 
     int LessonManager::editLesson(const Lesson& lesson)
@@ -36,7 +36,7 @@ namespace tadaima
     int LessonManager::addLesson(const Lesson& lesson)
     {
         // Add the lesson to the database
-        int lessonId = m_database.addLesson(lesson.mainName, lesson.subName);
+        int lessonId = m_database.addLesson(lesson.mainName, lesson.subName, lesson.groupName);
 
         // Add all words associated with the lesson
         for( const auto& word : lesson.words )
@@ -61,7 +61,7 @@ namespace tadaima
         // Iterate over each lesson and add it to the database
         for( const auto& lesson : lessons )
         {
-            renameLesson(lesson.id, lesson.mainName, lesson.subName);
+            renameLesson(lesson.id, lesson.groupName, lesson.mainName, lesson.subName);
         }
     }
 
@@ -74,9 +74,9 @@ namespace tadaima
         }
     }
 
-    void LessonManager::renameLesson(int lessonId, const std::string& newMainName, const std::string& newSubName)
+    void LessonManager::renameLesson(int lessonId, const std::string& newGroupName, const std::string& newMainName, const std::string& newSubName)
     {
-        m_database.updateLesson(lessonId, newMainName, newSubName);
+        m_database.updateLesson(lessonId, newGroupName, newMainName, newSubName);
     }
 
     std::vector<std::string> LessonManager::getLessonNames() const

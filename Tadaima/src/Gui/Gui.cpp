@@ -29,7 +29,7 @@ namespace tadaima
     namespace gui
     {
         static float window_width = 1280;
-        static float window_height = 720;
+        static float window_height = 820;
         static uint16_t g_ResizeWidth = 0;
         static uint16_t g_ResizeHeight = 0;
 
@@ -158,7 +158,7 @@ namespace tadaima
 
             WNDCLASSEXW wc = { sizeof(wc), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(nullptr), nullptr, nullptr, nullptr, nullptr, L"ImGui Example", nullptr };
             ::RegisterClassExW(&wc);
-            HWND hwnd = ::CreateWindowW(wc.lpszClassName, L"Tadaima!", !floating ? (WS_OVERLAPPEDWINDOW & ~WS_THICKFRAME) : WS_OVERLAPPEDWINDOW, 100, 100, 800, 600, nullptr, nullptr, wc.hInstance, nullptr);
+            HWND hwnd = ::CreateWindowW(wc.lpszClassName, L"Tadaima!", !floating ? (WS_OVERLAPPEDWINDOW & ~WS_THICKFRAME) : WS_OVERLAPPEDWINDOW, 100, 100, 900, 700, nullptr, nullptr, wc.hInstance, nullptr);
             // WS_OVERLAPPEDWINDOW & ~WS_THICKFRAME - ABY ZROBIc ZEBY SIE NIE ZMIENIALA
 
             // Initialize Direct3D
@@ -246,14 +246,14 @@ namespace tadaima
                     /*          VARIABLES LIST          */
 
                     ImGui::SetNextWindowPos(ImVec2(0, 29), ImGuiCond_Always);
-                    ImGui::SetNextWindowSize(ImVec2(250, 600), ImGuiCond_Always);  // Adjust size as needed
+                    ImGui::SetNextWindowSize(ImVec2(250, 700), ImGuiCond_Always);  // Adjust size as needed
                     m_widgets[widget::Type::LessonTreeView]->draw(&showLessonTreeView);
                     /*          VARIABLES LIST          */
 
                     /*          DASHBOARD          */
                     // Set the Main Dashboard next to Lessons Overview and non-movable
                     ImGui::SetNextWindowPos(ImVec2(250, 29), ImGuiCond_Always);
-                    ImGui::SetNextWindowSize(ImVec2(540, 600), ImGuiCond_Always);  // Adjust remaining width
+                    ImGui::SetNextWindowSize(ImVec2(640, 700), ImGuiCond_Always);  // Adjust remaining width
                     m_widgets[widget::Type::Dashboard]->draw(&showDashboard);
                     /*          DASHBOARD          */
 

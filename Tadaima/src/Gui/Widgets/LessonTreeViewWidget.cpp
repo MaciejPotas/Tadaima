@@ -32,8 +32,8 @@ namespace tadaima
 
                     for( const auto& lesson : allLessons )
                     {
-                        lessonMap[lesson.mainName].mainName = lesson.mainName;
-                        lessonMap[lesson.mainName].subLessons.push_back(lesson);
+                        lessonMap[lesson.groupName].groupName = lesson.groupName;
+                        lessonMap[lesson.groupName].subLessons[lesson.mainName].push_back(lesson);
                     }
 
                     for( const auto& pair : lessonMap )
@@ -51,20 +51,25 @@ namespace tadaima
                 m_logger.log("Copying words to a new lesson.");
 
                 Lesson newLesson;
+                newLesson.groupName = "Mixed vocabulary";
                 newLesson.mainName = "Mixed vocabulary";
                 newLesson.subName = "Mixed vocabulary";
 
                 std::unordered_set<int> wordIdSet(wordIds.begin(), wordIds.end());
 
-                for( auto& lessonGroup : m_cashedLessons )
+
+                for( const auto& lessonGroup : m_cashedLessons )
                 {
-                    for( auto& lesson : lessonGroup.subLessons )
+                    for( const auto& subLessons : lessonGroup.subLessons )
                     {
-                        for( const auto& word : lesson.words )
+                        for( const auto& lesson : subLessons.second )
                         {
-                            if( wordIdSet.find(word.id) != wordIdSet.end() )
+                            for( const auto& word : lesson.words )
                             {
-                                newLesson.words.push_back(word);
+                                if( wordIdSet.find(word.id) != wordIdSet.end() )
+                                {
+                                    newLesson.words.push_back(word);
+                                }
                             }
                         }
                     }
@@ -82,7 +87,9 @@ namespace tadaima
                 for( const auto& lesson : lessons )
                 {
                     LessonPackage lessonPackage(lesson.id);
+
                     lessonPackage.set(LessonDataKey::id, lesson.id);
+                    lessonPackage.set(LessonDataKey::GroupName, lesson.groupName);
                     lessonPackage.set(LessonDataKey::MainName, lesson.mainName);
                     lessonPackage.set(LessonDataKey::SubName, lesson.subName);
                     std::vector<WordDataPackage> wordPackages;
@@ -116,6 +123,7 @@ namespace tadaima
                 std::vector<LessonPackage> lessonPackages;
                 LessonPackage lessonPackage(lesson.id);
                 lessonPackage.set(LessonDataKey::id, lesson.id);
+                lessonPackage.set(LessonDataKey::GroupName, lesson.groupName);
                 lessonPackage.set(LessonDataKey::MainName, lesson.mainName);
                 lessonPackage.set(LessonDataKey::SubName, lesson.subName);
                 std::vector<WordDataPackage> wordPackages;
@@ -147,9 +155,12 @@ namespace tadaima
 
                 for( const auto& lessonGroup : m_cashedLessons )
                 {
-                    for( const auto& lesson : lessonGroup.subLessons )
+                    for( const auto& subLessons : lessonGroup.subLessons )
                     {
-                        lessonMap[lesson.id] = lesson;
+                        for( const auto& lesson : subLessons.second )
+                        {
+                            lessonMap[lesson.id] = lesson;
+                        }
                     }
                 }
 
@@ -236,9 +247,12 @@ namespace tadaima
             {
                 const bool ctrlPressed = ImGui::GetIO().KeyCtrl;
                 const bool shiftPressed = ImGui::GetIO().KeyShift; // Track shift key state
+
                 static int rightClickedLessonGroupId = -1; // Track last right-clicked lesson group ID
+                static int rightClickedLessonSubGroupId = -1; // Track last right-clicked lesson group ID
+
                 bool popupShown = false;
-static                bool showDeleteGroupConfirmation = false;
+                static bool showDeleteGroupConfirmation = false;
 
                 static int lastSelectedWordId = -1; // Track last selected word ID
 
@@ -247,279 +261,319 @@ static                bool showDeleteGroupConfirmation = false;
                     auto& lessonGroup = m_cashedLessons[groupIndex];
                     ImGui::PushID(static_cast<int>(groupIndex));
 
-                    if( ImGui::TreeNode(lessonGroup.mainName.c_str()) )
+                    if( ImGui::TreeNode(lessonGroup.groupName.c_str()) )
                     {
-                        for( size_t lessonIndex = 0; lessonIndex < lessonGroup.subLessons.size(); lessonIndex++ )
+                        int mainGroupIndex = 0;
+                        for( const auto& [mainName, lessons] : lessonGroup.subLessons )
                         {
-                            auto& lesson = lessonGroup.subLessons[lessonIndex];
-                            ImGui::PushID(static_cast<int>(lessonIndex));
-                            bool isSelected = m_selectedLessons.find(lesson.id) != m_selectedLessons.end();
+                            ImGui::PushID(mainName.c_str());
 
-                            if( isSelected )
+                            // Draw the mainName node
+                            if( ImGui::TreeNode(mainName.c_str()) )
                             {
-                                ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 1.0f, 0.0f, 1.0f));
-                            }
-
-                            if( ImGui::TreeNodeEx(lesson.subName.empty() ? lesson.mainName.c_str() : lesson.subName.c_str(), ImGuiTreeNodeFlags_SpanAvailWidth | (isSelected ? ImGuiTreeNodeFlags_Selected : 0)) )
-                            {
-                                for( size_t wordIndex = 0; wordIndex < lesson.words.size(); wordIndex++ )
+                                int lessonIndex = 0;
+                                for( const auto& lesson : lessons )
                                 {
-                                    const auto& word = lesson.words[wordIndex];
-                                    ImGui::PushID(static_cast<int>(wordIndex));
+                                    ImGui::PushID(lesson.id);
+                                    //auto& lesson = lessonGroup.subLessons[lessonIndex];
+                                    //ImGui::PushID(static_cast<int>(lessonIndex));
+                                    bool isSelected = m_selectedLessons.find(lesson.id) != m_selectedLessons.end();
 
-                                    // Check if the word is marked
-                                    bool isWordMarked = markedWords.find(word.id) != markedWords.end();
-                                    if( isWordMarked )
+                                    if( isSelected )
                                     {
-                                        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.0f, 0.0f, 1.0f)); // Marked words in red
+                                        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 1.0f, 0.0f, 1.0f));
                                     }
 
-                                    ImGui::Text(" %s - %s", word.translation.c_str(), word.kana.c_str());
-
-                                    // Mark the word if control or shift is pressed and clicked
-                                    if( ImGui::IsItemClicked(0) )
+                                    if( ImGui::TreeNodeEx(lesson.subName.empty() ? lesson.mainName.c_str() : lesson.subName.c_str(), ImGuiTreeNodeFlags_SpanAvailWidth | (isSelected ? ImGuiTreeNodeFlags_Selected : 0)) )
                                     {
-                                        memcpy(newLessonMainNameBuffer, lessonGroup.mainName.c_str(), lessonGroup.mainName.size());
-                                        if( ctrlPressed )
+                                        for( size_t wordIndex = 0; wordIndex < lesson.words.size(); wordIndex++ )
                                         {
+                                            const auto& word = lesson.words[wordIndex];
+                                            ImGui::PushID(static_cast<int>(wordIndex));
+
+                                            // Check if the word is marked
+                                            bool isWordMarked = markedWords.find(word.id) != markedWords.end();
                                             if( isWordMarked )
                                             {
-                                                markedWords.erase(word.id);
+                                                ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.0f, 0.0f, 1.0f)); // Marked words in red
                                             }
-                                            else
+
+                                            ImGui::Text(" %s - %s", word.translation.c_str(), word.kana.c_str());
+
+                                            // Mark the word if control or shift is pressed and clicked
+                                            if( ImGui::IsItemClicked(0) )
                                             {
-                                                markedWords.insert(word.id);
-                                            }
-                                            lastSelectedWordId = word.id;
-                                        }
-                                        else if( shiftPressed )
-                                        {
-                                            if( lastSelectedWordId != -1 && lastSelectedWordId != word.id )
-                                            {
-                                                int startId = std::min(lastSelectedWordId, word.id);
-                                                int endId = std::max(lastSelectedWordId, word.id);
-                                                bool marking = false;
-                                                for( size_t markWordIndex = 0; markWordIndex < lesson.words.size(); markWordIndex++ )
+                                                memcpy(newLessonGroupNameBuffer, lesson.groupName.c_str(), lesson.groupName.size());
+                                                memcpy(newLessonMainNameBuffer, lesson.mainName.c_str(), lesson.mainName.size());
+                                                memcpy(newLessonSubNameBuffer, lesson.subName.c_str(), lesson.subName.size());
+
+                                                if( ctrlPressed )
                                                 {
-                                                    const auto& markWord = lesson.words[markWordIndex];
-                                                    if( markWord.id == startId || markWord.id == endId )
+                                                    if( isWordMarked )
                                                     {
-                                                        marking = !marking;
-                                                        markedWords.insert(markWord.id);
+                                                        markedWords.erase(word.id);
                                                     }
-                                                    if( marking || markWord.id == startId || markWord.id == endId )
+                                                    else
                                                     {
-                                                        markedWords.insert(markWord.id);
+                                                        markedWords.insert(word.id);
                                                     }
+                                                    lastSelectedWordId = word.id;
+                                                }
+                                                else if( shiftPressed )
+                                                {
+                                                    if( lastSelectedWordId != -1 && lastSelectedWordId != word.id )
+                                                    {
+                                                        int startId = std::min(lastSelectedWordId, word.id);
+                                                        int endId = std::max(lastSelectedWordId, word.id);
+                                                        bool marking = false;
+                                                        for( size_t markWordIndex = 0; markWordIndex < lesson.words.size(); markWordIndex++ )
+                                                        {
+                                                            const auto& markWord = lesson.words[markWordIndex];
+                                                            if( markWord.id == startId || markWord.id == endId )
+                                                            {
+                                                                marking = !marking;
+                                                                markedWords.insert(markWord.id);
+                                                            }
+                                                            if( marking || markWord.id == startId || markWord.id == endId )
+                                                            {
+                                                                markedWords.insert(markWord.id);
+                                                            }
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        markedWords.insert(word.id);
+                                                    }
+                                                    lastSelectedWordId = word.id;
+                                                }
+                                                else
+                                                {
+                                                    markedWords.clear();
+                                                    markedWords.insert(word.id);
+                                                    lastSelectedWordId = word.id;
                                                 }
                                             }
-                                            else
+
+                                            // Open context menu on right-click
+                                            if( ImGui::IsItemClicked(1) )
                                             {
-                                                markedWords.insert(word.id);
+                                                ImGui::OpenPopup("WordContextMenu");
                                             }
-                                            lastSelectedWordId = word.id;
+
+                                            if( isWordMarked )
+                                            {
+                                                ImGui::PopStyleColor();
+                                            }
+
+                                            if( ImGui::BeginPopup("WordContextMenu") )
+                                            {
+                                                if( ImGui::BeginMenu(ICON_FA_PLAY "PlayMixedVocabulary") )
+                                                {
+                                                    auto package = createLessonDataPackageFromLesson(copyWordsToNewLesson(markedWords));
+                                                    if( ImGui::MenuItem("vocabulary quiz") )
+                                                    {
+                                                        emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnPlayVocabularyQuiz, &package));
+                                                    }
+
+                                                    if( ImGui::MenuItem("multiple choice quiz") )
+                                                    {
+                                                        emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnPlayMultipleChoiceQuiz, &package));
+                                                    }
+
+                                                    ImGui::EndMenu();
+                                                }
+
+                                                if( ImGui::MenuItem("Move Marked Words to New Lesson") )
+                                                {
+                                                    createNewLessonPopupOpen = true;
+                                                    ImGui::CloseCurrentPopup();
+                                                }
+
+                                                if( ImGui::MenuItem("Delete Marked Words") )
+                                                {
+                                                    std::unordered_set<int> impactedLessonIDs; // Updated variable name for affected lessons
+
+                                                    // Iterate through all lesson groups
+                                                    for( auto& currentLessonGroup : m_cashedLessons )
+                                                    {
+                                                        for( auto& [groupMainName, groupedLessons] : currentLessonGroup.subLessons )
+                                                        {
+                                                            for( auto& currentLesson : groupedLessons )
+                                                            {
+                                                                // Remove marked words from the current lesson
+                                                                auto wordIt = std::remove_if(
+                                                                    currentLesson.words.begin(),
+                                                                    currentLesson.words.end(),
+                                                                    [&markedWords](const Word& word)
+                                                                    {
+                                                                        return markedWords.count(word.id) > 0; // Check if the word is marked
+                                                                    });
+
+                                                                // Check if any words were removed
+                                                                if( wordIt != currentLesson.words.end() )
+                                                                {
+                                                                    currentLesson.words.erase(wordIt, currentLesson.words.end());
+                                                                    impactedLessonIDs.insert(currentLesson.id); // Mark the lesson as impacted
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+
+                                                    // Emit an event for the modified lessons
+                                                    if( !impactedLessonIDs.empty() )
+                                                    {
+                                                        auto updatedPackage = createLessonDataPackageFromSelectedNodes(impactedLessonIDs); // Updated variable name for package
+                                                        emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnLessonEdited, &updatedPackage));
+                                                    }
+
+                                                    // Clear marked words and close the popup
+                                                    markedWords.clear();
+                                                    ImGui::CloseCurrentPopup();
+                                                }
+
+                                                ImGui::EndPopup();
+                                            }
+
+                                            ImGui::PopID();
                                         }
-                                        else
-                                        {
-                                            markedWords.clear();
-                                            markedWords.insert(word.id);
-                                            lastSelectedWordId = word.id;
-                                        }
+                                        ImGui::TreePop();
                                     }
 
-                                    // Open context menu on right-click
-                                    if( ImGui::IsItemClicked(1) )
-                                    {
-                                        ImGui::OpenPopup("WordContextMenu");
-                                    }
-
-                                    if( isWordMarked )
+                                    if( isSelected )
                                     {
                                         ImGui::PopStyleColor();
                                     }
 
-                                    if( ImGui::BeginPopup("WordContextMenu") )
+                                    // Context menu for lesson node
+                                    if( ImGui::IsItemClicked(1) )
                                     {
-                                        if( ImGui::BeginMenu(ICON_FA_PLAY "PlayMixedVocabulary") )
+                                        popupShown = true;
+                                        ImGui::OpenPopup("LessonContextMenu");
+                                    }
+
+                                    if( ImGui::BeginPopup("LessonContextMenu") )
+                                    {
+                                        if( ImGui::BeginMenu(ICON_FA_PLAY "Play") )
                                         {
-                                            auto package = createLessonDataPackageFromLesson(copyWordsToNewLesson(markedWords));
                                             if( ImGui::MenuItem("vocabulary quiz") )
                                             {
+                                                auto package = (m_selectedLessons.size() > 0) ?
+                                                    createLessonDataPackageFromSelectedNodes(m_selectedLessons) :
+                                                    createLessonDataPackageFromLesson(lesson);
                                                 emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnPlayVocabularyQuiz, &package));
                                             }
 
                                             if( ImGui::MenuItem("multiple choice quiz") )
                                             {
+                                                auto package = (m_selectedLessons.size() > 0) ?
+                                                    createLessonDataPackageFromSelectedNodes(m_selectedLessons) :
+                                                    createLessonDataPackageFromLesson(lesson);
                                                 emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnPlayMultipleChoiceQuiz, &package));
                                             }
 
                                             ImGui::EndMenu();
                                         }
 
-                                        if( ImGui::MenuItem("Move Marked Words to New Lesson") )
+                                        if( ImGui::MenuItem(ICON_FA_PENCIL " Edit") )
                                         {
-                                            createNewLessonPopupOpen = true;
+                                            m_logger.log("Edit lesson selected.");
+                                            m_changedLessonGroupIndex = static_cast<int>(groupIndex);
+                                            m_changedLessonIndex = static_cast<int>(lessonIndex);
+                                            m_changedLessonSubGroupIndex = static_cast<int>(mainGroupIndex);
+                                            originalLesson = lesson;
+                                            selectedLesson = lesson;
+                                            open_edit_lesson = true;
+                                            m_lessonSettingsWidget.setLesson(selectedLesson);
                                             ImGui::CloseCurrentPopup();
                                         }
 
-                                        if( ImGui::MenuItem("Delete Marked Words") )
+                                        if( ImGui::MenuItem(ICON_FA_PENCIL " Rename") )
                                         {
-                                            std::unordered_set<int> affectedLessonIDs;
-                                            // Remove marked words from all lessons
-                                            for( auto& lessonGroupToDelete : m_cashedLessons )
-                                            {
-                                                for( auto& lessonToDelete : lessonGroupToDelete.subLessons )
-                                                {
-                                                    for( int wordID : markedWords )
-                                                    {
-                                                        auto it = std::remove_if(lessonToDelete.words.begin(), lessonToDelete.words.end(), [wordID](const Word& word)
-                                                            {
-                                                                return word.id == wordID;
-                                                            });
-                                                        if( it != lessonToDelete.words.end() )
-                                                        {
-                                                            affectedLessonIDs.insert(lessonToDelete.id);
-                                                            lessonToDelete.words.erase(it, lessonToDelete.words.end());
-                                                        }
-                                                    }
-                                                }
-                                            }
+                                            m_logger.log("Rename lesson selected.");
+                                            m_changedLessonGroupIndex = static_cast<int>(groupIndex);
+                                            m_changedLessonIndex = static_cast<int>(lessonIndex);
+                                            m_changedLessonSubGroupIndex = static_cast<int>(mainGroupIndex);
 
-                                            auto package = createLessonDataPackageFromSelectedNodes(affectedLessonIDs);
-                                            emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnLessonEdited, &package));
-
-                                            markedWords.clear();
+                                            strncpy(renameGroupNameBuffer, lesson.groupName.c_str(), sizeof(renameGroupNameBuffer));
+                                            strncpy(renameMainNameBuffer, lesson.mainName.c_str(), sizeof(renameMainNameBuffer));
+                                            strncpy(renameSubNameBuffer, lesson.subName.c_str(), sizeof(renameSubNameBuffer));
+                                            renamePopupOpen = true;
                                             ImGui::CloseCurrentPopup();
+                                        }
+
+                                        if( ImGui::MenuItem(ICON_FA_TRASH " Delete") )
+                                        {
+                                            m_logger.log("Delete lesson selected.");
+                                            m_changedLessonGroupIndex = static_cast<int>(groupIndex);
+                                            m_changedLessonIndex = static_cast<int>(lessonIndex);
+                                            m_changedLessonSubGroupIndex = static_cast<int>(mainGroupIndex);
+                                            deleteLesson = true;
+                                            ImGui::CloseCurrentPopup();
+                                        }
+
+                                        if( ImGui::MenuItem(ICON_FA_ARROW_RIGHT " Export") )
+                                        {
+                                            m_logger.log("Export lesson selected.");
+                                            lessonsToExport.clear();
+                                            lessonsToExport.insert(lesson.id);
+                                            ImGui::CloseCurrentPopup();
+                                            IGFD::FileDialogConfig config;
+                                            ImGui::SetNextWindowSize(ImVec2(500, 400), ImGuiCond_Always);
+                                            ImGuiFileDialog::Instance()->OpenDialog("SaveFileDlgKey", "Save File", ".xml", config);
                                         }
 
                                         ImGui::EndPopup();
                                     }
 
+                                    if( ImGui::IsItemClicked(0) )
+                                    {
+                                        if( ctrlPressed )
+                                        {
+                                            if( isSelected )
+                                                m_selectedLessons.erase(lesson.id);
+                                            else
+                                                m_selectedLessons.insert(lesson.id);
+                                        }
+                                        else
+                                        {
+                                            m_selectedLessons.clear();
+                                        }
+                                    }
+
                                     ImGui::PopID();
+                                    ++lessonIndex;
                                 }
                                 ImGui::TreePop();
                             }
 
-                            if( isSelected )
+                            if( ImGui::IsItemClicked(1) && !popupShown )
                             {
-                                ImGui::PopStyleColor();
+                                rightClickedLessonGroupId = static_cast<int>(groupIndex);
+                                rightClickedLessonSubGroupId = static_cast<int>(mainGroupIndex);
+
+                                ImGui::OpenPopup("LessonGroupContextMenu");
                             }
 
-                            // Context menu for lesson node
-                            if( ImGui::IsItemClicked(1) )
+                            if( rightClickedLessonGroupId == (int)groupIndex && ImGui::BeginPopup("LessonGroupContextMenu") )
                             {
-                                popupShown = true;
-                                ImGui::OpenPopup("LessonContextMenu");
-                            }
-
-                            if( ImGui::BeginPopup("LessonContextMenu") )
-                            {
-                                if( ImGui::BeginMenu(ICON_FA_PLAY "Play") )
+                                if( ImGui::MenuItem(ICON_FA_TRASH " Delete Group") )
                                 {
-                                    if( ImGui::MenuItem("vocabulary quiz") )
-                                    {
-                                        auto package = (m_selectedLessons.size() > 0) ?
-                                            createLessonDataPackageFromSelectedNodes(m_selectedLessons) :
-                                            createLessonDataPackageFromLesson(lesson);
-                                        emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnPlayVocabularyQuiz, &package));
-                                    }
-
-                                    if( ImGui::MenuItem("multiple choice quiz") )
-                                    {
-                                        auto package = (m_selectedLessons.size() > 0) ?
-                                            createLessonDataPackageFromSelectedNodes(m_selectedLessons) :
-                                            createLessonDataPackageFromLesson(lesson);
-                                        emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnPlayMultipleChoiceQuiz, &package));
-                                    }
-
-                                    ImGui::EndMenu();
-                                }
-
-                                if( ImGui::MenuItem(ICON_FA_PENCIL " Edit") )
-                                {
-                                    m_logger.log("Edit lesson selected.");
-                                    m_changedLessonGroupIndex = static_cast<int>(groupIndex);
-                                    m_changedLessonIndex = static_cast<int>(lessonIndex);
-                                    originalLesson = lesson;
-                                    selectedLesson = lesson;
-                                    open_edit_lesson = true;
-                                    m_lessonSettingsWidget.setLesson(selectedLesson);
+                                    // Show the delete group confirmation popup instead of deleting immediately
+                                    showDeleteGroupConfirmation = true;
                                     ImGui::CloseCurrentPopup();
-                                }
-
-                                if( ImGui::MenuItem(ICON_FA_PENCIL " Rename") )
-                                {
-                                    m_logger.log("Rename lesson selected.");
-                                    m_changedLessonGroupIndex = static_cast<int>(groupIndex);
-                                    m_changedLessonIndex = static_cast<int>(lessonIndex);
-                                    strncpy(renameMainNameBuffer, lessonGroup.mainName.c_str(), sizeof(renameMainNameBuffer));
-                                    strncpy(renameSubNameBuffer, lesson.subName.c_str(), sizeof(renameSubNameBuffer));
-                                    renamePopupOpen = true;
-                                    ImGui::CloseCurrentPopup();
-                                }
-
-                                if( ImGui::MenuItem(ICON_FA_TRASH " Delete") )
-                                {
-                                    m_logger.log("Delete lesson selected.");
-                                    m_changedLessonGroupIndex = static_cast<int>(groupIndex);
-                                    m_changedLessonIndex = static_cast<int>(lessonIndex);
-                                    deleteLesson = true;
-                                    ImGui::CloseCurrentPopup();
-                                }
-
-                                if( ImGui::MenuItem(ICON_FA_ARROW_RIGHT " Export") )
-                                {
-                                    m_logger.log("Export lesson selected.");
-                                    lessonsToExport.clear();
-                                    lessonsToExport.insert(lesson.id);
-                                    ImGui::CloseCurrentPopup();
-                                    IGFD::FileDialogConfig config;
-                                    ImGui::SetNextWindowSize(ImVec2(500, 400), ImGuiCond_Always);
-                                    ImGuiFileDialog::Instance()->OpenDialog("SaveFileDlgKey", "Save File", ".xml", config);
                                 }
 
                                 ImGui::EndPopup();
                             }
 
-                            if( ImGui::IsItemClicked(0) )
-                            {
-                                if( ctrlPressed )
-                                {
-                                    if( isSelected )
-                                        m_selectedLessons.erase(lesson.id);
-                                    else
-                                        m_selectedLessons.insert(lesson.id);
-                                }
-                                else
-                                {
-                                    m_selectedLessons.clear();
-                                }
-                            }
-
                             ImGui::PopID();
+                            ++mainGroupIndex;
                         }
+
                         ImGui::TreePop();
                     }
+
                     ImGui::PopID();
-
-                    if( ImGui::IsItemClicked(1) && !popupShown )
-                    {
-                        rightClickedLessonGroupId = static_cast<int>(groupIndex);
-                        ImGui::OpenPopup("LessonGroupContextMenu");
-                    }
-
-                    if( rightClickedLessonGroupId == groupIndex && ImGui::BeginPopup("LessonGroupContextMenu") )
-                    {
-                        if( ImGui::MenuItem(ICON_FA_TRASH " Delete Group") )
-                        {
-                            // Show the delete group confirmation popup instead of deleting immediately
-                            showDeleteGroupConfirmation = true;
-                            ImGui::CloseCurrentPopup();
-                        }
-
-                        ImGui::EndPopup();
-                    }
-
                 }
 
                 if( ImGui::IsMouseClicked(0) && !ImGui::IsAnyItemHovered() && !ImGui::IsMouseReleased(1) )
@@ -530,45 +584,69 @@ static                bool showDeleteGroupConfirmation = false;
                 // Show the delete group confirmation popup
                 if( showDeleteGroupConfirmation )
                 {
-                    ImGui::OpenPopup("Delete Group Confirmation");
+                    ImGui::OpenPopup("Delete SubGroup Confirmation");
                     showDeleteGroupConfirmation = false;
                 }
 
                 // Confirmation popup
-                if( ImGui::BeginPopupModal("Delete Group Confirmation", NULL, ImGuiWindowFlags_AlwaysAutoResize) )
+                if( ImGui::BeginPopupModal("Delete SubGroup Confirmation", nullptr, ImGuiWindowFlags_AlwaysAutoResize) )
                 {
-                    ImGui::Text("Are you sure you want to delete this group?");
+                    ImGui::Text("Are you sure you want to delete this subgroup?");
                     ImGui::Spacing();
                     ImGui::Separator();
                     ImGui::Spacing();
 
-                    if( ImGui::Button("Yes", ImVec2(120, 0)) )
+                    if( rightClickedLessonGroupId >= 0 && rightClickedLessonGroupId < static_cast<int>(m_cashedLessons.size()) &&
+                        rightClickedLessonSubGroupId >= 0 )
                     {
-                        // Perform the delete action
-                        m_selectedLessons.clear();
-                        for( auto& lesson : m_cashedLessons[rightClickedLessonGroupId].subLessons )
+                        if( ImGui::Button("Yes", ImVec2(120, 0)) )
                         {
-                            m_selectedLessons.insert(lesson.id);
+                            // Clear selected lessons
+                            m_selectedLessons.clear();
+
+                            // Collect lesson IDs from the selected subgroup
+                            auto& lessonGroup = m_cashedLessons[rightClickedLessonGroupId];
+                            auto subGroupIt = std::next(lessonGroup.subLessons.begin(), rightClickedLessonSubGroupId);
+
+                            if( subGroupIt != lessonGroup.subLessons.end() )
+                            {
+                                for( const auto& lesson : subGroupIt->second )
+                                {
+                                    m_selectedLessons.insert(lesson.id);
+                                }
+
+                                // Log and mark the subgroup for deletion
+                                m_logger.log("Delete lesson subgroup confirmed: " + subGroupIt->first);
+                                // lessonGroup.subLessons.erase(subGroupIt); // Remove the subgroup
+                            }
+
+                            rightClickedLessonGroupId = -1; // Reset the group ID
+                            rightClickedLessonSubGroupId = -1; // Reset the subgroup ID
+                            deleteLesson = true;
+
+                            ImGui::CloseCurrentPopup();
                         }
 
-                        // Delete the entire lesson group
-                        m_logger.log("Delete lesson group confirmed.");
-                        rightClickedLessonGroupId = -1;
-                        deleteLesson = true;
+                        ImGui::SameLine();
 
-                        ImGui::CloseCurrentPopup();
+                        if( ImGui::Button("No", ImVec2(120, 0)) )
+                        {
+                            // Close the popup without performing any action
+                            ImGui::CloseCurrentPopup();
+                        }
                     }
-
-                    ImGui::SameLine();
-
-                    if( ImGui::Button("No", ImVec2(120, 0)) )
+                    else
                     {
-                        // Cancel the delete action
-                        ImGui::CloseCurrentPopup();
+                        ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Error: Invalid subgroup selected.");
+                        if( ImGui::Button("Close", ImVec2(120, 0)) )
+                        {
+                            ImGui::CloseCurrentPopup();
+                        }
                     }
 
                     ImGui::EndPopup();
                 }
+
             }
 
             void LessonTreeViewWidget::handleExportLessons(std::unordered_set<int> lessonsToExport)
@@ -584,7 +662,6 @@ static                bool showDeleteGroupConfirmation = false;
                     ImGuiFileDialog::Instance()->Close();
                 }
             }
-
 
             void LessonTreeViewWidget::handleLessonEdit(bool& open_edit_lesson, Lesson& originalLesson, Lesson& selectedLesson)
             {
@@ -603,30 +680,74 @@ static                bool showDeleteGroupConfirmation = false;
                     }
                 }
             }
-
-
             void LessonTreeViewWidget::handleLessonDelete(bool& deleteLesson)
             {
                 if( deleteLesson )
                 {
-                    if( m_selectedLessons.size() > 0 )
+                    if( !m_selectedLessons.empty() )
                     {
+                        // Handle deletion of multiple selected lessons
                         auto package = createLessonDataPackageFromSelectedNodes(m_selectedLessons);
                         emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnLessonDelete, &package));
+
+                        for( auto lessonId : m_selectedLessons )
+                        {
+                            // Remove the lessons from the cached data
+                            for( auto& lessonGroup : m_cashedLessons )
+                            {
+                                for( auto& [mainName, lessons] : lessonGroup.subLessons )
+                                {
+                                    auto it = std::remove_if(
+                                        lessons.begin(),
+                                        lessons.end(),
+                                        [lessonId](const Lesson& lesson) { return lesson.id == lessonId; });
+
+                                    if( it != lessons.end() )
+                                    {
+                                        lessons.erase(it, lessons.end());
+                                        break; // Found and removed; exit loop
+                                    }
+                                }
+                            }
+                        }
+
                         m_selectedLessons.clear();
                         m_logger.log("Selected lessons deleted.");
                     }
                     else
                     {
+                        // Handle single lesson deletion based on indices
                         if( m_changedLessonGroupIndex >= 0 && m_changedLessonGroupIndex < static_cast<int>(m_cashedLessons.size()) )
                         {
                             auto& lessonGroupToDelete = m_cashedLessons[m_changedLessonGroupIndex];
                             if( m_changedLessonIndex >= 0 && m_changedLessonIndex < static_cast<int>(lessonGroupToDelete.subLessons.size()) )
                             {
-                                auto& lessonToDelete = lessonGroupToDelete.subLessons[m_changedLessonIndex];
-                                LessonDataPackage package = createLessonDataPackageFromLesson(lessonToDelete);
-                                emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnLessonDelete, &package));
-                                m_logger.log("Lesson deleted: " + lessonToDelete.mainName + " - " + lessonToDelete.subName);
+                                // Find the lesson using the m_changedLessonIndex
+                                auto subLessonIt = std::next(lessonGroupToDelete.subLessons.begin(), m_changedLessonSubGroupIndex);
+
+                                if( subLessonIt != lessonGroupToDelete.subLessons.end() )
+                                {
+                                    auto& lessons = subLessonIt->second;
+
+                                    if( m_changedLessonIndex >= 0 && m_changedLessonIndex < static_cast<int>(lessons.size()) )
+                                    {
+                                        const auto& lessonToDelete = lessons[m_changedLessonIndex];
+
+                                        // Prepare the data package for the single lesson deletion
+                                        LessonDataPackage package = createLessonDataPackageFromLesson(lessonToDelete);
+                                        emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnLessonDelete, &package));
+                                        m_logger.log("Lesson deleted: " + lessonToDelete.mainName + " - " + lessonToDelete.subName);
+
+                                        // Remove the specific lesson
+                                        lessons.erase(lessons.begin() + m_changedLessonIndex);
+
+                                        // Clean up empty subgroups if needed
+                                        if( lessons.empty() )
+                                        {
+                                            lessonGroupToDelete.subLessons.erase(subLessonIt);
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -637,7 +758,6 @@ static                bool showDeleteGroupConfirmation = false;
 
             void LessonTreeViewWidget::handleWordsMove(bool& createNewLessonPopupOpen, std::unordered_set<int>& markedWords)
             {
-
                 if( createNewLessonPopupOpen )
                 {
                     ImGui::OpenPopup("Create New Lesson");
@@ -646,138 +766,159 @@ static                bool showDeleteGroupConfirmation = false;
 
                 if( ImGui::BeginPopupModal("Create New Lesson", NULL, ImGuiWindowFlags_AlwaysAutoResize) )
                 {
+                    ImGui::InputText("Group Name", newLessonGroupNameBuffer, sizeof(newLessonGroupNameBuffer));
                     ImGui::InputText("Main Name", newLessonMainNameBuffer, sizeof(newLessonMainNameBuffer));
                     ImGui::InputText("Sub Name", newLessonSubNameBuffer, sizeof(newLessonSubNameBuffer));
 
                     if( ImGui::Button("Create") )
                     {
+                        std::string groupName(newLessonGroupNameBuffer);
                         std::string mainName(newLessonMainNameBuffer);
                         std::string subName(newLessonSubNameBuffer);
                         Lesson* existingLesson = nullptr;
 
-                        std::vector<Lesson> toEdit;
+                        std::vector<Lesson> lessonsToEdit;
 
-                        // Check if a lesson with the same name and subname already exists
+                        // Find or create the group and lesson
                         for( auto& lessonGroup : m_cashedLessons )
                         {
-                            for( auto& lesson : lessonGroup.subLessons )
+                            if( lessonGroup.groupName == groupName )
                             {
-                                if( lesson.mainName == mainName && lesson.subName == subName )
+                                for( auto& [existingMainName, lessons] : lessonGroup.subLessons )
                                 {
-                                    existingLesson = &lesson;
-                                    break;
+                                    if( existingMainName == mainName )
+                                    {
+                                        auto it = std::find_if(lessons.begin(), lessons.end(), [&subName](const Lesson& lesson)
+                                            {
+                                                return lesson.subName == subName;
+                                            });
+
+                                        if( it != lessons.end() )
+                                        {
+                                            existingLesson = &(*it);
+                                        }
+                                        break;
+                                    }
                                 }
                             }
-                            if( existingLesson )
-                                break;
+                            if( existingLesson ) break;
                         }
 
                         if( !existingLesson )
                         {
                             // Create a new lesson if it doesn't exist
                             Lesson newLesson;
+                            newLesson.groupName = groupName;
                             newLesson.mainName = mainName;
                             newLesson.subName = subName;
 
                             for( auto& lessonGroup : m_cashedLessons )
                             {
-                                for( auto& lesson : lessonGroup.subLessons )
+                                for( auto& [existingMainName, lessons] : lessonGroup.subLessons )
                                 {
-                                    // Find marked words in the current lesson
-                                    for( int wordID : markedWords )
+                                    for( auto& lesson : lessons )
                                     {
-                                        auto it = std::find_if(lesson.words.begin(), lesson.words.end(), [wordID](const Word& word)
-                                            {
-                                                return word.id == wordID;
-                                            });
-                                        if( it != lesson.words.end() )
+                                        for( int wordID : markedWords )
                                         {
-                                            // Check if the word already exists in the new lesson based on content
-                                            auto existingWordIt = std::find_if(newLesson.words.begin(), newLesson.words.end(), [it](const Word& word)
+                                            auto it = std::find_if(lesson.words.begin(), lesson.words.end(), [wordID](const Word& word)
                                                 {
-                                                    return *it == word; // Using operator== to compare content
+                                                    return word.id == wordID;
                                                 });
-                                            if( existingWordIt == newLesson.words.end() )
+
+                                            if( it != lesson.words.end() )
                                             {
-                                                newLesson.words.push_back(*it);
-                                                newLesson.words.back().id = 0;
+                                                // Avoid duplicates in the new lesson
+                                                auto existingWordIt = std::find_if(newLesson.words.begin(), newLesson.words.end(),
+                                                    [&it](const Word& word) { return *it == word; });
+
+                                                if( existingWordIt == newLesson.words.end() )
+                                                {
+                                                    newLesson.words.push_back(*it);
+                                                    newLesson.words.back().id = 0; // Reset ID for the new lesson
+                                                }
                                             }
                                         }
                                     }
                                 }
                             }
 
-                            toEdit.push_back(newLesson);
-
+                            lessonsToEdit.push_back(newLesson);
                         }
                         else
                         {
                             // Add or overwrite words in the existing lesson
                             for( auto& lessonGroup : m_cashedLessons )
                             {
-                                for( auto& lesson : lessonGroup.subLessons )
+                                for( auto& [existingMainName, lessons] : lessonGroup.subLessons )
                                 {
-                                    // Find marked words in the current lesson
-                                    for( int wordID : markedWords )
+                                    for( auto& lesson : lessons )
                                     {
-                                        auto it = std::find_if(lesson.words.begin(), lesson.words.end(), [wordID](const Word& word)
-                                            {
-                                                return word.id == wordID;
-                                            });
-                                        if( it != lesson.words.end() )
+                                        for( int wordID : markedWords )
                                         {
-                                            // Check if word already exists in the existing lesson based on content
-                                            auto existingWordIt = std::find_if(existingLesson->words.begin(), existingLesson->words.end(), [it](const Word& word)
+                                            auto it = std::find_if(lesson.words.begin(), lesson.words.end(), [wordID](const Word& word)
                                                 {
-                                                    return *it == word; // Using operator== to compare content
+                                                    return word.id == wordID;
                                                 });
-                                            if( existingWordIt != existingLesson->words.end() )
+
+                                            if( it != lesson.words.end() )
                                             {
-                                                *existingWordIt = *it; // Overwrite the word
-                                            }
-                                            else
-                                            {
-                                                existingLesson->words.push_back(*it); // Add new word
-                                                existingLesson->words.back().id = 0;
+                                                // Avoid duplicates in the existing lesson
+                                                auto existingWordIt = std::find_if(existingLesson->words.begin(), existingLesson->words.end(),
+                                                    [&it](const Word& word) { return *it == word; });
+
+                                                if( existingWordIt != existingLesson->words.end() )
+                                                {
+                                                    *existingWordIt = *it; // Overwrite existing word
+                                                }
+                                                else
+                                                {
+                                                    existingLesson->words.push_back(*it); // Add new word
+                                                    existingLesson->words.back().id = 0; // Reset ID
+                                                }
                                             }
                                         }
                                     }
                                 }
                             }
 
-                            toEdit.push_back(*existingLesson);
+                            lessonsToEdit.push_back(*existingLesson);
                         }
 
                         std::unordered_set<int> affectedLessonIDs;
 
                         // Remove marked words from all lessons
-                        for( auto& lessonGroupToDelete : m_cashedLessons )
+                        for( auto& lessonGroup : m_cashedLessons )
                         {
-                            for( auto& lessonToDelete : lessonGroupToDelete.subLessons )
+                            for( auto& [existingMainName, lessons] : lessonGroup.subLessons )
                             {
-                                for( int wordID : markedWords )
+                                for( auto& lesson : lessons )
                                 {
-                                    auto it = std::remove_if(lessonToDelete.words.begin(), lessonToDelete.words.end(), [wordID](const Word& word)
+                                    auto it = std::remove_if(lesson.words.begin(), lesson.words.end(), [&markedWords](const Word& word)
                                         {
-                                            return word.id == wordID;
+                                            return markedWords.find(word.id) != markedWords.end();
                                         });
-                                    if( it != lessonToDelete.words.end() )
+
+                                    if( it != lesson.words.end() )
                                     {
-                                        affectedLessonIDs.insert(lessonToDelete.id);
-                                        lessonToDelete.words.erase(it, lessonToDelete.words.end());
+                                        lesson.words.erase(it, lesson.words.end());
+                                        affectedLessonIDs.insert(lesson.id);
                                     }
                                 }
                             }
                         }
 
-                        for( auto id : affectedLessonIDs )
+                        for( int id : affectedLessonIDs )
                         {
-                            toEdit.push_back(findLessonWithId(id));
+                            lessonsToEdit.push_back(findLessonWithId(id));
                         }
 
-                        auto package = createLessonDataPackageFromLessons(toEdit);
+                        // Create the data package and emit the event
+                        auto package = createLessonDataPackageFromLessons(lessonsToEdit);
                         emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnLessonEdited, &package));
 
+                        // Reset buffers and close popup
+                        memset(newLessonGroupNameBuffer, 0, sizeof(newLessonGroupNameBuffer));
+                        memset(newLessonMainNameBuffer, 0, sizeof(newLessonMainNameBuffer));
                         memset(newLessonSubNameBuffer, 0, sizeof(newLessonSubNameBuffer));
                         ImGui::CloseCurrentPopup();
 
@@ -824,26 +965,22 @@ static                bool showDeleteGroupConfirmation = false;
                 drawLessonsTree(markedWords, lessonsToExport, open_edit_lesson, selectedLesson, originalLesson, renamePopupOpen, deleteLesson, createNewLessonPopupOpen);
 
 
-
                 /*
                 *
                 * Handle creataion of new lesson.
                 */
                 handleLessonEdit(open_edit_lesson, originalLesson, selectedLesson);
 
-
-
-
                 handleLessonDelete(deleteLesson);
 
 
 
                 handleWordsMove(createNewLessonPopupOpen, markedWords);
-
-                /*
-                handle lesson export.
-            */
-                handleExportLessons(lessonsToExport);
+                //
+                                /*
+                                handle lesson export.
+                            */
+                            // handleExportLessons(lessonsToExport);
 
                 ShowRenamePopup(renamePopupOpen);
 
@@ -907,82 +1044,107 @@ static                bool showDeleteGroupConfirmation = false;
                 pugi::xml_document doc;
                 pugi::xml_node root = doc.append_child("lessons");
 
+                // Map to hold all lessons by their IDs for quick lookup
                 std::unordered_map<int, Lesson> lessonMap;
 
                 for( const auto& lessonGroup : m_cashedLessons )
                 {
-                    for( const auto& lesson : lessonGroup.subLessons )
+                    for( const auto& [mainName, groupedLessons] : lessonGroup.subLessons )
                     {
-                        lessonMap[lesson.id] = lesson;
+                        for( const auto& lesson : groupedLessons )
+                        {
+                            lessonMap[lesson.id] = lesson;
+                        }
                     }
                 }
 
+                // Iterate through the lessons to be exported
                 for( int id : lessonsToExport )
                 {
                     auto it = lessonMap.find(id);
                     if( it != lessonMap.end() )
                     {
                         const Lesson& lesson = it->second;
+
+                        // Create an XML node for the lesson
                         pugi::xml_node lessonNode = root.append_child("lesson");
-                        lessonNode.append_attribute("name") = lesson.mainName.c_str();
+                        lessonNode.append_attribute("groupName") = lesson.groupName.c_str();
+                        lessonNode.append_attribute("mainName") = lesson.mainName.c_str();
+                        lessonNode.append_attribute("subName") = lesson.subName.c_str();
 
-                        pugi::xml_node subnameNode = lessonNode.append_child("subname");
-                        subnameNode.append_attribute("name") = lesson.subName.c_str();
-
+                        // Add words to the lesson node
                         for( const auto& word : lesson.words )
                         {
-                            pugi::xml_node wordNode = subnameNode.append_child("word");
+                            pugi::xml_node wordNode = lessonNode.append_child("word");
                             wordNode.append_attribute("translation") = word.translation.c_str();
                             wordNode.append_attribute("romaji") = word.romaji.c_str();
                             wordNode.append_attribute("kana") = word.kana.c_str();
+                            wordNode.append_attribute("kanji") = word.kanji.c_str(); // Include kanji if available
+                            wordNode.append_attribute("example") = word.exampleSentence.c_str();
+
+                            // Add tags as child nodes of the word
+                            for( const auto& tag : word.tags )
+                            {
+                                pugi::xml_node tagNode = wordNode.append_child("tag");
+                                tagNode.append_attribute("name") = tag.c_str();
+                            }
                         }
                     }
                 }
 
+                // Save the XML document to the specified file
                 if( !doc.save_file(filePath.c_str()) )
                 {
-                    m_logger.log("Error: Could not save XML file!");
+                    m_logger.log("Error: Could not save XML file!", tools::LogLevel::PROBLEM);
                 }
                 else
                 {
-                    m_logger.log("Lessons exported to file: " + filePath);
+                    m_logger.log("Lessons successfully exported to file: " + filePath, tools::LogLevel::INFO);
                 }
             }
 
-            LessonDataPackage LessonTreeViewWidget::createLessonDataPackageFromSelectedNodes(const std::unordered_set<int>& nodes)
+            LessonDataPackage LessonTreeViewWidget::createLessonDataPackageFromSelectedNodes(const std::unordered_set<int>& selectedNodeIds)
             {
                 m_logger.log("Creating LessonDataPackage from selected nodes.");
-                std::unordered_map<int, Lesson> lessonMap;
 
-                for( const auto& lessonGroup : m_cashedLessons )
+                // Map to hold all lessons by their IDs for quick lookup
+                std::unordered_map<int, Lesson> allLessonsById;
+
+                // Populate the map from cached lessons
+                for( const auto& cachedLessonGroup : m_cashedLessons )
                 {
-                    for( const auto& lesson : lessonGroup.subLessons )
+                    for( const auto& [mainName, groupedLessons] : cachedLessonGroup.subLessons )
                     {
-                        lessonMap[lesson.id] = lesson;
+                        for( const auto& groupedLesson : groupedLessons )
+                        {
+                            allLessonsById[groupedLesson.id] = groupedLesson;
+                        }
                     }
                 }
 
-                std::vector<Lesson> lessons;
-                lessons.reserve(nodes.size());
+                // Collect lessons matching the selected node IDs
+                std::vector<Lesson> selectedLessons;
+                selectedLessons.reserve(selectedNodeIds.size());
 
-                for( int id : nodes )
+                for( int nodeId : selectedNodeIds )
                 {
-                    auto it = lessonMap.find(id);
-                    if( it != lessonMap.end() )
+                    auto lessonIt = allLessonsById.find(nodeId);
+                    if( lessonIt != allLessonsById.end() )
                     {
-                        lessons.push_back(it->second);
+                        selectedLessons.push_back(lessonIt->second);
                     }
                 }
 
-                return createLessonDataPackageFromLessons(lessons);
+                // Create and return the data package from the selected lessons
+                return createLessonDataPackageFromLessons(selectedLessons);
             }
 
-            void LessonTreeViewWidget::ShowRenamePopup(bool& renamePopupOpen)
+            void LessonTreeViewWidget::ShowRenamePopup(bool& isRenamePopupOpen)
             {
-                if( renamePopupOpen )
+                if( isRenamePopupOpen )
                 {
                     ImGui::OpenPopup("Rename Lesson");
-                    renamePopupOpen = false;
+                    isRenamePopupOpen = false;
                 }
 
                 if( ImGui::BeginPopupModal("Rename Lesson", nullptr, ImGuiWindowFlags_AlwaysAutoResize) )
@@ -993,39 +1155,72 @@ static                bool showDeleteGroupConfirmation = false;
                     ImGui::Separator();
                     ImGui::Spacing();
 
-                    ImGui::Text("Main Name:");
+                    // Input for the group name
+                    ImGui::Text("Group Name:");
                     ImGui::PushItemWidth(300);
-                    ImGui::InputText("##MainName", renameMainNameBuffer, sizeof(renameMainNameBuffer));
+                    ImGui::InputText("##GroupNameInput", renameGroupNameBuffer, sizeof(renameGroupNameBuffer));
                     ImGui::PopItemWidth();
 
                     ImGui::Spacing();
 
+                    // Input for the main name
+                    ImGui::Text("Main Name:");
+                    ImGui::PushItemWidth(300);
+                    ImGui::InputText("##MainNameInput", renameMainNameBuffer, sizeof(renameMainNameBuffer));
+                    ImGui::PopItemWidth();
+
+                    ImGui::Spacing();
+
+                    // Input for the sub name
                     ImGui::Text("Sub Name:");
                     ImGui::PushItemWidth(300);
-                    ImGui::InputText("##SubName", renameSubNameBuffer, sizeof(renameSubNameBuffer));
+                    ImGui::InputText("##SubNameInput", renameSubNameBuffer, sizeof(renameSubNameBuffer));
                     ImGui::PopItemWidth();
 
                     ImGui::Spacing();
                     ImGui::Separator();
                     ImGui::Spacing();
 
+                    // Save button
                     if( ImGui::Button("Save", ImVec2(120, 0)) )
                     {
                         if( m_changedLessonGroupIndex >= 0 && m_changedLessonGroupIndex < static_cast<int>(m_cashedLessons.size()) )
                         {
-                            auto& lessonGroup = m_cashedLessons[m_changedLessonGroupIndex];
-                            if( m_changedLessonIndex >= 0 && m_changedLessonIndex < static_cast<int>(lessonGroup.subLessons.size()) )
+                            auto& targetLessonGroup = m_cashedLessons[m_changedLessonGroupIndex];
+                            if( m_changedLessonIndex >= 0 && m_changedLessonIndex < static_cast<int>(targetLessonGroup.subLessons.size()) )
                             {
-                                auto& lesson = lessonGroup.subLessons[m_changedLessonIndex];
-                                if( lesson.mainName != renameMainNameBuffer || lesson.subName != renameSubNameBuffer )
-                                {
-                                    lessonGroup.mainName = renameMainNameBuffer;
-                                    lesson.mainName = renameMainNameBuffer;
-                                    lesson.subName = renameSubNameBuffer;
+                                // Find the correct sub-lesson list based on the current `m_changedLessonIndex`
+                                auto& subLessonPair = *std::next(targetLessonGroup.subLessons.begin(), m_changedLessonIndex);
+                                auto& targetLesson = subLessonPair.second.front(); // Assuming a single lesson per subName
 
-                                    LessonDataPackage package = createLessonDataPackageFromLesson(lesson);
-                                    emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnLessonRename, &package));
-                                    m_logger.log("Lesson renamed: " + std::string(renameMainNameBuffer) + " - " + std::string(renameSubNameBuffer));
+                                bool groupNameChanged = targetLesson.groupName != renameGroupNameBuffer;
+                                bool mainNameChanged = targetLesson.mainName != renameMainNameBuffer;
+                                bool subNameChanged = targetLesson.subName != renameSubNameBuffer;
+
+                                if( groupNameChanged || mainNameChanged || subNameChanged )
+                                {
+                                    // Update the names
+                                    if( groupNameChanged )
+                                    {
+                                        targetLesson.groupName = renameGroupNameBuffer;
+                                    }
+
+                                    if( mainNameChanged )
+                                    {
+                                        targetLesson.mainName = renameMainNameBuffer;
+                                    }
+
+                                    if( subNameChanged )
+                                    {
+                                        targetLesson.subName = renameSubNameBuffer;
+                                    }
+
+                                    // Create and emit data package
+                                    LessonDataPackage updatedPackage = createLessonDataPackageFromLesson(targetLesson);
+                                    emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnLessonRename, &updatedPackage));
+
+                                    // Log the rename operation
+                                    m_logger.log("Lesson renamed: " + std::string(renameGroupNameBuffer) + " - " + std::string(renameMainNameBuffer) + " - " + std::string(renameSubNameBuffer));
                                 }
                             }
                         }
@@ -1034,6 +1229,7 @@ static                bool showDeleteGroupConfirmation = false;
 
                     ImGui::SameLine();
 
+                    // Cancel button
                     if( ImGui::Button("Cancel", ImVec2(120, 0)) )
                     {
                         ImGui::CloseCurrentPopup();

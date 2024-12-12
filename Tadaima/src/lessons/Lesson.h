@@ -61,6 +61,7 @@ namespace tadaima
     struct Lesson
     {
         int id = 0; /**< The ID of the lesson. */
+        std::string groupName;  /**< The group name of the lesson. */
         std::string mainName; /**< The main name of the lesson. */
         std::string subName; /**< The sub name of the lesson. */
         std::vector<Word> words; /**< Words associated with the lesson. */
@@ -71,7 +72,8 @@ namespace tadaima
             return id == other.id &&
                 mainName == other.mainName &&
                 subName == other.subName &&
-                words == other.words;
+                words == other.words &&
+                groupName == other.groupName;
         }
 
         bool operator!=(const Lesson& other) const
@@ -81,7 +83,7 @@ namespace tadaima
 
         bool isEmpty() const
         {
-            return mainName.empty() && subName.empty() && words.empty();
+            return groupName.empty() && mainName.empty() && subName.empty() && words.empty();
         }
     };
 }

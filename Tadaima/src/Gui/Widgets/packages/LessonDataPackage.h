@@ -47,6 +47,7 @@ namespace tadaima
                 id,
                 MainName,
                 SubName,
+                GroupName,
                 Words
             };
 
@@ -98,6 +99,7 @@ namespace tadaima
                         package.set(gui::widget::LessonDataKey::id, lesson.id);
                         package.set(gui::widget::LessonDataKey::MainName, lesson.mainName);
                         package.set(gui::widget::LessonDataKey::SubName, lesson.subName);
+                        package.set(gui::widget::LessonDataKey::GroupName, lesson.groupName);
 
                         std::vector<gui::widget::WordDataPackage> wordPackages;
                         for( const auto& word : lesson.words )
@@ -138,6 +140,7 @@ namespace tadaima
                         lesson.id = lessonPackage.get<int>(LessonDataKey::id);
                         lesson.mainName = lessonPackage.get<std::string>(LessonDataKey::MainName);
                         lesson.subName = lessonPackage.get<std::string>(LessonDataKey::SubName);
+                        lesson.groupName = lessonPackage.get<std::string>(LessonDataKey::GroupName);
 
                         auto wordPackages = lessonPackage.get<std::vector<WordDataPackage>>(LessonDataKey::Words);
                         for( const auto& wordPackage : wordPackages )

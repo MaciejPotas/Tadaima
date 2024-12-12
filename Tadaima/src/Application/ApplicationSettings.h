@@ -23,6 +23,7 @@ namespace tadaima
             static constexpr const char* DEFAULT_SCRIPTED_QUIZ_PATH = "scripts/Quizzes";
             static constexpr const char* DEFAULT_INPUT_WORD = "BaseWord";
             static constexpr const char* DEFAULT_TRANSLATED_WORD = "Romaji";
+            static constexpr const char* DEFAULT_MAX_TRIES_FOR_QUIZ = "2";
 
             /// Application settings
             std::string userName = DEFAULT_USER_NAME;           /**< The username for the application. */
@@ -33,6 +34,7 @@ namespace tadaima
             /// Quiz settings
             std::string inputWord = DEFAULT_INPUT_WORD;         /**< The type of input word for the quiz. */
             std::string translatedWord = DEFAULT_TRANSLATED_WORD; /**< The type of translated word for the quiz. */
+            std::string maxTriesForQuiz = DEFAULT_MAX_TRIES_FOR_QUIZ;
 
             /**
              * @brief Converts the application settings to a string representation.
@@ -46,8 +48,10 @@ namespace tadaima
                 log += std::format("  -> Dictionary Path: {}\n", dictionaryPath);
                 log += std::format("  -> Quizzes Path: {}\n", quizzesPaths);
                 log += std::format("  -> Show Logs: {}\n", showLogs ? "true" : "false");
+                log += "Quiz settings:\n";
                 log += std::format("  -> Input Word: {}\n", inputWord);
                 log += std::format("  -> Translated Word: {}\n", translatedWord);
+                log += std::format("  -> Number of tries to accept the word : {}\n", maxTriesForQuiz);
 
                 return log;
             }

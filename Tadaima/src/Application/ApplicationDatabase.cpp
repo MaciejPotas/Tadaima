@@ -69,6 +69,8 @@ namespace tadaima
                 "key TEXT PRIMARY KEY, "
                 "value TEXT NOT NULL);";
 
+            const char* alterLessonsTable = "ALTER TABLE lessons ADD COLUMN group_name TEXT;";
+
             // Add this query to alter the `words` table to include `kanji` if it doesn't already exist
             const char* alterWordsTable = "ALTER TABLE words ADD COLUMN kanji TEXT;";
 
@@ -81,6 +83,33 @@ namespace tadaima
                 sqlite3_free(errMsg);
                 return false;
             }
+
+            // Try adding the group_name column if it doesn’t exist
+            if( sqlite3_exec(db, alterLessonsTable, 0, 0, &errMsg) != SQLITE_OK )
+            {
+                std::string errorMsg = std::string(errMsg);
+                if( errorMsg.find("duplicate column name") == std::string::npos )
+                {
+                    m_logger.log("Database: SQL error while altering lessons table: " + errorMsg, tools::LogLevel::PROBLEM);
+                    sqlite3_free(errMsg);
+                    return false;
+                }
+                sqlite3_free(errMsg); // Free the error message
+            }
+
+            // Backfill group_name for existing rows where it is NULL
+            const char* backfillGroupName =
+                "UPDATE lessons "
+                "SET group_name = SUBSTR(main_name, 1, INSTR(main_name, ' ') - 1) "
+                "WHERE group_name IS NULL OR group_name = '';";
+
+            if( sqlite3_exec(db, backfillGroupName, 0, 0, &errMsg) != SQLITE_OK )
+            {
+                m_logger.log("Database: SQL error while backfilling group_name: " + std::string(errMsg), tools::LogLevel::PROBLEM);
+                sqlite3_free(errMsg);
+                return false;
+            }
+
             if( sqlite3_exec(db, createWordsTable, 0, 0, &errMsg) != SQLITE_OK )
             {
                 m_logger.log("Database: SQL error while creating words table: " + std::string(errMsg), tools::LogLevel::PROBLEM);
@@ -114,17 +143,32 @@ namespace tadaima
                 sqlite3_free(errMsg);  // Free the error message
             }
 
+            // Attempt to alter the lessons table to add group_name column
+            if( sqlite3_exec(db, alterLessonsTable, 0, 0, &errMsg) != SQLITE_OK )
+            {
+                // Ignore the error if it indicates that the column already exists
+                std::string errorMsg = std::string(errMsg);
+                if( errorMsg.find("duplicate column name") == std::string::npos )
+                {
+                    m_logger.log("Database: SQL error while altering lessons table: " + errorMsg, tools::LogLevel::PROBLEM);
+                    sqlite3_free(errMsg);
+                    return false;
+                }
+                sqlite3_free(errMsg);
+            }
+
             return true;
         }
 
-        int ApplicationDatabase::addLesson(const std::string& mainName, const std::string& subName)
+        int ApplicationDatabase::addLesson(const std::string& mainName, const std::string& subName, const std::string& groupName)
         {
-            const char* sql = "INSERT INTO lessons (main_name, sub_name) VALUES (?, ?);";
+            const char* sql = "INSERT INTO lessons (main_name, sub_name, group_name) VALUES (?, ?, ?);";
             sqlite3_stmt* stmt;
             if( sqlite3_prepare_v2(db, sql, -1, &stmt, 0) == SQLITE_OK )
             {
                 sqlite3_bind_text(stmt, 1, mainName.c_str(), -1, SQLITE_STATIC);
                 sqlite3_bind_text(stmt, 2, subName.c_str(), -1, SQLITE_STATIC);
+                sqlite3_bind_text(stmt, 3, groupName.c_str(), -1, SQLITE_STATIC);
                 if( sqlite3_step(stmt) != SQLITE_DONE )
                 {
                     m_logger.log("Database: SQL error while adding lesson: " + std::string(sqlite3_errmsg(db)), tools::LogLevel::PROBLEM);
@@ -133,7 +177,7 @@ namespace tadaima
                 }
                 int lessonId = static_cast<int>(sqlite3_last_insert_rowid(db));
                 sqlite3_finalize(stmt);
-                m_logger.log("Database: Added lesson with ID " + std::to_string(lessonId) + ", mainName: " + mainName + ", subName: " + subName, tools::LogLevel::INFO);
+                m_logger.log("Database: Added lesson with ID " + std::to_string(lessonId) + ", mainName: " + mainName + ", subName: " + subName + ", groupName: " + groupName, tools::LogLevel::INFO);
                 return lessonId;
             }
             return -1;
@@ -187,21 +231,31 @@ namespace tadaima
             }
         }
 
-        void ApplicationDatabase::updateLesson(int lessonId, const std::string& newMainName, const std::string& newSubName)
+        void ApplicationDatabase::updateLesson(int lessonId, const std::string& newGroupName, const std::string& newMainName, const std::string& newSubName)
         {
-            const char* sql = "UPDATE lessons SET main_name = ?, sub_name = ? WHERE id = ?;";
+            const char* sql = "UPDATE lessons SET group_name = ?, main_name = ?, sub_name = ? WHERE id = ?;";
             sqlite3_stmt* stmt;
             if( sqlite3_prepare_v2(db, sql, -1, &stmt, 0) == SQLITE_OK )
             {
-                sqlite3_bind_text(stmt, 1, newMainName.c_str(), -1, SQLITE_STATIC);
-                sqlite3_bind_text(stmt, 2, newSubName.c_str(), -1, SQLITE_STATIC);
-                sqlite3_bind_int(stmt, 3, lessonId);
+                sqlite3_bind_text(stmt, 1, newGroupName.c_str(), -1, SQLITE_STATIC);
+                sqlite3_bind_text(stmt, 2, newMainName.c_str(), -1, SQLITE_STATIC);
+                sqlite3_bind_text(stmt, 3, newSubName.c_str(), -1, SQLITE_STATIC);
+                sqlite3_bind_int(stmt, 4, lessonId);
+
                 if( sqlite3_step(stmt) != SQLITE_DONE )
                 {
                     m_logger.log("Database: SQL error while updating lesson: " + std::string(sqlite3_errmsg(db)), tools::LogLevel::PROBLEM);
                 }
+                else
+                {
+                    m_logger.log("Database: Updated lesson ID " + std::to_string(lessonId) + " to groupName: " + newGroupName + ", mainName: " + newMainName + ", subName: " + newSubName, tools::LogLevel::INFO);
+                }
+
                 sqlite3_finalize(stmt);
-                m_logger.log("Database: Updated lesson ID " + std::to_string(lessonId) + " to mainName: " + newMainName + ", subName: " + newSubName, tools::LogLevel::INFO);
+            }
+            else
+            {
+                m_logger.log("Database: Failed to prepare SQL statement: " + std::string(sqlite3_errmsg(db)), tools::LogLevel::PROBLEM);
             }
         }
 
@@ -231,14 +285,15 @@ namespace tadaima
 
                 if( lessonExists )
                 {
-                    // Update lesson details
-                    const char* updateLessonSql = "UPDATE lessons SET main_name = ?, sub_name = ? WHERE id = ?;";
+                    // Update lesson details, including groupName
+                    const char* updateLessonSql = "UPDATE lessons SET group_name = ?, main_name = ?, sub_name = ? WHERE id = ?;";
                     sqlite3_stmt* updateLessonStmt;
                     if( sqlite3_prepare_v2(db, updateLessonSql, -1, &updateLessonStmt, 0) == SQLITE_OK )
                     {
-                        sqlite3_bind_text(updateLessonStmt, 1, lesson.mainName.c_str(), -1, SQLITE_STATIC);
-                        sqlite3_bind_text(updateLessonStmt, 2, lesson.subName.c_str(), -1, SQLITE_STATIC);
-                        sqlite3_bind_int(updateLessonStmt, 3, lesson.id);
+                        sqlite3_bind_text(updateLessonStmt, 1, lesson.groupName.c_str(), -1, SQLITE_STATIC);
+                        sqlite3_bind_text(updateLessonStmt, 2, lesson.mainName.c_str(), -1, SQLITE_STATIC);
+                        sqlite3_bind_text(updateLessonStmt, 3, lesson.subName.c_str(), -1, SQLITE_STATIC);
+                        sqlite3_bind_int(updateLessonStmt, 4, lesson.id);
                         if( sqlite3_step(updateLessonStmt) != SQLITE_DONE )
                         {
                             m_logger.log("Database: SQL error while updating lesson: " + std::string(sqlite3_errmsg(db)), tools::LogLevel::PROBLEM);
@@ -265,8 +320,8 @@ namespace tadaima
                 }
                 else
                 {
-                    // Insert new lesson
-                    int newLessonId = addLesson(lesson.mainName, lesson.subName);
+                    // Insert new lesson with groupName
+                    int newLessonId = addLesson(lesson.mainName, lesson.subName, lesson.groupName);
                     if( newLessonId == -1 )
                     {
                         throw std::runtime_error("Failed to insert lesson");
@@ -275,7 +330,7 @@ namespace tadaima
                 }
 
                 // Insert updated words
-                const char* insertWordSql = "INSERT INTO words (lesson_id, kana, kanji, translation, romaji, example_sentence) VALUES (?, ?, ?, ?, ?, ?);";  // Updated to include kanji
+                const char* insertWordSql = "INSERT INTO words (lesson_id, kana, kanji, translation, romaji, example_sentence) VALUES (?, ?, ?, ?, ?, ?);";
                 sqlite3_stmt* insertWordStmt;
                 for( const auto& word : lesson.words )
                 {
@@ -283,7 +338,7 @@ namespace tadaima
                     {
                         sqlite3_bind_int(insertWordStmt, 1, lessonId);
                         sqlite3_bind_text(insertWordStmt, 2, word.kana.c_str(), -1, SQLITE_STATIC);
-                        sqlite3_bind_text(insertWordStmt, 3, word.kanji.empty() ? "N/A" : word.kanji.c_str(), -1, SQLITE_STATIC);  // Bind kanji
+                        sqlite3_bind_text(insertWordStmt, 3, word.kanji.empty() ? "N/A" : word.kanji.c_str(), -1, SQLITE_STATIC);
                         sqlite3_bind_text(insertWordStmt, 4, word.translation.c_str(), -1, SQLITE_STATIC);
                         sqlite3_bind_text(insertWordStmt, 5, word.romaji.c_str(), -1, SQLITE_STATIC);
                         sqlite3_bind_text(insertWordStmt, 6, word.exampleSentence.c_str(), -1, SQLITE_STATIC);
@@ -327,7 +382,7 @@ namespace tadaima
                 // Rollback transaction in case of error
                 const char* rollbackTransaction = "ROLLBACK;";
                 sqlite3_exec(db, rollbackTransaction, 0, 0, 0);
-                std::cerr << "Error updating lesson: " << e.what() << std::endl;
+                m_logger.log("Error updating lesson: " + std::string(e.what()), tools::LogLevel::PROBLEM);
                 return false;
             }
         }
@@ -453,7 +508,7 @@ namespace tadaima
         std::vector<Lesson> ApplicationDatabase::getAllLessons() const
         {
             std::vector<Lesson> lessons;
-            const char* sql = "SELECT id, main_name, sub_name FROM lessons;";
+            const char* sql = "SELECT id, main_name, sub_name, group_name FROM lessons;";
             sqlite3_stmt* stmt;
             m_logger.log("Database: Loading lessons.", tools::LogLevel::INFO);
 
@@ -465,6 +520,18 @@ namespace tadaima
                     lesson.id = sqlite3_column_int(stmt, 0);
                     lesson.mainName = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
                     lesson.subName = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2));
+                    const char* groupNameText = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 3));
+                    if( groupNameText && strlen(groupNameText) > 0 )
+                    {
+                        // If groupNameText is not null and not empty, use it
+                        lesson.groupName = groupNameText;
+                    }
+                    else
+                    {
+                        // Derive group name from mainName
+                        size_t pos = lesson.mainName.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
+                        lesson.groupName = (pos != std::string::npos) ? lesson.mainName.substr(0, pos) : lesson.mainName;
+                    }
                     lesson.words = getWordsInLesson(lesson.id);
                     lessons.push_back(lesson);
                 }
@@ -500,6 +567,7 @@ namespace tadaima
             saveSetting("inputWord", settings.inputWord);
             saveSetting("translatedWord", settings.translatedWord);
             saveSetting("showLogs", settings.showLogs ? "true" : "false");
+            saveSetting("maxTriesForQuiz", settings.maxTriesForQuiz); // New field for quiz max tries
         }
 
         ApplicationSettings ApplicationDatabase::loadSettings()
@@ -531,6 +599,7 @@ namespace tadaima
             loadSetting("translatedWord", settings.translatedWord);
             loadSetting("showLogs", showLogs);
             settings.showLogs = showLogs == "true" ? true : false;
+            loadSetting("maxTriesForQuiz", settings.maxTriesForQuiz);
 
             return settings;
         }
