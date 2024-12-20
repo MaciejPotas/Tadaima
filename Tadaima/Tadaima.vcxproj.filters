@@ -62,9 +62,11 @@
     <ClCompile Include="src\gui\widgets\ConjugationQuizWidget.cpp">
       <Filter>src\gui\quiz</Filter>
     </ClCompile>
-    <ClCompile Include="src\gui\quiz\ConjugationQuiz.cpp" />
     <ClCompile Include="src\dictionary\Conjugations.cpp">
       <Filter>src\dictionary</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\quiz\ConjugationQuiz.cpp">
+      <Filter>src\gui\quiz</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
