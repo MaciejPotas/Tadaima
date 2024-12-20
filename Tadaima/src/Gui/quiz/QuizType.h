@@ -14,7 +14,8 @@ namespace tadaima
             enum class QuizType : uint8_t
             {
                 MultipleChoiceQuiz, ///< A quiz with multiple choice questions.
-                VocabularyQuiz      ///< A quiz focusing on vocabulary.
+                VocabularyQuiz,     ///< A quiz focusing on vocabulary.
+                ConjuactionQuiz     ///< A quiz focusing on testing the conjuaction.
             };
 
             /**
@@ -22,9 +23,9 @@ namespace tadaima
              */
             enum WordType : uint8_t
             {
-                BaseWord, ///< Answer in the translated language.
-                Kana,        ///< Answer in Kana (Japanese syllabaries including Hiragana and Katakana).
-                Romaji,      ///< Answer in Romaji (Latin script representation of Japanese).
+                BaseWord,   ///< Answer in the translated language.
+                Kana,       ///< Answer in Kana (Japanese syllabaries including Hiragana and Katakana).
+                Romaji,     ///< Answer in Romaji (Latin script representation of Japanese).
             };
       
         }

@@ -27,17 +27,19 @@ namespace tadaima
             {
                 Username,               /**< Key for username. */
                 DictionaryPath,         /**< Key for dictionary path. */
+                ConjugationPath,        /**< Key for conjugation path */
                 QuizzesScriptsPath,     /**< Key for scripted quizes path. */
-                TriesForQuiz,
+                TriesForQuiz,           /**< Key for number of tries per word */
                 AskedWordType,          /**< Key for input word. */
                 AnswerWordType,         /**< Key for translated word. */
-                ShowLogs                /**< Key for showing console logs */
+                ShowLogs,               /**< Key for showing console logs */
+                ConjugationMask         /**< Key for conjugation path */
             };
 
             /**
              * @brief Represents a package containing settings data.
              */
-            class SettingsDataPackage : public tools::ComplexDataPackage<SettingsPackageKey, bool, std::string, quiz::WordType>
+            class SettingsDataPackage : public tools::ComplexDataPackage<SettingsPackageKey, bool, uint16_t, std::string, quiz::WordType>
             {
             public:
 

@@ -208,7 +208,10 @@ xcopy "$(ProjectDir)..\scripts" "$(SolutionDir)bin\$(Platform)\scripts" /Y /I /Q
   <ItemGroup>
     <ClCompile Include="src\application\Application.cpp" />
     <ClCompile Include="src\bridge\EventBridge.cpp" />
+    <ClCompile Include="src\dictionary\Conjugations.cpp" />
     <ClCompile Include="src\gui\GuiStyle.cpp" />
+    <ClCompile Include="src\gui\quiz\ConjugationQuiz.cpp" />
+    <ClCompile Include="src\gui\widgets\ConjugationQuizWidget.cpp" />
     <ClCompile Include="src\gui\quiz\MultipleChoiceQuiz.cpp" />
     <ClCompile Include="src\gui\quiz\QuizManagerWidget.cpp" />
     <ClCompile Include="src\gui\quiz\VocabularyQuiz.cpp" />
@@ -217,6 +220,9 @@ xcopy "$(ProjectDir)..\scripts" "$(SolutionDir)bin\$(Platform)\scripts" /Y /I /Q
     <ClInclude Include="src\application\ApplicationEventList.h" />
     <ClInclude Include="src\Application\ApplicationSettings.h" />
     <ClInclude Include="src\bridge\EventBridge.h" />
+    <ClInclude Include="src\dictionary\Word.h" />
+    <ClInclude Include="src\gui\quiz\ConjugationQuiz.h" />
+    <ClInclude Include="src\gui\widgets\ConjugationQuizWidget.h" />
     <ClInclude Include="src\gui\quiz\Flashcard.h" />
     <ClInclude Include="src\gui\quiz\QuizManagerWidget.h" />
     <ClInclude Include="src\gui\quiz\QuizType.h" />
@@ -255,11 +261,12 @@ xcopy "$(ProjectDir)..\scripts" "$(SolutionDir)bin\$(Platform)\scripts" /Y /I /Q
     <ClInclude Include="src\gui\widgets\Widget.h" />
     <ClInclude Include="src\gui\widgets\WidgetTypes.h" />
     <ClInclude Include="src\application\ApplicationDatabase.h" />
+    <ClInclude Include="src\dictionary\Conjugations.h" />
     <ClInclude Include="src\lessons\Lesson.h" />
     <ClInclude Include="src\lessons\LessonManager.h" />
     <ClInclude Include="src\gui\quiz\MultipleChoiceQuiz.h" />
     <ClInclude Include="src\tools\Database.h" />
-    <ClInclude Include="src\tools\Dictionary.h" />
+    <ClInclude Include="src\dictionary\Dictionary.h" />
     <ClInclude Include="src\tools\SystemTools.h" />
     <ClInclude Include="src\Version.h" />
   </ItemGroup>

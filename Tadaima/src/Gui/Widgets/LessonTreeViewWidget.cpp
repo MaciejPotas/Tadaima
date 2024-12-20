@@ -138,6 +138,7 @@ namespace tadaima
                     wordPackage.set(LessonWordDataKey::Romaji, word.romaji);
                     wordPackage.set(LessonWordDataKey::ExampleSentence, word.exampleSentence);
                     wordPackage.set(LessonWordDataKey::Tags, word.tags);
+                    wordPackage.set(LessonWordDataKey::Conjugation, word.conjugations);
                     wordPackages.push_back(wordPackage);
                 }
 
@@ -380,6 +381,11 @@ namespace tadaima
                                                         emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnPlayMultipleChoiceQuiz, &package));
                                                     }
 
+                                                    if( ImGui::MenuItem("Conjuation quiz") )
+                                                    {
+                                                        emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnConjuactionQuiz, &package));
+                                                    }
+
                                                     ImGui::EndMenu();
                                                 }
 
@@ -469,6 +475,14 @@ namespace tadaima
                                                     createLessonDataPackageFromSelectedNodes(m_selectedLessons) :
                                                     createLessonDataPackageFromLesson(lesson);
                                                 emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnPlayMultipleChoiceQuiz, &package));
+                                            }
+
+                                            if( ImGui::MenuItem("conjuaction quiz") )
+                                            {
+                                                auto package = (m_selectedLessons.size() > 0) ?
+                                                    createLessonDataPackageFromSelectedNodes(m_selectedLessons) :
+                                                    createLessonDataPackageFromLesson(lesson);
+                                                emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnConjuactionQuiz, &package));
                                             }
 
                                             ImGui::EndMenu();

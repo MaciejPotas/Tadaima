@@ -106,7 +106,7 @@ namespace tadaima
                  *
                  * @param desc The description to display in the help marker.
                  */
-                void ShowHelpMarker(const char* desc);
+                //void ShowHelpMarker(const char* desc);
 
                 /**
                  * @brief Shows field help with the given description.
@@ -119,12 +119,14 @@ namespace tadaima
 
                 tools::Logger& m_logger; /**< Reference to the Logger instance for logging. */
                 char m_dictionaryPath[50] = ""; /**< Path to the dictionary used by the application. */
+                char m_conjugationPath[50] = ""; /**< Path to the conjugation used by the application. */
                 char m_scriptPaths[50] = ""; /**< Path to the directory containing quiz scripts. */
                 char m_username[30] = ""; /**< Username for the application. */
                 int m_inputOption = quiz::WordType::BaseWord; /**< The input word type for quizzes. */
                 int m_translationOption = quiz::WordType::Romaji; /**< The translation word type for quizzes. */
                 int m_numberOfTries = 1; /**< The number of tries allowed for answering a quiz question. */
                 bool m_showlogs = false; /**< Flag indicating whether logs should be displayed. */
+                uint16_t m_conjugationBits = 0; // 16 bits for up to 16 conjugation types
             };
         }
     }

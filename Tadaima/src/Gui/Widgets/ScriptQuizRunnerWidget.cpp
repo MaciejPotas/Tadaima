@@ -1,9 +1,9 @@
 #include "ScriptQuizRunnerWidget.h"
+#include "Dictionary/Dictionary.h"
 #include "packages/SettingsDataPackage.h"
 #include <filesystem>
 #include "Tools/Logger.h"
 #include "imgui.h"
-#include "tools/Dictionary.h"
 
 namespace tadaima
 {
@@ -81,7 +81,6 @@ namespace tadaima
                             ImGui::CloseCurrentPopup();
                         }
                         ImGui::PopStyleColor(2);
-
 
                         // Add padding inside the window
                         ImGui::Dummy(ImVec2(0, 10));

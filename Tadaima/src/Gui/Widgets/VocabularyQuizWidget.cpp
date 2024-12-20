@@ -3,6 +3,7 @@
 #include "imgui.h"
 #include "packages/SettingsDataPackage.h"
 #include "Lessons/Lesson.h"
+#include "Dictionary/Word.h"
 #include <stdexcept>
 #include <format>
 #include <random>

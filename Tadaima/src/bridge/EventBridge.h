@@ -9,9 +9,6 @@
 
 #pragma once
 
-#include "application/ApplicationEventList.h"
-#include "gui/Widgets/WidgetTypes.h"
-#include <functional>
 #include <vector>
 #include "lessons/Lesson.h"
 #include "Widgets/Widget.h"

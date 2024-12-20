@@ -1,6 +1,8 @@
 #include "QuizManagerWidget.h"
 #include "widgets/VocabularyQuizWidget.h"
+#include "widgets/ConjugationQuizWidget.h"
 #include "widgets/packages/SettingsDataPackage.h"
+#include "widgets/QuizWidget.h"
 
 namespace tadaima
 {
@@ -29,6 +31,13 @@ namespace tadaima
                     m_quiz = std::make_unique<widget::VocabularyQuizWidget>(m_askedWordType, m_answerWordType, m_triesForAWord, lesson, m_logger);
                     quizWidgetOpen = true;
                 }
+                else if( QuizType::ConjuactionQuiz == type )
+                {
+                    m_quiz.reset();
+                    m_logger.log("Starting ConjuactionQuiz.", tools::LogLevel::INFO);
+                    m_quiz = std::make_unique<widget::ConjugationQuizWidget>(m_conjugationMask, m_triesForAWord, lesson, m_logger);
+                    quizWidgetOpen = true;
+                }
             }
 
             void QuizManagerWidget::draw([[maybe_unused]] bool* p_open)
@@ -51,6 +60,7 @@ namespace tadaima
                         m_answerWordType = package->get< quiz::WordType>(widget::SettingsPackageKey::AnswerWordType);
                         m_askedWordType = package->get<quiz::WordType>(widget::SettingsPackageKey::AskedWordType);
                         m_triesForAWord = static_cast<uint8_t>(std::stoi(package->get<std::string>(widget::SettingsPackageKey::TriesForQuiz)));
+                        m_conjugationMask = package->get < uint16_t>(widget::SettingsPackageKey::ConjugationMask);
                     }
                 }
                 catch( std::exception& exception )
@@ -62,7 +72,6 @@ namespace tadaima
                     m_logger.log("Exception caught in QuizManager::initialize.Unkown problem.", tools::LogLevel::PROBLEM);
                 }
             }
-
         }
     }
 }

@@ -83,15 +83,6 @@ namespace tadaima
                 std::string getTranslation(const Word& word, quiz::WordType type) const;
 
                 /**
-                 * @brief Initializes flashcards from a set of lessons.
-                 *
-                 * Creates flashcards by combining words from the provided lessons.
-                 *
-                 * @param lessons A vector of lessons to generate flashcards from.
-                 */
-                void initializeFlashcards(const std::vector<Lesson>& lessons);
-
-                /**
                  * @brief Gets a hint for the current flashcard.
                  *
                  * Generates a hint to assist the user in answering the current flashcard.

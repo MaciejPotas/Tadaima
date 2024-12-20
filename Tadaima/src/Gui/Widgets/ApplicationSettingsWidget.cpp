@@ -1,5 +1,6 @@
 #pragma once
 
+#include "dictionary/Conjugations.h"
 #include "ApplicationSettingsWidget.h"
 #include "packages/SettingsDataPackage.h"
 #include "imgui.h"
@@ -62,11 +63,13 @@ namespace tadaima
                     SettingsDataPackage package;
                     package.set(SettingsPackageKey::Username, std::string(m_username));
                     package.set(SettingsPackageKey::DictionaryPath, std::string(m_dictionaryPath));
+                    package.set(SettingsPackageKey::ConjugationPath, std::string(m_conjugationPath));
                     package.set(SettingsPackageKey::QuizzesScriptsPath, std::string(m_scriptPaths));
                     package.set(SettingsPackageKey::AskedWordType, static_cast<quiz::WordType>(m_inputOption));
                     package.set(SettingsPackageKey::AnswerWordType, static_cast<quiz::WordType>(m_translationOption));
                     package.set(SettingsPackageKey::ShowLogs, m_showlogs);
                     package.set(SettingsPackageKey::TriesForQuiz, std::to_string(m_numberOfTries));
+                    package.set(SettingsPackageKey::ConjugationMask, m_conjugationBits);
 
                     emitEvent(WidgetEvent(*this, ApplicationSettingsWidgetEvent::OnSettingsChanged, &package));
                 }
@@ -91,20 +94,24 @@ namespace tadaima
 
                         const std::string userName = package->get<std::string>(SettingsPackageKey::Username);
                         const std::string dictionaryPath = package->get<std::string>(SettingsPackageKey::DictionaryPath);
+                        const std::string conjugationPath = package->get<std::string>(SettingsPackageKey::ConjugationPath);
                         const std::string quizzesScripts = package->get<std::string>(SettingsPackageKey::QuizzesScriptsPath);
                         const std::string numberOfTries = package->get<std::string>(SettingsPackageKey::TriesForQuiz);
 
                         memset(m_username, 0, sizeof(m_username));
                         memset(m_dictionaryPath, 0, sizeof(m_dictionaryPath));
+                        memset(m_conjugationPath, 0, sizeof(m_conjugationPath));
                         memset(m_scriptPaths, 0, sizeof(m_scriptPaths));
                         memcpy(m_username, userName.c_str(), userName.size());
                         memcpy(m_dictionaryPath, dictionaryPath.c_str(), dictionaryPath.size());
+                        memcpy(m_conjugationPath, conjugationPath.c_str(), conjugationPath.size());
                         memcpy(m_scriptPaths, quizzesScripts.c_str(), quizzesScripts.size());
 
                         m_inputOption = package->get<quiz::WordType>(SettingsPackageKey::AskedWordType);
                         m_translationOption = package->get<quiz::WordType>(SettingsPackageKey::AnswerWordType);
                         m_numberOfTries = std::stoi(numberOfTries);
                         m_showlogs = package->get<bool>(SettingsPackageKey::ShowLogs);
+                        m_conjugationBits = package->get<uint16_t>(SettingsPackageKey::ConjugationMask);
 
                         m_logger.log("ApplicationSettingsWidget: Initialized.", tools::LogLevel::INFO);
                     }
@@ -149,6 +156,11 @@ namespace tadaima
                                 ImGui::Text("Path to the directory");
                                 ShowFieldHelp("Select the directory where your Japanese word files are stored.");
 
+                                ImGui::InputText("##ConjugationPath", m_conjugationPath, IM_ARRAYSIZE(m_conjugationPath));
+                                ImGui::SameLine();
+                                ImGui::Text("Path to the conjugation dictionary");
+                                ShowFieldHelp("Select the conjugation dictionary where your conjugation words are stored.");
+
                                 ImGui::InputText("##ScriptPaths", m_scriptPaths, IM_ARRAYSIZE(m_scriptPaths));
                                 ImGui::SameLine();
                                 ImGui::Text("Path to scripted quizzes");
@@ -166,8 +178,22 @@ namespace tadaima
 
                             if( ImGui::BeginTabItem("Quiz Settings") )
                             {
+                                ImGui::TextColored(ImVec4(0.8f, 0.2f, 0.2f, 1.0f), "General Quiz Settings");
+
+                                ImGui::Text("Set the number of tries allowed for each word during the quiz.");
+                                ImGui::SliderInt(" ", &m_numberOfTries, 1, 10, "%d");
+
+                                ImGui::Spacing();
+                                ImGui::Separator();
+                                ImGui::Spacing();
+
+                                ImGui::EndTabItem();
+                            }
+
+                            if( ImGui::BeginTabItem("Vocabulary Quiz Settings") )
+                            {
                                 // Quiz Settings Section
-                                ImGui::TextColored(ImVec4(0.8f, 0.2f, 0.2f, 1.0f), "Quiz Settings");
+                                ImGui::TextColored(ImVec4(0.8f, 0.2f, 0.2f, 1.0f), "Vocabulary Quiz Settings");
                                 ImGui::Separator();
                                 ImGui::Spacing();
 
@@ -189,13 +215,51 @@ namespace tadaima
                                 ImGui::Combo("##translation_type", &m_translationOption, translationOptions, IM_ARRAYSIZE(translationOptions));
                                 ShowFieldHelp("Choose how you want the words to be translated during the quiz.");
 
-                                ImGui::Text("Set the number of tries allowed for each word during the quiz.");
-                                ImGui::SliderInt(" ", &m_numberOfTries, 1, 10, "%d");
-
                                 ImGui::Spacing();
                                 ImGui::Separator();
                                 ImGui::Spacing();
 
+                                ImGui::EndTabItem();
+                            }
+
+                            if( ImGui::BeginTabItem("Conjugation Quiz Settings") )
+                            {
+                                // Title for the section
+                                ImGui::TextColored(ImVec4(0.8f, 0.2f, 0.2f, 1.0f), "Conjugation Quiz Settings");
+                                ImGui::Separator();
+                                ImGui::Spacing();
+
+                                // Conjugation Types Checkbox Grid
+                                constexpr int numColumns = 3;
+
+                                ImGui::Text("Select conjugations to include in the quiz:");
+                                ImGui::Separator();
+
+                                if( ImGui::BeginTable("ConjugationsTable", numColumns, ImGuiTableFlags_SizingFixedFit) )
+                                {
+                                    for( int i = 0; i < CONJUGATION_COUNT; ++i )
+                                    {
+                                        if( i % numColumns == 0 )
+                                            ImGui::TableNextRow();
+
+                                        ImGui::TableSetColumnIndex(i % numColumns);
+
+                                        // Checkbox bound to the corresponding bit in `conjugationBits`
+                                        bool isChecked = (m_conjugationBits & (1 << i)) != 0;
+                                        if( ImGui::Checkbox(ConjugationTypeToString(static_cast<ConjugationType>(i)).c_str(), &isChecked) )
+                                        {
+                                            // Set or clear the corresponding bit
+                                            if( isChecked )
+                                                m_conjugationBits |= (1 << i); // Set bit
+                                            else
+                                                m_conjugationBits &= ~(1 << i); // Clear bit
+                                        }
+                                    }
+                                    ImGui::EndTable();
+                                }
+
+                                ImGui::Spacing();
+                                ImGui::Separator();
                                 ImGui::EndTabItem();
                             }
 

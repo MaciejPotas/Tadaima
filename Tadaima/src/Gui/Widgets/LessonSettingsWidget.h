@@ -7,7 +7,8 @@
 
 #include "Widget.h"
 #include "Lessons/Lesson.h"
-#include "tools/Dictionary.h"
+#include "dictionary/Conjugations.h"
+#include "dictionary/Dictionary.h"
 
 namespace tools { class Logger; }
 
@@ -47,8 +48,13 @@ namespace tadaima
                   */
                 void initialize(const tools::DataPackage& r_package) override;
 
+                void drawConjugationsModal();
+
+                void clearConjugationBuffers(std::array<std::array<char, 128>, CONJUGATION_COUNT>& buffers);
             private:
 
+                bool m_isConjugating = false;
+                bool m_ConjugatingSaved = false;
                 bool m_isEditing = false; ///< Flag indicating whether the widget is in edit mode.
                 char m_mainNameBuffer[50] = ""; ///< Buffer for the lesson main name.
                 char m_subNameBuffer[50] = "";  ///< Buffer for the lesson sub name.
@@ -59,6 +65,10 @@ namespace tadaima
                 char m_romajiBuffer[50] = ""; ///< Buffer for word romaji.
                 char m_exampleSentenceBuffer[300] = ""; ///< Buffer for example sentence.
                 char m_tagBuffer[100] = ""; ///< Buffer for word tags.
+                //std::array<std::string, CONJUGATION_COUNT> m_conjugation;
+                std::array<std::array<char, 128>, CONJUGATION_COUNT> m_conjugationBuffers;
+
+                Word m_newWord;
                 int m_selectedWordIndex = -1; ///< Index of the selected word in the list.
                 Lesson m_newLesson; ///< New lesson to be added or edited.
                 Dictionary m_dictionary;

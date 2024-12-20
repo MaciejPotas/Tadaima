@@ -8,6 +8,7 @@
 #include <stdexcept>
 #include "packages/SettingsDataPackage.h"
 #include "Tools/Logger.h"
+
 namespace tadaima
 {
     namespace gui
@@ -27,6 +28,7 @@ namespace tadaima
                 std::memset(m_exampleSentenceBuffer, 0, sizeof(m_exampleSentenceBuffer));
                 std::memset(m_tagBuffer, 0, sizeof(m_tagBuffer));
                 std::memset(m_kanjiBuffer, 0, sizeof(m_kanjiBuffer));
+                clearConjugationBuffers(m_conjugationBuffers);
             }
 
             void LessonSettingsWidget::draw(bool* p_open)
@@ -104,6 +106,15 @@ namespace tadaima
                         }
                     }
 
+                    ImGui::SameLine();
+
+                    if( ImGui::Button("Conjugations") )
+                    {
+                        ImGui::OpenPopup("Conjugations Modal");
+                    }
+
+                    drawConjugationsModal();
+
                     ImGui::Spacing();
 
                     ImGui::InputText("##Romaji", m_romajiBuffer, sizeof(m_romajiBuffer));
@@ -145,12 +156,12 @@ namespace tadaima
                         // Ensure required fields are set
                         if( std::strlen(m_translationBuffer) > 0 && std::strlen(m_kanaBuffer) > 0 )
                         {
-                            Word newWord;
-                            newWord.kana = std::string(m_kanaBuffer);
-                            newWord.kanji = std::string(m_kanjiBuffer);
-                            newWord.translation = std::string(m_translationBuffer);
-                            newWord.romaji = std::string(m_romajiBuffer);
-                            newWord.exampleSentence = std::string(m_exampleSentenceBuffer);
+                            m_newWord.kana = std::string(m_kanaBuffer);
+                            m_newWord.kanji = std::string(m_kanjiBuffer);
+                            m_newWord.translation = std::string(m_translationBuffer);
+                            m_newWord.romaji = std::string(m_romajiBuffer);
+                            m_newWord.exampleSentence = std::string(m_exampleSentenceBuffer);
+                            //m_newWord.conjugations = m_conjugation;
 
                             // Split tags by comma
                             std::string tagsStr(m_tagBuffer);
@@ -158,14 +169,19 @@ namespace tadaima
                             std::string tag;
                             while( std::getline(iss, tag, ',') )
                             {
-                                newWord.tags.push_back(tag);
+                                m_newWord.tags.push_back(tag);
+                            }
+
+                            for( int i = 0; i < CONJUGATION_COUNT; ++i )
+                            {
+                                m_newWord.conjugations[i] = std::string(m_conjugationBuffers[i].data());
                             }
 
                             m_newLesson.groupName = std::string(m_groupNameBuffer);
                             m_newLesson.mainName = std::string(m_mainNameBuffer);
                             m_newLesson.subName = std::string(m_subNameBuffer);
 
-                            m_newLesson.words.push_back(newWord);
+                            m_newLesson.words.push_back(m_newWord);
 
                             // Clear the word input fields for the next word
                             std::memset(m_kanaBuffer, 0, sizeof(m_kanaBuffer));
@@ -174,6 +190,8 @@ namespace tadaima
                             std::memset(m_romajiBuffer, 0, sizeof(m_romajiBuffer));
                             std::memset(m_exampleSentenceBuffer, 0, sizeof(m_exampleSentenceBuffer));
                             std::memset(m_tagBuffer, 0, sizeof(m_tagBuffer));
+                            clearConjugationBuffers(m_conjugationBuffers);
+                            m_newWord.clear();
                         }
                     }
 
@@ -201,6 +219,11 @@ namespace tadaima
                                     updatedWord.tags.push_back(tag);
                                 }
 
+                                for( int i = 0; i < CONJUGATION_COUNT; ++i )
+                                {
+                                    updatedWord.conjugations[i] = std::string(m_conjugationBuffers[i].data());
+                                }
+
                                 m_newLesson.words[m_selectedWordIndex] = updatedWord;
                                 m_selectedWordIndex = -1;  // Reset selection after update
 
@@ -211,6 +234,7 @@ namespace tadaima
                                 std::memset(m_romajiBuffer, 0, sizeof(m_romajiBuffer));
                                 std::memset(m_exampleSentenceBuffer, 0, sizeof(m_exampleSentenceBuffer));
                                 std::memset(m_tagBuffer, 0, sizeof(m_tagBuffer));
+                                clearConjugationBuffers(m_conjugationBuffers);
                             }
                         }
 
@@ -227,6 +251,7 @@ namespace tadaima
                             std::memset(m_romajiBuffer, 0, sizeof(m_romajiBuffer));
                             std::memset(m_exampleSentenceBuffer, 0, sizeof(m_exampleSentenceBuffer));
                             std::memset(m_tagBuffer, 0, sizeof(m_tagBuffer));
+                            clearConjugationBuffers(m_conjugationBuffers);
                         }
                     }
 
@@ -253,6 +278,12 @@ namespace tadaima
                             std::strncpy(m_translationBuffer, word.translation.c_str(), sizeof(m_translationBuffer));
                             std::strncpy(m_romajiBuffer, word.romaji.c_str(), sizeof(m_romajiBuffer));
                             std::strncpy(m_exampleSentenceBuffer, word.exampleSentence.c_str(), sizeof(m_exampleSentenceBuffer));
+
+                            for( size_t i = 0; i < CONJUGATION_COUNT; ++i )
+                            {
+                                std::strncpy(m_conjugationBuffers[i].data(), word.conjugations[i].c_str(), m_conjugationBuffers[i].size() - 1);
+                                m_conjugationBuffers[i][m_conjugationBuffers[i].size() - 1] = '\0'; 
+                            }
 
                             // Convert tags to a comma-separated string
                             std::string tagsStr;
@@ -304,6 +335,7 @@ namespace tadaima
                         std::memset(m_romajiBuffer, 0, sizeof(m_romajiBuffer));
                         std::memset(m_exampleSentenceBuffer, 0, sizeof(m_exampleSentenceBuffer));
                         std::memset(m_tagBuffer, 0, sizeof(m_tagBuffer));
+                        clearConjugationBuffers(m_conjugationBuffers);
                         m_newLesson = Lesson(); // Reset new lesson
                         m_selectedWordIndex = -1; // Reset selection
                         m_isEditing = false; // Exit edit mode
@@ -329,6 +361,7 @@ namespace tadaima
                     std::memset(m_romajiBuffer, 0, sizeof(m_romajiBuffer));
                     std::memset(m_exampleSentenceBuffer, 0, sizeof(m_exampleSentenceBuffer));
                     std::memset(m_tagBuffer, 0, sizeof(m_tagBuffer));
+                    clearConjugationBuffers(m_conjugationBuffers);
                 }
 
                 if( !ImGui::IsPopupOpen("Add New Lesson Modal") && !ImGui::IsPopupOpen("Edit Lesson Modal") )
@@ -343,6 +376,7 @@ namespace tadaima
                     std::memset(m_romajiBuffer, 0, sizeof(m_romajiBuffer));
                     std::memset(m_exampleSentenceBuffer, 0, sizeof(m_exampleSentenceBuffer));
                     std::memset(m_tagBuffer, 0, sizeof(m_tagBuffer));
+                    clearConjugationBuffers(m_conjugationBuffers);
                     m_newLesson = Lesson(); // Reset new lesson
                     m_selectedWordIndex = -1; // Reset selection
                 }
@@ -368,8 +402,120 @@ namespace tadaima
                 if( package )
                 {
                     const std::string dictionaryPath = package->get<std::string>(SettingsPackageKey::DictionaryPath);
+                    const std::string conjugationPath = package->get<std::string>(SettingsPackageKey::ConjugationPath);
                     m_dictionary.setPathForTranslator(dictionaryPath);
+                    m_dictionary.setPathForConjugationTranslator(conjugationPath);
                     m_logger.log("Dictionary path set to: " + dictionaryPath, tools::LogLevel::INFO);
+                    m_logger.log("Conjugation path set to: " + conjugationPath, tools::LogLevel::INFO);
+                }
+            }
+
+            void LessonSettingsWidget::drawConjugationsModal()
+            {
+                ImGui::SetNextWindowSize(ImVec2(600, 400), ImGuiCond_Always);
+                ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(15, 15));
+
+                // Disable scrolling for the popup window
+                if( ImGui::BeginPopupModal("Conjugations Modal", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse) )
+                {
+                    std::string title = "Conjugations for ";
+                    title += m_romajiBuffer;
+                    ImGui::TextColored(ImVec4(0.2f, 0.8f, 0.4f, 1.0f), title.c_str());
+                    ImGui::Separator();
+                    ImGui::Spacing();
+
+                    // Autofill button
+                    if( ImGui::Button("Autofill Conjugations") )
+                    {
+                        m_logger.log("Autofilling conjugations for word: " + std::string(m_romajiBuffer), tools::LogLevel::INFO);
+
+                        try
+                        {
+                            auto conjugations = m_dictionary.getConjugations(std::string(m_romajiBuffer));
+
+                            // Update buffers with fetched conjugations
+                            for( int i = 0; i < CONJUGATION_COUNT; ++i )
+                            {
+                                std::strncpy(m_conjugationBuffers[i].data(), conjugations[i].c_str(), m_conjugationBuffers[i].size() - 1);
+                                m_conjugationBuffers[i][m_conjugationBuffers[i].size() - 1] = '\0';
+                            }
+
+                            m_logger.log("Conjugations autofilled successfully.", tools::LogLevel::INFO);
+                        }
+                        catch( const std::exception& e )
+                        {
+                            m_logger.log(std::string("Error while autofilling conjugations: ") + e.what(), tools::LogLevel::PROBLEM);
+                        }
+                    }
+
+                    ImGui::Spacing();
+
+                    // Begin a child region for the scrollable table
+                    ImGui::BeginChild("ConjugationsTableRegion", ImVec2(0, -ImGui::GetFrameHeightWithSpacing() - 10), true, ImGuiWindowFlags_HorizontalScrollbar);
+
+                    if( ImGui::BeginTable("ConjugationsTable", 2, ImGuiTableFlags_Borders | ImGuiTableFlags_Resizable) )
+                    {
+                        ImGui::TableSetupColumn("Conjugation Type", ImGuiTableColumnFlags_WidthFixed);
+                        ImGui::TableSetupColumn("Conjugated Form", ImGuiTableColumnFlags_WidthStretch);
+                        ImGui::TableHeadersRow();
+
+                        for( int i = 0; i < CONJUGATION_COUNT; ++i )
+                        {
+                            ImGui::TableNextRow();
+                            ImGui::TableNextColumn();
+                            std::string name = ConjugationTypeToString((ConjugationType)i);
+                            ImGui::Text(name.c_str());
+
+                            ImGui::TableNextColumn();
+                            ImGui::PushID(i);
+                            ImGui::InputText("##ConjugationInput", m_conjugationBuffers[i].data(), sizeof(m_conjugationBuffers[i]));
+                            ImGui::PopID();
+                        }
+
+                        ImGui::EndTable();
+                    }
+
+                    ImGui::EndChild(); // End the scrollable child region
+
+                    ImGui::Spacing();
+                    ImGui::Separator();
+                    ImGui::Spacing();
+
+                    // Keep the Save and Cancel buttons at the bottom
+                    if( ImGui::Button("Save", ImVec2(100, 0)) )
+                    {
+                        m_logger.log("Saving conjugations for current word", tools::LogLevel::INFO);
+                        for( int i = 0; i < CONJUGATION_COUNT; ++i )
+                        {
+                            m_newWord.conjugations[i] = std::string(m_conjugationBuffers[i].data());
+                        }
+                        ImGui::CloseCurrentPopup();
+                        m_isConjugating = false;
+                    }
+
+                    ImGui::SameLine();
+
+                    if( ImGui::Button("Cancel", ImVec2(100, 0)) )
+                    {
+                        m_logger.log("Cancelling conjugations modal", tools::LogLevel::INFO);
+                        ImGui::CloseCurrentPopup();
+                        m_isConjugating = false;
+                    }
+
+                    ImGui::EndPopup();
+                }
+
+                ImGui::PopStyleVar();
+            }
+
+            void LessonSettingsWidget::clearConjugationBuffers(std::array<std::array<char, 128>, CONJUGATION_COUNT>& buffers)
+            {
+                for( auto& innerArray : buffers )
+                {
+                    for( char& c : innerArray )
+                    {
+                        c = '\0'; // Reset each character to null terminator
+                    }
                 }
             }
 

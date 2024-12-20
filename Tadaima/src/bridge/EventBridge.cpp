@@ -9,8 +9,6 @@
 
 namespace tadaima
 {
-
-
     void EventBridge::initialize(application::Application& app, gui::Gui& gui)
     {
         m_app = &app;
@@ -32,11 +30,13 @@ namespace tadaima
 
         package.set(gui::widget::SettingsPackageKey::Username, settings.userName);
         package.set(gui::widget::SettingsPackageKey::DictionaryPath, settings.dictionaryPath);
+        package.set(gui::widget::SettingsPackageKey::ConjugationPath, settings.conjugationPath);
         package.set(gui::widget::SettingsPackageKey::QuizzesScriptsPath, settings.quizzesPaths);
         package.set(gui::widget::SettingsPackageKey::AskedWordType, stringToWordType(settings.inputWord));
         package.set(gui::widget::SettingsPackageKey::AnswerWordType, stringToWordType(settings.translatedWord));
         package.set(gui::widget::SettingsPackageKey::ShowLogs, settings.showLogs);
         package.set(gui::widget::SettingsPackageKey::TriesForQuiz, settings.maxTriesForQuiz);
+        package.set(gui::widget::SettingsPackageKey::ConjugationMask, settings.conjugationMask);
 
         m_gui->initializeWidget(package);
     }
@@ -140,11 +140,13 @@ namespace tadaima
             application::ApplicationSettings settings;
             settings.userName = package->get<std::string>(gui::widget::SettingsPackageKey::Username);
             settings.dictionaryPath = package->get<std::string>(gui::widget::SettingsPackageKey::DictionaryPath);
+            settings.conjugationPath = package->get<std::string>(gui::widget::SettingsPackageKey::ConjugationPath);
             settings.quizzesPaths = package->get<std::string>(gui::widget::SettingsPackageKey::QuizzesScriptsPath);
             settings.inputWord = wordTypeToString(package->get<gui::quiz::WordType>(gui::widget::SettingsPackageKey::AskedWordType));
             settings.translatedWord = wordTypeToString(package->get<gui::quiz::WordType>(gui::widget::SettingsPackageKey::AnswerWordType));
             settings.showLogs = package->get<bool>(gui::widget::SettingsPackageKey::ShowLogs);
             settings.maxTriesForQuiz = package->get<std::string>(gui::widget::SettingsPackageKey::TriesForQuiz);
+            settings.conjugationMask = package->get<uint16_t>(gui::widget::SettingsPackageKey::ConjugationMask);
 
             m_app->setEvent(application::ApplicationEvent::OnSettingsChanged, settings);
         }

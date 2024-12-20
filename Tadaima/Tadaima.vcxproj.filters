@@ -59,6 +59,13 @@
     <ClCompile Include="src\gui\widgets\ScriptQuizRunnerWidget.cpp">
       <Filter>src\gui\widgets</Filter>
     </ClCompile>
+    <ClCompile Include="src\gui\widgets\ConjugationQuizWidget.cpp">
+      <Filter>src\gui\quiz</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\quiz\ConjugationQuiz.cpp" />
+    <ClCompile Include="src\dictionary\Conjugations.cpp">
+      <Filter>src\dictionary</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Version.h">
@@ -154,14 +161,26 @@
     <ClInclude Include="src\gui\widgets\ImGuiFileDialogConfig.h">
       <Filter>src\gui\widgets</Filter>
     </ClInclude>
-    <ClInclude Include="src\tools\Dictionary.h">
-      <Filter>src\tools</Filter>
-    </ClInclude>
     <ClInclude Include="src\tools\SystemTools.h">
       <Filter>src\tools</Filter>
     </ClInclude>
     <ClInclude Include="src\gui\widgets\ScriptQuizRunnerWidget.h">
       <Filter>src\gui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\dictionary\Dictionary.h">
+      <Filter>src\dictionary</Filter>
+    </ClInclude>
+    <ClInclude Include="src\dictionary\Conjugations.h">
+      <Filter>src\dictionary</Filter>
+    </ClInclude>
+    <ClInclude Include="src\dictionary\Word.h">
+      <Filter>src\dictionary</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\widgets\ConjugationQuizWidget.h">
+      <Filter>src\gui\quiz</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\quiz\ConjugationQuiz.h">
+      <Filter>src\gui\quiz</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -200,6 +219,9 @@
     </Filter>
     <Filter Include="src\gui\widgets\packages">
       <UniqueIdentifier>{685577eb-70d5-4d37-b8dc-cf9d90a1bbea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\dictionary">
+      <UniqueIdentifier>{bfc8274e-5c76-41ad-8071-3ad6bf717f4c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
