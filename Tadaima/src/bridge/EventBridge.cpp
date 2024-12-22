@@ -142,8 +142,8 @@ namespace tadaima
             settings.dictionaryPath = package->get<std::string>(gui::widget::SettingsPackageKey::DictionaryPath);
             settings.conjugationPath = package->get<std::string>(gui::widget::SettingsPackageKey::ConjugationPath);
             settings.quizzesPaths = package->get<std::string>(gui::widget::SettingsPackageKey::QuizzesScriptsPath);
-            settings.inputWord = wordTypeToString(package->get<gui::quiz::WordType>(gui::widget::SettingsPackageKey::AskedWordType));
-            settings.translatedWord = wordTypeToString(package->get<gui::quiz::WordType>(gui::widget::SettingsPackageKey::AnswerWordType));
+            settings.inputWord = wordTypeToString(package->get<tadaima::quiz::WordType>(gui::widget::SettingsPackageKey::AskedWordType));
+            settings.translatedWord = wordTypeToString(package->get<tadaima::quiz::WordType>(gui::widget::SettingsPackageKey::AnswerWordType));
             settings.showLogs = package->get<bool>(gui::widget::SettingsPackageKey::ShowLogs);
             settings.maxTriesForQuiz = package->get<std::string>(gui::widget::SettingsPackageKey::TriesForQuiz);
             settings.conjugationMask = package->get<uint16_t>(gui::widget::SettingsPackageKey::ConjugationMask);
@@ -152,12 +152,12 @@ namespace tadaima
         }
     }
 
-    gui::quiz::WordType EventBridge::stringToWordType(const std::string& str)
+    tadaima::quiz::WordType EventBridge::stringToWordType(const std::string& str)
     {
-        static const std::unordered_map<std::string, gui::quiz::WordType> stringToWordTypeMap = {
-            {"BaseWord", gui::quiz::WordType::BaseWord},
-            {"Kana", gui::quiz::WordType::Kana},
-            {"Romaji", gui::quiz::WordType::Romaji}
+        static const std::unordered_map<std::string, tadaima::quiz::WordType> stringToWordTypeMap = {
+            {"BaseWord", tadaima::quiz::WordType::BaseWord},
+            {"Kana", tadaima::quiz::WordType::Kana},
+            {"Romaji", tadaima::quiz::WordType::Romaji}
         };
 
         auto it = stringToWordTypeMap.find(str);
@@ -171,13 +171,13 @@ namespace tadaima
         }
     }
 
-    std::string EventBridge::wordTypeToString(gui::quiz::WordType type)
+    std::string EventBridge::wordTypeToString(tadaima::quiz::WordType type)
     {
         switch( type )
         {
-            case gui::quiz::WordType::BaseWord: return "BaseWord";
-            case gui::quiz::WordType::Kana: return "Kana";
-            case gui::quiz::WordType::Romaji: return "Romaji";
+            case tadaima::quiz::WordType::BaseWord: return "BaseWord";
+            case tadaima::quiz::WordType::Kana: return "Kana";
+            case tadaima::quiz::WordType::Romaji: return "Romaji";
             default: throw std::invalid_argument("Invalid WordType value");
         }
     }

@@ -10,7 +10,7 @@ namespace tadaima
         namespace quiz
         {
 
-            MultipleChoiceQuiz::MultipleChoiceQuiz(quiz::WordType base, quiz::WordType desired, const std::vector<Lesson>& lessons, tools::Logger& logger)
+            MultipleChoiceQuiz::MultipleChoiceQuiz(tadaima::quiz::WordType base, tadaima::quiz::WordType desired, const std::vector<Lesson>& lessons, tools::Logger& logger)
                 : m_baseWord(base), m_inputWord(desired), m_logger(logger), rng(std::random_device{}()), currentWordIndex(0), correctCount(0)
             {
                 initialize(lessons);
@@ -24,21 +24,21 @@ namespace tadaima
                 }
             }
 
-            std::string getTranslation(const Word& word, quiz::WordType type)
+            std::string getTranslation(const Word& word, tadaima::quiz::WordType type)
             {
                 std::string correctAnswer;
 
                 switch( type )
                 {
-                    case quiz::WordType::BaseWord:
+                    case tadaima::quiz::WordType::BaseWord:
                         correctAnswer = word.translation;
                         break;
 
-                    case quiz::WordType::Kana:
+                    case tadaima::quiz::WordType::Kana:
                         correctAnswer = word.kana;
                         break;
 
-                    case quiz::WordType::Romaji:
+                    case tadaima::quiz::WordType::Romaji:
                         correctAnswer = word.romaji;
                         break;
 

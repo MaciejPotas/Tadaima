@@ -23,7 +23,7 @@ namespace tadaima
                 ImGui::OpenPopup("Application settings");
             }
 
-            quiz::WordType ApplicationSettingsWidget::stringToWordType(const std::string& str)
+            tadaima::quiz::WordType ApplicationSettingsWidget::stringToWordType(const std::string& str)
             {
                 static const std::unordered_map<std::string, quiz::WordType> stringToWordTypeMap = {
                     {"BaseWord", quiz::WordType::BaseWord},

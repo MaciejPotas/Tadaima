@@ -35,13 +35,7 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)src\gtest\gtest-all.cc" />
     <ClCompile Include="$(MSBuildThisFileDirectory)src\gmock\gmock-all.cc" />
-    <ClCompile Include="Quiz\QuizGameTests.cpp">
-      <Filter>Gui\Quiz</Filter>
-    </ClCompile>
-    <ClCompile Include="Quiz\VocabularyQuizTests.cpp">
-      <Filter>Gui\Quiz</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\gui\quiz\VocabularyQuiz.cpp">
+    <ClCompile Include="Quiz\MultichoiceQuizGameTests.cpp">
       <Filter>Gui\Quiz</Filter>
     </ClCompile>
     <ClCompile Include="..\src\gui\quiz\MultipleChoiceQuiz.cpp">
@@ -59,12 +53,7 @@
     <ClCompile Include="Gui\SettingsDataPackageTest.cpp">
       <Filter>Gui\Packages</Filter>
     </ClCompile>
-    <ClCompile Include="Quiz\ConjuatcionQuizTests.cpp">
-      <Filter>Gui\Quiz</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\gui\quiz\ConjugationQuiz.cpp">
-      <Filter>Gui\Quiz</Filter>
-    </ClCompile>
+    <ClCompile Include="Quiz\FlashcardsQuizGamesTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LessonManager\MockDatabase.h">

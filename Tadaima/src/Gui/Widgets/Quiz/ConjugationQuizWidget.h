@@ -1,7 +1,6 @@
 #pragma once
 
-#include "Widget.h"
-#include "quiz/ConjugationQuiz.h"
+#include "../Widget.h"
 #include "tools/Logger.h"
 #include "Lessons/Lesson.h"
 #include <vector>
@@ -11,6 +10,7 @@
 
 namespace tadaima
 {
+    namespace quiz { class Quiz; }
     namespace gui
     {
         namespace widget
@@ -49,6 +49,8 @@ namespace tadaima
                 void draw(bool* p_open) override;
 
             private:
+
+                float calculateProgress();
                 /**
                  * @brief Initializes quiz flashcards based on the selected conjugation types.
                  *
@@ -137,7 +139,7 @@ namespace tadaima
                 uint8_t m_numberOfTries;                  /**< Number of tries allowed for each flashcard. */
                 std::vector<Lesson> m_lessons;            /**< A vector of lessons containing flashcard data. */
                 tools::Logger& m_logger;                 /**< A logger instance for logging widget activity. */
-                std::unique_ptr<quiz::ConjugationQuiz> m_quiz; /**< Pointer to the quiz logic instance. */
+                std::unique_ptr<tadaima::quiz::Quiz> m_quiz; /**< Pointer to the quiz logic instance. */
 
                 char m_userInput[100] = { 0 };           /**< Buffer for storing user input during the quiz. */
                 std::string m_correctAnswer;             /**< The correct answer for the current flashcard. */

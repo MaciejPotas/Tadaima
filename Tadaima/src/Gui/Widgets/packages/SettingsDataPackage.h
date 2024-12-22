@@ -6,11 +6,11 @@
 #pragma once
 
 #include "PackageType.h"
-#include "gui/quiz/QuizType.h"
 #include "Tools/DataPackage.h"
 #include <cstring>
 #include <string>
 #include "Application/ApplicationSettings.h"
+#include "quiz/QuizWordType.h"
 
 namespace tools { class Logger; }
 
@@ -39,7 +39,7 @@ namespace tadaima
             /**
              * @brief Represents a package containing settings data.
              */
-            class SettingsDataPackage : public tools::ComplexDataPackage<SettingsPackageKey, bool, uint16_t, std::string, quiz::WordType>
+            class SettingsDataPackage : public tools::ComplexDataPackage<SettingsPackageKey, bool, uint16_t, std::string, tadaima::quiz::WordType>
             {
             public:
 

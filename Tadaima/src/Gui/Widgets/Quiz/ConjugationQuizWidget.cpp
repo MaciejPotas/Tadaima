@@ -2,6 +2,8 @@
 #include "imgui.h"
 #include <format>
 #include <random>
+#include "quiz/ConjugationItem.h"
+#include "quiz/Quiz.h"
 
 namespace tadaima
 {
@@ -15,11 +17,44 @@ namespace tadaima
                 m_logger.log("Initializing ConjugationQuizWidget...", tools::LogLevel::INFO);
             }
 
+            float ConjugationQuizWidget::calculateProgress()
+            {
+                try
+                {
+                    int totalWords = m_quiz->getNumberOfItems();
+                    int maxProgress = totalWords * m_numberOfTries; // Maximum progress is number of words * 2
+
+                    // Calculate net progress based on correct and incorrect attempts
+                    int correctAttempts = 0;
+                    int incorrectAttempts = 0;
+
+                    for( const auto& entry : m_quiz->getStatistics() )
+                    {
+                        correctAttempts += entry.second.goodAttempts;
+                        incorrectAttempts += entry.second.badAttempts;
+                    }
+
+                    // Net progress is the total correct attempts minus the total incorrect attempts
+                    int netProgress = correctAttempts - incorrectAttempts;
+
+                    // Clamp the net progress between 0 and maxProgress
+                    netProgress = std::max(0, std::min(netProgress, maxProgress));
+
+                    // Calculate the progress as a float between 0 and 1
+                    return static_cast<float>(netProgress) / maxProgress;
+                }
+                catch( const std::exception& e )
+                {
+                    m_logger.log(std::format("Error calculating progress: {}", e.what()), tools::LogLevel::PROBLEM);
+                    return 0.0f;
+                }
+            }
+
             void ConjugationQuizWidget::initializeFlashcards(const std::vector<ConjugationType>& selectedTypes)
             {
                 try
                 {
-                    std::vector<quiz::ConjugationQuiz::ConjugationFlashCard> flashcards;
+                    std::vector<std::unique_ptr<tadaima::quiz::QuizItem>> flashcards;
 
                     for( const auto& lesson : m_lessons )
                     {
@@ -30,7 +65,7 @@ namespace tadaima
                                 const std::string& conjugation = word.conjugations[type];
                                 if( !conjugation.empty() )
                                 {
-                                    flashcards.emplace_back(word.id, type, conjugation);
+                                    flashcards.push_back(std::make_unique<tadaima::quiz::ConjugationItem>(word.id, type, conjugation));
                                 }
                             }
                         }
@@ -41,7 +76,7 @@ namespace tadaima
                         throw std::runtime_error("No valid conjugation flashcards could be created.");
                     }
 
-                    m_quiz = std::make_unique<quiz::ConjugationQuiz>(flashcards, m_numberOfTries, true);
+                    m_quiz = std::make_unique<quiz::Quiz>(flashcards, m_numberOfTries, true);
                 }
                 catch( const std::exception& e )
                 {
@@ -173,9 +208,10 @@ namespace tadaima
                         ImGui::Spacing();
 
                         // Progress Section
-                        float progress = static_cast<float>(m_quiz->getLearntConjugations()) / m_quiz->getNumberOfFlashcards();
-                        ImGui::Text("Progress: %d / %d", m_quiz->getLearntConjugations(), m_quiz->getNumberOfFlashcards());
-                        ImGui::ProgressBar(progress, ImVec2(-1, 0), std::format("\uf0c7 {:.0f}%%", progress * 100).c_str());
+                        float progress = calculateProgress();
+                        ImGui::Text("Conjugation to learn: %d", m_quiz->getNumberOfItems() - m_quiz->getLearntItems());
+
+                        ImGui::ProgressBar(progress, ImVec2(-1, 0), std::format("{:.0f}%%", progress * 100).c_str());
                         ImGui::Spacing();
                         ImGui::Separator();
 
@@ -183,11 +219,11 @@ namespace tadaima
                         ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(1.0f, 0.98f, 0.92f, 1.0f)); // Soft yellow background
                         ImGui::BeginChild("QuizCard", ImVec2(-1, 80), true, ImGuiWindowFlags_AlwaysUseWindowPadding);
 
-                        const auto& flashcard = m_quiz->getCurrentFlashCard();
-                        const auto& word = getWordById(flashcard.wordId);
+                        const auto item = static_cast<const tadaima::quiz::ConjugationItem*>(m_quiz->getCurrentItem());
+                        auto word = getWordById(std::stoi(item->getKey()));
 
                         // Highlighted Conjugation Type
-                        ImGui::TextColored(ImVec4(0.8f, 0.3f, 0.3f, 1.0f), "\uf059 What is the %s form of:", ConjugationTypeToString(flashcard.type).c_str());
+                        ImGui::TextColored(ImVec4(0.8f, 0.3f, 0.3f, 1.0f), "\uf059 What is the %s form of:", ConjugationTypeToString(item->getType()).c_str());
 
                         // Display Word with emphasis
                         ImGui::TextWrapped("\uf0f6 \"%s\"", word.translation.c_str());
@@ -208,7 +244,7 @@ namespace tadaima
 
                         if( ImGui::InputText("##InputField", m_userInput, sizeof(m_userInput), ImGuiInputTextFlags_EnterReturnsTrue) )
                         {
-                            m_correctAnswer = flashcard.answer;
+                            m_correctAnswer = item->getAnswer();
                             if( m_quiz->isCorrect(m_userInput) )
                             {
                                 m_correctAnswerMessage = "\uf058 Correct!";
@@ -219,7 +255,7 @@ namespace tadaima
                             }
                             else
                             {
-                                m_correctAnswerMessage = std::format("\uf057 Incorrect! Correct Answer: \"%s\"", m_correctAnswer.c_str());
+                                m_correctAnswerMessage = std::format("\uf057 Incorrect! Correct Answer: \"{}\"", m_correctAnswer);
                                 m_correctAnswerColor = ImVec4(0.8f, 0.0f, 0.0f, 1.0f); // Red
                                 m_showButtons = true;
                                 m_focusOnWrong = true;
@@ -409,7 +445,7 @@ namespace tadaima
 
                     for( const auto& entry : statistics )
                     {
-                        const auto& word = getWordById(entry.first.first);
+                        const auto& word = getWordById(std::stoi(entry.first));
                         int totalAttempts = entry.second.goodAttempts + entry.second.badAttempts;
 
                         // Populate Table Rows

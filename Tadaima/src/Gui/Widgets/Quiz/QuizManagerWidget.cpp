@@ -1,8 +1,9 @@
 #include "QuizManagerWidget.h"
-#include "widgets/VocabularyQuizWidget.h"
-#include "widgets/ConjugationQuizWidget.h"
+
+#include "widgets/Quiz/QuizWidget.h"
+#include "widgets/Quiz/VocabularyQuizWidget.h"
+#include "widgets/Quiz/ConjugationQuizWidget.h"
 #include "widgets/packages/SettingsDataPackage.h"
-#include "widgets/QuizWidget.h"
 
 namespace tadaima
 {
@@ -57,8 +58,8 @@ namespace tadaima
                     {
                         m_logger.log("QuizManager::initialize.", tools::LogLevel::INFO);
 
-                        m_answerWordType = package->get< quiz::WordType>(widget::SettingsPackageKey::AnswerWordType);
-                        m_askedWordType = package->get<quiz::WordType>(widget::SettingsPackageKey::AskedWordType);
+                        m_answerWordType = package->get<tadaima::quiz::WordType>(widget::SettingsPackageKey::AnswerWordType);
+                        m_askedWordType = package->get<tadaima::quiz::WordType>(widget::SettingsPackageKey::AskedWordType);
                         m_triesForAWord = static_cast<uint8_t>(std::stoi(package->get<std::string>(widget::SettingsPackageKey::TriesForQuiz)));
                         m_conjugationMask = package->get < uint16_t>(widget::SettingsPackageKey::ConjugationMask);
                     }

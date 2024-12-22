@@ -8,20 +8,21 @@
 
 #pragma once
 
-#include "Widget.h"
-#include "quiz/VocabularyQuiz.h"
+#include "gui/widgets/Widget.h"
+#include "QuizType.h"
+#include "lessons/Lesson.h"
 #include "tools/Logger.h"
 #include <unordered_set>
 #include <vector>
 #include <string>
 #include <memory>
-#include "lessons/Lesson.h"
-#include "quiz/QuizType.h"
+#include "quiz/QuizWordType.h"
 
 namespace tadaima { struct Word; }
 
 namespace tadaima
 {
+    namespace quiz { class Quiz; }
     namespace gui
     {
         namespace widget
@@ -48,7 +49,7 @@ namespace tadaima
                  * @param lessons A vector containing lessons to initialize the quiz with.
                  * @param logger Reference to a Logger instance for logging.
                  */
-                VocabularyQuizWidget(quiz::WordType base, quiz::WordType desired, uint8_t numberOfTries, const std::vector<Lesson>& lessons, tools::Logger& logger);
+                VocabularyQuizWidget(tadaima::quiz::WordType base, tadaima::quiz::WordType desired, uint8_t numberOfTries, const std::vector<Lesson>& lessons, tools::Logger& logger);
 
                 /**
                  * @brief Draws the quiz widget.
@@ -80,7 +81,7 @@ namespace tadaima
                  * @param type The word type for translation (e.g., Kana, Romaji, BaseWord).
                  * @return A string containing the translation.
                  */
-                std::string getTranslation(const Word& word, quiz::WordType type) const;
+                std::string getTranslation(const Word& word, tadaima::quiz::WordType type) const;
 
                 /**
                  * @brief Gets a hint for the current flashcard.
@@ -101,11 +102,11 @@ namespace tadaima
                 float calculateProgress();
 
                 tools::Logger& m_logger; /**< Reference to the logger for logging purposes. */
-                quiz::WordType m_baseWord; /**< The mother language word type. */
-                quiz::WordType m_inputWord; /**< The learning language word type. */
+                tadaima::quiz::WordType m_baseWord; /**< The mother language word type. */
+                tadaima::quiz::WordType m_inputWord; /**< The learning language word type. */
                 std::vector<Lesson> m_lessons; /**< A vector of lessons used to generate flashcards. */
 
-                std::unique_ptr<quiz::VocabularyQuiz> m_quiz; /**< Unique pointer to the VocabularyQuiz instance. */
+                std::unique_ptr<tadaima::quiz::Quiz> m_quiz; /**< Unique pointer to the VocabularyQuiz instance. */
                 char m_userInput[50] = { 0 }; /**< User input buffer for answering flashcards. */
                 std::unordered_set<int> m_revealedHints; /**< Set of indices of revealed hints. */
 
