@@ -1,4 +1,4 @@
-#include "ConjugationQuizWidget.h"
+﻿#include "ConjugationQuizWidget.h"
 #include "imgui.h"
 #include <format>
 #include <random>
@@ -79,32 +79,42 @@ namespace tadaima
             void ConjugationQuizWidget::drawSelectionWindow(bool* p_open)
             {
                 constexpr int numColumns = 3;
-                constexpr int padding = 10;
+                constexpr int padding = 15;
 
-                ImGui::SetNextWindowSize(ImVec2(500, 300), ImGuiCond_Always);
+                ImGui::SetNextWindowSize(ImVec2(600, 400), ImGuiCond_Always);
                 ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(padding, padding));
+                ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.98f, 0.92f, 0.84f, 1.0f)); // Light peach background
 
                 if( ImGui::Begin("Select Conjugations", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar) )
                 {
-                    ImGui::Text("Select conjugations to test:");
+                    // Fancy Header
+                    ImGui::TextColored(ImVec4(0.6f, 0.2f, 0.8f, 1.0f), "Welcome to the Conjugation Quiz!");
+                    ImGui::Text("Select the conjugations you want to practice.");
                     ImGui::Separator();
+                    ImGui::Spacing();
 
-                    ImGui::BeginChild("CheckboxGrid", ImVec2(0, -ImGui::GetFrameHeightWithSpacing() - padding), false);
+                    ImGui::BeginChild("CheckboxGrid", ImVec2(0, -ImGui::GetFrameHeightWithSpacing() - padding), true, ImGuiWindowFlags_AlwaysVerticalScrollbar);
                     ImGui::Columns(numColumns, nullptr, false);
 
+                    // Render checkboxes with the bitfield for selected conjugations
                     for( int i = 0; i < CONJUGATION_COUNT; ++i )
                     {
                         // Determine if the checkbox should be checked based on the bitfield
                         bool isChecked = (m_selectedConjugations & (1 << i)) != 0;
 
+                        // Use colors for dynamic checkbox text
+                        ImVec4 textColor = isChecked ? ImVec4(0.0f, 0.8f, 0.0f, 1.0f) : ImVec4(0.8f, 0.0f, 0.0f, 1.0f);
+
+                        ImGui::PushStyleColor(ImGuiCol_Text, textColor);
                         if( ImGui::Checkbox(ConjugationTypeToString(static_cast<ConjugationType>(i)).c_str(), &isChecked) )
                         {
                             // Update the bitfield based on the checkbox state
                             if( isChecked )
-                                m_selectedConjugations |= (1 << i);  // Set the bit
+                                m_selectedConjugations |= (1 << i); // Set the bit
                             else
                                 m_selectedConjugations &= ~(1 << i); // Clear the bit
                         }
+                        ImGui::PopStyleColor();
 
                         ImGui::NextColumn();
                     }
@@ -112,9 +122,11 @@ namespace tadaima
                     ImGui::Columns(1);
                     ImGui::EndChild();
 
+                    ImGui::Spacing();
                     ImGui::Separator();
 
-                    if( ImGui::Button("Start Quiz", ImVec2(100, 0)) )
+                    // Navigation Buttons
+                    if( ImGui::Button("Start Quiz", ImVec2(150, 40)) )
                     {
                         std::vector<ConjugationType> selectedTypes;
                         for( int i = 0; i < CONJUGATION_COUNT; ++i )
@@ -133,8 +145,7 @@ namespace tadaima
                     }
 
                     ImGui::SameLine();
-
-                    if( ImGui::Button("Cancel", ImVec2(100, 0)) )
+                    if( ImGui::Button("Cancel", ImVec2(150, 40)) )
                     {
                         *p_open = false;
                     }
@@ -143,51 +154,64 @@ namespace tadaima
                 }
 
                 ImGui::PopStyleVar();
+                ImGui::PopStyleColor();
             }
-
 
             void ConjugationQuizWidget::drawQuizWindow(bool* p_open)
             {
-                ImGui::SetNextWindowSize(ImVec2(600, 400), ImGuiCond_FirstUseEver);
-                ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(10, 10));
-                ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.98f, 0.92f, 0.84f, 1.0f));
+                ImGui::SetNextWindowSize(ImVec2(700, 400), ImGuiCond_FirstUseEver);
+                ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(20, 20));
+                ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.95f, 0.95f, 0.98f, 1.0f)); // Light bluish background
 
                 if( ImGui::Begin("Conjugation Quiz", p_open, ImGuiWindowFlags_NoCollapse) )
                 {
                     if( !m_quiz->isQuizComplete() )
                     {
+                        // Title with Font Awesome icon
+                        ImGui::TextColored(ImVec4(0.3f, 0.5f, 0.8f, 1.0f), "\uf121 Conjugation Quiz");
+                        ImGui::Separator();
+                        ImGui::Spacing();
+
                         // Progress Section
-                        ImGui::Text("Progress");
                         float progress = static_cast<float>(m_quiz->getLearntConjugations()) / m_quiz->getNumberOfFlashcards();
-                        ImGui::ProgressBar(progress, ImVec2(-1, 0), std::format("{:.0f}%", progress * 100).c_str());
-                        ImGui::Text("Conjugations to learn: %d", m_quiz->getNumberOfFlashcards() - m_quiz->getLearntConjugations());
+                        ImGui::Text("Progress: %d / %d", m_quiz->getLearntConjugations(), m_quiz->getNumberOfFlashcards());
+                        ImGui::ProgressBar(progress, ImVec2(-1, 0), std::format("\uf0c7 {:.0f}%%", progress * 100).c_str());
+                        ImGui::Spacing();
                         ImGui::Separator();
 
-                        // "Your answer is ..." message
-                        ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "%s", m_correctAnswerMessage.c_str());
+                        // Styled Question Card
+                        ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(1.0f, 0.98f, 0.92f, 1.0f)); // Soft yellow background
+                        ImGui::BeginChild("QuizCard", ImVec2(-1, 80), true, ImGuiWindowFlags_AlwaysUseWindowPadding);
 
                         const auto& flashcard = m_quiz->getCurrentFlashCard();
                         const auto& word = getWordById(flashcard.wordId);
 
-                        // Display Correct Answer
-                        ImGui::TextColored(m_correctAnswerColor, "Correct Answer: %s", m_correctAnswer.c_str());
+                        // Highlighted Conjugation Type
+                        ImGui::TextColored(ImVec4(0.8f, 0.3f, 0.3f, 1.0f), "\uf059 What is the %s form of:", ConjugationTypeToString(flashcard.type).c_str());
+
+                        // Display Word with emphasis
+                        ImGui::TextWrapped("\uf0f6 \"%s\"", word.translation.c_str());
+
+                        ImGui::EndChild();
+                        ImGui::PopStyleColor();
+
+                        ImGui::Spacing();
                         ImGui::Separator();
 
-                        ImGui::Text("Conjugation Type: %s", ConjugationTypeToString(flashcard.type).c_str());
-                        ImGui::Text("Word: %s", word.translation.c_str());
-
+                        // Input Section
+                        ImGui::Text("\uf044 Your Answer:");
                         if( m_setFocusOnInputField )
                         {
                             ImGui::SetKeyboardFocusHere();
                             m_setFocusOnInputField = false;
                         }
 
-                        if( ImGui::InputText("Your Answer", m_userInput, sizeof(m_userInput), ImGuiInputTextFlags_EnterReturnsTrue) )
+                        if( ImGui::InputText("##InputField", m_userInput, sizeof(m_userInput), ImGuiInputTextFlags_EnterReturnsTrue) )
                         {
                             m_correctAnswer = flashcard.answer;
                             if( m_quiz->isCorrect(m_userInput) )
                             {
-                                m_correctAnswerMessage = "Your answer is correct!";
+                                m_correctAnswerMessage = "\uf058 Correct!";
                                 m_correctAnswerColor = ImVec4(0.0f, 0.8f, 0.0f, 1.0f); // Green
                                 m_showCorrectButton = true;
                                 m_focusOnCorrect = true; // Focus on "Correct!" button
@@ -195,7 +219,7 @@ namespace tadaima
                             }
                             else
                             {
-                                m_correctAnswerMessage = "Your answer is incorrect.";
+                                m_correctAnswerMessage = std::format("\uf057 Incorrect! Correct Answer: \"%s\"", m_correctAnswer.c_str());
                                 m_correctAnswerColor = ImVec4(0.8f, 0.0f, 0.0f, 1.0f); // Red
                                 m_showButtons = true;
                                 m_focusOnWrong = true;
@@ -203,7 +227,11 @@ namespace tadaima
                             }
                         }
 
-                        // Display Correct Button if correct
+                        // Feedback Message with Font Awesome icon
+                        ImGui::TextColored(m_correctAnswerColor, "%s", m_correctAnswerMessage.c_str());
+                        ImGui::Spacing();
+
+                        // Buttons
                         if( m_showCorrectButton )
                         {
                             drawCorrectButton();
@@ -381,7 +409,7 @@ namespace tadaima
 
                     for( const auto& entry : statistics )
                     {
-                        const auto& word = getWordById(entry.first);
+                        const auto& word = getWordById(entry.first.first);
                         int totalAttempts = entry.second.goodAttempts + entry.second.badAttempts;
 
                         // Populate Table Rows

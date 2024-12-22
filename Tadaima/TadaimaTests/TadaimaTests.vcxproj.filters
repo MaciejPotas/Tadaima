@@ -59,6 +59,12 @@
     <ClCompile Include="Gui\SettingsDataPackageTest.cpp">
       <Filter>Gui\Packages</Filter>
     </ClCompile>
+    <ClCompile Include="Quiz\ConjuatcionQuizTests.cpp">
+      <Filter>Gui\Quiz</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\gui\quiz\ConjugationQuiz.cpp">
+      <Filter>Gui\Quiz</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LessonManager\MockDatabase.h">

@@ -29,19 +29,32 @@ CONJUGATION_MAP = {
 def get_conjugations(word, debug=False):
     word = word.strip().lower()
 
-    # Check word type
+    # If it ends with 'u', treat as verb
     if word.endswith('u'):
-        # Treat as verb
         return fetch_verb_conjugations(word, debug)
-    elif word.endswith('na') or word.endswith('i'):
-        # Treat as adjective
-        return conjugate_adjective(word, debug)
+
+    # If it's exactly "ii"
+    if word == 'ii':
+        return conjugate_special_ii(debug=debug)
+    # Else if it ends with "ii" (but not just "ii"), e.g., "atamagaii", "kakkoii"
+    elif len(word) > 2 and word.endswith('ii'):
+        return conjugate_double_ii_adjective(word, debug)
+    # Else if ends with 'i', treat as normal i‐adjective
+    elif word.endswith('i'):
+        return conjugate_i_adjective(word, debug)
+    # If ends with 'na', treat as na‐adjective
+    elif word.endswith('na'):
+        return conjugate_na_adjective(word, debug)
     else:
-        # Unrecognized pattern
-        print("Error: The word does not match known patterns for verbs or adjectives (does not end in 'u', 'na', or 'i').")
+        print("Error: The word does not match known patterns (not ending in 'u', 'ii', 'i', or 'na').")
         return None
 
+# ----------------- Verb Handling ----------------- #
+
 def fetch_verb_conjugations(word, debug=False):
+    """
+    Fetches verb conjugations from Reverso if available.
+    """
     url = f"https://conjugator.reverso.net/conjugation-japanese-verb-{word}.html"
     headers = {
         "User-Agent": (
@@ -64,14 +77,17 @@ def fetch_verb_conjugations(word, debug=False):
         if conjugations:
             return conjugations
         else:
-            print("Error: No conjugations found for the given verb.")
+            print("Error: No conjugations found for the given verb:", word)
             return None
 
     except requests.exceptions.RequestException as e:
-        print(f"Error: Unable to fetch data from {url}\nDetails: {e}")
+        print(f"Error: Unable to fetch data for {word}\nDetails: {e}")
         return None
 
 def parse_conjugations(soup, debug=False):
+    """
+    Extracts the verb conjugations from Reverso's HTML.
+    """
     conjugations = {}
     tense_blocks = soup.find_all('div', class_='blue-box-wrap')
     if not tense_blocks:
@@ -98,52 +114,77 @@ def parse_conjugations(soup, debug=False):
 
     return conjugations if conjugations else None
 
-def conjugate_adjective(word, debug=False):
-    # Determine adjective type
-    if word.endswith('na'):
-        adj_type = 'na'
-        stem = word[:-2]
-    elif word.endswith('i'):
-        adj_type = 'i'
-        stem = word[:-1]
-    else:
-        print("Error: Cannot determine adjective type.")
-        return None
+# ----------------- Adjective Handling ----------------- #
 
-    # Convert romaji to kana via katakana intermediate
+def conjugate_special_ii(debug=False):
+    """
+    Conjugations for the stand-alone adjective 'ii' (good).
+    Negative => yokunai, Past => yokatta, etc.
+    """
     def to_kana(r):
-        # First convert romaji to katakana
         katakana = jaconv.alphabet2kana(r)
-        # Then convert katakana to hiragana
-        hiragana = jaconv.kata2hira(katakana)
-        return hiragana
+        return jaconv.kata2hira(katakana)
 
-    if adj_type == 'i':
-        base_forms = {
-            "PLAIN": stem + "i",
-            "POLITE": stem + "i desu",
-            "NEGATIVE": stem + "kunai",
-            "POLITE_NEGATIVE": stem + "kunai desu",
-            "PAST": stem + "katta",
-            "POLITE_PAST": stem + "katta desu",
-            "PAST_NEGATIVE": stem + "kunakatta",
-            "POLITE_PAST_NEGATIVE": stem + "kunakatta desu",
-            "TE_FORM": stem + "kute",
-        }
-    else:
-        base_forms = {
-            "PLAIN": stem + "da",
-            "POLITE": stem + "desu",
-            "NEGATIVE": stem + "janai",
-            "POLITE_NEGATIVE": stem + "janai desu",
-            "PAST": stem + "datta",
-            "POLITE_PAST": stem + "deshita",
-            "PAST_NEGATIVE": stem + "janakatta",
-            "POLITE_PAST_NEGATIVE": stem + "janakatta desu",
-            "TE_FORM": stem + "de",
-        }
+    base_forms = {
+        "PLAIN": "ii",
+        "POLITE": "ii desu",
+        "NEGATIVE": "yokunai",
+        "POLITE_NEGATIVE": "yokunai desu",
+        "PAST": "yokatta",
+        "POLITE_PAST": "yokatta desu",
+        "PAST_NEGATIVE": "yokunakatta",
+        "POLITE_PAST_NEGATIVE": "yokunakatta desu",
+        "TE_FORM": "yokute",
+    }
 
-    # Set forms that don't apply to adjectives
+    # Irrelevant forms for adjectives
+    na_forms = ["POTENTIAL", "PASSIVE", "CAUSATIVE", "CONDITIONAL", "VOLITIONAL", "IMPERATIVE"]
+    for f in na_forms:
+        base_forms[f] = "N/A"
+
+    # Convert to final dictionary
+    conjugations = {}
+    for ctype in CONJUGATION_MAP.values():
+        rom = base_forms.get(ctype, "N/A")
+        if rom == "N/A":
+            kana = "N/A"
+        else:
+            kana = to_kana(rom)
+        conjugations[ctype] = {"romaji": rom, "kana": kana}
+
+    if debug:
+        print("Debug: Generated 'ii' special adjective conjugations:")
+        for ctype, form_data in conjugations.items():
+            print(f"{ctype}: Romaji: {form_data['romaji']}, Kana: {form_data['kana']}")
+
+    return conjugations
+
+def conjugate_double_ii_adjective(word, debug=False):
+    """
+    For adjectives ending with 'ii' (but not just 'ii'), e.g. 'atamagaii', 'kakkoii'.
+    They follow a similar pattern to 'ii' => negative uses 'yoku', etc.
+    """
+    # e.g., 'atamagaii' => prefix = 'atamagai'
+    prefix = word[:-2]
+
+    def to_kana(r):
+        katakana = jaconv.alphabet2kana(r)
+        return jaconv.kata2hira(katakana)
+
+    # The logic is the same as for 'ii', but we prepend the prefix
+    base_forms = {
+        "PLAIN": prefix + "ii",
+        "POLITE": prefix + "ii desu",
+        "NEGATIVE": prefix + "yokunai",
+        "POLITE_NEGATIVE": prefix + "yokunai desu",
+        "PAST": prefix + "yokatta",
+        "POLITE_PAST": prefix + "yokatta desu",
+        "PAST_NEGATIVE": prefix + "yokunakatta",
+        "POLITE_PAST_NEGATIVE": prefix + "yokunakatta desu",
+        "TE_FORM": prefix + "yokute",
+    }
+
+    # Irrelevant forms for adjectives
     na_forms = ["POTENTIAL", "PASSIVE", "CAUSATIVE", "CONDITIONAL", "VOLITIONAL", "IMPERATIVE"]
     for f in na_forms:
         base_forms[f] = "N/A"
@@ -159,11 +200,101 @@ def conjugate_adjective(word, debug=False):
         conjugations[ctype] = {"romaji": rom, "kana": kana}
 
     if debug:
-        print("Debug: Generated adjective conjugations:")
+        print("Debug: Generated double-'ii' adjective conjugations:")
+        for ctype, data in conjugations.items():
+            print(f"{ctype}: Romaji: {data['romaji']}, Kana: {data['kana']}")
+
+    return conjugations
+
+def conjugate_i_adjective(word, debug=False):
+    """
+    Standard i-adjectives that end with a single 'i' (e.g., 'kawaii', 'hayai').
+    """
+    stem = word[:-1]  # remove the last 'i'
+
+    def to_kana(r):
+        katakana = jaconv.alphabet2kana(r)
+        return jaconv.kata2hira(katakana)
+
+    base_forms = {
+        "PLAIN": stem + "i",
+        "POLITE": stem + "i desu",
+        "NEGATIVE": stem + "kunai",
+        "POLITE_NEGATIVE": stem + "kunai desu",
+        "PAST": stem + "katta",
+        "POLITE_PAST": stem + "katta desu",
+        "PAST_NEGATIVE": stem + "kunakatta",
+        "POLITE_PAST_NEGATIVE": stem + "kunakatta desu",
+        "TE_FORM": stem + "kute",
+    }
+
+    # Set forms that don't apply to adjectives
+    na_forms = ["POTENTIAL", "PASSIVE", "CAUSATIVE", "CONDITIONAL", "VOLITIONAL", "IMPERATIVE"]
+    for f in na_forms:
+        base_forms[f] = "N/A"
+
+    # Build final dictionary
+    conjugations = {}
+    for ctype in CONJUGATION_MAP.values():
+        rom = base_forms.get(ctype, "N/A")
+        if rom == "N/A":
+            kana = "N/A"
+        else:
+            kana = to_kana(rom)
+        conjugations[ctype] = {"romaji": rom, "kana": kana}
+
+    if debug:
+        print("Debug: Generated standard i-adjective conjugations:")
         for ctype, form_data in conjugations.items():
             print(f"{ctype}: Romaji: {form_data['romaji']}, Kana: {form_data['kana']}")
 
     return conjugations
+
+def conjugate_na_adjective(word, debug=False):
+    """
+    Conjugates na-adjectives (ending in 'na').
+    """
+    stem = word[:-2]  # remove 'na'
+
+    def to_kana(r):
+        katakana = jaconv.alphabet2kana(r)
+        return jaconv.kata2hira(katakana)
+
+    base_forms = {
+        "PLAIN": stem + "da",
+        "POLITE": stem + " desu",
+        "NEGATIVE": stem + " janai",
+        "POLITE_NEGATIVE": stem + " janai desu",
+        "PAST": stem + "datta",
+        "POLITE_PAST": stem + " deshita",
+        "PAST_NEGATIVE": stem + " janakatta",
+        "POLITE_PAST_NEGATIVE": stem + " janakatta desu",
+        "TE_FORM": stem + "de",
+    }
+
+    # Set forms that don't apply to adjectives
+    na_forms = ["POTENTIAL", "PASSIVE", "CAUSATIVE", "CONDITIONAL", "VOLITIONAL", "IMPERATIVE"]
+    for f in na_forms:
+        base_forms[f] = "N/A"
+
+    # Build final dictionary
+    conjugations = {}
+    for ctype in CONJUGATION_MAP.values():
+        rom = base_forms.get(ctype, "N/A")
+        if rom == "N/A":
+            kana = "N/A"
+        else:
+            kana = to_kana(rom)
+        conjugations[ctype] = {"romaji": rom, "kana": kana}
+
+    if debug:
+        print("Debug: Generated na-adjective conjugations:")
+        for ctype, form_data in conjugations.items():
+            print(f"{ctype}: Romaji: {form_data['romaji']}, Kana: {form_data['kana']}")
+
+    return conjugations
+
+# ----------------- XML Output ----------------- #
 
 def format_output(word, conjugations):
     root = ET.Element("conjugations")
@@ -176,6 +307,8 @@ def format_output(word, conjugations):
         ET.SubElement(tense_element, "romaji").text = forms.get("romaji", "N/A")
 
     return ET.tostring(root, encoding='unicode')
+
+# ----------------- Main Entry ----------------- #
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:

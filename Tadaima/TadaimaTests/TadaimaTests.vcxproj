@@ -87,6 +87,7 @@
     <ClInclude Include="LessonManager\MockDatabase.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\gui\quiz\ConjugationQuiz.cpp" />
     <ClCompile Include="..\src\gui\quiz\MultipleChoiceQuiz.cpp" />
     <ClCompile Include="..\src\gui\quiz\VocabularyQuiz.cpp" />
     <ClCompile Include="..\src\lessons\LessonManager.cpp" />
@@ -94,6 +95,7 @@
     <ClCompile Include="Gui\SettingsDataPackageTest.cpp" />
     <ClCompile Include="LessonManager\LessonManagerTest.cpp" />
     <ClCompile Include="LessonManager\LessonTests.cpp" />
+    <ClCompile Include="Quiz\ConjuatcionQuizTests.cpp" />
     <ClCompile Include="Quiz\QuizGameTests.cpp" />
     <ClCompile Include="Quiz\VocabularyQuizTests.cpp" />
     <ClCompile Include="Tools\DataPackage.cpp" />

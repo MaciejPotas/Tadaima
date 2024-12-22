@@ -67,6 +67,20 @@ namespace tadaima
                     WordStatistics() : goodAttempts(0), badAttempts(0), learnt(false) {}
                 };
 
+
+                struct pair_hash
+                {
+                    std::size_t operator()(const std::pair<int, ConjugationType>& p) const
+                    {
+                        // For example, hash the first int,
+                        // then XOR with a shift of hashing the enum
+                        auto h1 = std::hash<int>()(p.first);
+                        // If ConjugationType is an enum, cast to int
+                        auto h2 = std::hash<int>()(static_cast<int>(p.second));
+                        return h1 ^ (h2 << 1);
+                    }
+                };
+
                 /**
                  * @brief Constructor for the ConjugationQuiz class.
                  *
@@ -127,7 +141,10 @@ namespace tadaima
                  *
                  * @return A const reference to an unordered map of conjugation statistics.
                  */
-                const std::unordered_map<int, WordStatistics>& getStatistics() const;
+                const std::unordered_map<std::pair<int, ConjugationType>,
+                    WordStatistics,
+                    pair_hash>&
+                    getStatistics() const;
 
                 /**
                  * @brief Retrieves the current flashcard.
@@ -149,9 +166,14 @@ namespace tadaima
                 void moveToNextFlashcard();
 
                 std::vector<ConjugationFlashCard> m_flashcards; ///< The vector of flashcards used in the quiz.
-                std::unordered_map<int, WordStatistics> m_statistics; ///< Map of word IDs to their statistics.
+                std::unordered_map<std::pair<int, ConjugationType>,
+                    WordStatistics,
+                    pair_hash> m_statistics;
+
+                ///< Map of word IDs to their statistics.
 
                 ConjugationFlashCard* m_currentFlashcard = nullptr; ///< Pointer to the current flashcard.
+
 
                 int m_currentIndex = 0; ///< Index of the current flashcard.
                 int m_requiredCorrectAnswers; ///< The number of correct answers required for each flashcard.
