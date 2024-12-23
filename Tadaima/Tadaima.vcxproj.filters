@@ -187,6 +187,9 @@
     <ClInclude Include="src\gui\widgets\ConjugationSettingsWidget.h">
       <Filter>src\gui\widgets</Filter>
     </ClInclude>
+    <ClInclude Include="resources\resource.h">
+      <Filter>resources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -236,5 +239,15 @@
     <Font Include="resources\forkawesome-webfont.ttf">
       <Filter>resources</Filter>
     </Font>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resources\Tadaima.rc">
+      <Filter>resources</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\icon.ico">
+      <Filter>resources</Filter>
+    </Image>
   </ItemGroup>
 </Project>

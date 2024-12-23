@@ -11,6 +11,7 @@
 #include "Widgets/MenuBarWidget.h"
 #include "Widgets/MainDashboardWidget.h"
 #include "resources/IconsFontAwesome4.h"
+#include "resources/resource.h"
 #include "tools/SystemTools.h"
 #include "imgui.h"
 #include "imgui_impl_dx11.h"
@@ -156,8 +157,13 @@ namespace tadaima
         {
             bool floating = true;
 
-            WNDCLASSEXW wc = { sizeof(wc), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(nullptr), nullptr, nullptr, nullptr, nullptr, L"ImGui Example", nullptr };
+            WNDCLASSEXW wc = { sizeof(wc), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(nullptr),
+                LoadIcon(GetModuleHandle(nullptr), MAKEINTRESOURCE(IDI_ICON1)), // Main Icon
+                LoadCursor(nullptr, IDC_ARROW), nullptr, nullptr, L"Tadaima",
+                LoadIcon(GetModuleHandle(nullptr), MAKEINTRESOURCE(IDI_ICON1)) // Small Icon
+            };
             ::RegisterClassExW(&wc);
+
             HWND hwnd = ::CreateWindowW(wc.lpszClassName, L"Tadaima!", !floating ? (WS_OVERLAPPEDWINDOW & ~WS_THICKFRAME) : WS_OVERLAPPEDWINDOW, 100, 100, 900, 700, nullptr, nullptr, wc.hInstance, nullptr);
             // WS_OVERLAPPEDWINDOW & ~WS_THICKFRAME - ABY ZROBIc ZEBY SIE NIE ZMIENIALA
 

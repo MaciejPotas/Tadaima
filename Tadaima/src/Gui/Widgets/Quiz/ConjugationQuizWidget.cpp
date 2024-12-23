@@ -238,9 +238,6 @@ namespace tadaima
                             f1KeyWasPressed = false; // Reset the state when the key is released
                         }
 
-
-
-
                         // Highlighted Conjugation Type
                         ImGui::TextColored(ImVec4(0.8f, 0.3f, 0.3f, 1.0f), "\uf059 %s ", ConjugationTypeToFullQuiestion(item->getType(), word.romaji, word.translation, showHint).c_str());
 
