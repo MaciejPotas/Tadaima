@@ -45,7 +45,7 @@ namespace tadaima
                 // Disable scrolling for the popup window
                 if( ImGui::BeginPopupModal("Conjugations Modal", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse) )
                 {
-                    std::string title = "Conjugations for ";
+                    std::string title = "Conjugations for " + std::string(m_conjugationWord);
                     ImGui::TextColored(ImVec4(0.2f, 0.8f, 0.4f, 1.0f), title.c_str());
 
                     ImGui::InputText("##ConjugationInput", m_conjugationWord, sizeof(m_conjugationWord));
@@ -92,7 +92,7 @@ namespace tadaima
                         {
                             ImGui::TableNextRow();
                             ImGui::TableNextColumn();
-                            std::string name = ConjugationTypeToString((ConjugationType)i);
+                            std::string name = tadaima::ConjugationTypeToString(static_cast<tadaima::ConjugationType>(i));
                             ImGui::Text(name.c_str());
 
                             ImGui::TableNextColumn();

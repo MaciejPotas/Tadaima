@@ -1,4 +1,5 @@
 #include "Conjugations.h"
+#include <format>
 
 namespace tadaima
 {
@@ -25,4 +26,5 @@ namespace tadaima
             default: return "Unknown";
         }
     }
+
 }

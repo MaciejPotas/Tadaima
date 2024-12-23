@@ -8,7 +8,6 @@
 #include "Gui/Gui.h"
 #include "Application/Application.h"
 #include <iostream>
-#include <iostream>
 
 int main(int argc, char* argv[])
 {

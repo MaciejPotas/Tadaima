@@ -126,14 +126,7 @@ namespace tadaima
                  */
                 void resetAfterInput();
 
-                /**
-                 * @brief Converts the `m_selectedConjugations` bitmask into a vector of selected conjugation types.
-                 *
-                 * Parses the bitmask to determine which conjugation types have been selected.
-                 *
-                 * @return A vector of selected ConjugationType enums.
-                 */
-                std::vector<ConjugationType> parseSelectedConjugations() const;
+                std::string ConjugationTypeToFullQuiestion(ConjugationType type, const std::string& romaji, const std::string& translation, bool showHint = false);
 
                 uint16_t m_selectedConjugations;          /**< Bitmask representing selected conjugation types. */
                 uint8_t m_numberOfTries;                  /**< Number of tries allowed for each flashcard. */

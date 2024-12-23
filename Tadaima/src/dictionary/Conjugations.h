@@ -38,4 +38,16 @@ namespace tadaima
      * @return A string representation of the specified ConjugationType.
      */
     std::string ConjugationTypeToString(ConjugationType type);
+
+    /**
+     * @brief Converts a ConjugationType enum value to its string representation.
+     *
+     * This function provides a human-readable string representation of a given
+     * ConjugationType enum value, useful for debugging, logging, or displaying in a GUI.
+     *
+     * @param type The ConjugationType value to convert.
+     * @param word The word to include in the question.
+     * @return A string representation of the specified ConjugationType.
+     */
+    std::string ConjugationTypeToFullQuiestion(ConjugationType type, const std::string& romaji, const std::string& translation);
 }

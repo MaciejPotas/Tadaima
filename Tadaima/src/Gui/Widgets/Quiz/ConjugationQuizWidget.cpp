@@ -222,8 +222,27 @@ namespace tadaima
                         const auto item = static_cast<const tadaima::quiz::ConjugationItem*>(m_quiz->getCurrentItem());
                         auto word = getWordById(std::stoi(item->getKey()));
 
+                        static bool f1KeyWasPressed = false; // Tracks the key's previous state
+                        static bool showHint = false;        // Tracks whether the hint should be shown
+
+                        if( ImGui::IsKeyPressed(ImGuiKey_F1) )
+                        {
+                            if( !f1KeyWasPressed )
+                            { // Only toggle on the first press
+                                showHint = !showHint;
+                                f1KeyWasPressed = true;
+                            }
+                        }
+                        else
+                        {
+                            f1KeyWasPressed = false; // Reset the state when the key is released
+                        }
+
+
+
+
                         // Highlighted Conjugation Type
-                        ImGui::TextColored(ImVec4(0.8f, 0.3f, 0.3f, 1.0f), "\uf059 What is the %s form of:", ConjugationTypeToString(item->getType()).c_str());
+                        ImGui::TextColored(ImVec4(0.8f, 0.3f, 0.3f, 1.0f), "\uf059 %s ", ConjugationTypeToFullQuiestion(item->getType(), word.romaji, word.translation, showHint).c_str());
 
                         // Display Word with emphasis
                         ImGui::TextWrapped("\uf0f6 \"%s\"", word.translation.c_str());
@@ -491,6 +510,53 @@ namespace tadaima
                 m_setFocusOnInputField = true;
                 memset(m_userInput, 0, sizeof(m_userInput));
                 m_correctAnswer.clear();
+            }
+
+            std::string ConjugationQuizWidget::ConjugationTypeToFullQuiestion(ConjugationType type, const std::string& romaji, const std::string& translation, bool showHint)
+            {
+                bool isVerb = !romaji.empty() && romaji.back() == 'u'; // Check if the word ends with 'u'
+
+                std::string word = translation;
+                if( showHint )
+                {
+                    word += std::format(" ( {} )", romaji);
+                }
+
+                switch( type )
+                {
+                    case PLAIN:
+                        return isVerb ? "What is the form of: \"" + word + "\"?" : "What is the form of: \"is " + word + "\"?";
+                    case POLITE:
+                        return isVerb ? "What is the POLITE form of: \"" + word + "\"?" : "What is the POLITE form of: \"is " + word + "\"?";
+                    case NEGATIVE:
+                        return isVerb ? "What is the form of: \"not " + word + "\"?" : "What is the form of: \"is not " + word + "\"?";
+                    case POLITE_NEGATIVE:
+                        return isVerb ? "What is the POLITE form of: \"not " + word + "\"?" : "What is the POLITE form of: \"is not " + word + "\"?";
+                    case PAST:
+                        return isVerb ? "What is the form of: \"did " + word + "\"?" : "What is the form of: \"was " + word + "\"?";
+                    case POLITE_PAST:
+                        return isVerb ? "What is the POLITE form of: \"did " + word + "\"?" : "What is the POLITE form of: \"was " + word + "\"?";
+                    case PAST_NEGATIVE:
+                        return isVerb ? "What is the form of: \"did not " + word + "\"?" : "What is the form of: \"was not " + word + "\"?";
+                    case POLITE_PAST_NEGATIVE:
+                        return isVerb ? "What is the POLITE form of: \"did not " + word + "\"?" : "What is the POLITE form of: \"was not " + word + "\"?";
+                    case TE_FORM:
+                        return isVerb ? "What is the te-form of: \"" + word + "\"?" : "What is the te-form of: \"is " + word + "\"?";
+                    case POTENTIAL:
+                        return isVerb ? "What is the form of: \"can " + word + "\"?" : "What is the form of: \"can be " + word + "\"?";
+                    case PASSIVE:
+                        return isVerb ? "What is the form of: \"is being " + word + "\"?" : "What is the form of: \"is considered as " + word + "\"?";
+                    case CAUSATIVE:
+                        return isVerb ? "What is the form of: \"make/let someone " + word + "\"?" : "What is the form of: \"is made to be " + word + "\"?";
+                    case CONDITIONAL:
+                        return isVerb ? "What is the form of: \"if " + word + "\"?" : "What is the form of: \"if it is " + word + "\"?";
+                    case VOLITIONAL:
+                        return isVerb ? "What is the form of: \"let's " + word + "\"?" : "What is the form of: \"let it be " + word + "\"?";
+                    case IMPERATIVE:
+                        return isVerb ? "What is the form of: \"do " + word + "\"?" : "What is the form of: \"be " + word + "\"?";
+                    default:
+                        return "Unknown conjugation type.";
+                }
             }
         }
     }
