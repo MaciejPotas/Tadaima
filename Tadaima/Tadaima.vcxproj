@@ -235,7 +235,12 @@ xcopy "$(ProjectDir)..\scripts" "$(SolutionDir)bin\$(Platform)\scripts" /Y /I /Q
     <ClInclude Include="src\gui\widgets\ScriptQuizRunnerWidget.h" />
     <ClInclude Include="src\gui\widgets\Quiz\VocabularyQuizWidget.h" />
     <ClCompile Include="src\gui\widgets\ApplicationSettingsWidget.cpp" />
-    <ClCompile Include="src\gui\widgets\ImGuiFileDialog.cpp" />
+    <ClCompile Include="src\gui\widgets\ImGuiFileDialog.cpp">
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5054</DisableSpecificWarnings>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5054</DisableSpecificWarnings>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5054</DisableSpecificWarnings>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5054</DisableSpecificWarnings>
+    </ClCompile>
     <ClCompile Include="src\gui\widgets\LessonSettingsWidget.cpp" />
     <ClCompile Include="src\application\ApplicationDatabase.cpp" />
     <ClCompile Include="src\gui\widgets\Quiz\QuizWidget.cpp" />
