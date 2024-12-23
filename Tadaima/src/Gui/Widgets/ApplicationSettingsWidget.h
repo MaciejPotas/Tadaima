@@ -7,7 +7,7 @@
 
 #include "Widget.h"
 #include <string>
-#include <quiz/QuizType.h>
+#include "quiz/QuizWordType.h"
 
 namespace tools { class Logger; }
 
@@ -86,7 +86,7 @@ namespace tadaima
                  * @return The corresponding WordType.
                  * @throws std::invalid_argument If the string is invalid.
                  */
-                quiz::WordType stringToWordType(const std::string& str);
+                tadaima::quiz::WordType stringToWordType(const std::string& str);
 
                 /**
                  * @brief Converts a WordType to a string.
@@ -97,7 +97,7 @@ namespace tadaima
                  * @return The corresponding string.
                  * @throws std::invalid_argument If the WordType is invalid.
                  */
-                std::string wordTypeToString(quiz::WordType type);
+                std::string wordTypeToString(tadaima::quiz::WordType type);
 
                 /**
                  * @brief Shows a help marker with the given description.
@@ -106,7 +106,7 @@ namespace tadaima
                  *
                  * @param desc The description to display in the help marker.
                  */
-                void ShowHelpMarker(const char* desc);
+                //void ShowHelpMarker(const char* desc);
 
                 /**
                  * @brief Shows field help with the given description.
@@ -119,12 +119,14 @@ namespace tadaima
 
                 tools::Logger& m_logger; /**< Reference to the Logger instance for logging. */
                 char m_dictionaryPath[50] = ""; /**< Path to the dictionary used by the application. */
+                char m_conjugationPath[50] = ""; /**< Path to the conjugation used by the application. */
                 char m_scriptPaths[50] = ""; /**< Path to the directory containing quiz scripts. */
                 char m_username[30] = ""; /**< Username for the application. */
-                int m_inputOption = quiz::WordType::BaseWord; /**< The input word type for quizzes. */
-                int m_translationOption = quiz::WordType::Romaji; /**< The translation word type for quizzes. */
+                int m_inputOption = tadaima::quiz::WordType::BaseWord; /**< The input word type for quizzes. */
+                int m_translationOption = tadaima::quiz::WordType::Romaji; /**< The translation word type for quizzes. */
                 int m_numberOfTries = 1; /**< The number of tries allowed for answering a quiz question. */
                 bool m_showlogs = false; /**< Flag indicating whether logs should be displayed. */
+                uint16_t m_conjugationBits = 0; // 16 bits for up to 16 conjugation types
             };
         }
     }

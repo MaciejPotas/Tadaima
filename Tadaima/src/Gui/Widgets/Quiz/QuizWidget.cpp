@@ -9,7 +9,7 @@ namespace tadaima
     {
         namespace widget
         {
-            QuizWidget::QuizWidget(quiz::WordType base, quiz::WordType desired, const std::vector<Lesson>& lessons, tools::Logger& logger)
+            QuizWidget::QuizWidget(tadaima::quiz::WordType base, tadaima::quiz::WordType desired, const std::vector<Lesson>& lessons, tools::Logger& logger)
                 : m_baseWord(base), m_inputWord(desired), m_logger(logger), quizGame(base, desired, lessons, logger)
             {
                 quizGame.start();

@@ -1,8 +1,8 @@
 ﻿#include "gtest/gtest.h"
 #include "gmock/gmock.h"
-#include "gui/quiz/MultipleChoiceQuiz.h"
+#include "quiz/MultipleChoiceQuiz.h"
 #include "Tools/Logger.h"
-#include "gui/quiz/QuizType.h"
+#include "gui/widgets/quiz/QuizType.h"
 
 using namespace tadaima;
 using namespace tadaima::gui::quiz;
@@ -29,7 +29,7 @@ protected:
 
 TEST_F(QuizGameTest, InitializeQuizGame)
 {
-    MultipleChoiceQuiz quizGame(quiz::WordType::BaseWord, quiz::WordType::Romaji, lessons, logger);
+    MultipleChoiceQuiz quizGame(tadaima::quiz::WordType::BaseWord, tadaima::quiz::WordType::Romaji, lessons, logger);
     quizGame.start();
 
     // Check that quiz initializes with the correct number of options.
@@ -39,7 +39,7 @@ TEST_F(QuizGameTest, InitializeQuizGame)
 
 TEST_F(QuizGameTest, StartQuiz)
 {
-    MultipleChoiceQuiz quizGame(quiz::WordType::BaseWord, quiz::WordType::Romaji, lessons, logger);
+    MultipleChoiceQuiz quizGame(tadaima::quiz::WordType::BaseWord, tadaima::quiz::WordType::Romaji, lessons, logger);
     quizGame.start();
 
     // Ensure quiz starts and options are populated.
@@ -49,7 +49,7 @@ TEST_F(QuizGameTest, StartQuiz)
 
 TEST_F(QuizGameTest, AdvanceQuiz)
 {
-    MultipleChoiceQuiz quizGame(quiz::WordType::BaseWord, quiz::WordType::Romaji, lessons, logger);
+    MultipleChoiceQuiz quizGame(tadaima::quiz::WordType::BaseWord, tadaima::quiz::WordType::Romaji, lessons, logger);
     quizGame.start();
 
     // Simulate advancing the quiz by providing an answer.
@@ -60,7 +60,7 @@ TEST_F(QuizGameTest, AdvanceQuiz)
 
 TEST_F(QuizGameTest, QuizFinished)
 {
-    MultipleChoiceQuiz quizGame(quiz::WordType::BaseWord, quiz::WordType::Romaji, lessons, logger);
+    MultipleChoiceQuiz quizGame(tadaima::quiz::WordType::BaseWord, tadaima::quiz::WordType::Romaji, lessons, logger);
     quizGame.start();
 
     // Advance the quiz through all questions.

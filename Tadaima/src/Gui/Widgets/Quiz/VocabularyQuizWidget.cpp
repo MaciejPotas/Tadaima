@@ -1,8 +1,11 @@
 #include "VocabularyQuizWidget.h"
 #include <algorithm>
 #include "imgui.h"
-#include "packages/SettingsDataPackage.h"
+#include "gui/widgets/packages/SettingsDataPackage.h"
+#include "quiz/Quiz.h"
+#include "quiz/VocabularyItem.h"
 #include "Lessons/Lesson.h"
+#include "Dictionary/Word.h"
 #include <stdexcept>
 #include <format>
 #include <random>
@@ -13,13 +16,13 @@ namespace tadaima
     {
         namespace widget
         {
-            VocabularyQuizWidget::VocabularyQuizWidget(quiz::WordType base, quiz::WordType desired, uint8_t numberOfTries, const std::vector<Lesson>& lessons, tools::Logger& logger)
+            VocabularyQuizWidget::VocabularyQuizWidget(tadaima::quiz::WordType base, tadaima::quiz::WordType desired, uint8_t numberOfTries, const std::vector<Lesson>& lessons, tools::Logger& logger)
                 : m_baseWord(base), m_inputWord(desired), m_lessons(lessons), m_logger(logger), m_correctAnswerMessage("You're answer is ..."), m_numberOfTries(numberOfTries)
             {
                 try
                 {
                     m_logger.log("Initializing VocabularyQuizWidget...", tools::LogLevel::INFO);
-                    std::vector<quiz::QuizWord> flashcards;
+                    std::vector<std::unique_ptr<tadaima::quiz::QuizItem>> flashcards;
                     for( const auto& lesson : lessons )
                     {
                         for( const auto& word : lesson.words )
@@ -27,7 +30,7 @@ namespace tadaima
                             std::string string = getTranslation(word, desired);
                             if( !string.empty() )
                             {
-                                flashcards.push_back({ word.id , string });
+                                flashcards.push_back(std::make_unique<tadaima::quiz::VocabularyItem>(word.id, string));
                             }
                         }
                     }
@@ -37,7 +40,7 @@ namespace tadaima
                         throw std::runtime_error("No valid flashcards could be created.");
                     }
 
-                    m_quiz = std::make_unique<quiz::VocabularyQuiz>(flashcards, m_numberOfTries, true);
+                    m_quiz = std::make_unique<tadaima::quiz::Quiz>(flashcards, m_numberOfTries, true);
                 }
                 catch( const std::exception& e )
                 {
@@ -68,21 +71,21 @@ namespace tadaima
                 }
             }
 
-            std::string VocabularyQuizWidget::getTranslation(const Word& word, quiz::WordType type) const
+            std::string VocabularyQuizWidget::getTranslation(const Word& word, tadaima::quiz::WordType type) const
             {
                 std::string correctAnswer;
 
                 switch( type )
                 {
-                    case quiz::WordType::BaseWord:
+                    case tadaima::quiz::WordType::BaseWord:
                         correctAnswer = word.translation;
                         break;
 
-                    case quiz::WordType::Kana:
+                    case tadaima::quiz::WordType::Kana:
                         correctAnswer = word.kana;
                         break;
 
-                    case quiz::WordType::Romaji:
+                    case tadaima::quiz::WordType::Romaji:
                         correctAnswer = word.romaji;
                         break;
 
@@ -98,7 +101,7 @@ namespace tadaima
             {
                 try
                 {
-                    std::string translation = m_quiz->getCurrentFlashCard().word;
+                    std::string translation = m_quiz->getCurrentItem()->getAnswer();
 
                     if( m_revealedHints.size() >= translation.size() )
                     {
@@ -140,7 +143,7 @@ namespace tadaima
             {
                 try
                 {
-                    int totalWords = m_quiz->getNumberOflashcards();
+                    int totalWords = m_quiz->getNumberOfItems();
                     int maxProgress = totalWords * m_numberOfTries; // Maximum progress is number of words * 2
 
                     // Calculate net progress based on correct and incorrect attempts
@@ -201,7 +204,7 @@ namespace tadaima
                         ImGui::Text("Progress");
                         float progress = calculateProgress();
                         ImGui::ProgressBar(progress, ImVec2(-1, 0));
-                        ImGui::Text("Words to learn: %d", m_quiz->getNumberOflashcards() - m_quiz->getLearntWords());
+                        ImGui::Text("Words to learn: %d", m_quiz->getNumberOfItems() - m_quiz->getLearntItems());
 
                         ImGui::Separator();
 
@@ -211,7 +214,7 @@ namespace tadaima
                             ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "%s", m_correctAnswerMessage.c_str());
                             ImGui::Text("Previous flashcard:");
 
-                            if( m_inputWord == quiz::WordType::BaseWord && !m_translation.empty() )
+                            if( m_inputWord == tadaima::quiz::WordType::BaseWord && !m_translation.empty() )
                             {
                                 ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.8f, 0.2f, 0.2f, 1.0f));
                                 ImGui::BulletText("Translation: %s", m_translation.c_str());
@@ -222,7 +225,7 @@ namespace tadaima
                                 ImGui::BulletText("Translation: %s", m_translation.c_str());
                             }
 
-                            if( m_inputWord == quiz::WordType::Kana && !m_kana.empty() )
+                            if( m_inputWord == tadaima::quiz::WordType::Kana && !m_kana.empty() )
                             {
                                 ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.8f, 0.2f, 0.2f, 1.0f));
                                 ImGui::BulletText("Kana: %s", m_kana.c_str());
@@ -233,7 +236,7 @@ namespace tadaima
                                 ImGui::BulletText("Kana: %s", m_kana.c_str());
                             }
 
-                            if( m_inputWord == quiz::WordType::Romaji && !m_romaji.empty() )
+                            if( m_inputWord == tadaima::quiz::WordType::Romaji && !m_romaji.empty() )
                             {
                                 ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.8f, 0.2f, 0.2f, 1.0f));
                                 ImGui::BulletText("Romaji: %s", m_romaji.c_str());
@@ -248,8 +251,8 @@ namespace tadaima
 
                             ImGui::Spacing();
 
-                            const auto& flashcard = m_quiz->getCurrentFlashCard();
-                            auto word = getWordById(flashcard.wordId);
+                            auto flashcard = m_quiz->getCurrentItem();
+                            auto word = getWordById(std::stoi(flashcard->getKey()));
                             auto translate = getTranslation(word, m_baseWord);
 
                             ImGui::Text("Word:");
@@ -269,7 +272,7 @@ namespace tadaima
                                 m_example = word.exampleSentence;
 
                                 m_showCorrectAnswer = true;
-                                m_correctAnswer = flashcard.word;
+                                m_correctAnswer = flashcard->getAnswer();
 
                                 const bool isCorrect = m_quiz->isCorrect(m_userInput);
 
@@ -304,7 +307,7 @@ namespace tadaima
                             {
                                 if( m_currentHint.empty() )
                                 {
-                                    m_currentHint = std::string(flashcard.word.size(), '*'); // Reset currentHint to asterisks
+                                    m_currentHint = std::string(flashcard->getAnswer().size(), '*'); // Reset currentHint to asterisks
                                 }
                                 m_currentHint = getHint();
                             }
@@ -322,7 +325,7 @@ namespace tadaima
                                 }
                                 if( ImGui::Button("Correct!") || (focusOnAcceptButton && enterPressed) )
                                 {
-                                    m_quiz->advance(flashcard.word);
+                                    m_quiz->advance(flashcard->getAnswer());
                                     memset(m_userInput, 0, sizeof(m_userInput));
                                     m_overrideAnswer = true;
                                     m_correctAnswerMessage = "Your answer has been marked as correct!";
@@ -374,7 +377,7 @@ namespace tadaima
                                 }
                                 if( ImGui::Button("Accept it!") || (focusOnAcceptButton && enterPressed) )
                                 {
-                                    m_quiz->advance(flashcard.word);
+                                    m_quiz->advance(flashcard->getAnswer());
                                     memset(m_userInput, 0, sizeof(m_userInput));
                                     m_overrideAnswer = true;
                                     m_correctAnswerMessage = "Your answer has been marked as correct!";
@@ -455,7 +458,7 @@ namespace tadaima
                             const auto& statistics = m_quiz->getStatistics();
                             for( const auto& entry : statistics )
                             {
-                                auto word = getWordById(entry.first);
+                                auto word = getWordById(std::stoi(entry.first));
                                 auto translate = getTranslation(word, m_baseWord);
                                 ImGui::Text("Word: %s", translate.c_str());
                                 ImGui::SameLine();

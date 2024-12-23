@@ -5,12 +5,14 @@
 
 #pragma once
 
-#include "gui/quiz/MultipleChoiceQuiz.h"
+#include "gui/widgets/quiz/QuizType.h"
+#include "quiz/MultipleChoiceQuiz.h"
+
 #include <chrono>
 #include <vector>
 #include <string>
-#include "Widget.h"
-#include "quiz/QuizType.h"
+#include "gui/widgets/Widget.h"
+#include "quiz/QuizWordType.h"
 
 namespace tadaima
 {
@@ -33,7 +35,7 @@ namespace tadaima
                  * @param lessons Vector of lessons to initialize the quiz with.
                  * @param logger Reference to a Logger instance for logging.
                  */
-                QuizWidget(quiz::WordType base, quiz::WordType desired, const std::vector<Lesson>& lessons, tools::Logger& logger);
+                QuizWidget(tadaima::quiz::WordType base, tadaima::quiz::WordType desired, const std::vector<Lesson>& lessons, tools::Logger& logger);
 
                 /**
                  * @brief Draws the quiz widget on the screen.
@@ -53,8 +55,8 @@ namespace tadaima
                 tools::Logger& m_logger; /**< Reference to the Logger instance for logging. */
                 quiz::MultipleChoiceQuiz quizGame; /**< Instance of QuizGame to manage quiz logic. */
 
-                quiz::WordType m_baseWord; ///< The mother language type.
-                quiz::WordType m_inputWord; ///< The learning language type.
+                tadaima::quiz::WordType m_baseWord; ///< The mother language type.
+                tadaima::quiz::WordType m_inputWord; ///< The learning language type.
                // bool isQuizWindowOpen = true; /**< Boolean flag to track if the quiz window is open. */
                 bool highlightCorrectAnswer = false; /**< Boolean flag to indicate if the correct answer should be highlighted. */
                 std::chrono::steady_clock::time_point highlightStartTime; /**< Time point for when the highlight started. */

@@ -7,10 +7,10 @@
 
 #include "QuizType.h"
 #include "widgets/Widget.h"
-#include "widgets/QuizWidget.h"
 #include "lessons/Lesson.h"
 #include <memory>
 #include <vector>
+#include "quiz/QuizWordType.h"
 
 namespace tools { class Logger; }
 
@@ -70,9 +70,10 @@ namespace tadaima
 
             private:
 
-                quiz::WordType m_answerWordType = quiz::WordType::BaseWord; /**< Word type for the quiz answers. */
-                quiz::WordType m_askedWordType = quiz::WordType::Romaji; /**< Word type for the quiz questions. */
+                tadaima::quiz::WordType m_answerWordType = tadaima::quiz::WordType::BaseWord; /**< Word type for the quiz answers. */
+                tadaima::quiz::WordType m_askedWordType = tadaima::quiz::WordType::Romaji; /**< Word type for the quiz questions. */
                 uint8_t m_triesForAWord = 1; /**< The maximum number of attempts allowed for each word in the quiz. */
+                uint16_t m_conjugationMask = 0; /**< The conjugation mask for the conjugation quiz settings. */
 
                 QuizType m_quizType; /**< The current quiz type being managed. */
                 tools::Logger& m_logger; /**< Reference to the Logger instance for logging activities. */

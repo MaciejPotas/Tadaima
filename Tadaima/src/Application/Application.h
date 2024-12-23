@@ -18,6 +18,7 @@
 #include "Tools/EventsData.h"
 #include "bridge/EventBridge.h"
 #include "Tools/Logger.h"
+#include "ApplicationEventList.h"
 
 namespace tools { class Logger; }
 namespace tadaima

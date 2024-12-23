@@ -8,6 +8,7 @@
 #include <stdexcept>
 #include "packages/SettingsDataPackage.h"
 #include "Tools/Logger.h"
+
 namespace tadaima
 {
     namespace gui
@@ -15,7 +16,8 @@ namespace tadaima
         namespace widget
         {
             LessonSettingsWidget::LessonSettingsWidget(tools::Logger& logger)
-                : m_logger(logger), m_selectedWordIndex(-1), m_isEditing(false)
+                : m_logger(logger), m_selectedWordIndex(-1), m_isEditing(false),
+                m_ConjugationSettingsWidget(m_dictionary, logger)
             {
                 m_logger.log("Initializing LessonSettingsWidget", tools::LogLevel::INFO);
                 std::memset(m_mainNameBuffer, 0, sizeof(m_mainNameBuffer));
@@ -27,6 +29,7 @@ namespace tadaima
                 std::memset(m_exampleSentenceBuffer, 0, sizeof(m_exampleSentenceBuffer));
                 std::memset(m_tagBuffer, 0, sizeof(m_tagBuffer));
                 std::memset(m_kanjiBuffer, 0, sizeof(m_kanjiBuffer));
+                m_ConjugationSettingsWidget.clear();
             }
 
             void LessonSettingsWidget::draw(bool* p_open)
@@ -104,6 +107,17 @@ namespace tadaima
                         }
                     }
 
+                    ImGui::SameLine();
+
+                    if( ImGui::Button("Conjugations") )
+                    {
+                        createAWordFromFields();
+                        m_ConjugationSettingsWidget.initialize(m_newWord);
+                        m_ConjugationSettingsWidget.start();
+                    }
+
+                    m_ConjugationSettingsWidget.draw();
+
                     ImGui::Spacing();
 
                     ImGui::InputText("##Romaji", m_romajiBuffer, sizeof(m_romajiBuffer));
@@ -145,27 +159,13 @@ namespace tadaima
                         // Ensure required fields are set
                         if( std::strlen(m_translationBuffer) > 0 && std::strlen(m_kanaBuffer) > 0 )
                         {
-                            Word newWord;
-                            newWord.kana = std::string(m_kanaBuffer);
-                            newWord.kanji = std::string(m_kanjiBuffer);
-                            newWord.translation = std::string(m_translationBuffer);
-                            newWord.romaji = std::string(m_romajiBuffer);
-                            newWord.exampleSentence = std::string(m_exampleSentenceBuffer);
-
-                            // Split tags by comma
-                            std::string tagsStr(m_tagBuffer);
-                            std::istringstream iss(tagsStr);
-                            std::string tag;
-                            while( std::getline(iss, tag, ',') )
-                            {
-                                newWord.tags.push_back(tag);
-                            }
+                            createAWordFromFields();
 
                             m_newLesson.groupName = std::string(m_groupNameBuffer);
                             m_newLesson.mainName = std::string(m_mainNameBuffer);
                             m_newLesson.subName = std::string(m_subNameBuffer);
 
-                            m_newLesson.words.push_back(newWord);
+                            m_newLesson.words.push_back(m_newWord);
 
                             // Clear the word input fields for the next word
                             std::memset(m_kanaBuffer, 0, sizeof(m_kanaBuffer));
@@ -174,6 +174,9 @@ namespace tadaima
                             std::memset(m_romajiBuffer, 0, sizeof(m_romajiBuffer));
                             std::memset(m_exampleSentenceBuffer, 0, sizeof(m_exampleSentenceBuffer));
                             std::memset(m_tagBuffer, 0, sizeof(m_tagBuffer));
+                            m_ConjugationSettingsWidget.clear();
+                            //clearConjugationBuffers(m_conjugationBuffers);
+                            m_newWord.clear();
                         }
                     }
 
@@ -185,12 +188,12 @@ namespace tadaima
                             m_logger.log("Updating word at index: " + std::to_string(m_selectedWordIndex), tools::LogLevel::INFO);
                             if( std::strlen(m_translationBuffer) > 0 && std::strlen(m_kanaBuffer) > 0 )
                             {
-                                Word updatedWord;
-                                updatedWord.kana = std::string(m_kanaBuffer);
-                                updatedWord.kanji = std::string(m_kanjiBuffer);
-                                updatedWord.translation = std::string(m_translationBuffer);
-                                updatedWord.romaji = std::string(m_romajiBuffer);
-                                updatedWord.exampleSentence = std::string(m_exampleSentenceBuffer);
+                                //Word updatedWord;
+                                m_newWord.kana = std::string(m_kanaBuffer);
+                                m_newWord.kanji = std::string(m_kanjiBuffer);
+                                m_newWord.translation = std::string(m_translationBuffer);
+                                m_newWord.romaji = std::string(m_romajiBuffer);
+                                m_newWord.exampleSentence = std::string(m_exampleSentenceBuffer);
 
                                 // Split tags by comma
                                 std::string tagsStr(m_tagBuffer);
@@ -198,10 +201,10 @@ namespace tadaima
                                 std::string tag;
                                 while( std::getline(iss, tag, ',') )
                                 {
-                                    updatedWord.tags.push_back(tag);
+                                    m_newWord.tags.push_back(tag);
                                 }
 
-                                m_newLesson.words[m_selectedWordIndex] = updatedWord;
+                                m_newLesson.words[m_selectedWordIndex] = m_newWord;
                                 m_selectedWordIndex = -1;  // Reset selection after update
 
                                 // Clear the word input fields
@@ -211,6 +214,7 @@ namespace tadaima
                                 std::memset(m_romajiBuffer, 0, sizeof(m_romajiBuffer));
                                 std::memset(m_exampleSentenceBuffer, 0, sizeof(m_exampleSentenceBuffer));
                                 std::memset(m_tagBuffer, 0, sizeof(m_tagBuffer));
+                                clear();
                             }
                         }
 
@@ -227,6 +231,7 @@ namespace tadaima
                             std::memset(m_romajiBuffer, 0, sizeof(m_romajiBuffer));
                             std::memset(m_exampleSentenceBuffer, 0, sizeof(m_exampleSentenceBuffer));
                             std::memset(m_tagBuffer, 0, sizeof(m_tagBuffer));
+                            clear();
                         }
                     }
 
@@ -240,23 +245,24 @@ namespace tadaima
                     ImGui::BeginChild("WordsList", ImVec2(0, -ImGui::GetFrameHeightWithSpacing() - 40));
                     for( size_t index = 0; index < m_newLesson.words.size(); ++index )
                     {
-                        const auto& word = m_newLesson.words[index];
+                        const auto& r_newWord = m_newLesson.words[index];
                         ImGui::PushID(static_cast<int>(index));
 
-                        if( ImGui::Selectable(word.translation.c_str(), index == static_cast<size_t>(m_selectedWordIndex)) )
+                        if( ImGui::Selectable(r_newWord.translation.c_str(), index == static_cast<size_t>(m_selectedWordIndex)) )
                         {
+                            m_newWord = r_newWord;
                             m_logger.log("Selected word at index: " + std::to_string(index), tools::LogLevel::DEBUG);
                             // Fill the input fields with the selected word's data
                             m_selectedWordIndex = static_cast<int>(index);
-                            std::strncpy(m_kanaBuffer, word.kana.c_str(), sizeof(m_kanaBuffer));
-                            std::strncpy(m_kanjiBuffer, word.kanji.c_str(), sizeof(m_kanjiBuffer));
-                            std::strncpy(m_translationBuffer, word.translation.c_str(), sizeof(m_translationBuffer));
-                            std::strncpy(m_romajiBuffer, word.romaji.c_str(), sizeof(m_romajiBuffer));
-                            std::strncpy(m_exampleSentenceBuffer, word.exampleSentence.c_str(), sizeof(m_exampleSentenceBuffer));
+                            std::strncpy(m_kanaBuffer, m_newWord.kana.c_str(), sizeof(m_kanaBuffer));
+                            std::strncpy(m_kanjiBuffer, m_newWord.kanji.c_str(), sizeof(m_kanjiBuffer));
+                            std::strncpy(m_translationBuffer, m_newWord.translation.c_str(), sizeof(m_translationBuffer));
+                            std::strncpy(m_romajiBuffer, m_newWord.romaji.c_str(), sizeof(m_romajiBuffer));
+                            std::strncpy(m_exampleSentenceBuffer, m_newWord.exampleSentence.c_str(), sizeof(m_exampleSentenceBuffer));
 
                             // Convert tags to a comma-separated string
                             std::string tagsStr;
-                            for( const auto& tag : word.tags )
+                            for( const auto& tag : m_newWord.tags )
                             {
                                 if( !tagsStr.empty() )
                                     tagsStr += ",";
@@ -304,6 +310,9 @@ namespace tadaima
                         std::memset(m_romajiBuffer, 0, sizeof(m_romajiBuffer));
                         std::memset(m_exampleSentenceBuffer, 0, sizeof(m_exampleSentenceBuffer));
                         std::memset(m_tagBuffer, 0, sizeof(m_tagBuffer));
+                        
+                        clear();
+
                         m_newLesson = Lesson(); // Reset new lesson
                         m_selectedWordIndex = -1; // Reset selection
                         m_isEditing = false; // Exit edit mode
@@ -329,6 +338,7 @@ namespace tadaima
                     std::memset(m_romajiBuffer, 0, sizeof(m_romajiBuffer));
                     std::memset(m_exampleSentenceBuffer, 0, sizeof(m_exampleSentenceBuffer));
                     std::memset(m_tagBuffer, 0, sizeof(m_tagBuffer));
+                    clear();
                 }
 
                 if( !ImGui::IsPopupOpen("Add New Lesson Modal") && !ImGui::IsPopupOpen("Edit Lesson Modal") )
@@ -343,6 +353,7 @@ namespace tadaima
                     std::memset(m_romajiBuffer, 0, sizeof(m_romajiBuffer));
                     std::memset(m_exampleSentenceBuffer, 0, sizeof(m_exampleSentenceBuffer));
                     std::memset(m_tagBuffer, 0, sizeof(m_tagBuffer));
+                    m_ConjugationSettingsWidget.clear();
                     m_newLesson = Lesson(); // Reset new lesson
                     m_selectedWordIndex = -1; // Reset selection
                 }
@@ -368,8 +379,35 @@ namespace tadaima
                 if( package )
                 {
                     const std::string dictionaryPath = package->get<std::string>(SettingsPackageKey::DictionaryPath);
+                    const std::string conjugationPath = package->get<std::string>(SettingsPackageKey::ConjugationPath);
                     m_dictionary.setPathForTranslator(dictionaryPath);
+                    m_dictionary.setPathForConjugationTranslator(conjugationPath);
                     m_logger.log("Dictionary path set to: " + dictionaryPath, tools::LogLevel::INFO);
+                    m_logger.log("Conjugation path set to: " + conjugationPath, tools::LogLevel::INFO);
+                }
+            }
+
+            void LessonSettingsWidget::clear()
+            {
+                m_ConjugationSettingsWidget.clear();
+                m_newWord.clear();
+            }
+
+            void LessonSettingsWidget::createAWordFromFields()
+            {
+                m_newWord.kana = std::string(m_kanaBuffer);
+                m_newWord.kanji = std::string(m_kanjiBuffer);
+                m_newWord.translation = std::string(m_translationBuffer);
+                m_newWord.romaji = std::string(m_romajiBuffer);
+                m_newWord.exampleSentence = std::string(m_exampleSentenceBuffer);
+
+                 // Split tags by comma
+                std::string tagsStr(m_tagBuffer);
+                std::istringstream iss(tagsStr);
+                std::string tag;
+                while( std::getline(iss, tag, ',') )
+                {
+                    m_newWord.tags.push_back(tag);
                 }
             }
 

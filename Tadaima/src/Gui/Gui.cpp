@@ -368,6 +368,14 @@ namespace tadaima
                         m_quizManager.startQuiz(quiz::QuizType::VocabularyQuiz, package->decode());
                     }
                 }
+                else if( data.getEventType() == tadaima::gui::widget::LessonTreeViewWidget::LessonTreeViewWidgetEvent::OnConjuactionQuiz )
+                {
+                    widget::LessonDataPackage* package = dynamic_cast<widget::LessonDataPackage*>(data.getEventData());
+                    if( nullptr != package )
+                    {
+                        m_quizManager.startQuiz(quiz::QuizType::ConjuactionQuiz, package->decode());
+                    }
+                }
                 else
                 {
                     dispatcher.emit(data.getWidget().getType(), &data);

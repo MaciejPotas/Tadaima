@@ -32,19 +32,10 @@
     <ClCompile Include="src\bridge\EventBridge.cpp">
       <Filter>src\bridge</Filter>
     </ClCompile>
-    <ClCompile Include="src\gui\quiz\QuizManagerWidget.cpp">
-      <Filter>src\gui\quiz</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gui\quiz\VocabularyQuiz.cpp">
-      <Filter>src\gui\quiz</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gui\widgets\VocabularyQuizWidget.cpp">
+    <ClCompile Include="src\gui\widgets\Quiz\VocabularyQuizWidget.cpp">
       <Filter>src\gui\widgets\quiz</Filter>
     </ClCompile>
-    <ClCompile Include="src\gui\quiz\MultipleChoiceQuiz.cpp">
-      <Filter>src\gui\quiz</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gui\widgets\QuizWidget.cpp">
+    <ClCompile Include="src\gui\widgets\Quiz\QuizWidget.cpp">
       <Filter>src\gui\widgets\quiz</Filter>
     </ClCompile>
     <ClCompile Include="src\gui\widgets\ApplicationSettingsWidget.cpp">
@@ -57,6 +48,21 @@
       <Filter>src\tools</Filter>
     </ClCompile>
     <ClCompile Include="src\gui\widgets\ScriptQuizRunnerWidget.cpp">
+      <Filter>src\gui\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dictionary\Conjugations.cpp">
+      <Filter>src\dictionary</Filter>
+    </ClCompile>
+    <ClCompile Include="src\quiz\MultipleChoiceQuiz.cpp">
+      <Filter>src\quiz</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\widgets\Quiz\ConjugationQuizWidget.cpp">
+      <Filter>src\gui\widgets\quiz</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\widgets\Quiz\QuizManagerWidget.cpp">
+      <Filter>src\gui\widgets\quiz</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\widgets\ConjugationSettingsWidget.cpp">
       <Filter>src\gui\widgets</Filter>
     </ClCompile>
   </ItemGroup>
@@ -109,26 +115,11 @@
     <ClInclude Include="src\bridge\EventBridge.h">
       <Filter>src\bridge</Filter>
     </ClInclude>
-    <ClInclude Include="src\gui\quiz\QuizManagerWidget.h">
-      <Filter>src\gui\quiz</Filter>
-    </ClInclude>
-    <ClInclude Include="src\gui\quiz\MultipleChoiceQuiz.h">
-      <Filter>src\gui\quiz</Filter>
-    </ClInclude>
-    <ClInclude Include="src\gui\quiz\VocabularyQuiz.h">
-      <Filter>src\gui\quiz</Filter>
-    </ClInclude>
-    <ClInclude Include="src\gui\quiz\Flashcard.h">
-      <Filter>src\gui\quiz</Filter>
-    </ClInclude>
-    <ClInclude Include="src\gui\widgets\QuizWidget.h">
+    <ClInclude Include="src\gui\widgets\Quiz\QuizWidget.h">
       <Filter>src\gui\widgets\quiz</Filter>
     </ClInclude>
-    <ClInclude Include="src\gui\widgets\VocabularyQuizWidget.h">
+    <ClInclude Include="src\gui\widgets\Quiz\VocabularyQuizWidget.h">
       <Filter>src\gui\widgets\quiz</Filter>
-    </ClInclude>
-    <ClInclude Include="src\gui\quiz\QuizType.h">
-      <Filter>src\gui\quiz</Filter>
     </ClInclude>
     <ClInclude Include="src\Application\ApplicationSettings.h">
       <Filter>src\application</Filter>
@@ -145,22 +136,55 @@
     <ClInclude Include="src\gui\widgets\packages\SettingsDataPackage.h">
       <Filter>src\gui\widgets\packages</Filter>
     </ClInclude>
-    <ClInclude Include="src\gui\quiz\QuizWord.h">
-      <Filter>src\gui\quiz</Filter>
-    </ClInclude>
     <ClInclude Include="src\gui\widgets\ImGuiFileDialog.h">
       <Filter>src\gui\widgets</Filter>
     </ClInclude>
     <ClInclude Include="src\gui\widgets\ImGuiFileDialogConfig.h">
       <Filter>src\gui\widgets</Filter>
     </ClInclude>
-    <ClInclude Include="src\tools\Dictionary.h">
-      <Filter>src\tools</Filter>
-    </ClInclude>
     <ClInclude Include="src\tools\SystemTools.h">
       <Filter>src\tools</Filter>
     </ClInclude>
     <ClInclude Include="src\gui\widgets\ScriptQuizRunnerWidget.h">
+      <Filter>src\gui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\dictionary\Dictionary.h">
+      <Filter>src\dictionary</Filter>
+    </ClInclude>
+    <ClInclude Include="src\dictionary\Conjugations.h">
+      <Filter>src\dictionary</Filter>
+    </ClInclude>
+    <ClInclude Include="src\dictionary\Word.h">
+      <Filter>src\dictionary</Filter>
+    </ClInclude>
+    <ClInclude Include="src\quiz\ConjugationItem.h">
+      <Filter>src\quiz</Filter>
+    </ClInclude>
+    <ClInclude Include="src\quiz\QuizItem.h">
+      <Filter>src\quiz</Filter>
+    </ClInclude>
+    <ClInclude Include="src\quiz\VocabularyItem.h">
+      <Filter>src\quiz</Filter>
+    </ClInclude>
+    <ClInclude Include="src\quiz\Quiz.h">
+      <Filter>src\quiz</Filter>
+    </ClInclude>
+    <ClInclude Include="src\quiz\MultipleChoiceQuiz.h">
+      <Filter>src\quiz</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\widgets\Quiz\ConjugationQuizWidget.h">
+      <Filter>src\gui\widgets\quiz</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\widgets\Quiz\QuizManagerWidget.h">
+      <Filter>src\gui\widgets\quiz</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\widgets\Quiz\QuizType.h">
+      <Filter>src\gui\widgets\quiz</Filter>
+    </ClInclude>
+    <ClInclude Include="src\quiz\QuizWordType.h">
+      <Filter>src\quiz</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\widgets\ConjugationSettingsWidget.h">
       <Filter>src\gui\widgets</Filter>
     </ClInclude>
   </ItemGroup>
@@ -192,14 +216,17 @@
     <Filter Include="src\bridge">
       <UniqueIdentifier>{e2862b6f-fe04-4976-8cc2-f6843989bea8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\gui\quiz">
-      <UniqueIdentifier>{246f87c4-3a89-49ca-b562-2831753c9a88}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\gui\widgets\quiz">
       <UniqueIdentifier>{c929d83b-9657-4a24-a3ab-f635c2af3f38}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\gui\widgets\packages">
       <UniqueIdentifier>{685577eb-70d5-4d37-b8dc-cf9d90a1bbea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\dictionary">
+      <UniqueIdentifier>{bfc8274e-5c76-41ad-8071-3ad6bf717f4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\quiz">
+      <UniqueIdentifier>{8898d016-57ac-436c-bf7b-b5b4c5243ed5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

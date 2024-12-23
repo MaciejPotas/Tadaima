@@ -11,7 +11,7 @@
 #include <d3d11.h>
 #include <memory>
 #include <map>
-#include "quiz/QuizManagerWidget.h"
+#include "gui/widgets/quiz/QuizManagerWidget.h"
 
 struct ImFont;
 namespace tools { class Logger; }

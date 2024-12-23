@@ -49,6 +49,7 @@ namespace tadaima
                     OnLessonEdited, /**< Event triggered when a lesson is edited. */
                     OnPlayMultipleChoiceQuiz, /**< Event triggered to play a multiple-choice quiz. */
                     OnPlayVocabularyQuiz, /**< Event triggered to play a vocabulary quiz. */
+                    OnConjuactionQuiz,
                     OnQuizSelect /**< Event triggered when a quiz is selected. */
                 };
 

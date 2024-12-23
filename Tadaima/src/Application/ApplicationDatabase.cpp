@@ -69,14 +69,20 @@ namespace tadaima
                 "key TEXT PRIMARY KEY, "
                 "value TEXT NOT NULL);";
 
+            const char* createConjugationsTable =
+                "CREATE TABLE IF NOT EXISTS conjugations ("
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                "word_id INTEGER NOT NULL, "
+                "type INTEGER NOT NULL, " // Stores ConjugationType as an integer
+                "conjugated_word TEXT NOT NULL, "
+                "FOREIGN KEY(word_id) REFERENCES words(id));";
+
             const char* alterLessonsTable = "ALTER TABLE lessons ADD COLUMN group_name TEXT;";
 
-            // Add this query to alter the `words` table to include `kanji` if it doesn't already exist
             const char* alterWordsTable = "ALTER TABLE words ADD COLUMN kanji TEXT;";
 
             char* errMsg = nullptr;
 
-            // Execute the `CREATE TABLE` statements
             if( sqlite3_exec(db, createLessonsTable, 0, 0, &errMsg) != SQLITE_OK )
             {
                 m_logger.log("Database: SQL error while creating lessons table: " + std::string(errMsg), tools::LogLevel::PROBLEM);
@@ -84,7 +90,6 @@ namespace tadaima
                 return false;
             }
 
-            // Try adding the group_name column if it doesn’t exist
             if( sqlite3_exec(db, alterLessonsTable, 0, 0, &errMsg) != SQLITE_OK )
             {
                 std::string errorMsg = std::string(errMsg);
@@ -157,6 +162,13 @@ namespace tadaima
                 sqlite3_free(errMsg);
             }
 
+            if( sqlite3_exec(db, createConjugationsTable, 0, 0, &errMsg) != SQLITE_OK )
+            {
+                m_logger.log("Database: SQL error while creating conjugations table: " + std::string(errMsg), tools::LogLevel::PROBLEM);
+                sqlite3_free(errMsg);
+                return false;
+            }
+
             return true;
         }
 
@@ -187,13 +199,13 @@ namespace tadaima
         {
             const char* sql =
                 "INSERT INTO words (lesson_id, kana, kanji, translation, romaji, example_sentence) "
-                "VALUES (?, ?, ?, ?, ?, ?);";  // Added kanji column
+                "VALUES (?, ?, ?, ?, ?, ?);";
             sqlite3_stmt* stmt;
             if( sqlite3_prepare_v2(db, sql, -1, &stmt, 0) == SQLITE_OK )
             {
                 sqlite3_bind_int(stmt, 1, lessonId);
                 sqlite3_bind_text(stmt, 2, word.kana.c_str(), -1, SQLITE_STATIC);
-                sqlite3_bind_text(stmt, 3, word.kanji.empty() ? "N/A" : word.kanji.c_str(), -1, SQLITE_STATIC);  // Bind kanji with default value if empty
+                sqlite3_bind_text(stmt, 3, word.kanji.empty() ? "N/A" : word.kanji.c_str(), -1, SQLITE_STATIC);
                 sqlite3_bind_text(stmt, 4, word.translation.c_str(), -1, SQLITE_STATIC);
                 sqlite3_bind_text(stmt, 5, word.romaji.c_str(), -1, SQLITE_STATIC);
                 sqlite3_bind_text(stmt, 6, word.exampleSentence.c_str(), -1, SQLITE_STATIC);
@@ -204,15 +216,25 @@ namespace tadaima
                     sqlite3_finalize(stmt);
                     return -1;
                 }
+
                 int wordId = static_cast<int>(sqlite3_last_insert_rowid(db));
                 sqlite3_finalize(stmt);
+
+                // Add conjugations if they exist
+                for( int i = 0; i < CONJUGATION_COUNT; ++i )
+                {
+                    if( !word.conjugations[i].empty() )
+                    {
+                        addConjugation(wordId, static_cast<ConjugationType>(i), word.conjugations[i]);
+                    }
+                }
+
                 m_logger.log("Database: Added word with ID " + std::to_string(wordId) + " to lesson ID " + std::to_string(lessonId), tools::LogLevel::INFO);
                 return wordId;
             }
             m_logger.log("Database: Failed to prepare statement for adding word.", tools::LogLevel::PROBLEM);
             return -1;
         }
-
 
         void ApplicationDatabase::addTag(int wordId, const std::string& tag)
         {
@@ -369,6 +391,15 @@ namespace tadaima
                                 sqlite3_finalize(insertTagStmt);
                             }
                         }
+
+                        // Add conjugations if they exist
+                        for( int i = 0; i < CONJUGATION_COUNT; ++i )
+                        {
+                            if( !word.conjugations[i].empty() )
+                            {
+                                addConjugation(wordId, static_cast<ConjugationType>(i), word.conjugations[i]);
+                            }
+                        }
                     }
                 }
 
@@ -497,13 +528,16 @@ namespace tadaima
                         }
                         sqlite3_finalize(tagStmt);
                     }
+
+                    // Fetch conjugations for the word
+                    word.conjugations = getConjugations(word.id);
+
                     words.push_back(word);
                 }
                 sqlite3_finalize(stmt);
             }
             return words;
         }
-
 
         std::vector<Lesson> ApplicationDatabase::getAllLessons() const
         {
@@ -568,6 +602,8 @@ namespace tadaima
             saveSetting("translatedWord", settings.translatedWord);
             saveSetting("showLogs", settings.showLogs ? "true" : "false");
             saveSetting("maxTriesForQuiz", settings.maxTriesForQuiz); // New field for quiz max tries
+            saveSetting("ConjugationPath", settings.conjugationPath);
+            saveSetting("ConjugationMask", std::to_string(settings.conjugationMask));
         }
 
         ApplicationSettings ApplicationDatabase::loadSettings()
@@ -592,6 +628,7 @@ namespace tadaima
                 };
 
             std::string showLogs = "";
+            std::string conjugationMask = "";
             loadSetting("userName", settings.userName);
             loadSetting("dictionaryPath", settings.dictionaryPath);
             loadSetting("QuizzesPath", settings.quizzesPaths);
@@ -600,8 +637,75 @@ namespace tadaima
             loadSetting("showLogs", showLogs);
             settings.showLogs = showLogs == "true" ? true : false;
             loadSetting("maxTriesForQuiz", settings.maxTriesForQuiz);
+            loadSetting("ConjugationPath", settings.conjugationPath);
+            loadSetting("ConjugationMask", conjugationMask);
+            if( conjugationMask != "" )
+                settings.conjugationMask = static_cast<uint16_t>(std::stoi(conjugationMask));
 
             return settings;
         }
+
+        void ApplicationDatabase::addConjugation(int wordId, ConjugationType type, const std::string& conjugatedWord)
+        {
+            const char* sql = "INSERT INTO conjugations (word_id, type, conjugated_word) VALUES (?, ?, ?);";
+            sqlite3_stmt* stmt;
+
+            if( sqlite3_prepare_v2(db, sql, -1, &stmt, 0) == SQLITE_OK )
+            {
+                sqlite3_bind_int(stmt, 1, wordId);
+                sqlite3_bind_int(stmt, 2, static_cast<int>(type));
+                sqlite3_bind_text(stmt, 3, conjugatedWord.c_str(), -1, SQLITE_STATIC);
+
+                if( sqlite3_step(stmt) != SQLITE_DONE )
+                {
+                    m_logger.log("Database: SQL error while adding conjugation: " + std::string(sqlite3_errmsg(db)), tools::LogLevel::PROBLEM);
+                }
+                else
+                {
+                    m_logger.log("Database: Added conjugation for word ID " + std::to_string(wordId) + " (" + std::to_string(type) + ": " + conjugatedWord + ")", tools::LogLevel::INFO);
+                }
+
+                sqlite3_finalize(stmt);
+            }
+            else
+            {
+                m_logger.log("Database: Failed to prepare statement for adding conjugation.", tools::LogLevel::PROBLEM);
+            }
+        }
+
+        std::array<std::string, CONJUGATION_COUNT> ApplicationDatabase::getConjugations(int wordId) const
+        {
+            std::array<std::string, CONJUGATION_COUNT> conjugations;
+            conjugations.fill(""); // Initialize all entries as empty strings
+
+            const char* sql = "SELECT type, conjugated_word FROM conjugations WHERE word_id = ?;";
+            sqlite3_stmt* stmt;
+
+            if( sqlite3_prepare_v2(db, sql, -1, &stmt, 0) == SQLITE_OK )
+            {
+                sqlite3_bind_int(stmt, 1, wordId);
+
+                while( sqlite3_step(stmt) == SQLITE_ROW )
+                {
+                    int type = sqlite3_column_int(stmt, 0);
+
+                    // Ensure type is within valid range
+                    if( type >= 0 && type < CONJUGATION_COUNT )
+                    {
+                        const char* conjugationText = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
+                        conjugations[type] = conjugationText ? conjugationText : ""; // Handle NULL safely
+                    }
+                }
+
+                sqlite3_finalize(stmt);
+            }
+            else
+            {
+                m_logger.log("Database: Failed to prepare statement for fetching conjugations.", tools::LogLevel::PROBLEM);
+            }
+
+            return conjugations;
+        }
+
     }
 }

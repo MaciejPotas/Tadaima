@@ -10,9 +10,6 @@
     <Filter Include="Gui">
       <UniqueIdentifier>{3386ccae-b210-4ab0-b6bd-e02f66044141}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Gui\Quiz">
-      <UniqueIdentifier>{4b22c6c5-844f-4105-8c1d-67f5ac68f3ad}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Gui\Packages">
       <UniqueIdentifier>{4572da2a-7003-4f16-9fd3-51d125aeb609}</UniqueIdentifier>
     </Filter>
@@ -21,6 +18,12 @@
     </Filter>
     <Filter Include="Mocks">
       <UniqueIdentifier>{edb0045b-05f0-411d-95a1-94d764d2b69f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="QuizTests">
+      <UniqueIdentifier>{6cf0a2f8-b976-4fa2-8b92-3a3b0c4f2ec0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="QuizTests\Sources">
+      <UniqueIdentifier>{d1054577-f7fe-48bf-ac27-7d010754fbc8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -35,18 +38,6 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)src\gtest\gtest-all.cc" />
     <ClCompile Include="$(MSBuildThisFileDirectory)src\gmock\gmock-all.cc" />
-    <ClCompile Include="Quiz\QuizGameTests.cpp">
-      <Filter>Gui\Quiz</Filter>
-    </ClCompile>
-    <ClCompile Include="Quiz\VocabularyQuizTests.cpp">
-      <Filter>Gui\Quiz</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\gui\quiz\VocabularyQuiz.cpp">
-      <Filter>Gui\Quiz</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\gui\quiz\MultipleChoiceQuiz.cpp">
-      <Filter>Gui\Quiz</Filter>
-    </ClCompile>
     <ClCompile Include="Tools\EventsDataTests.cpp">
       <Filter>Tools</Filter>
     </ClCompile>
@@ -58,6 +49,15 @@
     </ClCompile>
     <ClCompile Include="Gui\SettingsDataPackageTest.cpp">
       <Filter>Gui\Packages</Filter>
+    </ClCompile>
+    <ClCompile Include="Quiz\FlashcardsQuizGamesTest.cpp">
+      <Filter>QuizTests</Filter>
+    </ClCompile>
+    <ClCompile Include="Quiz\MultichoiceQuizGameTests.cpp">
+      <Filter>QuizTests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\quiz\MultipleChoiceQuiz.cpp">
+      <Filter>QuizTests\Sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

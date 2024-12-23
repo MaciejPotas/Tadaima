@@ -10,6 +10,7 @@
 #include <cstring>
 #include <string>
 #include "lessons/Lesson.h"
+#include "dictionary/Conjugations.h"
 
 namespace tools { class Logger; }
 
@@ -62,13 +63,14 @@ namespace tadaima
                 Translation,
                 Romaji,
                 ExampleSentence,
-                Tags
+                Tags,
+                Conjugation
             };
 
             /**
              * @brief Alias for word data package.
              */
-            using WordDataPackage = tools::ComplexDataPackage<LessonWordDataKey, int, std::string, std::vector<std::string>>;
+            using WordDataPackage = tools::ComplexDataPackage<LessonWordDataKey, int, std::array<std::string, CONJUGATION_COUNT>, std::string, std::vector<std::string>>;
 
             /**
              * @brief Alias for lesson package.
@@ -112,6 +114,7 @@ namespace tadaima
                             wordPackage.set(gui::widget::LessonWordDataKey::Romaji, word.romaji);
                             wordPackage.set(gui::widget::LessonWordDataKey::ExampleSentence, word.exampleSentence);
                             wordPackage.set(gui::widget::LessonWordDataKey::Tags, word.tags);
+                            wordPackage.set(gui::widget::LessonWordDataKey::Conjugation, word.conjugations);
 
                             wordPackages.push_back(wordPackage);
                         }
@@ -153,6 +156,7 @@ namespace tadaima
                             word.romaji = wordPackage.get<std::string>(LessonWordDataKey::Romaji);
                             word.exampleSentence = wordPackage.get<std::string>(LessonWordDataKey::ExampleSentence);
                             word.tags = wordPackage.get<std::vector<std::string>>(LessonWordDataKey::Tags);
+                            word.conjugations = wordPackage.get<std::array<std::string, CONJUGATION_COUNT>>(LessonWordDataKey::Conjugation);
 
                             lesson.words.push_back(word);
                         }

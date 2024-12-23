@@ -7,6 +7,7 @@
 
 #include "Tools/Database.h"
 #include "Lessons/Lesson.h"
+#include "Dictionary/Conjugations.h"
 #include <vector>
 #include <string>
 
@@ -18,8 +19,8 @@ namespace tadaima
     namespace application
     {
         /**
-         * @brief The ApplicationDatabase class provides functionality to interact with a SQLite database
-         * for managing lessons, words, and application settings.
+         * @class ApplicationDatabase
+         * @brief Provides functionality to interact with a SQLite database for managing lessons, words, and application settings.
          */
         class ApplicationDatabase : public Database
         {
@@ -133,6 +134,22 @@ namespace tadaima
             ApplicationSettings loadSettings();
 
         private:
+
+            /**
+             * @brief Adds a conjugation entry to the database for a specific word.
+             * @param wordId The ID of the word to which the conjugation belongs.
+             * @param type The type of the conjugation (e.g., past tense, negative).
+             * @param conjugatedWord The conjugated form of the word.
+             */
+            void addConjugation(int wordId, ConjugationType type, const std::string& conjugatedWord);
+
+            /**
+             * @brief Retrieves all conjugations for a specific word.
+             * @param wordId The ID of the word for which to retrieve conjugations.
+             * @return An array of strings, each representing a conjugated form of the word.
+             */
+            std::array<std::string, CONJUGATION_COUNT> getConjugations(int wordId) const;
+
             sqlite3* db; /**< Pointer to the SQLite database connection. */
             tools::Logger& m_logger; /**< Reference to the Logger instance for logging operations and errors. */
         };
