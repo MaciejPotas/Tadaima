@@ -62,6 +62,9 @@
     <ClCompile Include="src\gui\widgets\Quiz\QuizManagerWidget.cpp">
       <Filter>src\gui\widgets\quiz</Filter>
     </ClCompile>
+    <ClCompile Include="src\gui\widgets\ConjugationSettingsWidget.cpp">
+      <Filter>src\gui\widgets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Version.h">
@@ -180,6 +183,9 @@
     </ClInclude>
     <ClInclude Include="src\quiz\QuizWordType.h">
       <Filter>src\quiz</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\widgets\ConjugationSettingsWidget.h">
+      <Filter>src\gui\widgets</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

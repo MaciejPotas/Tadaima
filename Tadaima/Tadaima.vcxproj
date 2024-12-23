@@ -210,11 +210,13 @@ xcopy "$(ProjectDir)..\scripts" "$(SolutionDir)bin\$(Platform)\scripts" /Y /I /Q
     <ClCompile Include="src\bridge\EventBridge.cpp" />
     <ClCompile Include="src\dictionary\Conjugations.cpp" />
     <ClCompile Include="src\gui\GuiStyle.cpp" />
+    <ClCompile Include="src\gui\widgets\ConjugationSettingsWidget.cpp" />
     <ClCompile Include="src\gui\widgets\Quiz\ConjugationQuizWidget.cpp" />
     <ClCompile Include="src\gui\widgets\Quiz\QuizManagerWidget.cpp" />
     <ClCompile Include="src\gui\widgets\ScriptQuizRunnerWidget.cpp" />
     <ClCompile Include="src\quiz\MultipleChoiceQuiz.cpp" />
     <ClCompile Include="src\tools\SystemTools.cpp" />
+    <ClInclude Include="src\gui\widgets\ConjugationSettingsWidget.h" />
     <ClInclude Include="src\quiz\MultipleChoiceQuiz.h" />
     <ClInclude Include="src\quiz\Quiz.h" />
     <ClInclude Include="src\application\ApplicationEventList.h" />

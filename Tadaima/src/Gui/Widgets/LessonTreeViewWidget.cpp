@@ -198,6 +198,7 @@ namespace tadaima
                     selectedLesson = Lesson();
                     m_type = LessonPackageType::LessonCreated;
                     open_add_new_lesson = true;
+                    m_lessonSettingsWidget.clear();
                     m_lessonSettingsWidget.setLesson(selectedLesson);
                 }
 
