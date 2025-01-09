@@ -117,6 +117,7 @@ namespace tadaima
                 std::string m_kana; /**< Kana representation of the current word. */
                 std::string m_romaji; /**< Romaji representation of the current word. */
                 std::string m_example; /**< Example sentence using the current word. */
+                std::string m_kanji; /**< Kanji representation of the word. */
 
                 bool m_showCorrectAnswer = false; /**< Boolean indicating whether to show the correct answer. */
                 bool m_overrideAnswer = false; /**< Boolean indicating whether to override the incorrect answer as correct. */

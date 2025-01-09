@@ -38,7 +38,11 @@ def get_conjugations(word, debug=False):
         return conjugate_special_ii(debug=debug)
     # Else if it ends with "ii" (but not just "ii"), e.g., "atamagaii", "kakkoii"
     elif len(word) > 2 and word.endswith('ii'):
-        return conjugate_double_ii_adjective(word, debug)
+        # Check if it's a special "ii"-type adjective or a regular i-adjective
+        if word[-3:] == 'aii':  # Regular i-adjective ending like "atarashii"
+            return conjugate_i_adjective(word, debug)
+        else:
+            return conjugate_double_ii_adjective(word, debug)
     # Else if ends with 'i', treat as normal i‐adjective
     elif word.endswith('i'):
         return conjugate_i_adjective(word, debug)

@@ -89,6 +89,10 @@ namespace tadaima
                         correctAnswer = word.romaji;
                         break;
 
+                    case tadaima::quiz::WordType::Kanji:
+                        correctAnswer = word.kanji;
+                        break;
+
                     default:
                         m_logger.log(std::format("Wrong type for translation. Value: {}", static_cast<int>(type)), tools::LogLevel::PROBLEM);
                         break;
@@ -176,7 +180,7 @@ namespace tadaima
             {
                 try
                 {
-                    ImGui::SetNextWindowSize(ImVec2(600, 400), ImGuiCond_FirstUseEver);
+                    ImGui::SetNextWindowSize(ImVec2(600, 420), ImGuiCond_FirstUseEver);
                     ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.98f, 0.92f, 0.84f, 1.0f)); // Light peach background
                     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(10, 10)); // Add padding
 
@@ -236,6 +240,17 @@ namespace tadaima
                                 ImGui::BulletText("Kana: %s", m_kana.c_str());
                             }
 
+                            if( m_inputWord == tadaima::quiz::WordType::Kanji && !m_kanji.empty() )
+                            {
+                                ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.8f, 0.2f, 0.2f, 1.0f));
+                                ImGui::BulletText("Kanji: %s", m_kanji.c_str());
+                                ImGui::PopStyleColor();
+                            }
+                            else
+                            {
+                                ImGui::BulletText("Kanji: %s", m_kanji.c_str());
+                            }
+
                             if( m_inputWord == tadaima::quiz::WordType::Romaji && !m_romaji.empty() )
                             {
                                 ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.8f, 0.2f, 0.2f, 1.0f));
@@ -270,6 +285,7 @@ namespace tadaima
                                 m_kana = word.kana;
                                 m_romaji = word.romaji;
                                 m_example = word.exampleSentence;
+                                m_kanji = word.kanji;
 
                                 m_showCorrectAnswer = true;
                                 m_correctAnswer = flashcard->getAnswer();
@@ -340,6 +356,7 @@ namespace tadaima
                                     m_kana.clear();
                                     m_romaji.clear();
                                     m_example.clear();
+                                    m_kanji.clear();
                                 }
                                 if( focusOnAcceptButton )
                                 {
@@ -391,6 +408,7 @@ namespace tadaima
                                     m_kana.clear();
                                     m_romaji.clear();
                                     m_example.clear();
+                                    m_kanji.clear();
                                 }
                                 if( focusOnAcceptButton )
                                 {
@@ -418,6 +436,7 @@ namespace tadaima
                                         m_kana.clear();
                                         m_romaji.clear();
                                         m_example.clear();
+                                        m_kanji.clear();
                                     }
                                     ImGui::PopStyleColor(2);  // Revert to the original button color
                                 }

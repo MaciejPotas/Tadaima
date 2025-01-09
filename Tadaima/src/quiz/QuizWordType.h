@@ -19,6 +19,7 @@ namespace tadaima
             BaseWord,   ///< Answer in the translated language.
             Kana,       ///< Answer in Kana (Japanese syllabaries including Hiragana and Katakana).
             Romaji,     ///< Answer in Romaji (Latin script representation of Japanese).
+            Kanji       ///< Answer in Kanji.
         };
     }
 }

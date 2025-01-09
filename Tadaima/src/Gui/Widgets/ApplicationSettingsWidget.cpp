@@ -28,7 +28,8 @@ namespace tadaima
                 static const std::unordered_map<std::string, quiz::WordType> stringToWordTypeMap = {
                     {"BaseWord", quiz::WordType::BaseWord},
                     {"Kana", quiz::WordType::Kana},
-                    {"Romaji", quiz::WordType::Romaji}
+                    {"Romaji", quiz::WordType::Romaji},
+                    {"Kanji", quiz::WordType::Kanji}
                 };
 
                 auto it = stringToWordTypeMap.find(str);
@@ -50,6 +51,7 @@ namespace tadaima
                     case quiz::WordType::BaseWord: return "BaseWord";
                     case quiz::WordType::Kana: return "Kana";
                     case quiz::WordType::Romaji: return "Romaji";
+                    case quiz::WordType::Kanji: return "Kanji";
                     default: throw std::invalid_argument("Invalid WordType value");
                 }
             }
@@ -197,7 +199,7 @@ namespace tadaima
                                 ImGui::Separator();
                                 ImGui::Spacing();
 
-                                const char* translationOptions[] = { "BaseWord", "Kana", "Romaji" };
+                                const char* translationOptions[] = { "BaseWord", "Kana", "Romaji", "Kanji"};
 
                                 ImGui::Text("Word option you will write (Base, if you want to use your language):");
                                 ImGui::Combo("##input_type", &m_inputOption, translationOptions, IM_ARRAYSIZE(translationOptions));

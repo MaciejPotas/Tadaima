@@ -42,6 +42,10 @@ namespace tadaima
                         correctAnswer = word.romaji;
                         break;
 
+                    case tadaima::quiz::WordType::Kanji:
+                        correctAnswer = word.kanji;
+                        break;
+
                     default:
                         break;
                 }

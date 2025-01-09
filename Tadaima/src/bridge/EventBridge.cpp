@@ -157,7 +157,8 @@ namespace tadaima
         static const std::unordered_map<std::string, tadaima::quiz::WordType> stringToWordTypeMap = {
             {"BaseWord", tadaima::quiz::WordType::BaseWord},
             {"Kana", tadaima::quiz::WordType::Kana},
-            {"Romaji", tadaima::quiz::WordType::Romaji}
+            {"Romaji", tadaima::quiz::WordType::Romaji},
+            {"Kanji", tadaima::quiz::WordType::Kanji}
         };
 
         auto it = stringToWordTypeMap.find(str);
@@ -178,6 +179,7 @@ namespace tadaima
             case tadaima::quiz::WordType::BaseWord: return "BaseWord";
             case tadaima::quiz::WordType::Kana: return "Kana";
             case tadaima::quiz::WordType::Romaji: return "Romaji";
+            case tadaima::quiz::WordType::Kanji: return "Kanji";
             default: throw std::invalid_argument("Invalid WordType value");
         }
     }
