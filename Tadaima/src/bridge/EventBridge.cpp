@@ -101,7 +101,7 @@ namespace tadaima
         const gui::widget::LessonDataPackage* package = dynamic_cast<const gui::widget::LessonDataPackage*>(dataPackage);
         if( nullptr != package )
         {
-            m_app->setEvent(application::ApplicationEvent::OnLessonCreated, package->decode());
+            m_app->setEvent(application::ApplicationEvent::OnLessonCreated, package->m_lessons);
         }
     }
 
@@ -110,7 +110,7 @@ namespace tadaima
         const gui::widget::LessonDataPackage* package = dynamic_cast<const gui::widget::LessonDataPackage*>(dataPackage);
         if( nullptr != package )
         {
-            m_app->setEvent(application::ApplicationEvent::OnLessonUpdate, package->decode());
+            m_app->setEvent(application::ApplicationEvent::OnLessonUpdate, package->m_lessons);
         }
     }
 
@@ -119,7 +119,7 @@ namespace tadaima
         const gui::widget::LessonDataPackage* package = dynamic_cast<const gui::widget::LessonDataPackage*>(dataPackage);
         if( nullptr != package )
         {
-            m_app->setEvent(application::ApplicationEvent::OnLessonDelete, package->decode());
+            m_app->setEvent(application::ApplicationEvent::OnLessonDelete, package->m_lessons);
         }
     }
 
@@ -128,7 +128,7 @@ namespace tadaima
         const gui::widget::LessonDataPackage* package = dynamic_cast<const gui::widget::LessonDataPackage*>(dataPackage);
         if( nullptr != package )
         {
-            m_app->setEvent(application::ApplicationEvent::OnLessonEdited, package->decode());
+            m_app->setEvent(application::ApplicationEvent::OnLessonEdited, package->m_lessons);
         }
     }
 

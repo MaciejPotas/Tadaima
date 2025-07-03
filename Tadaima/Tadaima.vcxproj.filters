@@ -14,9 +14,6 @@
     <ClCompile Include="src\gui\widgets\MainDashboardWidget.cpp">
       <Filter>src\gui\widgets</Filter>
     </ClCompile>
-    <ClCompile Include="src\gui\widgets\LessonTreeViewWidget.cpp">
-      <Filter>src\gui\widgets</Filter>
-    </ClCompile>
     <ClCompile Include="src\gui\GuiStyle.cpp">
       <Filter>src\gui\style</Filter>
     </ClCompile>
@@ -65,6 +62,15 @@
     <ClCompile Include="src\gui\widgets\ConjugationSettingsWidget.cpp">
       <Filter>src\gui\widgets</Filter>
     </ClCompile>
+    <ClCompile Include="src\gui\widgets\LessonTreeViewWidget.cpp">
+      <Filter>src\gui\widgets\LessonTreeViewWidget</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\widgets\LessonTreeViewWidget\LessonFileIO.cpp">
+      <Filter>src\gui\widgets\LessonTreeViewWidget</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\widgets\LessonTreeViewWidget\LessonUtils.cpp">
+      <Filter>src\gui\widgets\LessonTreeViewWidget</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Version.h">
@@ -84,9 +90,6 @@
     </ClInclude>
     <ClInclude Include="resources\IconsFontAwesome4.h">
       <Filter>resources</Filter>
-    </ClInclude>
-    <ClInclude Include="src\gui\widgets\LessonTreeViewWidget.h">
-      <Filter>src\gui\widgets</Filter>
     </ClInclude>
     <ClInclude Include="src\gui\widgets\MainDashboardWidget.h">
       <Filter>src\gui\widgets</Filter>
@@ -190,6 +193,15 @@
     <ClInclude Include="resources\resource.h">
       <Filter>resources</Filter>
     </ClInclude>
+    <ClInclude Include="src\gui\widgets\LessonTreeViewWidget.h">
+      <Filter>src\gui\widgets\LessonTreeViewWidget</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\widgets\LessonTreeViewWidget\LessonFileIO.h">
+      <Filter>src\gui\widgets\LessonTreeViewWidget</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\widgets\LessonTreeViewWidget\LessonUtils.h">
+      <Filter>src\gui\widgets\LessonTreeViewWidget</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -230,6 +242,9 @@
     </Filter>
     <Filter Include="src\quiz">
       <UniqueIdentifier>{8898d016-57ac-436c-bf7b-b5b4c5243ed5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\gui\widgets\LessonTreeViewWidget">
+      <UniqueIdentifier>{94f9bb26-cce8-4974-bd4a-244a5c4db1f7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

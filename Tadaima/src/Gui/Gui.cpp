@@ -363,7 +363,7 @@ namespace tadaima
                     widget::LessonDataPackage* package = dynamic_cast<widget::LessonDataPackage*>(data.getEventData());
                     if( nullptr != package )
                     {
-                        m_quizManager.startQuiz(quiz::QuizType::MultipleChoiceQuiz, package->decode());
+                        m_quizManager.startQuiz(quiz::QuizType::MultipleChoiceQuiz, package->m_lessons);
                     }
                 }
                 else if( data.getEventType() == tadaima::gui::widget::LessonTreeViewWidget::LessonTreeViewWidgetEvent::OnPlayVocabularyQuiz )
@@ -371,7 +371,7 @@ namespace tadaima
                     widget::LessonDataPackage* package = dynamic_cast<widget::LessonDataPackage*>(data.getEventData());
                     if( nullptr != package )
                     {
-                        m_quizManager.startQuiz(quiz::QuizType::VocabularyQuiz, package->decode());
+                        m_quizManager.startQuiz(quiz::QuizType::VocabularyQuiz, package->m_lessons);
                     }
                 }
                 else if( data.getEventType() == tadaima::gui::widget::LessonTreeViewWidget::LessonTreeViewWidgetEvent::OnConjuactionQuiz )
@@ -379,7 +379,7 @@ namespace tadaima
                     widget::LessonDataPackage* package = dynamic_cast<widget::LessonDataPackage*>(data.getEventData());
                     if( nullptr != package )
                     {
-                        m_quizManager.startQuiz(quiz::QuizType::ConjuactionQuiz, package->decode());
+                        m_quizManager.startQuiz(quiz::QuizType::ConjuactionQuiz, package->m_lessons);
                     }
                 }
                 else

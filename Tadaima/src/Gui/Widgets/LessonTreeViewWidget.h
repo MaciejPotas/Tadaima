@@ -1,8 +1,3 @@
-/**
- * @file LessonTreeViewWidget.h
- * @brief Defines the LessonTreeViewWidget class, representing a lesson tree view widget.
- */
-
 #pragma once
 
 #include "Widget.h"
@@ -29,13 +24,24 @@ namespace tadaima
             {
             public:
                 /**
-                 * @brief Constructs a LessonTreeViewWidget object.
-                 *
-                 * Initializes the widget and sets up internal data structures.
-                 *
-                 * @param logger A reference to a Logger object.
+                 * @struct LessonActionState
+                 * @brief Represents the current pending action for a lesson.
                  */
-                LessonTreeViewWidget(tools::Logger& logger);
+                struct LessonActionState
+                {
+                    /**
+                     * @enum Type
+                     * @brief The type of pending action.
+                     */
+                    enum class Type
+                    {
+                        None, Edit, Rename, Delete, Export, MoveWordsToLesson
+                    } type = Type::None;
+                    int lessonId = -1;        /**< The lesson ID related to the action. */
+                    Lesson original;           /**< Original lesson before changes. */
+                    Lesson editable;           /**< Editable copy for modification. */
+                };
+                LessonActionState m_pendingAction;
 
                 /**
                  * @enum LessonTreeViewWidgetEvent
@@ -43,233 +49,186 @@ namespace tadaima
                  */
                 enum LessonTreeViewWidgetEvent : uint8_t
                 {
-                    OnLessonCreated, /**< Event triggered when a lesson is created. */
-                    OnLessonRename, /**< Event triggered when a lesson is renamed. */
-                    OnLessonDelete, /**< Event triggered when a lesson is deleted. */
-                    OnLessonEdited, /**< Event triggered when a lesson is edited. */
-                    OnPlayMultipleChoiceQuiz, /**< Event triggered to play a multiple-choice quiz. */
-                    OnPlayVocabularyQuiz, /**< Event triggered to play a vocabulary quiz. */
-                    OnConjuactionQuiz,
-                    OnQuizSelect /**< Event triggered when a quiz is selected. */
+                    OnLessonCreated,             /**< Triggered when a lesson is created. */
+                    OnLessonRename,              /**< Triggered when a lesson is renamed. */
+                    OnLessonDelete,              /**< Triggered when a lesson is deleted. */
+                    OnLessonEdited,              /**< Triggered when a lesson is edited. */
+                    OnPlayMultipleChoiceQuiz,    /**< Triggered for multiple-choice quiz. */
+                    OnPlayVocabularyQuiz,        /**< Triggered for vocabulary quiz. */
+                    OnConjuactionQuiz,           /**< Triggered for conjugation quiz. */
+                    OnQuizSelect                 /**< Triggered when a quiz is selected. */
                 };
 
                 /**
-                 * @brief Initializes the lesson tree view widget with data.
-                 *
-                 * Populates the tree view with lessons and associated data from the provided package.
-                 *
-                 * @param r_package The data package for initialization.
+                 * @brief Constructor.
+                 * @param logger Reference to a Logger instance.
+                 */
+                LessonTreeViewWidget(tools::Logger& logger);
+
+                /**
+                 * @brief Initializes the widget with a data package.
+                 * @param r_package The data package to initialize with.
                  */
                 void initialize(const tools::DataPackage& r_package) override;
 
                 /**
-                 * @brief Draws the top buttons for creating, importing, and managing lessons.
+                 * @brief Draws the main widget window.
+                 * @param p_open Pointer to a boolean indicating whether the window is open.
+                 */
+                void draw(bool* p_open) override;
+
+                /**
+                 * @brief Draws the top row of buttons (Create, Import, etc.).
                  */
                 void drawTopButtons();
 
                 /**
-                 * @brief Handles the tree view for marking words.
-                 *
-                 * Updates the internal state based on user interactions for marking words.
-                 *
-                 * @param markedWords A set of marked word IDs.
+                 * @brief Draws the lesson tree hierarchy.
                  */
-                void handleTreeView(std::unordered_set<int>& markedWords);
+                void drawLessonsTree();
 
                 /**
-                 * @brief Draws the lesson tree view widget.
-                 *
-                 * Renders the entire tree view widget on the GUI.
-                 *
-                 * @param p_open Pointer to a boolean indicating whether the widget is open.
+                 * @brief Draws a single lesson row and handles its selection.
+                 * @param lesson The lesson to draw.
+                 * @param lessonsInSubgroup Reference to the vector of lessons in the current subgroup.
+                 * @param lessonIdx Index of this lesson within lessonsInSubgroup.
                  */
-                void draw(bool* p_open) override;
-
-            private:
-                /**
-                 * @struct LessonGroup
-                 * @brief Represents a group of lessons organized by a common group name.
-                 */
-                struct LessonGroup
-                {
-                    std::string groupName; /**< The name of the lesson group. */
-                    std::map<std::string, std::vector<Lesson>> subLessons; /**< The sub-lessons within the group. */
-                };
+                void drawLessonRow(const Lesson& lesson, const std::vector<Lesson>& lessonsInSubgroup, int lessonIdx);
 
                 /**
-                 * @brief Parses lessons from a file for import.
-                 *
-                 * Reads lessons from the specified file and prepares them for addition to the tree view.
-                 *
-                 * @param filePath The path to the file containing lessons.
-                 * @return A vector of parsed lessons.
+                 * @brief Draws a word row for a given lesson.
+                 * @param word The word to draw.
+                 * @param lesson The lesson containing the word.
                  */
-                std::vector<Lesson> parseLessons(const std::string& filePath);
+                void drawWordRow(const Word& word, const Lesson& lesson);
 
                 /**
-                 * @brief Adds lessons to the tree view with an overwrite check.
-                 *
-                 * Ensures that existing lessons are not overwritten without user confirmation.
-                 *
-                 * @param newLessons A map containing the new lessons to be added.
+                 * @brief Shows the context menu for a lesson.
+                 * @param lesson The lesson for which to show the menu.
                  */
-                void addLessonsWithOverwriteCheck(const std::map<std::string, LessonGroup>& newLessons);
+                void showLessonContextMenu(const Lesson& lesson);
 
                 /**
-                 * @brief Draws the overwrite popup for handling conflicting lesson imports.
+                 * @brief Shows the context menu for selected words in a lesson.
+                 * @param lesson The lesson containing the selected words.
                  */
-                void drawOverwritePopup();
+                void showSelectedWordsContextMenu(const Lesson& lesson);
 
                 /**
-                 * @brief Creates a LessonDataPackage from selected nodes.
-                 *
-                 * Collects lessons matching the selected node IDs and packages them into a data object.
-                 *
-                 * @param nodes A set of selected node IDs.
-                 * @return A LessonDataPackage object.
+                 * @brief Shows the rename lesson popup dialog.
                  */
-                LessonDataPackage createLessonDataPackageFromSelectedNodes(const std::unordered_set<int>& nodes);
+                void ShowRenamePopup();
 
                 /**
-                 * @brief Creates a LessonDataPackage from a list of lessons.
-                 *
-                 * Bundles the provided lessons into a data package for export or other operations.
-                 *
-                 * @param lessons A vector of lessons.
-                 * @return A LessonDataPackage object.
+                 * @brief Shows the delete lesson popup dialog.
                  */
-                LessonDataPackage createLessonDataPackageFromLessons(const std::vector<Lesson>& lessons);
+                void ShowDeletePopup();
 
                 /**
-                 * @brief Creates a LessonDataPackage from a single lesson.
-                 *
-                 * Converts a single lesson into a data package for further use.
-                 *
-                 * @param lesson A Lesson object.
-                 * @return A LessonDataPackage object.
+                 * @brief Shows the move words to lesson popup dialog.
                  */
-                LessonDataPackage createLessonDataPackageFromLesson(const Lesson& lesson);
+                void showMoveWordsToLessonPopup();
 
                 /**
-                 * @brief Creates a LessonPackage from a single lesson.
-                 *
-                 * Converts a lesson into a lightweight package structure.
-                 *
-                 * @param lesson A Lesson object.
-                 * @return A LessonPackage object.
+                 * @brief Sets all words in the lesson as selected or unselected.
+                 * @param lesson The lesson whose words to update.
+                 * @param select True to select, false to unselect.
                  */
-                LessonPackage createLessonPackage(const Lesson& lesson);
+                void setLessonWordsSelection(const Lesson& lesson, bool select);
 
                 /**
-                 * @brief Shows the rename popup for editing lesson names.
-                 *
-                 * Displays a modal window for renaming a lesson or its components.
-                 *
-                 * @param renamePopupOpen Reference to a boolean indicating if the rename popup is open.
+                 * @brief Selects or unselects a range of lessons in the current subgroup.
+                 * @param lessonsInSubgroup The vector of lessons.
+                 * @param fromIdx Index to start selection (inclusive).
+                 * @param toIdx Index to end selection (inclusive).
+                 * @param select True to select, false to unselect.
                  */
-                void ShowRenamePopup(bool& renamePopupOpen);
+                void setLessonRangeSelection(const std::vector<Lesson>& lessonsInSubgroup, int fromIdx, int toIdx, bool select);
 
                 /**
-                 * @brief Handles moving marked words to a new lesson.
-                 *
-                 * Transfers words from the current lesson to a newly created lesson.
-                 *
-                 * @param createNewLessonPopupOpen Reference to a boolean indicating if the create new lesson popup is open.
-                 * @param markedWords A set of marked word IDs.
+                 * @brief Handles editing a lesson.
                  */
-                void handleWordsMove(bool& createNewLessonPopupOpen, std::unordered_set<int>& markedWords);
+                void handleLessonEdit();
 
                 /**
-                 * @brief Handles the deletion of a lesson or lessons.
-                 *
-                 * Removes lessons or marked items based on user selection.
-                 *
-                 * @param deleteLesson Reference to a boolean indicating if a lesson is to be deleted.
+                 * @brief Handles deletion of a lesson.
+                 * @param deleteLesson Reference to a boolean indicating if a lesson should be deleted.
                  */
                 void handleLessonDelete(bool& deleteLesson);
 
                 /**
-                 * @brief Handles editing a lesson.
-                 *
-                 * Allows modifications to the selected lesson and its components.
-                 *
-                 * @param open_edit_lesson Reference to a boolean indicating if the edit lesson widget is open.
-                 * @param originalLesson Reference to the original lesson.
-                 * @param selectedLesson Reference to the selected lesson.
+                 * @brief Handles exporting all currently marked lessons.
                  */
-                void handleLessonEdit(bool& open_edit_lesson, Lesson& originalLesson, Lesson& selectedLesson);
+                void handleExportLessons();
 
                 /**
-                 * @brief Handles exporting selected lessons to a file.
-                 *
-                 * Saves lessons in a structured format to the specified file.
-                 *
-                 * @param lessonsToExport A set of lesson IDs to be exported.
+                 * @brief Handles exporting a specific set of lessons.
+                 * @param lessonsToExport The set of lesson IDs to export.
                  */
                 void handleExportLessons(std::unordered_set<int> lessonsToExport);
 
                 /**
-                 * @brief Copies words to a new lesson.
-                 *
-                 * Creates a new lesson containing the selected words from existing lessons.
-                 *
-                 * @param wordIds A set of word IDs to copy.
-                 * @return The new Lesson object.
+                 * @brief Creates a new lesson from a set of word IDs.
+                 * @param wordIds The set of word IDs to copy.
+                 * @return The newly created Lesson.
                  */
                 Lesson copyWordsToNewLesson(const std::unordered_set<int>& wordIds);
 
                 /**
-                 * @brief Draws the hierarchical tree structure of lessons and words.
-                 *
-                 * Renders the tree view and handles user interactions within the widget.
-                 *
-                 * @param markedWords A set of marked word IDs.
-                 * @param lessonsToExport A set of lesson IDs to be exported.
-                 * @param open_edit_lesson Reference to a boolean indicating if the edit lesson widget is open.
-                 * @param selectedLesson Reference to the selected lesson.
-                 * @param originalLesson Reference to the original lesson.
-                 * @param renamePopupOpen Reference to a boolean indicating if the rename popup is open.
-                 * @param deleteLesson Reference to a boolean indicating if a lesson is to be deleted.
-                 * @param createNewLessonPopupOpen Reference to a boolean indicating if the create new lesson popup should be open.
+                 * @brief Packages lessons for data transfer/export from a set of selected node IDs.
+                 * @param nodes Set of lesson IDs.
+                 * @return A LessonDataPackage containing the selected lessons.
                  */
-                void drawLessonsTree(std::unordered_set<int>& markedWords, std::unordered_set<int>& lessonsToExport, bool& open_edit_lesson, Lesson& selectedLesson, Lesson& originalLesson, bool& renamePopupOpen, bool& deleteLesson, bool& createNewLessonPopupOpen);
+                LessonDataPackage createLessonDataPackageFromSelectedNodes(const std::unordered_set<int>& nodes);
 
                 /**
-                 * @brief Parses lessons and exports them to a file.
-                 *
-                 * Serializes lessons into a file format for external use.
-                 *
-                 * @param filePath The path to the file to export lessons to.
-                 * @param lessonsToExport A set of lesson IDs to be exported.
+                 * @brief Packages a list of lessons into a LessonDataPackage.
+                 * @param lessons Vector of lessons.
+                 * @return A LessonDataPackage containing the given lessons.
                  */
-                void parseAndExportLessons(const std::string& filePath, const std::unordered_set<int>& lessonsToExport);
+                LessonDataPackage createLessonDataPackageFromLessons(const std::vector<Lesson>& lessons);
 
                 /**
-                 * @brief Finds a lesson by its ID.
-                 *
-                 * Searches the cached lessons for a match by ID.
-                 *
-                 * @param id The ID of the lesson to find.
-                 * @return The found lesson, or an empty lesson if not found.
+                 * @brief Packages a single lesson into a LessonDataPackage.
+                 * @param lesson The lesson to package.
+                 * @return A LessonDataPackage containing the given lesson.
                  */
-                Lesson findLessonWithId(int id);
+                LessonDataPackage createLessonDataPackageFromLesson(const Lesson& lesson);
 
-                std::deque<LessonGroup> m_cashedLessons; /**< Deque containing grouped lesson data. */
-                LessonPackageType m_type; /**< The type of package being handled. */
-                LessonSettingsWidget m_lessonSettingsWidget; /**< The widget for managing lesson settings. */
-                tools::Logger& m_logger; /**< Reference to the logger for debug and info messages. */
+                /**
+                 * @brief Finds a lesson by ID.
+                 * @param id The lesson ID to find.
+                 * @return The lesson with the given ID, or an empty lesson if not found.
+                 */
+                Lesson findLessonWithId(int id) const;
 
-                std::unordered_set<int> m_selectedLessons; /**< Set storing IDs of selected lessons. */
-                int m_selectedLessonIndex = -1; /**< Index of the currently selected lesson. */
-                int m_changedLessonGroupIndex = -1; /**< Index of the changed lesson group. */
-                int m_changedLessonSubGroupIndex = -1; /**< Index of the changed lesson subgroup. */
-                int m_changedLessonIndex = -1; /**< Index of the changed lesson. */
-                char renameGroupNameBuffer[100] = ""; /**< Buffer for renaming a lesson group. */
-                char renameMainNameBuffer[100] = ""; /**< Buffer for renaming a lesson's main name. */
-                char renameSubNameBuffer[100] = ""; /**< Buffer for renaming a lesson's sub name. */
-                char newLessonGroupNameBuffer[100] = ""; /**< Buffer for creating a new lesson group. */
-                char newLessonMainNameBuffer[100] = ""; /**< Buffer for creating a new lesson's main name. */
-                char newLessonSubNameBuffer[100] = ""; /**< Buffer for creating a new lesson's sub name. */
+                /**
+                 * @struct LessonGroup
+                 * @brief Represents a group of lessons organized by group name.
+                 */
+                struct LessonGroup
+                {
+                    std::string groupName;  /**< Name of the lesson group. */
+                    std::map<std::string, std::vector<Lesson>> subLessons; /**< Map: mainName -> list of lessons. */
+                };
+
+                std::deque<LessonGroup> m_cashedLessons;     /**< Cached groups of lessons. */
+                LessonSettingsWidget m_lessonSettingsWidget; /**< Widget for lesson editing. */
+                tools::Logger& m_logger;                     /**< Logger reference. */
+
+                std::unordered_set<int> m_selectedWords;     /**< Currently selected word IDs. */
+                std::unordered_set<int> m_selectedLessons;   /**< Currently selected lesson IDs. */
+                int m_lastSelectedWordId = -1;               /**< Last selected word ID (for range selection). */
+                int m_lastSelectedLessonId = -1;             /**< Last selected lesson ID (for range selection). */
+                std::unordered_set<int> m_lessonsToExport;   /**< Set of lessons marked for export. */
+
+                int m_changedLessonGroupIndex = -1;          /**< Index of changed lesson group. */
+                int m_changedLessonSubGroupIndex = -1;       /**< Index of changed lesson subgroup. */
+                int m_changedLessonIndex = -1;               /**< Index of changed lesson. */
+
+                char GroupNameBuf[128] = {};                 /**< Buffer for editing group name. */
+                char MainNameBuf[128] = {};                  /**< Buffer for editing main name. */
+                char SubNameBuf[128] = {};                   /**< Buffer for editing sub name. */
             };
         }
     }
