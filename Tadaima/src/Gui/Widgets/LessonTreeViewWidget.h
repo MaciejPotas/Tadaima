@@ -35,7 +35,7 @@ namespace tadaima
                      */
                     enum class Type
                     {
-                        None, Edit, Rename, Delete, Export, MoveWordsToLesson
+                        None, Edit, Rename, Delete, DeleteGroup, Export, MoveWordsToLesson
                     } type = Type::None;
                     int lessonId = -1;        /**< The lesson ID related to the action. */
                     Lesson original;           /**< Original lesson before changes. */
@@ -119,6 +119,7 @@ namespace tadaima
                  */
                 void ShowRenamePopup();
 
+                void ShowDeleteGroupPopup();
                 /**
                  * @brief Shows the delete lesson popup dialog.
                  */

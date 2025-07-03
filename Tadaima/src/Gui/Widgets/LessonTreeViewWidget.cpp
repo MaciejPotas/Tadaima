@@ -450,13 +450,63 @@ namespace tadaima
                         for( const auto& [mainName, lessons] : group.subLessons )
                         {
                             ImGui::PushID(mainName.c_str());
-                            if( ImGui::TreeNode(mainName.c_str()) )
+
+                            bool mainOpen = ImGui::TreeNode(mainName.c_str());
+
+                            // Context menu for Chapter (mainName)
+                            if( ImGui::IsItemHovered() && ImGui::IsMouseReleased(ImGuiMouseButton_Right) )
                             {
-                                for( size_t lessonIndex = 0; lessonIndex < lessons.size(); ++lessonIndex )
+                                ImGui::OpenPopup(("ChapterContextMenu" + mainName).c_str());
+                            }
+
+                            if( ImGui::BeginPopup(("ChapterContextMenu" + mainName).c_str()) )
+                            {
+                                // --- Play Group ---
+                                if( ImGui::BeginMenu(ICON_FA_PLAY "  Play group") )
                                 {
-                                    drawLessonRow(lessons[lessonIndex], lessons, (int)lessonIndex);
+                                    struct PlayOption
+                                    {
+                                        const char* label;
+                                        LessonTreeViewWidgetEvent event;
+                                        const char* icon;
+                                    } playOptions[] = {
+                                        { "Vocabulary Quiz",      LessonTreeViewWidgetEvent::OnPlayVocabularyQuiz,      ICON_FA_QUESTION },
+                                        { "Multiple Choice Quiz", LessonTreeViewWidgetEvent::OnPlayMultipleChoiceQuiz,  ICON_FA_LIST },
+                                        { "Conjugation Quiz",     LessonTreeViewWidgetEvent::OnConjuactionQuiz,         ICON_FA_MAGIC }
+                                    };
+
+                                    for( const auto& opt : playOptions )
+                                    {
+                                        std::string itemLabel = std::string(opt.icon) + " " + opt.label;
+                                        if( ImGui::MenuItem(itemLabel.c_str()) )
+                                        {
+                                            std::vector<Lesson> lessonsToPlay(lessons.begin(), lessons.end());
+                                            auto pkg = createLessonDataPackageFromLessons(lessonsToPlay);
+                                            emitEvent(WidgetEvent(*this, opt.event, &pkg));
+                                        }
+                                    }
+                                    ImGui::EndMenu();
                                 }
 
+
+                                // --- Remove Group ---
+                                if( ImGui::MenuItem(ICON_FA_TRASH "  Remove group") )
+                                {
+                                    // You can queue a pending removal state and then remove after confirmation if needed
+                                    m_pendingAction.type = LessonActionState::Type::Delete;
+                                    m_pendingAction.editable.groupName = group.groupName;
+                                    m_pendingAction.editable.mainName = mainName;
+                                    m_pendingAction.editable.subName = "";
+                                    // Optionally: store a pointer/index for removal
+                                }
+
+                                ImGui::EndPopup();
+                            }
+
+                            if( mainOpen )
+                            {
+                                for( size_t lessonIndex = 0; lessonIndex < lessons.size(); ++lessonIndex )
+                                    drawLessonRow(lessons[lessonIndex], lessons, (int)lessonIndex);
                                 ImGui::TreePop();
                             }
                             ImGui::PopID();
@@ -858,43 +908,119 @@ namespace tadaima
                 if( m_pendingAction.type != LessonActionState::Type::Delete )
                     return;
 
-                // Open the popup if not already open
-                if( !ImGui::IsPopupOpen("Delete Lesson") )
+                // MULTI-SELECT: show all lessons being deleted
+                bool multipleSelected = m_selectedLessons.size() > 1;
+
+                // Decide popup name and target text
+                const char* popupName = nullptr;
+                std::vector<Lesson> toDelete;
+                std::string deleteTargetText;
+
+                if( multipleSelected )
                 {
-                    ImGui::OpenPopup("Delete Lesson");
+                    popupName = "Delete Lessons";
+                    int count = 0;
+                    for( int lessonId : m_selectedLessons )
+                    {
+                        auto lesson = findLessonWithId(lessonId);
+                        if( !lesson.isEmpty() )
+                            toDelete.push_back(lesson);
+                        if( ++count <= 10 )
+                            deleteTargetText += lesson.groupName + " / " + lesson.mainName + " / " + lesson.subName + "\n";
+                    }
+                    if( (int)m_selectedLessons.size() > 10 )
+                        deleteTargetText += "...and " + std::to_string(m_selectedLessons.size() - 10) + " more.";
+                }
+                else if( m_pendingAction.editable.subName.empty() )
+                {
+                    // CHAPTER delete
+                    popupName = "Delete Chapter";
+                    deleteTargetText = m_pendingAction.editable.groupName + " / " + m_pendingAction.editable.mainName;
+                    // Collect all lessons in this chapter
+                    for( const auto& lessonGroup : m_cashedLessons )
+                    {
+                        if( lessonGroup.groupName == m_pendingAction.editable.groupName )
+                        {
+                            auto it = lessonGroup.subLessons.find(m_pendingAction.editable.mainName);
+                            if( it != lessonGroup.subLessons.end() )
+                                for( const auto& lesson : it->second )
+                                    toDelete.push_back(lesson);
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    // SINGLE lesson delete
+                    popupName = "Delete Lesson";
+                    deleteTargetText = m_pendingAction.editable.groupName + " / " +
+                        m_pendingAction.editable.mainName + " / " +
+                        m_pendingAction.editable.subName;
+                    toDelete.push_back(m_pendingAction.editable);
                 }
 
-                if( ImGui::BeginPopupModal("Delete Lesson", nullptr, ImGuiWindowFlags_AlwaysAutoResize) )
+                // Open popup if not already open
+                if( !ImGui::IsPopupOpen(popupName) )
+                    ImGui::OpenPopup(popupName);
+
+                if( ImGui::BeginPopupModal(popupName, nullptr, ImGuiWindowFlags_AlwaysAutoResize) )
                 {
-                    ImGui::TextColored(ImVec4(1, 0.2f, 0.2f, 1), "Are you sure you want to delete this lesson?");
+                    // HEADLINE
+                    ImGui::TextColored(ImVec4(1, 0.2f, 0.2f, 1),
+                        multipleSelected ? "Are you sure you want to delete these lessons?"
+                        : (m_pendingAction.editable.subName.empty() ?
+                            "Are you sure you want to delete the entire chapter?" :
+                            "Are you sure you want to delete this lesson?"));
+
                     ImGui::Spacing();
-                    ImGui::Text("%s / %s / %s",
-                        m_pendingAction.editable.groupName.c_str(),
-                        m_pendingAction.editable.mainName.c_str(),
-                        m_pendingAction.editable.subName.c_str()
-                    );
+                    ImGui::TextWrapped("%s", deleteTargetText.c_str());
                     ImGui::Spacing(); ImGui::Separator(); ImGui::Spacing();
 
                     if( ImGui::Button("Delete", ImVec2(120, 0)) )
                     {
-                        // Do the deletion logic!
-                        LessonDataPackage package = createLessonDataPackageFromLesson(m_pendingAction.editable);
-                        emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnLessonDelete, &package));
-                        m_logger.log("Lesson deleted: " +
-                            m_pendingAction.editable.groupName + " / " +
-                            m_pendingAction.editable.mainName + " / " +
-                            m_pendingAction.editable.subName
-                        );
-                        ImGui::CloseCurrentPopup();
+                        // Remove from cache!
+                        for( const auto& lesson : toDelete )
+                        {
+                            for( auto& lessonGroup : m_cashedLessons )
+                            {
+                                for( auto it = lessonGroup.subLessons.begin(); it != lessonGroup.subLessons.end(); ++it )
+                                {
+                                    auto& lessons = it->second;
+                                    auto oldSz = lessons.size();
+                                    lessons.erase(
+                                        std::remove_if(lessons.begin(), lessons.end(),
+                                            [&](const Lesson& l) { return l.id == lesson.id; }),
+                                        lessons.end());
+                                    // If this sublesson (chapter) is now empty, remove it
+                                    if( lessons.empty() )
+                                    {
+                                        lessonGroup.subLessons.erase(it);
+                                        break;
+                                    }
+                                    if( oldSz != lessons.size() )
+                                        break; // Already erased from this group
+                                }
+                            }
+                        }
+
+                        // Prepare and emit event
+                        if( !toDelete.empty() )
+                        {
+                            LessonDataPackage package = createLessonDataPackageFromLessons(toDelete);
+                            emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnLessonDelete, &package));
+                        }
+
+                        m_logger.log("Lessons deleted: " + std::to_string(toDelete.size()));
+                        m_selectedLessons.clear();
                         m_pendingAction.type = LessonActionState::Type::None;
+                        ImGui::CloseCurrentPopup();
                     }
 
                     ImGui::SameLine();
-
                     if( ImGui::Button("Cancel", ImVec2(120, 0)) )
                     {
-                        ImGui::CloseCurrentPopup();
                         m_pendingAction.type = LessonActionState::Type::None;
+                        ImGui::CloseCurrentPopup();
                     }
 
                     ImGui::EndPopup();
