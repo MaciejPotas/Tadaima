@@ -1,15 +1,14 @@
 import sys
 import xml.etree.ElementTree as ET
 import json
-import jaconv
 import requests
 from bs4 import BeautifulSoup
-import pykakasi
+import jaconv
 
-kakasi = pykakasi.kakasi()
 sys.stdout.reconfigure(encoding='utf-8')
 
-# Conjugation keys (verbs + adjectives)
+# --- CONFIG ---
+
 CONJUGATION_MAP = [
     ("Present Positive Informal", "PLAIN"),
     ("Present Positive Formal", "POLITE"),
@@ -28,17 +27,15 @@ CONJUGATION_MAP = [
     ("Imperative Positive Informal", "IMPERATIVE"),
 ]
 
-def to_hiragana(text):
-    """Converts any input (kanji, katakana, hiragana, mixed) to hiragana."""
-    result = kakasi.convert(text)
-    return ''.join([chunk['hira'] for chunk in result])
+# --- UTILS ---
+
+def is_romaji(word):
+    return all(ord(ch) < 128 for ch in word)
 
 def to_kana_if_romaji(word):
-    # If ASCII, treat as romaji and convert to hiragana via jaconv
-    if all(ord(ch) < 128 for ch in word):
+    if is_romaji(word):
         kana = jaconv.alphabet2kana(word.lower())
-        hira = jaconv.kata2hira(kana)
-        return hira
+        return jaconv.kata2hira(kana)
     return word
 
 def to_romaji_if_kana(word):
@@ -46,6 +43,30 @@ def to_romaji_if_kana(word):
     if any('\u3040' <= ch <= '\u30ff' for ch in word):
         return jaconv.kana2alphabet(word)
     return word
+
+def extract_furigana_from_ruby(ruby_span):
+    # Clones the tag so as not to mutate original
+    import copy
+    tag = copy.copy(ruby_span)
+
+    # Replace all <ruby> with their <rt> text (furigana)
+    for ruby in tag.find_all('ruby'):
+        rt = ruby.find('rt')
+        if rt:
+            ruby.replace_with(rt.get_text(strip=True))
+        else:
+            rb = ruby.find('rb')
+            if rb:
+                ruby.replace_with(jaconv.kata2hira(rb.get_text(strip=True)))
+            else:
+                ruby.decompose()
+    # Now, all that's left is a mixture of plain text and furigana
+    reading = tag.get_text(strip=True)
+    # Make sure any remaining katakana are converted to hiragana
+    reading = jaconv.kata2hira(reading)
+    return reading
+
+# --- ADJECTIVE HANDLING ---
 
 def detect_adjective_type(word):
     if word == "いい":
@@ -114,11 +135,10 @@ def conjugate_na_adjective(word):
         "TE_FORM":    stem + "で",
     }
 
-def is_romaji(word):
-    return all(ord(c) < 128 for c in word)
+# --- VERB HANDLING ---
 
 def is_verb_candidate(word):
-    # A basic heuristic for Japanese verbs
+    # Heuristic for Japanese verbs
     romaji_endings = ("u", "ru", "ku", "gu", "su", "tsu", "nu", "bu", "mu")
     kana_endings = "うくぐすつぬむぶる"
     if is_romaji(word):
@@ -129,6 +149,7 @@ def is_verb_candidate(word):
 def fetch_verb_conjugations(word_romaji, debug=False):
     """
     Fetches verb conjugations from Reverso using the romaji form of the word.
+    Returns dict {key: hiragana}
     """
     url = f"https://conjugator.reverso.net/conjugation-japanese-verb-{word_romaji}.html"
     headers = {
@@ -160,7 +181,7 @@ def fetch_verb_conjugations(word_romaji, debug=False):
 
 def parse_conjugations(soup, debug=False):
     """
-    Extracts verb conjugations from Reverso's HTML and outputs hiragana only.
+    Extracts verb conjugations from Reverso's HTML, converting to hiragana using furigana.
     """
     conjugations = {}
     tense_blocks = soup.find_all('div', class_='blue-box-wrap')
@@ -171,6 +192,7 @@ def parse_conjugations(soup, debug=False):
         tense = block.get("mobile-title", "").strip()
         if not tense:
             continue
+        # Only include keys that we care about
         key = None
         for label, mapkey in CONJUGATION_MAP:
             if tense == label:
@@ -180,14 +202,13 @@ def parse_conjugations(soup, debug=False):
             continue
         kana = block.find('span', class_='ruby')
         if kana:
-            raw = kana.get_text(strip=True)
-            hira = to_hiragana(raw)
+            hira = extract_furigana_from_ruby(kana)
             conjugations[key] = hira
         else:
+            # fallback to romaji if no ruby (shouldn't happen)
             romaji = block.find('div', class_='romaji')
             if romaji:
-                kana_str = jaconv.alphabet2kana(romaji.get_text(strip=True).lower())
-                hira = to_hiragana(kana_str)
+                hira = to_kana_if_romaji(romaji.get_text(strip=True))
                 conjugations[key] = hira
             else:
                 conjugations[key] = "N/A"
@@ -195,8 +216,9 @@ def parse_conjugations(soup, debug=False):
         print("Debug: Extracted verb conjugations:", file=sys.stderr)
         for ctype, forms in conjugations.items():
             print(f"{ctype}: {forms}", file=sys.stderr)
-
     return conjugations if conjugations else None
+
+# --- OUTPUT ---
 
 def output_xml(word, conj_dict, map_struct=CONJUGATION_MAP):
     root = ET.Element("conjugations")
@@ -210,9 +232,11 @@ def output_xml(word, conj_dict, map_struct=CONJUGATION_MAP):
 def output_json(word, conj_dict):
     return json.dumps({"word": word, "conjugations": conj_dict}, ensure_ascii=False, indent=2)
 
+# --- MAIN ---
+
 def main():
     if len(sys.argv) < 2:
-        print("Usage: Conjugation.py <word_in_kana_or_kanji_or_romaji> [--json] [--debug]")
+        print("Usage: conj.py <word_in_kana_or_romaji> [--json] [--debug]")
         sys.exit(1)
 
     word = sys.argv[1].strip()
@@ -236,14 +260,13 @@ def main():
         else:
             print("ERROR: Unexpected adjective type", file=sys.stderr)
             sys.exit(1)
-        # All outputs as hiragana
-        hira_conj = {k: to_hiragana(v) for k, v in conj.items()}
         if output_json_mode:
-            print(output_json(word, hira_conj))
+            print(output_json(word, conj))
         else:
-            print(output_xml(word, hira_conj))
+            print(output_xml(word, conj))
         sys.exit(0)
     elif is_verb_candidate(word):
+        # Always fetch from Reverso using romaji
         word_romaji = to_romaji_if_kana(word)
         if debug_mode:
             print(f"DEBUG: recognized as verb candidate, using '{word_romaji}' for Reverso", file=sys.stderr)
