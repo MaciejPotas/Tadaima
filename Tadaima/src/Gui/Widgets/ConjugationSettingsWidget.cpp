@@ -9,9 +9,10 @@ namespace tadaima
         namespace widget
         {
 
-            ConjugationSettingsWidget::ConjugationSettingsWidget(tadaima::Dictionary& r_Dictionary, tools::Logger& logger) :
+            ConjugationSettingsWidget::ConjugationSettingsWidget(tadaima::Dictionary& r_Dictionary, tools::Logger& logger, bool& conjugationJustSaved) :
                 mr_Dictionary(r_Dictionary),
-                m_logger(logger)
+                m_logger(logger),
+                m_conjugationJustSaved(conjugationJustSaved)
             {
 
             }
@@ -25,9 +26,10 @@ namespace tadaima
             {
                 mp_Word = &r_WordToEdit;
 
-                if( mp_Word->romaji.size() < sizeof(m_conjugationWord) )
+                if( mp_Word->kana.size() < sizeof(m_conjugationWord) )
                 {
-                    memcpy(m_conjugationWord, mp_Word->romaji.c_str(), mp_Word->romaji.size());
+                    memset(m_conjugationWord, 0, sizeof(m_conjugationWord));
+                    memcpy(m_conjugationWord, mp_Word->kana.c_str(), mp_Word->kana.size());
                 }
 
                 for( size_t index = 0; index < CONJUGATION_COUNT; ++index )
@@ -60,7 +62,7 @@ namespace tadaima
 
                         try
                         {
-                            auto conjugations = mr_Dictionary.getConjugations(std::string(m_conjugationWord));
+                            auto conjugations = mr_Dictionary.getConjugations(std::string(mp_Word->romaji));
 
                             // Update buffers with fetched conjugations
                             for( int i = 0; i < CONJUGATION_COUNT; ++i )
@@ -118,6 +120,8 @@ namespace tadaima
                         {
                             mp_Word->conjugations[i] = std::string(m_conjugationBuffers[i].data());
                         }
+
+                        m_conjugationJustSaved = true;
                         ImGui::CloseCurrentPopup();
                     }
 

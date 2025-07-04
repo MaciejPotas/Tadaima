@@ -47,7 +47,7 @@ namespace tadaima
                  * @param r_Dictionary Reference to the dictionary.
                  * @param logger Reference to the logger for tracking operations.
                  */
-                ConjugationSettingsWidget(tadaima::Dictionary& r_Dictionary, tools::Logger& logger);
+                ConjugationSettingsWidget(tadaima::Dictionary& r_Dictionary, tools::Logger& logger, bool& conjugationJustSaved);
 
                 /**
                  * @brief Starts the conjugation settings widget.
@@ -93,6 +93,7 @@ namespace tadaima
                  */
                 void clearConjugationBuffers(std::array<std::array<char, 128>, CONJUGATION_COUNT>& buffers);
 
+                bool& m_conjugationJustSaved;
                 std::array<std::array<char, 128>, CONJUGATION_COUNT> m_conjugationBuffers; ///< Buffers for storing conjugation forms.
                 char m_conjugationWord[50] = ""; ///< Buffer for the word in romaji format.
                 tools::Logger& m_logger; ///< Reference to the logger for tracking operations.

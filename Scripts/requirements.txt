@@ -6,3 +6,4 @@ jaconv
 requests
 bs4
 googletrans
+beautifulsoup4 

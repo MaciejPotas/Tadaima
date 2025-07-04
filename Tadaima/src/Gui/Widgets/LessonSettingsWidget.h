@@ -86,8 +86,7 @@ namespace tadaima
                  */
                 void createAWordFromFields();
 
-                bool m_isConjugating = false; ///< Flag indicating whether a conjugation process is active.
-                bool m_ConjugatingSaved = false; ///< Flag indicating whether conjugation settings are saved.
+                bool m_conjugationJustSaved = false;
                 bool m_isEditing = false; ///< Flag indicating whether the widget is in edit mode.
                 char m_mainNameBuffer[50] = ""; ///< Buffer for the lesson main name.
                 char m_subNameBuffer[50] = ""; ///< Buffer for the lesson sub name.
