@@ -28,6 +28,7 @@ namespace tadaima
 
                 if( mp_Word->kana.size() < sizeof(m_conjugationWord) )
                 {
+                    memset(m_conjugationWord, 0, sizeof(m_conjugationWord));
                     memcpy(m_conjugationWord, mp_Word->kana.c_str(), mp_Word->kana.size());
                 }
 
