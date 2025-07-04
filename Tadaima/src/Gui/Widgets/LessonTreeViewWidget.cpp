@@ -267,7 +267,14 @@ namespace tadaima
                 bool isLessonSelected = m_selectedLessons.count(lesson.id) > 0;
                 ImGuiTreeNodeFlags node_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanFullWidth;
                 if( isLessonSelected )
+                {
+                    ImVec4 selectedBgColor = ImVec4(0.16f, 0.60f, 0.85f, 1.0f);   // bright blue
+                    ImVec4 selectedTextColor = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);     // white
+                    ImGui::PushStyleColor(ImGuiCol_Header, selectedBgColor);        // Selected background
+                    ImGui::PushStyleColor(ImGuiCol_HeaderHovered, selectedBgColor); // When hovered + selected
+                    ImGui::PushStyleColor(ImGuiCol_Text, selectedTextColor);        // Selected text
                     node_flags |= ImGuiTreeNodeFlags_Selected;
+                }
 
                 bool isNodeOpen = ImGui::TreeNodeEx((void*)(intptr_t)lesson.id, node_flags, "%s", lesson.subName.c_str());
 
@@ -299,6 +306,11 @@ namespace tadaima
                     {
                         m_selectedLessons.clear();
                     }
+                }
+
+                if( isLessonSelected )
+                {
+                    ImGui::PopStyleColor(3);
                 }
 
                 // Context menu and children drawing, as before:
@@ -350,8 +362,6 @@ namespace tadaima
                     else
                     {
                         m_selectedWords.clear();
-                        m_selectedWords.insert(word.id);
-                        m_lastSelectedWordId = word.id;
                     }
                 }
 
