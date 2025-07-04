@@ -17,7 +17,7 @@ namespace tadaima
         {
             LessonSettingsWidget::LessonSettingsWidget(tools::Logger& logger)
                 : m_logger(logger), m_selectedWordIndex(-1), m_isEditing(false),
-                m_ConjugationSettingsWidget(m_dictionary, logger)
+                m_ConjugationSettingsWidget(m_dictionary, logger, m_conjugationJustSaved)
             {
                 m_logger.log("Initializing LessonSettingsWidget", tools::LogLevel::INFO);
                 std::memset(m_mainNameBuffer, 0, sizeof(m_mainNameBuffer));
@@ -117,7 +117,7 @@ namespace tadaima
                     }
 
                     m_ConjugationSettingsWidget.draw();
-
+  
                     ImGui::Spacing();
 
                     ImGui::InputText("##Romaji", m_romajiBuffer, sizeof(m_romajiBuffer));
@@ -183,8 +183,9 @@ namespace tadaima
                     if( m_selectedWordIndex >= 0 )
                     {
                         ImGui::SameLine();
-                        if( ImGui::Button("Update Word") )
+                        if( ImGui::Button("Update Word") || m_conjugationJustSaved )
                         {
+                            m_conjugationJustSaved = false;
                             m_logger.log("Updating word at index: " + std::to_string(m_selectedWordIndex), tools::LogLevel::INFO);
                             if( std::strlen(m_translationBuffer) > 0 && std::strlen(m_kanaBuffer) > 0 )
                             {

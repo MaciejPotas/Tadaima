@@ -9,9 +9,10 @@ namespace tadaima
         namespace widget
         {
 
-            ConjugationSettingsWidget::ConjugationSettingsWidget(tadaima::Dictionary& r_Dictionary, tools::Logger& logger) :
+            ConjugationSettingsWidget::ConjugationSettingsWidget(tadaima::Dictionary& r_Dictionary, tools::Logger& logger, bool& conjugationJustSaved) :
                 mr_Dictionary(r_Dictionary),
-                m_logger(logger)
+                m_logger(logger),
+                m_conjugationJustSaved(conjugationJustSaved)
             {
 
             }
@@ -118,6 +119,8 @@ namespace tadaima
                         {
                             mp_Word->conjugations[i] = std::string(m_conjugationBuffers[i].data());
                         }
+
+                        m_conjugationJustSaved = true;
                         ImGui::CloseCurrentPopup();
                     }
 
