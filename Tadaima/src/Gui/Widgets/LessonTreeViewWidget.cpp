@@ -264,32 +264,24 @@ namespace tadaima
 
             void LessonTreeViewWidget::drawLessonRow(const Lesson& lesson, const std::vector<Lesson>& lessonsInSubgroup, int lessonIdx)
             {
-                bool isNodeOpen = ImGui::TreeNodeEx(
-                    (void*)(intptr_t)lesson.id,
-                    ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth, ""
-                );
-                ImGui::SameLine();
-
                 bool isLessonSelected = m_selectedLessons.count(lesson.id) > 0;
+                ImGuiTreeNodeFlags node_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanFullWidth;
+                if( isLessonSelected )
+                    node_flags |= ImGuiTreeNodeFlags_Selected;
 
-                if( ImGui::Selectable(lesson.subName.c_str(), isLessonSelected, ImGuiSelectableFlags_SpanAllColumns) )
+                bool isNodeOpen = ImGui::TreeNodeEx((void*)(intptr_t)lesson.id, node_flags, "%s", lesson.subName.c_str());
+
+                if( ImGui::IsItemClicked() )
                 {
                     const bool ctrl = ImGui::GetIO().KeyCtrl;
                     const bool shift = ImGui::GetIO().KeyShift;
 
                     if( ctrl )
                     {
-                        // Toggle this lesson and its words
                         if( isLessonSelected )
-                        {
                             m_selectedLessons.erase(lesson.id);
-                            setLessonWordsSelection(lesson, false);
-                        }
                         else
-                        {
                             m_selectedLessons.insert(lesson.id);
-                            setLessonWordsSelection(lesson, true);
-                        }
                         m_lastSelectedLessonId = lesson.id;
                     }
                     else if( shift && m_lastSelectedLessonId != -1 )
@@ -305,19 +297,17 @@ namespace tadaima
                     }
                     else
                     {
-                        // Clear all selection
                         m_selectedLessons.clear();
-                        m_selectedWords.clear();
                     }
                 }
 
+                // Context menu and children drawing, as before:
                 if( ImGui::BeginPopupContextItem(("LessonContextMenu" + std::to_string(lesson.id)).c_str()) )
                 {
                     showLessonContextMenu(lesson);
                     ImGui::EndPopup();
                 }
 
-                // Draw words if expanded
                 if( isNodeOpen )
                 {
                     for( size_t wi = 0; wi < lesson.words.size(); ++wi )

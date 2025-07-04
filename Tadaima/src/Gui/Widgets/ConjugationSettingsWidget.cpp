@@ -25,9 +25,9 @@ namespace tadaima
             {
                 mp_Word = &r_WordToEdit;
 
-                if( mp_Word->romaji.size() < sizeof(m_conjugationWord) )
+                if( mp_Word->kana.size() < sizeof(m_conjugationWord) )
                 {
-                    memcpy(m_conjugationWord, mp_Word->romaji.c_str(), mp_Word->romaji.size());
+                    memcpy(m_conjugationWord, mp_Word->kana.c_str(), mp_Word->kana.size());
                 }
 
                 for( size_t index = 0; index < CONJUGATION_COUNT; ++index )
