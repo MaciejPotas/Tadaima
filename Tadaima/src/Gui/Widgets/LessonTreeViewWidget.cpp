@@ -516,12 +516,12 @@ namespace tadaima
                 static bool initialized = false;
                 if( !ImGui::IsPopupOpen("Rename Lesson") )
                 {
-                    std::strncpy(GroupNameBuf, m_pendingAction.editable.groupName.c_str(), sizeof(GroupNameBuf));
-                    std::strncpy(MainNameBuf, m_pendingAction.editable.mainName.c_str(), sizeof(MainNameBuf));
-                    std::strncpy(SubNameBuf, m_pendingAction.editable.subName.c_str(), sizeof(SubNameBuf));
-                    GroupNameBuf[sizeof(GroupNameBuf) - 1] = '\0';
-                    MainNameBuf[sizeof(MainNameBuf) - 1] = '\0';
-                    SubNameBuf[sizeof(SubNameBuf) - 1] = '\0';
+                    std::strncpy(m_GroupNameBuf, m_pendingAction.editable.groupName.c_str(), sizeof(m_GroupNameBuf));
+                    std::strncpy(m_MainNameBuf, m_pendingAction.editable.mainName.c_str(), sizeof(m_MainNameBuf));
+                    std::strncpy(m_SubNameBuf, m_pendingAction.editable.subName.c_str(), sizeof(m_SubNameBuf));
+                    m_GroupNameBuf[sizeof(m_GroupNameBuf) - 1] = '\0';
+                    m_MainNameBuf[sizeof(m_MainNameBuf) - 1] = '\0';
+                    m_SubNameBuf[sizeof(m_SubNameBuf) - 1] = '\0';
                     ImGui::OpenPopup("Rename Lesson");
                     initialized = true;
                 }
@@ -533,21 +533,21 @@ namespace tadaima
 
                     ImGui::Text("Group Name:");
                     ImGui::PushItemWidth(300);
-                    ImGui::InputText("##GroupNameInput", GroupNameBuf, sizeof(GroupNameBuf));
+                    ImGui::InputText("##GroupNameInput", m_GroupNameBuf, sizeof(m_GroupNameBuf));
                     ImGui::PopItemWidth();
 
                     ImGui::Spacing();
 
                     ImGui::Text("Main Name:");
                     ImGui::PushItemWidth(300);
-                    ImGui::InputText("##MainNameInput", MainNameBuf, sizeof(MainNameBuf));
+                    ImGui::InputText("##MainNameInput", m_MainNameBuf, sizeof(m_MainNameBuf));
                     ImGui::PopItemWidth();
 
                     ImGui::Spacing();
 
                     ImGui::Text("Sub Name:");
                     ImGui::PushItemWidth(300);
-                    ImGui::InputText("##SubNameInput", SubNameBuf, sizeof(SubNameBuf));
+                    ImGui::InputText("##SubNameInput", m_SubNameBuf, sizeof(m_SubNameBuf));
                     ImGui::PopItemWidth();
 
                     ImGui::Spacing(); ImGui::Separator(); ImGui::Spacing();
@@ -555,16 +555,16 @@ namespace tadaima
                     if( ImGui::Button("Save", ImVec2(120, 0)) )
                     {
                         // Update names
-                        m_pendingAction.editable.groupName = GroupNameBuf;
-                        m_pendingAction.editable.mainName = MainNameBuf;
-                        m_pendingAction.editable.subName = SubNameBuf;
+                        m_pendingAction.editable.groupName = m_GroupNameBuf;
+                        m_pendingAction.editable.mainName = m_MainNameBuf;
+                        m_pendingAction.editable.subName = m_SubNameBuf;
 
                         // Only emit if changed
                         if( m_pendingAction.editable != m_pendingAction.original )
                         {
                             LessonDataPackage updatedPackage = createLessonDataPackageFromLesson(m_pendingAction.editable);
                             emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnLessonRename, &updatedPackage));
-                            m_logger.log("Lesson renamed: " + std::string(GroupNameBuf) + " - " + std::string(MainNameBuf) + " - " + std::string(SubNameBuf));
+                            m_logger.log("Lesson renamed: " + std::string(m_GroupNameBuf) + " - " + std::string(m_MainNameBuf) + " - " + std::string(m_SubNameBuf));
                         }
                         ImGui::CloseCurrentPopup();
                         m_pendingAction.type = LessonActionState::Type::None;
@@ -718,9 +718,9 @@ namespace tadaima
                 if( !popupJustOpened )
                 {
                     ImGui::OpenPopup("Move Words to Lesson");
-                    std::strncpy(GroupNameBuf, m_pendingAction.editable.groupName.c_str(), sizeof(GroupNameBuf));
-                    std::strncpy(MainNameBuf, m_pendingAction.editable.mainName.c_str(), sizeof(MainNameBuf));
-                    std::strncpy(SubNameBuf, m_pendingAction.editable.subName.c_str(), sizeof(SubNameBuf));
+                    std::strncpy(m_GroupNameBuf, m_pendingAction.editable.groupName.c_str(), sizeof(m_GroupNameBuf));
+                    std::strncpy(m_MainNameBuf, m_pendingAction.editable.mainName.c_str(), sizeof(m_MainNameBuf));
+                    std::strncpy(m_SubNameBuf, m_pendingAction.editable.subName.c_str(), sizeof(m_SubNameBuf));
 
                     popupJustOpened = true;
                 }
@@ -729,17 +729,17 @@ namespace tadaima
                 {
 
                     ImGui::Text("Move %zu words to which lesson?", m_selectedWords.size());
-                    ImGui::InputText("Group Name", GroupNameBuf, sizeof(GroupNameBuf));
-                    ImGui::InputText("Main Name", MainNameBuf, sizeof(MainNameBuf));
-                    ImGui::InputText("Sub Name", SubNameBuf, sizeof(SubNameBuf));
+                    ImGui::InputText("Group Name", m_GroupNameBuf, sizeof(m_GroupNameBuf));
+                    ImGui::InputText("Main Name", m_MainNameBuf, sizeof(m_MainNameBuf));
+                    ImGui::InputText("Sub Name", m_SubNameBuf, sizeof(m_SubNameBuf));
 
                     ImGui::Spacing(); ImGui::Separator(); ImGui::Spacing();
 
                     if( ImGui::Button("Move") )
                     {
-                        std::string groupName(GroupNameBuf);
-                        std::string mainName(MainNameBuf);
-                        std::string subName(SubNameBuf);
+                        std::string groupName(m_GroupNameBuf);
+                        std::string mainName(m_MainNameBuf);
+                        std::string subName(m_SubNameBuf);
 
                         std::unordered_set<int> movedWordIds(m_selectedWords.begin(), m_selectedWords.end());
                         std::vector<Word> wordsToMove;
@@ -821,9 +821,9 @@ namespace tadaima
                         auto package = createLessonDataPackageFromLessons(updatedLessons);
                         emitEvent(WidgetEvent(*this, LessonTreeViewWidgetEvent::OnLessonEdited, &package));
 
-                        memset(GroupNameBuf, 0, sizeof(GroupNameBuf));
-                        memset(MainNameBuf, 0, sizeof(MainNameBuf));
-                        memset(SubNameBuf, 0, sizeof(SubNameBuf));
+                        memset(m_GroupNameBuf, 0, sizeof(m_GroupNameBuf));
+                        memset(m_MainNameBuf, 0, sizeof(m_MainNameBuf));
+                        memset(m_SubNameBuf, 0, sizeof(m_SubNameBuf));
                         m_pendingAction = {}; // Reset to None
                         popupJustOpened = false;
                         ImGui::CloseCurrentPopup();

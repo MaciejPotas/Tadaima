@@ -119,7 +119,6 @@ namespace tadaima
                  */
                 void ShowRenamePopup();
 
-                void ShowDeleteGroupPopup();
                 /**
                  * @brief Shows the delete lesson popup dialog.
                  */
@@ -152,21 +151,9 @@ namespace tadaima
                 void handleLessonEdit();
 
                 /**
-                 * @brief Handles deletion of a lesson.
-                 * @param deleteLesson Reference to a boolean indicating if a lesson should be deleted.
-                 */
-                void handleLessonDelete(bool& deleteLesson);
-
-                /**
                  * @brief Handles exporting all currently marked lessons.
                  */
                 void handleExportLessons();
-
-                /**
-                 * @brief Handles exporting a specific set of lessons.
-                 * @param lessonsToExport The set of lesson IDs to export.
-                 */
-                void handleExportLessons(std::unordered_set<int> lessonsToExport);
 
                 /**
                  * @brief Creates a new lesson from a set of word IDs.
@@ -217,19 +204,19 @@ namespace tadaima
                 LessonSettingsWidget m_lessonSettingsWidget; /**< Widget for lesson editing. */
                 tools::Logger& m_logger;                     /**< Logger reference. */
 
-                std::unordered_set<int> m_selectedWords;     /**< Currently selected word IDs. */
-                std::unordered_set<int> m_selectedLessons;   /**< Currently selected lesson IDs. */
                 int m_lastSelectedWordId = -1;               /**< Last selected word ID (for range selection). */
                 int m_lastSelectedLessonId = -1;             /**< Last selected lesson ID (for range selection). */
-                std::unordered_set<int> m_lessonsToExport;   /**< Set of lessons marked for export. */
-
                 int m_changedLessonGroupIndex = -1;          /**< Index of changed lesson group. */
                 int m_changedLessonSubGroupIndex = -1;       /**< Index of changed lesson subgroup. */
                 int m_changedLessonIndex = -1;               /**< Index of changed lesson. */
 
-                char GroupNameBuf[128] = {};                 /**< Buffer for editing group name. */
-                char MainNameBuf[128] = {};                  /**< Buffer for editing main name. */
-                char SubNameBuf[128] = {};                   /**< Buffer for editing sub name. */
+                std::unordered_set<int> m_lessonsToExport;   /**< Set of lessons marked for export. */
+                std::unordered_set<int> m_selectedWords;     /**< Currently selected word IDs. */
+                std::unordered_set<int> m_selectedLessons;   /**< Currently selected lesson IDs. */
+
+                char m_GroupNameBuf[128] = {};                 /**< Buffer for editing group name. */
+                char m_MainNameBuf[128] = {};                  /**< Buffer for editing main name. */
+                char m_SubNameBuf[128] = {};                   /**< Buffer for editing sub name. */
             };
         }
     }
