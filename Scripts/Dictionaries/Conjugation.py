@@ -1,6 +1,9 @@
 import sys
 import xml.etree.ElementTree as ET
 import json
+import jaconv
+
+sys.stdout.reconfigure(encoding='utf-8')
 
 CONJUGATION_MAP = [
     ("Present Positive Informal", "PLAIN"),
@@ -101,12 +104,21 @@ def output_xml(word, conj_dict):
 def output_json(word, conj_dict):
     return json.dumps({"word": word, "conjugations": conj_dict}, ensure_ascii=False, indent=2)
 
+def to_kana_if_romaji(word):
+    if all(ord(ch) < 128 for ch in word):
+        kana = jaconv.alphabet2kana(word.lower())
+        return jaconv.kata2hira(kana)
+    return word
+    
 def main():
     if len(sys.argv) < 2:
-        print("Usage: conj.py <word_in_kana> [--json]")
+        print("Usage: conj.py <word_in_kana_or_romaji> [--json]")
         sys.exit(1)
 
     word = sys.argv[1].strip()
+    word = to_kana_if_romaji(word)
+    #print("AFTER ROMAJI CONVERSION:", repr(word), file=sys.stderr)
+
     output_json_mode = '--json' in sys.argv
 
     adj_type = detect_adjective_type(word)
@@ -119,6 +131,7 @@ def main():
     elif adj_type == "na":
         conj = conjugate_na_adjective(word)
     else:
+        print("AFTER ROMAJI CONVERSION:", repr(word), file=sys.stderr)
         print("この単語は形容詞として認識できません (Not recognized as an adjective)")
         sys.exit(1)
 
@@ -126,6 +139,7 @@ def main():
         print(output_json(word, conj))
     else:
         print(output_xml(word, conj))
+
 
 if __name__ == "__main__":
     main()

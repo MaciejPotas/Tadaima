@@ -60,7 +60,7 @@ namespace tadaima
 
                         try
                         {
-                            auto conjugations = mr_Dictionary.getConjugations(std::string(m_conjugationWord));
+                            auto conjugations = mr_Dictionary.getConjugations(std::string(mp_Word->romaji));
 
                             // Update buffers with fetched conjugations
                             for( int i = 0; i < CONJUGATION_COUNT; ++i )

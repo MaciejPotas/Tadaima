@@ -195,7 +195,7 @@ namespace tadaima
                 if( index >= CONJUGATION_COUNT )
                     break;
 
-                conjugations[index] = tenseNode.child("romaji").child_value();
+                conjugations[index] = tenseNode.child("kana").child_value();
                 ++index;
             }
 
