@@ -26,6 +26,8 @@ namespace tadaima
             static constexpr const char* DEFAULT_TRANSLATED_WORD = "Romaji";
             static constexpr const char* DEFAULT_MAX_TRIES_FOR_QUIZ = "2";
             static constexpr const uint8_t DEFAULT_CONJUGATION_MASK = 0;
+            static constexpr const char* DEFAULT_SENTENCE_QUIZ_DICTIONARY_PATH = "scripts/QuizFiles/dictionary.xml";
+            static constexpr const char* DEFAULT_SENTENCE_QUIZ_SENTENCE_MAP_PATH = "scripts/QuizFiles/sentence_maps.xml";
 
             /// Application settings
             std::string userName = DEFAULT_USER_NAME;           /**< The username for the application. */
@@ -39,6 +41,8 @@ namespace tadaima
             std::string translatedWord = DEFAULT_TRANSLATED_WORD; /**< The type of translated word for the quiz. */
             std::string maxTriesForQuiz = DEFAULT_MAX_TRIES_FOR_QUIZ;
             uint16_t conjugationMask = DEFAULT_CONJUGATION_MASK;
+            std::string sentenceQuizDictionaryPath = DEFAULT_SENTENCE_QUIZ_DICTIONARY_PATH;
+            std::string sentenceQuizSentenceMapPath = DEFAULT_SENTENCE_QUIZ_SENTENCE_MAP_PATH;
 
             /**
              * @brief Converts the application settings to a string representation.
@@ -60,6 +64,9 @@ namespace tadaima
                 log += std::format("  -> Translated Word: {}\n", translatedWord);
                 log += "Conjugation Quiz settings:\n";
                 log += std::format("  -> Conjugation mask: {}\n", conjugationMask);
+                log += "Sentence Transformation Quiz settings:\n";
+                log += std::format("  -> Sentence Quiz Dictionary Path: {}\n", sentenceQuizDictionaryPath);
+                log += std::format("  -> Sentence Quiz Sentence Map Path: {}\n", sentenceQuizSentenceMapPath);
 
                 return log;
             }

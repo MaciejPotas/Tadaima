@@ -45,6 +45,14 @@ namespace tadaima
                 void draw(bool* p_open = nullptr) override;
 
             private:
+
+                /**
+                 * @brief Refreshes the buffered question and answer options.
+                 *
+                 * The options are refreshed either with or without F1 details.
+                 */
+                void refreshBufferedContent();
+
                 /**
                  * @brief Highlights the correct answer and advances to the next question.
                  *
@@ -64,6 +72,7 @@ namespace tadaima
                 char selectedOption = '\0'; /**< The option selected by the user. */
                 std::string bufferedQuestion; /**< The current question to be displayed. */
                 std::vector<std::string> bufferedOptions; /**< The current options to be displayed. */
+                bool showAnswerDetails = false; /**< Shows base, hiragana and kanji in answer options when enabled with F1. */
             };
         }
     }

@@ -122,6 +122,8 @@ namespace tadaima
                 char m_conjugationPath[50] = ""; /**< Path to the conjugation used by the application. */
                 char m_scriptPaths[50] = ""; /**< Path to the directory containing quiz scripts. */
                 char m_username[30] = ""; /**< Username for the application. */
+                char m_sentenceQuizDictionaryPath[100] = {};
+                char m_sentenceQuizSentenceMapPath[100] = {};
                 int m_inputOption = tadaima::quiz::WordType::BaseWord; /**< The input word type for quizzes. */
                 int m_translationOption = tadaima::quiz::WordType::Romaji; /**< The translation word type for quizzes. */
                 int m_numberOfTries = 1; /**< The number of tries allowed for answering a quiz question. */

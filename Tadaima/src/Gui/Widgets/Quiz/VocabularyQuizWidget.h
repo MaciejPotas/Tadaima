@@ -122,6 +122,7 @@ namespace tadaima
                 bool m_showCorrectAnswer = false; /**< Boolean indicating whether to show the correct answer. */
                 bool m_overrideAnswer = false; /**< Boolean indicating whether to override the incorrect answer as correct. */
                 uint8_t m_numberOfTries; /**< The maximum number of tries allowed for each word. */
+                bool m_showHint = false; /**< Shows or hides full hint when toggled by F1 or Hint button. */
             };
         }
     }

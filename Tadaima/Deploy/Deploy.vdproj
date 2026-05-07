@@ -99,6 +99,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_71CA4FECC4AA42EA9F46275C4303F77E"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_75B1DD52FFA143CABD7732ED4B1A1C5E"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -124,6 +130,12 @@
         "Entry"
         {
         "MsmKey" = "8:_AE40DEB9D4CF41F48C896120A0DD2342"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C8321D2AB72D4C58A3433E029A3293FD"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -518,6 +530,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_71CA4FECC4AA42EA9F46275C4303F77E"
+            {
+            "SourcePath" = "8:..\\..\\Scripts\\QuizFiles\\sentence_maps.xml"
+            "TargetName" = "8:sentence_maps.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_FAE83414241C411B972E39617C1A9FB7"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_75B1DD52FFA143CABD7732ED4B1A1C5E"
             {
             "SourcePath" = "8:..\\..\\Scripts\\Quizzes\\VerbsQuiz.py"
@@ -584,6 +616,26 @@
             "TargetName" = "8:requirements.txt"
             "Tag" = "8:"
             "Folder" = "8:_36983B812C384701847F1EDAA2145137"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C8321D2AB72D4C58A3433E029A3293FD"
+            {
+            "SourcePath" = "8:..\\..\\Scripts\\QuizFiles\\dictionary.xml"
+            "TargetName" = "8:dictionary.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_FAE83414241C411B972E39617C1A9FB7"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -758,6 +810,17 @@
                                 {
                                 }
                             }
+                            "{9EF0B969-E518-4E46-987F-47570745A589}:_FAE83414241C411B972E39617C1A9FB7"
+                            {
+                            "Name" = "8:QuizFiles"
+                            "AlwaysCreate" = "11:FALSE"
+                            "Condition" = "8:"
+                            "Transitive" = "11:FALSE"
+                            "Property" = "8:_556D63DD973144B8B76D6EA137337F92"
+                                "Folders"
+                                {
+                                }
+                            }
                         }
                     }
                     "{9EF0B969-E518-4E46-987F-47570745A589}:_F0A06DBF0BE84385B7ABA91242D5F99B"
@@ -790,7 +853,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Setup1"
         "ProductCode" = "8:{655BA919-C085-4997-A899-FEBF8053DE4A}"
-        "PackageCode" = "8:{D14AC83C-5980-4DE7-A572-3D7F8B0E5C0C}"
+        "PackageCode" = "8:{C0C2671D-B654-434C-9ECA-E20ADFB9C512}"
         "UpgradeCode" = "8:{99E52C3C-F4AF-4D53-8F00-A571F2BFC3FC}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"

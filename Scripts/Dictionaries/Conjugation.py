@@ -90,6 +90,12 @@ def conjugate_ii_special():
         "PAST_NEGATIVE": "よくなかった",
         "POLITE_PAST_NEGATIVE": "よくなかったです",
         "TE_FORM":    "よくて",
+        "POTENTIAL": "N/A",
+        "PASSIVE": "N/A",
+        "CAUSATIVE": "N/A",
+        "CONDITIONAL": "よかったら",
+        "VOLITIONAL": "N/A",
+        "IMPERATIVE": "N/A",
     }
 
 def conjugate_double_ii(word):
@@ -105,6 +111,12 @@ def conjugate_double_ii(word):
         "PAST_NEGATIVE": base + "よくなかった",
         "POLITE_PAST_NEGATIVE": base + "よくなかったです",
         "TE_FORM":    base + "よくて",
+        "POTENTIAL": "N/A",
+        "PASSIVE": "N/A",
+        "CAUSATIVE": "N/A",
+        "CONDITIONAL": base + "よかったら",
+        "VOLITIONAL": "N/A",
+        "IMPERATIVE": "N/A",
     }
 
 def conjugate_i_adjective(word):
@@ -119,6 +131,12 @@ def conjugate_i_adjective(word):
         "PAST_NEGATIVE": stem + "くなかった",
         "POLITE_PAST_NEGATIVE": stem + "くなかったです",
         "TE_FORM":    stem + "くて",
+        "POTENTIAL": "N/A",
+        "PASSIVE": "N/A",
+        "CAUSATIVE": "N/A",
+        "CONDITIONAL": stem + "かったら",
+        "VOLITIONAL": "N/A",
+        "IMPERATIVE": "N/A",
     }
 
 def conjugate_na_adjective(word):
@@ -133,6 +151,12 @@ def conjugate_na_adjective(word):
         "PAST_NEGATIVE": stem + "ではなかった",
         "POLITE_PAST_NEGATIVE": stem + "ではありませんでした",
         "TE_FORM":    stem + "で",
+        "POTENTIAL": "N/A",
+        "PASSIVE": "N/A",
+        "CAUSATIVE": "N/A",
+        "CONDITIONAL": stem + "だったら",
+        "VOLITIONAL": "N/A",
+        "IMPERATIVE": "N/A",
     }
 
 # --- VERB HANDLING ---
@@ -149,7 +173,7 @@ def is_verb_candidate(word):
 def fetch_verb_conjugations(word_romaji, debug=False):
     """
     Fetches verb conjugations from Reverso using the romaji form of the word.
-    Returns dict {key: hiragana}
+    Returns dict {key: hiragana} or None.
     """
     url = f"https://conjugator.reverso.net/conjugation-japanese-verb-{word_romaji}.html"
     headers = {
@@ -212,11 +236,174 @@ def parse_conjugations(soup, debug=False):
                 conjugations[key] = hira
             else:
                 conjugations[key] = "N/A"
+
     if debug and conjugations:
         print("Debug: Extracted verb conjugations:", file=sys.stderr)
         for ctype, forms in conjugations.items():
             print(f"{ctype}: {forms}", file=sys.stderr)
     return conjugations if conjugations else None
+
+# --- LOCAL VERB CONJUGATOR (FALLBACK / SAFETY NET) ---
+
+# Some common godan-ru exceptions that are not ichidan
+GODAN_RU_EXCEPTIONS = {
+    "はいる", "かえる", "おわる", "はしる", "いる",  # add more if you like
+}
+
+def classify_verb(word_hira):
+    """
+    Rough verb classifier: returns 'ichidan', 'godan', 'suru', or 'kuru'.
+    Works on HIRAGANA.
+    """
+    if word_hira.endswith("する"):
+        return "suru"
+    if word_hira.endswith("くる"):
+        return "kuru"
+
+    last = word_hira[-1]
+
+    if last == "る":
+        if len(word_hira) >= 2:
+            prev = word_hira[-2]
+        else:
+            prev = ""
+        # kana with i / e rows
+        i_e_row = "いきしちにひみりえけせてねへめれぎじぢびぴげぜでべぺ"
+        if prev in i_e_row and word_hira not in GODAN_RU_EXCEPTIONS:
+            return "ichidan"
+        else:
+            return "godan"
+
+    return "godan"
+
+def conjugate_verb_local(word_hira):
+    vtype = classify_verb(word_hira)
+    if vtype == "ichidan":
+        return conjugate_ichidan_verb(word_hira)
+    elif vtype == "godan":
+        return conjugate_godan_verb(word_hira)
+    elif vtype == "suru":
+        return conjugate_suru_verb(word_hira)
+    elif vtype == "kuru":
+        return conjugate_kuru_verb(word_hira)
+    else:
+        # shouldn't really happen
+        return {}
+
+def conjugate_ichidan_verb(word_hira):
+    # e.g. たべる → たべない, たべた, たべて...
+    stem = word_hira[:-1]  # drop る
+    forms = {
+        "PLAIN":      stem + "る",
+        "POLITE":     stem + "ます",
+        "NEGATIVE":   stem + "ない",
+        "POLITE_NEGATIVE": stem + "ません",
+        "PAST":       stem + "た",
+        "POLITE_PAST":stem + "ました",
+        "PAST_NEGATIVE": stem + "なかった",
+        "POLITE_PAST_NEGATIVE": stem + "ませんでした",
+        "TE_FORM":    stem + "て",
+        "POTENTIAL":  stem + "られる",
+        "PASSIVE":    stem + "られる",
+        "CAUSATIVE":  stem + "させる",
+        "CONDITIONAL": stem + "たら",
+        "VOLITIONAL": stem + "よう",
+        "IMPERATIVE": stem + "ろ",
+    }
+    return forms
+
+# mapping for godan final kana
+GODAN_MAP = {
+    "う": {"a": "わ", "i": "い", "u": "う", "e": "え", "o": "お", "te": "って", "ta": "った"},
+    "く": {"a": "か", "i": "き", "u": "く", "e": "け", "o": "こ", "te": "いて", "ta": "いた"},
+    "ぐ": {"a": "が", "i": "ぎ", "u": "ぐ", "e": "げ", "o": "ご", "te": "いで", "ta": "いだ"},
+    "す": {"a": "さ", "i": "し", "u": "す", "e": "せ", "o": "そ", "te": "して", "ta": "した"},
+    "つ": {"a": "た", "i": "ち", "u": "つ", "e": "て", "o": "と", "te": "って", "ta": "った"},
+    "ぬ": {"a": "な", "i": "に", "u": "ぬ", "e": "ね", "o": "の", "te": "んで", "ta": "んだ"},
+    "む": {"a": "ま", "i": "み", "u": "む", "e": "め", "o": "も", "te": "んで", "ta": "んだ"},
+    "ぶ": {"a": "ば", "i": "び", "u": "ぶ", "e": "べ", "o": "ぼ", "te": "んで", "ta": "んだ"},
+    "る": {"a": "ら", "i": "り", "u": "る", "e": "れ", "o": "ろ", "te": "って", "ta": "った"},
+}
+
+def conjugate_godan_verb(word_hira):
+    # e.g. 書く, 飲む, ある, etc.
+    last = word_hira[-1]
+    base = word_hira[:-1]
+
+    if last not in GODAN_MAP:
+        # fallback: treat like ichidan if unknown ending
+        return conjugate_ichidan_verb(word_hira)
+
+    row = GODAN_MAP[last]
+    polite_stem = base + row["i"]
+    a_stem = base + row["a"]
+    e_stem = base + row["e"]
+    te_form = base + row["te"]
+    past = base + row["ta"]
+
+    forms = {
+        "PLAIN":      base + row["u"],
+        "POLITE":     polite_stem + "ます",
+        "NEGATIVE":   a_stem + "ない",
+        "POLITE_NEGATIVE": polite_stem + "ません",
+        "PAST":       past,
+        "POLITE_PAST":polite_stem + "ました",
+        "PAST_NEGATIVE": a_stem + "なかった",
+        "POLITE_PAST_NEGATIVE": polite_stem + "ませんでした",
+        "TE_FORM":    te_form,
+        "POTENTIAL":  e_stem + "る",
+        "PASSIVE":    a_stem + "れる",
+        "CAUSATIVE":  a_stem + "せる",
+        "CONDITIONAL": past + "ら",
+        "VOLITIONAL": base + row["o"] + "う",
+        "IMPERATIVE": e_stem,
+    }
+    return forms
+
+def conjugate_suru_verb(word_hira):
+    # Usually just "する"; if there's a noun before, we ignore and treat last 2 kana
+    if not word_hira.endswith("する"):
+        # something weird; fallback
+        return conjugate_ichidan_verb(word_hira)
+    forms = {
+        "PLAIN":      "する",
+        "POLITE":     "します",
+        "NEGATIVE":   "しない",
+        "POLITE_NEGATIVE": "しません",
+        "PAST":       "した",
+        "POLITE_PAST":"しました",
+        "PAST_NEGATIVE": "しなかった",
+        "POLITE_PAST_NEGATIVE": "しませんでした",
+        "TE_FORM":    "して",
+        "POTENTIAL":  "できる",
+        "PASSIVE":    "される",
+        "CAUSATIVE":  "させる",
+        "CONDITIONAL":"したら",
+        "VOLITIONAL": "しよう",
+        "IMPERATIVE":"しろ",
+    }
+    return forms
+
+def conjugate_kuru_verb(word_hira):
+    # くる
+    forms = {
+        "PLAIN":      "くる",
+        "POLITE":     "きます",
+        "NEGATIVE":   "こない",
+        "POLITE_NEGATIVE": "きません",
+        "PAST":       "きた",
+        "POLITE_PAST":"きました",
+        "PAST_NEGATIVE": "こなかった",
+        "POLITE_PAST_NEGATIVE": "きませんでした",
+        "TE_FORM":    "きて",
+        "POTENTIAL":  "こられる",
+        "PASSIVE":    "こられる",
+        "CAUSATIVE":  "こさせる",
+        "CONDITIONAL":"きたら",
+        "VOLITIONAL": "こよう",
+        "IMPERATIVE":"こい",
+    }
+    return forms
 
 # --- OUTPUT ---
 
@@ -265,23 +452,50 @@ def main():
         else:
             print(output_xml(word, conj))
         sys.exit(0)
-    elif is_verb_candidate(word):
-        # Always fetch from Reverso using romaji
+
+    # Verb logic
+    if is_verb_candidate(word):
+        verb_type = classify_verb(word)
         word_romaji = to_romaji_if_kana(word)
         if debug_mode:
-            print(f"DEBUG: recognized as verb candidate, using '{word_romaji}' for Reverso", file=sys.stderr)
-        conj = fetch_verb_conjugations(word_romaji, debug=debug_mode)
-        if not conj:
-            print("この単語は動詞として認識できません (Not recognized as a verb)")
-            sys.exit(1)
+            print(f"DEBUG: recognized as verb candidate ({verb_type}), using '{word_romaji}' for Reverso", file=sys.stderr)
+
+        # First, try Reverso
+        conj_remote = fetch_verb_conjugations(word_romaji, debug=debug_mode)
+
+        # Decide whether to trust Reverso:
+        # condition: we have a PLAIN form and it matches our input word in kana
+        use_remote = False
+        if conj_remote and conj_remote.get("PLAIN") == word:
+            use_remote = True
+
+        if debug_mode:
+            if conj_remote:
+                print(f"DEBUG: Reverso PLAIN = {conj_remote.get('PLAIN')}, input word = {word}", file=sys.stderr)
+                print(f"DEBUG: Using remote = {use_remote}", file=sys.stderr)
+            else:
+                print("DEBUG: No remote conjugations found; using local.", file=sys.stderr)
+
+        if use_remote:
+            conj = conj_remote
+        else:
+            # Fallback: fully conjugate locally
+            if debug_mode:
+                print("DEBUG: Falling back to local verb conjugation", file=sys.stderr)
+            conj = conjugate_verb_local(word)
+            if not conj:
+                print("この単語は動詞として認識できません (Not recognized as a verb)")
+                sys.exit(1)
+
         if output_json_mode:
             print(output_json(word, conj))
         else:
             print(output_xml(word, conj))
         sys.exit(0)
-    else:
-        print("この単語は形容詞や動詞として認識できません (Not recognized as adjective or verb)", file=sys.stderr)
-        sys.exit(1)
+
+    # Neither adjective nor verb
+    print("この単語は形容詞や動詞として認識できません (Not recognized as adjective or verb)", file=sys.stderr)
+    sys.exit(1)
 
 if __name__ == "__main__":
     main()

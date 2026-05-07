@@ -116,7 +116,26 @@ namespace tadaima
                  */
                 int getCorrectAnswerIndex() const;
 
+                /**
+                 * @brief Gets the current options with additional learning details.
+                 *
+                 * Each option is extended with base translation, hiragana/kana and kanji.
+                 *
+                 * @return A vector of display-ready options with details.
+                 */
+                std::vector<std::string> getCurrentOptionsWithDetails() const;
+
             private:
+
+                /**
+                 * @struct QuizOption
+                 * @brief Represents one multiple-choice option together with its hint/details text.
+                 */
+                struct QuizOption
+                {
+                    std::string answer;  /**< The answer text shown normally. */
+                    std::string details; /**< Additional details shown when hints are enabled. */
+                };
 
                 /**
                  * @brief Initializes the quiz game by extracting words from lessons.
@@ -135,7 +154,25 @@ namespace tadaima
                  * @param correctWord The correct word.
                  * @return A vector of multiple-choice options including the correct word.
                  */
-                std::vector<std::string> generateOptions(const Word& correctWord);
+                std::vector<QuizOption> generateOptions(const Word& correctWord);
+
+                /**
+                * @brief Builds the details text for an option.
+                *
+                * The details contain base translation, hiragana/kana and kanji.
+                *
+                * @param word The word used to build the details.
+                * @return Formatted details text.
+                */
+                std::string buildOptionDetails(const Word& word) const;
+
+                /**
+                 * @brief Converts internal quiz options to display strings.
+                 *
+                 * @param includeDetails If true, adds details in parentheses.
+                 * @return Display-ready option strings.
+                 */
+                std::vector<std::string> buildDisplayOptions(bool includeDetails) const;
 
                 /**
                  * @brief Shuffles the words vector to randomize the quiz order.
@@ -151,7 +188,7 @@ namespace tadaima
                 std::mt19937 rng; /**< Random number generator for shuffling words and generating options. */
                 size_t currentWordIndex; /**< Index of the current word in the quiz. */
                 int correctCount; /**< Count of correctly answered questions. */
-                std::vector<std::string> currentOptions; /**< Vector of multiple-choice options for the current question. */
+                std::vector<QuizOption> currentOptions; /**< Vector of multiple-choice options for the current question. */
                 int correctAnswerIndex; /**< Index of the correct answer within the current options. */
             };
         }

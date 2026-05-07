@@ -53,6 +53,48 @@ namespace tadaima
                 return correctAnswer;
             }
 
+            std::string getDisplayValueOrDash(const std::string& value)
+            {
+                std::string displayValue = value;
+
+                if( displayValue.empty() )
+                {
+                    displayValue = "-";
+                }
+
+                return displayValue;
+            }
+
+            std::string MultipleChoiceQuiz::buildOptionDetails(const Word& word) const
+            {
+                std::ostringstream oss;
+
+                oss << getDisplayValueOrDash(word.translation)
+                    << ", " << getDisplayValueOrDash(word.kana)
+                    << ", " << getDisplayValueOrDash(word.kanji);
+
+                return oss.str();
+            }
+
+            std::vector<std::string> MultipleChoiceQuiz::buildDisplayOptions(bool includeDetails) const
+            {
+                std::vector<std::string> displayOptions;
+
+                for( const auto& option : currentOptions )
+                {
+                    std::string displayText = option.answer;
+
+                    if( includeDetails )
+                    {
+                        displayText += " (" + option.details + ")";
+                    }
+
+                    displayOptions.push_back(displayText);
+                }
+
+                return displayOptions;
+            }
+
             void MultipleChoiceQuiz::initialize(const std::vector<Lesson>& lessons)
             {
                 for( const auto& lesson : lessons )
@@ -68,51 +110,54 @@ namespace tadaima
                 }
             }
 
-            std::vector<std::string> MultipleChoiceQuiz::generateOptions(const Word& correctWord)
+            std::vector<MultipleChoiceQuiz::QuizOption> MultipleChoiceQuiz::generateOptions(const Word& correctWord)
             {
-                std::string correctWordTranslation = getTranslation(correctWord, m_inputWord);
+                const std::string correctWordTranslation = getTranslation(correctWord, m_inputWord);
 
-                std::vector<std::string> options;
-                options.push_back(correctWordTranslation);
+                std::vector<QuizOption> options;
+                std::unordered_set<std::string> usedTranslations;
 
-                if( m_quizWords.size() < 4 )
+                options.push_back({ correctWordTranslation, buildOptionDetails(correctWord) });
+                usedTranslations.insert(correctWordTranslation);
+
+                std::vector<Word> candidateWords;
+
+                for( const auto& quizWord : m_quizWords )
                 {
-                    for( const auto& quizWord : m_quizWords )
+                    const std::string optionString = getTranslation(quizWord, m_inputWord);
+
+                    if( !optionString.empty() && usedTranslations.find(optionString) == usedTranslations.end() )
                     {
-                        if( getTranslation(quizWord, m_baseWord) != correctWordTranslation && options.size() < 4 )
-                        {
-                            options.push_back(correctWordTranslation);
-                        }
-                    }
-                    while( options.size() < 4 )
-                    {
-                        options.push_back("dummy_option_" + std::to_string(options.size()));
+                        candidateWords.push_back(quizWord);
+                        usedTranslations.insert(optionString);
                     }
                 }
-                else
+
+                std::shuffle(candidateWords.begin(), candidateWords.end(), rng);
+
+                for( const auto& candidateWord : candidateWords )
                 {
-                    std::unordered_set<std::string> usedTranslations{ getTranslation(correctWord, m_inputWord) };
-                    while( options.size() < 4 )
+                    if( options.size() < 4U )
                     {
-                        const Word& randomWord = m_quizWords[rng() % m_quizWords.size()];
-                        auto optionstring = getTranslation(randomWord, m_inputWord);
-                        if( optionstring == "" )
-                        {
-                            optionstring = "dummy_option_" + std::to_string(options.size());
-                        }
-                        if( usedTranslations.find(optionstring) == usedTranslations.end() )
-                        {
-                            options.push_back(optionstring);
-                            usedTranslations.insert(optionstring);
-                        }
+                        options.push_back({ getTranslation(candidateWord, m_inputWord), buildOptionDetails(candidateWord) });
                     }
+                }
+
+                while( options.size() < 4U )
+                {
+                    const std::string dummyText = "dummy_option_" + std::to_string(options.size());
+                    options.push_back({ dummyText, "base: -, hiragana: -, kanji: -" });
                 }
 
                 std::shuffle(options.begin(), options.end(), rng);
 
-                // Store the correct answer index
-                auto it = std::find(options.begin(), options.end(), correctWordTranslation);
-                correctAnswerIndex = std::distance(options.begin(), it);
+                auto it = std::find_if(options.begin(), options.end(),
+                    [&correctWordTranslation](const QuizOption& option)
+                    {
+                        return option.answer == correctWordTranslation;
+                    });
+
+                correctAnswerIndex = static_cast<int>(std::distance(options.begin(), it));
 
                 return options;
             }
@@ -144,12 +189,13 @@ namespace tadaima
                 }
 
                 int answerIndex = answer - 'a';
-                if( answerIndex < 0 || answerIndex >= (int)currentOptions.size() )
+
+                if( answerIndex < 0 || answerIndex >= static_cast<int>(currentOptions.size()) )
                 {
                     throw std::out_of_range("Invalid answer choice.");
                 }
 
-                if( currentOptions[answerIndex] == getTranslation(m_quizWords[currentWordIndex], m_inputWord) )
+                if( currentOptions[answerIndex].answer == getTranslation(m_quizWords[currentWordIndex], m_inputWord) )
                 {
                     correctCount++;
                 }
@@ -178,7 +224,12 @@ namespace tadaima
 
             std::vector<std::string> MultipleChoiceQuiz::getCurrentOptions() const
             {
-                return currentOptions;
+                return buildDisplayOptions(false);
+            }
+
+            std::vector<std::string> MultipleChoiceQuiz::getCurrentOptionsWithDetails() const
+            {
+                return buildDisplayOptions(true);
             }
 
             std::string MultipleChoiceQuiz::getResults() const

@@ -13,8 +13,21 @@ namespace tadaima
                 : m_baseWord(base), m_inputWord(desired), m_logger(logger), quizGame(base, desired, lessons, logger)
             {
                 quizGame.start();
+                refreshBufferedContent();
+            }
+
+            void QuizWidget::refreshBufferedContent()
+            {
                 bufferedQuestion = quizGame.getCurrentQuestion();
-                bufferedOptions = quizGame.getCurrentOptions();
+
+                if( showAnswerDetails )
+                {
+                    bufferedOptions = quizGame.getCurrentOptionsWithDetails();
+                }
+                else
+                {
+                    bufferedOptions = quizGame.getCurrentOptions();
+                }
             }
 
             void QuizWidget::highlightAndAdvance()
@@ -34,10 +47,15 @@ namespace tadaima
                 {
                     ImGui::TextWrapped("Welcome to the Quiz Game! Test your knowledge by selecting the correct translation.");
 
+                    if( ImGui::IsKeyPressed(ImGuiKey_F1) )
+                    {
+                        showAnswerDetails = !showAnswerDetails;
+                        refreshBufferedContent();
+                    }
+
                     if( !highlightCorrectAnswer )
                     {
-                        bufferedQuestion = quizGame.getCurrentQuestion();
-                        bufferedOptions = quizGame.getCurrentOptions();
+                        refreshBufferedContent();
                     }
 
                     if( !quizGame.isFinished() )
@@ -81,8 +99,7 @@ namespace tadaima
                                 quizGame.advance(selectedOption);
                                 if( !quizGame.isFinished() )
                                 {
-                                    bufferedQuestion = quizGame.getCurrentQuestion();
-                                    bufferedOptions = quizGame.getCurrentOptions();
+                                    refreshBufferedContent();
                                 }
                                 selectedOption = '\0'; // Clear the selected option
                             }
@@ -97,8 +114,7 @@ namespace tadaima
                         if( ImGui::Button("Restart", ImVec2(550, 0)) )
                         {
                             quizGame.start();
-                            bufferedQuestion = quizGame.getCurrentQuestion();
-                            bufferedOptions = quizGame.getCurrentOptions();
+                            refreshBufferedContent();
                         }
                     }
 

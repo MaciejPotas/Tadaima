@@ -12,15 +12,19 @@ namespace tadaima
         namespace widget
         {
 
-            MenuBarWidget::MenuBarWidget(tools::Logger& logger) : m_logger(logger), m_ApplicationSettingsWidget(logger), m_ScriptQuizRunnerWidget(logger)
+            MenuBarWidget::MenuBarWidget(tools::Logger& logger)
+                : m_logger(logger),
+                m_ApplicationSettingsWidget(logger),
+                m_ScriptQuizRunnerWidget(logger),
+                m_SentenceTransformationQuizWidget(logger)
             {
-
             }
 
             void MenuBarWidget::initialize(const tools::DataPackage& r_package)
             {
                 m_ApplicationSettingsWidget.initialize(r_package);
                 m_ScriptQuizRunnerWidget.initialize(r_package);
+                m_SentenceTransformationQuizWidget.initialize(r_package);
             }
 
             void MenuBarWidget::showAboutWindow(bool* p_open)
@@ -60,6 +64,11 @@ namespace tadaima
                     m_ApplicationSettingsWidget.draw(&show_settings);
                 }
 
+                if( show_sentence_transformation_quiz )
+                {
+                    m_SentenceTransformationQuizWidget.draw(&show_sentence_transformation_quiz);
+                }
+
                 // Menu Bar
                 if( ImGui::BeginMainMenuBar() )
                 {
@@ -82,14 +91,16 @@ namespace tadaima
 
                     if( ImGui::BeginMenu("Quiz") )
                     {
-                        if( ImGui::MenuItem("Play", NULL, false, true) )
+                        if( ImGui::MenuItem("Play python Quiz", NULL, false, true) )
                         {
                             show_quiz_runner = true;
                         }
-                        //if( ImGui::MenuItem("Edit", NULL, false, true) )
-                        //{
-                        //    // Trigger edit dictionary
-                        //}
+
+                        if( ImGui::MenuItem("Play sentence transformation quiz", NULL, false, true) )
+                        {
+                            show_sentence_transformation_quiz = true;
+                        }
+
                         ImGui::EndMenu();
                     }
 

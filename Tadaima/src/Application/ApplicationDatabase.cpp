@@ -604,6 +604,8 @@ namespace tadaima
             saveSetting("maxTriesForQuiz", settings.maxTriesForQuiz); // New field for quiz max tries
             saveSetting("ConjugationPath", settings.conjugationPath);
             saveSetting("ConjugationMask", std::to_string(settings.conjugationMask));
+            saveSetting("sentenceQuizDictionaryPath", settings.sentenceQuizDictionaryPath);
+            saveSetting("sentenceQuizSentenceMapPath", settings.sentenceQuizSentenceMapPath);
         }
 
         ApplicationSettings ApplicationDatabase::loadSettings()
@@ -641,6 +643,8 @@ namespace tadaima
             loadSetting("ConjugationMask", conjugationMask);
             if( conjugationMask != "" )
                 settings.conjugationMask = static_cast<uint16_t>(std::stoi(conjugationMask));
+            loadSetting("sentenceQuizDictionaryPath", settings.sentenceQuizDictionaryPath);
+            loadSetting("sentenceQuizSentenceMapPath", settings.sentenceQuizSentenceMapPath);
 
             return settings;
         }

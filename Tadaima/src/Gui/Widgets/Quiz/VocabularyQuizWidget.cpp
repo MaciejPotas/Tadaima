@@ -101,46 +101,40 @@ namespace tadaima
                 return correctAnswer;
             }
 
+            std::string getTextOrDash(const std::string& text)
+            {
+                std::string result = text;
+
+                if( result.empty() )
+                {
+                    result = "-";
+                }
+
+                return result;
+            }
+
             std::string VocabularyQuizWidget::getHint()
             {
+                std::string hint;
+
                 try
                 {
-                    std::string translation = m_quiz->getCurrentItem()->getAnswer();
+                    const auto flashcard = m_quiz->getCurrentItem();
+                    const auto word = getWordById(std::stoi(flashcard->getKey()));
 
-                    if( m_revealedHints.size() >= translation.size() )
-                    {
-                        return translation; // All hints revealed
-                    }
-
-                    // Get indices of characters not yet revealed
-                    std::vector<int> indices;
-                    for( int i = 0; i < static_cast<int>(translation.size()); ++i )
-                    {
-                        if( m_revealedHints.find(i) == m_revealedHints.end() )
-                        {
-                            indices.push_back(i);
-                        }
-                    }
-
-                    // Select a random index from the unrevealed characters
-                    if( !indices.empty() )
-                    {
-                        std::random_device rd;
-                        std::mt19937 g(rd());
-                        std::shuffle(indices.begin(), indices.end(), g);
-                        int index = indices.front();
-
-                        m_revealedHints.insert(index);
-                        m_currentHint[index] = translation[index];
-                    }
-
-                    return m_currentHint;
+                    hint = std::format(
+                        "{}, {}, {}",
+                        getTextOrDash(word.translation),
+                        getTextOrDash(word.kana),
+                        getTextOrDash(word.kanji));
                 }
                 catch( const std::exception& e )
                 {
                     m_logger.log(std::format("Error getting hint: {}", e.what()), tools::LogLevel::PROBLEM);
-                    return "";
+                    hint.clear();
                 }
+
+                return hint;
             }
 
             float VocabularyQuizWidget::calculateProgress()
@@ -321,11 +315,16 @@ namespace tadaima
                             ImGui::Separator();
                             if( ImGui::Button("Hint") || f1KeyPressed )
                             {
-                                if( m_currentHint.empty() )
+                                m_showHint = !m_showHint;
+
+                                if( m_showHint )
                                 {
-                                    m_currentHint = std::string(flashcard->getAnswer().size(), '*'); // Reset currentHint to asterisks
+                                    m_currentHint = getHint();
                                 }
-                                m_currentHint = getHint();
+                                else
+                                {
+                                    m_currentHint.clear();
+                                }
                             }
 
                             ImGui::SameLine();
@@ -351,7 +350,7 @@ namespace tadaima
                                     enterPressed = false;  // Clear Enter key press flag
                                     focusOnAcceptButton = false;
                                     ImGui::PopStyleColor(2);  // Revert to the original button color
-
+                                    m_showHint = false;
                                     m_translation.clear();
                                     m_kana.clear();
                                     m_romaji.clear();
