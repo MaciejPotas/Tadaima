@@ -39,6 +39,8 @@ namespace tadaima
         package.set(gui::widget::SettingsPackageKey::ConjugationMask, settings.conjugationMask);
         package.set(gui::widget::SettingsPackageKey::SentenceQuizDictionaryPath, settings.sentenceQuizDictionaryPath);
         package.set(gui::widget::SettingsPackageKey::SentenceQuizSentenceMapPath, settings.sentenceQuizSentenceMapPath);
+        package.set(gui::widget::SettingsPackageKey::AdjectiveSentenceQuizDictionaryPath, settings.adjectiveSentenceQuizDictionaryPath);
+        package.set(gui::widget::SettingsPackageKey::AdjectiveSentenceQuizSentenceMapPath, settings.adjectiveSentenceQuizSentenceMapPath);
         m_gui->initializeWidget(package);
     }
 

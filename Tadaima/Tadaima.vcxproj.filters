@@ -74,6 +74,9 @@
     <ClCompile Include="src\quiz\SentenceTransformationQuizWidget.cpp">
       <Filter>src\gui\widgets\quiz</Filter>
     </ClCompile>
+    <ClCompile Include="src\quiz\AdjectiveSentenceQuizWidget.cpp">
+      <Filter>src\gui\widgets\quiz</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Version.h">
@@ -206,6 +209,9 @@
       <Filter>src\gui\widgets\LessonTreeViewWidget</Filter>
     </ClInclude>
     <ClInclude Include="src\quiz\SentenceTransformationQuizWidget.h">
+      <Filter>src\gui\widgets\quiz</Filter>
+    </ClInclude>
+    <ClInclude Include="src\quiz\AdjectiveSentenceQuizWidget.h">
       <Filter>src\gui\widgets\quiz</Filter>
     </ClInclude>
   </ItemGroup>

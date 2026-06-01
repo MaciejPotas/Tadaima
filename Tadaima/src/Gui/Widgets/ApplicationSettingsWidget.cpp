@@ -74,6 +74,8 @@ namespace tadaima
                     package.set(SettingsPackageKey::ConjugationMask, m_conjugationBits);
                     package.set(SettingsPackageKey::SentenceQuizDictionaryPath, std::string(m_sentenceQuizDictionaryPath));
                     package.set(SettingsPackageKey::SentenceQuizSentenceMapPath, std::string(m_sentenceQuizSentenceMapPath));
+                    package.set(SettingsPackageKey::AdjectiveSentenceQuizDictionaryPath, std::string(m_adjectiveSentenceQuizDictionaryPath));
+                    package.set(SettingsPackageKey::AdjectiveSentenceQuizSentenceMapPath, std::string(m_adjectiveSentenceQuizSentenceMapPath));
 
                     emitEvent(WidgetEvent(*this, ApplicationSettingsWidgetEvent::OnSettingsChanged, &package));
                 }
@@ -103,6 +105,8 @@ namespace tadaima
                         const std::string numberOfTries = package->get<std::string>(SettingsPackageKey::TriesForQuiz);
                         const std::string sentenceQuizDictionaryPath = package->get<std::string>(SettingsPackageKey::SentenceQuizDictionaryPath);
                         const std::string sentenceQuizSentenceMapPath = package->get<std::string>(SettingsPackageKey::SentenceQuizSentenceMapPath);
+                        const std::string adjectiveSentenceQuizDictionaryPath = package->get<std::string>(SettingsPackageKey::AdjectiveSentenceQuizDictionaryPath);
+                        const std::string adjectiveSentenceQuizSentenceMapPath = package->get<std::string>(SettingsPackageKey::AdjectiveSentenceQuizSentenceMapPath);
 
                         memset(m_username, 0, sizeof(m_username));
                         memset(m_dictionaryPath, 0, sizeof(m_dictionaryPath));
@@ -110,6 +114,8 @@ namespace tadaima
                         memset(m_scriptPaths, 0, sizeof(m_scriptPaths));
                         memset(m_sentenceQuizDictionaryPath, 0, sizeof(m_sentenceQuizDictionaryPath));
                         memset(m_sentenceQuizSentenceMapPath, 0, sizeof(m_sentenceQuizSentenceMapPath));
+                        memset(m_adjectiveSentenceQuizDictionaryPath, 0, sizeof(m_adjectiveSentenceQuizDictionaryPath));
+                        memset(m_adjectiveSentenceQuizSentenceMapPath, 0, sizeof(m_adjectiveSentenceQuizSentenceMapPath));
 
                         memcpy(m_username, userName.c_str(), userName.size());
                         memcpy(m_dictionaryPath, dictionaryPath.c_str(), dictionaryPath.size());
@@ -117,6 +123,8 @@ namespace tadaima
                         memcpy(m_scriptPaths, quizzesScripts.c_str(), quizzesScripts.size());
                         memcpy(m_sentenceQuizDictionaryPath, sentenceQuizDictionaryPath.c_str(), std::min(sentenceQuizDictionaryPath.size(), sizeof(m_sentenceQuizDictionaryPath) - 1U));
                         memcpy(m_sentenceQuizSentenceMapPath, sentenceQuizSentenceMapPath.c_str(), std::min(sentenceQuizSentenceMapPath.size(), sizeof(m_sentenceQuizSentenceMapPath) - 1U));
+                        memcpy(m_adjectiveSentenceQuizDictionaryPath, adjectiveSentenceQuizDictionaryPath.c_str(), std::min(adjectiveSentenceQuizDictionaryPath.size(), sizeof(m_adjectiveSentenceQuizDictionaryPath) - 1U));
+                        memcpy(m_adjectiveSentenceQuizSentenceMapPath, adjectiveSentenceQuizSentenceMapPath.c_str(), std::min(adjectiveSentenceQuizSentenceMapPath.size(), sizeof(m_adjectiveSentenceQuizSentenceMapPath) - 1U));
 
                         m_inputOption = package->get<quiz::WordType>(SettingsPackageKey::AskedWordType);
                         m_translationOption = package->get<quiz::WordType>(SettingsPackageKey::AnswerWordType);
@@ -289,6 +297,16 @@ namespace tadaima
                                 ImGui::SameLine();
                                 ImGui::Text("Sentence quiz sentence maps XML");
                                 ShowFieldHelp("Path to the sentence_maps XML used only by the sentence transformation quiz.");
+
+                                ImGui::InputText("##Adjective SentenceQuizDictionaryPath", m_adjectiveSentenceQuizDictionaryPath, IM_ARRAYSIZE(m_adjectiveSentenceQuizDictionaryPath));
+                                ImGui::SameLine();
+                                ImGui::Text("Adjective Sentence quiz dictionary XML");
+                                ShowFieldHelp("Path to the dictionary XML used only by the adjective sentence transformation quiz.");
+
+                                ImGui::InputText("##Adjective SentenceQuizSentenceMapPath", m_adjectiveSentenceQuizSentenceMapPath, IM_ARRAYSIZE(m_adjectiveSentenceQuizSentenceMapPath));
+                                ImGui::SameLine();
+                                ImGui::Text("Adjective Sentence quiz sentence maps XML");
+                                ShowFieldHelp("Path to the Adjective sentence_maps XML used only by the sentence transformation quiz.");
 
                                 ImGui::Spacing();
                                 ImGui::Separator();

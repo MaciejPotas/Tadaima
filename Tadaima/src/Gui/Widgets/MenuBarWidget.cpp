@@ -16,7 +16,8 @@ namespace tadaima
                 : m_logger(logger),
                 m_ApplicationSettingsWidget(logger),
                 m_ScriptQuizRunnerWidget(logger),
-                m_SentenceTransformationQuizWidget(logger)
+                m_SentenceTransformationQuizWidget(logger),
+                m_AdjectiveSentenceQuizWidget(logger)
             {
             }
 
@@ -25,6 +26,7 @@ namespace tadaima
                 m_ApplicationSettingsWidget.initialize(r_package);
                 m_ScriptQuizRunnerWidget.initialize(r_package);
                 m_SentenceTransformationQuizWidget.initialize(r_package);
+                m_AdjectiveSentenceQuizWidget.initialize(r_package);
             }
 
             void MenuBarWidget::showAboutWindow(bool* p_open)
@@ -54,19 +56,24 @@ namespace tadaima
                     showAboutWindow(&show_help);
                 }
 
-                if( show_quiz_runner )
+                if( showQuizRunner )
                 {
-                    m_ScriptQuizRunnerWidget.draw(&show_quiz_runner);
+                    m_ScriptQuizRunnerWidget.draw(&showQuizRunner);
                 }
 
-                if( show_settings )
+                if( showSettings )
                 {
-                    m_ApplicationSettingsWidget.draw(&show_settings);
+                    m_ApplicationSettingsWidget.draw(&showSettings);
                 }
 
-                if( show_sentence_transformation_quiz )
+                if( showSentenceTransformationQuiz )
                 {
-                    m_SentenceTransformationQuizWidget.draw(&show_sentence_transformation_quiz);
+                    m_SentenceTransformationQuizWidget.draw(&showSentenceTransformationQuiz);
+                }
+
+                if( showAdjectiveQuiz )
+                {
+                    m_AdjectiveSentenceQuizWidget.draw(&showAdjectiveQuiz);
                 }
 
                 // Menu Bar
@@ -84,7 +91,7 @@ namespace tadaima
                     {
                         if( ImGui::MenuItem("Open Settings") )
                         {
-                            show_settings = true;
+                            showSettings = true;
                         }
                         ImGui::EndMenu();
                     }
@@ -93,12 +100,17 @@ namespace tadaima
                     {
                         if( ImGui::MenuItem("Play python Quiz", NULL, false, true) )
                         {
-                            show_quiz_runner = true;
+                            showQuizRunner = true;
                         }
 
                         if( ImGui::MenuItem("Play sentence transformation quiz", NULL, false, true) )
                         {
-                            show_sentence_transformation_quiz = true;
+                            showSentenceTransformationQuiz = true;
+                        }
+
+                        if( ImGui::MenuItem("Play adjective transformation quiz", NULL, false, true) )
+                        {
+                            showAdjectiveQuiz = true;
                         }
 
                         ImGui::EndMenu();

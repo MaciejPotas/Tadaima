@@ -28,6 +28,8 @@ namespace tadaima
             static constexpr const uint8_t DEFAULT_CONJUGATION_MASK = 0;
             static constexpr const char* DEFAULT_SENTENCE_QUIZ_DICTIONARY_PATH = "scripts/QuizFiles/dictionary.xml";
             static constexpr const char* DEFAULT_SENTENCE_QUIZ_SENTENCE_MAP_PATH = "scripts/QuizFiles/sentence_maps.xml";
+            static constexpr const char* DEFAULT_ADJECTIVE_SENTENCE_QUIZ_DICTIONARY_PATH = "scripts/QuizFiles/adjectives_dictionary.xml";
+            static constexpr const char* DEFAULT_ADJECTIVE_SENTENCE_QUIZ_SENTENCE_MAP_PATH = "scripts/QuizFiles/adjectives_sentence_maps.xml";
 
             /// Application settings
             std::string userName = DEFAULT_USER_NAME;           /**< The username for the application. */
@@ -43,6 +45,8 @@ namespace tadaima
             uint16_t conjugationMask = DEFAULT_CONJUGATION_MASK;
             std::string sentenceQuizDictionaryPath = DEFAULT_SENTENCE_QUIZ_DICTIONARY_PATH;
             std::string sentenceQuizSentenceMapPath = DEFAULT_SENTENCE_QUIZ_SENTENCE_MAP_PATH;
+            std::string adjectiveSentenceQuizDictionaryPath = DEFAULT_ADJECTIVE_SENTENCE_QUIZ_DICTIONARY_PATH;
+            std::string adjectiveSentenceQuizSentenceMapPath = DEFAULT_ADJECTIVE_SENTENCE_QUIZ_SENTENCE_MAP_PATH;
 
             /**
              * @brief Converts the application settings to a string representation.
@@ -67,6 +71,8 @@ namespace tadaima
                 log += "Sentence Transformation Quiz settings:\n";
                 log += std::format("  -> Sentence Quiz Dictionary Path: {}\n", sentenceQuizDictionaryPath);
                 log += std::format("  -> Sentence Quiz Sentence Map Path: {}\n", sentenceQuizSentenceMapPath);
+                log += std::format("  -> Adjective Sentence Quiz Dictionary Path: {}\n", adjectiveSentenceQuizDictionaryPath);
+                log += std::format("  -> Adjective Sentence Quiz Sentence Map Path: {}\n", adjectiveSentenceQuizSentenceMapPath);
 
                 return log;
             }

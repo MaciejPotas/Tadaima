@@ -216,6 +216,7 @@ xcopy "$(ProjectDir)..\scripts" "$(SolutionDir)bin\$(Platform)\scripts" /Y /I /Q
     <ClCompile Include="src\gui\widgets\Quiz\ConjugationQuizWidget.cpp" />
     <ClCompile Include="src\gui\widgets\Quiz\QuizManagerWidget.cpp" />
     <ClCompile Include="src\gui\widgets\ScriptQuizRunnerWidget.cpp" />
+    <ClCompile Include="src\quiz\AdjectiveSentenceQuizWidget.cpp" />
     <ClCompile Include="src\quiz\MultipleChoiceQuiz.cpp" />
     <ClCompile Include="src\quiz\SentenceTransformationQuizWidget.cpp" />
     <ClCompile Include="src\tools\SystemTools.cpp" />
@@ -223,6 +224,7 @@ xcopy "$(ProjectDir)..\scripts" "$(SolutionDir)bin\$(Platform)\scripts" /Y /I /Q
     <ClInclude Include="src\gui\widgets\ConjugationSettingsWidget.h" />
     <ClInclude Include="src\gui\widgets\LessonTreeViewWidget\LessonFileIO.h" />
     <ClInclude Include="src\gui\widgets\LessonTreeViewWidget\LessonUtils.h" />
+    <ClInclude Include="src\quiz\AdjectiveSentenceQuizWidget.h" />
     <ClInclude Include="src\quiz\MultipleChoiceQuiz.h" />
     <ClInclude Include="src\quiz\Quiz.h" />
     <ClInclude Include="src\application\ApplicationEventList.h" />

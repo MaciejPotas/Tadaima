@@ -1,0 +1,557 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sentence_maps_data>
+  <!--Sentence maps for AdjectiveSentenceQuizWidget. Tags are grouped semantically to keep generated questions natural.-->
+  <slot_lists>
+    <slot_list id="object_dimension_subjects">
+      <item text="ten pokój" jp="このへや"/>
+      <item text="to pudełko" jp="このはこ"/>
+      <item text="ta torba" jp="このかばん"/>
+    </slot_list>
+    <slot_list id="object_dimension_nouns">
+      <item text="pokój" jp="へや"/>
+      <item text="pudełko" jp="はこ"/>
+      <item text="torba" jp="かばん"/>
+    </slot_list>
+    <slot_list id="space_dimension_subjects">
+      <item text="ten pokój" jp="このへや"/>
+      <item text="ta droga" jp="このみち"/>
+      <item text="ten ogród" jp="このにわ"/>
+    </slot_list>
+    <slot_list id="space_dimension_nouns">
+      <item text="pokój" jp="へや"/>
+      <item text="droga" jp="みち"/>
+      <item text="ogród" jp="にわ"/>
+    </slot_list>
+    <slot_list id="height_subjects">
+      <item text="ten budynek" jp="このビル"/>
+      <item text="ta góra" jp="この山"/>
+      <item text="to drzewo" jp="この木"/>
+    </slot_list>
+    <slot_list id="height_nouns">
+      <item text="budynek" jp="ビル"/>
+      <item text="góra" jp="山"/>
+      <item text="drzewo" jp="木"/>
+    </slot_list>
+    <slot_list id="weight_subjects">
+      <item text="ta torba" jp="このかばん"/>
+      <item text="ten bagaż" jp="このにもつ"/>
+      <item text="ta książka" jp="この本"/>
+    </slot_list>
+    <slot_list id="weight_nouns">
+      <item text="torba" jp="かばん"/>
+      <item text="bagaż" jp="にもつ"/>
+      <item text="książka" jp="本"/>
+    </slot_list>
+    <slot_list id="distance_subjects">
+      <item text="ta stacja" jp="このえき"/>
+      <item text="ten sklep" jp="この店"/>
+      <item text="ta szkoła" jp="この学校"/>
+    </slot_list>
+    <slot_list id="distance_nouns">
+      <item text="stacja" jp="えき"/>
+      <item text="sklep" jp="店"/>
+      <item text="szkoła" jp="学校"/>
+    </slot_list>
+    <slot_list id="quantity_subjects">
+      <item text="studentów w tej klasie" jp="このクラスの学生"/>
+      <item text="jabłek w tym pudełku" jp="このはこのりんご"/>
+      <item text="produktów w tym sklepie" jp="この店の商品"/>
+    </slot_list>
+    <slot_list id="general_value_subjects">
+      <item text="ten wynik" jp="このけっか"/>
+      <item text="ta książka" jp="この本"/>
+      <item text="ten film" jp="このえいが"/>
+    </slot_list>
+    <slot_list id="general_value_nouns">
+      <item text="wynik" jp="けっか"/>
+      <item text="książka" jp="本"/>
+      <item text="film" jp="えいが"/>
+    </slot_list>
+    <slot_list id="price_subjects">
+      <item text="ten aparat" jp="このカメラ"/>
+      <item text="ta torba" jp="このかばん"/>
+      <item text="ten produkt" jp="この商品"/>
+    </slot_list>
+    <slot_list id="price_nouns">
+      <item text="aparat" jp="カメラ"/>
+      <item text="torba" jp="かばん"/>
+      <item text="produkt" jp="商品"/>
+    </slot_list>
+    <slot_list id="texture_subjects">
+      <item text="ten materiał" jp="このそざい"/>
+      <item text="ten chleb" jp="このパン"/>
+      <item text="ten kamień" jp="この石"/>
+    </slot_list>
+    <slot_list id="texture_nouns">
+      <item text="materiał" jp="そざい"/>
+      <item text="chleb" jp="パン"/>
+      <item text="kamień" jp="石"/>
+    </slot_list>
+    <slot_list id="strength_subjects">
+      <item text="ta osoba" jp="この人"/>
+      <item text="ta drużyna" jp="このチーム"/>
+      <item text="ten wiatr" jp="この風"/>
+    </slot_list>
+    <slot_list id="strength_nouns">
+      <item text="osoba" jp="人"/>
+      <item text="drużyna" jp="チーム"/>
+      <item text="wiatr" jp="風"/>
+    </slot_list>
+    <slot_list id="complexity_subjects">
+      <item text="ten problem" jp="この問題"/>
+      <item text="to zdanie" jp="この文"/>
+      <item text="to wyjaśnienie" jp="この説明"/>
+    </slot_list>
+    <slot_list id="complexity_nouns">
+      <item text="problem" jp="問題"/>
+      <item text="zdanie" jp="文"/>
+      <item text="wyjaśnienie" jp="説明"/>
+    </slot_list>
+    <slot_list id="content_value_subjects">
+      <item text="ta historia" jp="この話"/>
+      <item text="ta książka" jp="この本"/>
+      <item text="ten film" jp="このえいが"/>
+    </slot_list>
+    <slot_list id="content_value_nouns">
+      <item text="historia" jp="話"/>
+      <item text="książka" jp="本"/>
+      <item text="film" jp="えいが"/>
+    </slot_list>
+    <slot_list id="personality_subjects">
+      <item text="ta osoba" jp="この人"/>
+      <item text="ten student" jp="その学生"/>
+      <item text="ten nauczyciel" jp="あの先生"/>
+    </slot_list>
+    <slot_list id="personality_nouns">
+      <item text="osoba" jp="人"/>
+      <item text="student" jp="学生"/>
+      <item text="nauczyciel" jp="先生"/>
+    </slot_list>
+    <slot_list id="feeling_subjects">
+      <item text="ja" jp="私"/>
+      <item text="on" jp="彼"/>
+      <item text="ona" jp="彼女"/>
+    </slot_list>
+    <slot_list id="feeling_nouns">
+      <item text="osoba" jp="人"/>
+      <item text="student" jp="学生"/>
+      <item text="dziecko" jp="子ども"/>
+    </slot_list>
+    <slot_list id="speed_subjects">
+      <item text="ten pociąg" jp="この電車"/>
+      <item text="ten samochód" jp="この車"/>
+      <item text="ten internet" jp="このインターネット"/>
+    </slot_list>
+    <slot_list id="speed_nouns">
+      <item text="pociąg" jp="電車"/>
+      <item text="samochód" jp="車"/>
+      <item text="internet" jp="インターネット"/>
+    </slot_list>
+    <slot_list id="difficulty_subjects">
+      <item text="ten problem" jp="この問題"/>
+      <item text="ten test" jp="このテスト"/>
+      <item text="to zadanie domowe" jp="この宿題"/>
+    </slot_list>
+    <slot_list id="difficulty_nouns">
+      <item text="problem" jp="問題"/>
+      <item text="test" jp="テスト"/>
+      <item text="zadanie domowe" jp="宿題"/>
+    </slot_list>
+    <slot_list id="importance_subjects">
+      <item text="ta praca" jp="この仕事"/>
+      <item text="to spotkanie" jp="この会議"/>
+      <item text="ta rozmowa" jp="この話"/>
+    </slot_list>
+    <slot_list id="importance_nouns">
+      <item text="praca" jp="仕事"/>
+      <item text="spotkanie" jp="会議"/>
+      <item text="rozmowa" jp="話"/>
+    </slot_list>
+    <slot_list id="age_new_old_subjects">
+      <item text="ten telefon" jp="この電話"/>
+      <item text="ten dom" jp="この家"/>
+      <item text="ta książka" jp="この本"/>
+    </slot_list>
+    <slot_list id="age_new_old_nouns">
+      <item text="telefon" jp="電話"/>
+      <item text="dom" jp="家"/>
+      <item text="książka" jp="本"/>
+    </slot_list>
+    <slot_list id="color_subjects">
+      <item text="to ubranie" jp="この服"/>
+      <item text="ten kwiat" jp="この花"/>
+      <item text="ten samochód" jp="この車"/>
+    </slot_list>
+    <slot_list id="color_nouns">
+      <item text="ubranie" jp="服"/>
+      <item text="kwiat" jp="花"/>
+      <item text="samochód" jp="車"/>
+    </slot_list>
+    <slot_list id="shape_subjects">
+      <item text="to lustro" jp="この鏡"/>
+      <item text="to pudełko" jp="このはこ"/>
+      <item text="ten stół" jp="このテーブル"/>
+    </slot_list>
+    <slot_list id="shape_nouns">
+      <item text="lustro" jp="鏡"/>
+      <item text="pudełko" jp="はこ"/>
+      <item text="stół" jp="テーブル"/>
+    </slot_list>
+    <slot_list id="weather_subjects">
+      <item text="dzisiaj" jp="今日"/>
+      <item text="ten dzień" jp="この日"/>
+      <item text="ta pogoda" jp="この天気"/>
+    </slot_list>
+    <slot_list id="weather_nouns">
+      <item text="dzień" jp="日"/>
+      <item text="poranek" jp="朝"/>
+      <item text="pogoda" jp="天気"/>
+    </slot_list>
+    <slot_list id="taste_subjects">
+      <item text="to ciasto" jp="このケーキ"/>
+      <item text="ta kawa" jp="このコーヒー"/>
+      <item text="ta potrawa" jp="この料理"/>
+    </slot_list>
+    <slot_list id="taste_nouns">
+      <item text="ciasto" jp="ケーキ"/>
+      <item text="kawa" jp="コーヒー"/>
+      <item text="potrawa" jp="料理"/>
+    </slot_list>
+    <slot_list id="situation_subjects">
+      <item text="ten film" jp="このえいが"/>
+      <item text="to wydarzenie" jp="このイベント"/>
+      <item text="ta gra" jp="このゲーム"/>
+    </slot_list>
+    <slot_list id="situation_nouns">
+      <item text="film" jp="えいが"/>
+      <item text="wydarzenie" jp="イベント"/>
+      <item text="gra" jp="ゲーム"/>
+    </slot_list>
+    <slot_list id="safety_subjects">
+      <item text="to miejsce" jp="この場所"/>
+      <item text="ten most" jp="この橋"/>
+      <item text="to narzędzie" jp="この道具"/>
+    </slot_list>
+    <slot_list id="safety_nouns">
+      <item text="miejsce" jp="場所"/>
+      <item text="most" jp="橋"/>
+      <item text="narzędzie" jp="道具"/>
+    </slot_list>
+    <slot_list id="correctness_subjects">
+      <item text="ta odpowiedź" jp="この答え"/>
+      <item text="to zdanie" jp="この文"/>
+      <item text="ten sposób" jp="このやり方"/>
+    </slot_list>
+    <slot_list id="correctness_nouns">
+      <item text="odpowiedź" jp="答え"/>
+      <item text="zdanie" jp="文"/>
+      <item text="sposób" jp="やり方"/>
+    </slot_list>
+    <slot_list id="age_person_subjects">
+      <item text="ta osoba" jp="この人"/>
+      <item text="ten student" jp="あの学生"/>
+      <item text="to dziecko" jp="この子"/>
+    </slot_list>
+    <slot_list id="age_person_nouns">
+      <item text="osoba" jp="人"/>
+      <item text="student" jp="学生"/>
+      <item text="dziecko" jp="子ども"/>
+    </slot_list>
+    <slot_list id="physical_person_subjects">
+      <item text="ta osoba" jp="この人"/>
+      <item text="on" jp="彼"/>
+      <item text="ona" jp="彼女"/>
+    </slot_list>
+    <slot_list id="physical_person_nouns">
+      <item text="osoba" jp="人"/>
+      <item text="student" jp="学生"/>
+      <item text="dziecko" jp="子ども"/>
+    </slot_list>
+    <slot_list id="room_condition_subjects">
+      <item text="ten pokój" jp="このへや"/>
+      <item text="ten dom" jp="この家"/>
+      <item text="to ubranie" jp="この服"/>
+    </slot_list>
+    <slot_list id="room_condition_nouns">
+      <item text="pokój" jp="へや"/>
+      <item text="dom" jp="家"/>
+      <item text="ubranie" jp="服"/>
+    </slot_list>
+    <slot_list id="appearance_subjects">
+      <item text="ta osoba" jp="この人"/>
+      <item text="to ubranie" jp="この服"/>
+      <item text="ta torba" jp="このかばん"/>
+    </slot_list>
+    <slot_list id="appearance_nouns">
+      <item text="osoba" jp="人"/>
+      <item text="ubranie" jp="服"/>
+      <item text="torba" jp="かばん"/>
+    </slot_list>
+    <slot_list id="wealth_subjects">
+      <item text="ta osoba" jp="この人"/>
+      <item text="ta rodzina" jp="この家族"/>
+      <item text="on" jp="彼"/>
+    </slot_list>
+    <slot_list id="wealth_nouns">
+      <item text="osoba" jp="人"/>
+      <item text="rodzina" jp="家族"/>
+      <item text="człowiek" jp="人"/>
+    </slot_list>
+    <slot_list id="normality_subjects">
+      <item text="ten objaw" jp="この症状"/>
+      <item text="ten stan" jp="この状態"/>
+      <item text="ten wynik" jp="このけっか"/>
+    </slot_list>
+    <slot_list id="normality_nouns">
+      <item text="objaw" jp="症状"/>
+      <item text="stan" jp="状態"/>
+      <item text="wynik" jp="けっか"/>
+    </slot_list>
+  </slot_lists>
+  <sentence_maps>
+    <sentence_map id="predicate_age_new_old" label="adjective after topic noun" requires_tag="age_new_old" placement="predicate" slot_list="age_new_old_subjects">
+      <question>{slot} {adjective_prompt}.</question>
+      <answer>{slot_jp}は{form}</answer>
+    </sentence_map>
+    <sentence_map id="attributive_age_new_old" label="adjective before noun" requires_tag="age_new_old" placement="attributive" slot_list="age_new_old_nouns">
+      <question>To {copula_prompt} {adjective_prompt} {slot}.</question>
+      <answer>これは{form}{slot_jp}{copula}</answer>
+    </sentence_map>
+    <sentence_map id="predicate_age_person" label="adjective after topic noun" requires_tag="age_person" placement="predicate" slot_list="age_person_subjects">
+      <question>{slot} {adjective_prompt}.</question>
+      <answer>{slot_jp}は{form}</answer>
+    </sentence_map>
+    <sentence_map id="attributive_age_person" label="adjective before noun" requires_tag="age_person" placement="attributive" slot_list="age_person_nouns">
+      <question>To {copula_prompt} {adjective_prompt} {slot}.</question>
+      <answer>これは{form}{slot_jp}{copula}</answer>
+    </sentence_map>
+    <sentence_map id="predicate_appearance" label="adjective after topic noun" requires_tag="appearance" placement="predicate" slot_list="appearance_subjects">
+      <question>{slot} {adjective_prompt}.</question>
+      <answer>{slot_jp}は{form}</answer>
+    </sentence_map>
+    <sentence_map id="attributive_appearance" label="adjective before noun" requires_tag="appearance" placement="attributive" slot_list="appearance_nouns">
+      <question>To {copula_prompt} {adjective_prompt} {slot}.</question>
+      <answer>これは{form}{slot_jp}{copula}</answer>
+    </sentence_map>
+    <sentence_map id="predicate_color" label="adjective after topic noun" requires_tag="color" placement="predicate" slot_list="color_subjects">
+      <question>{slot} {adjective_prompt}.</question>
+      <answer>{slot_jp}は{form}</answer>
+    </sentence_map>
+    <sentence_map id="attributive_color" label="adjective before noun" requires_tag="color" placement="attributive" slot_list="color_nouns">
+      <question>To {copula_prompt} {adjective_prompt} {slot}.</question>
+      <answer>これは{form}{slot_jp}{copula}</answer>
+    </sentence_map>
+    <sentence_map id="predicate_complexity" label="adjective after topic noun" requires_tag="complexity" placement="predicate" slot_list="complexity_subjects">
+      <question>{slot} {adjective_prompt}.</question>
+      <answer>{slot_jp}は{form}</answer>
+    </sentence_map>
+    <sentence_map id="attributive_complexity" label="adjective before noun" requires_tag="complexity" placement="attributive" slot_list="complexity_nouns">
+      <question>To {copula_prompt} {adjective_prompt} {slot}.</question>
+      <answer>これは{form}{slot_jp}{copula}</answer>
+    </sentence_map>
+    <sentence_map id="predicate_content_value" label="adjective after topic noun" requires_tag="content_value" placement="predicate" slot_list="content_value_subjects">
+      <question>{slot} {adjective_prompt}.</question>
+      <answer>{slot_jp}は{form}</answer>
+    </sentence_map>
+    <sentence_map id="attributive_content_value" label="adjective before noun" requires_tag="content_value" placement="attributive" slot_list="content_value_nouns">
+      <question>To {copula_prompt} {adjective_prompt} {slot}.</question>
+      <answer>これは{form}{slot_jp}{copula}</answer>
+    </sentence_map>
+    <sentence_map id="predicate_correctness" label="adjective after topic noun" requires_tag="correctness" placement="predicate" slot_list="correctness_subjects">
+      <question>{slot} {adjective_prompt}.</question>
+      <answer>{slot_jp}は{form}</answer>
+    </sentence_map>
+    <sentence_map id="attributive_correctness" label="adjective before noun" requires_tag="correctness" placement="attributive" slot_list="correctness_nouns">
+      <question>To {copula_prompt} {adjective_prompt} {slot}.</question>
+      <answer>これは{form}{slot_jp}{copula}</answer>
+    </sentence_map>
+    <sentence_map id="predicate_difficulty" label="adjective after topic noun" requires_tag="difficulty" placement="predicate" slot_list="difficulty_subjects">
+      <question>{slot} {adjective_prompt}.</question>
+      <answer>{slot_jp}は{form}</answer>
+    </sentence_map>
+    <sentence_map id="attributive_difficulty" label="adjective before noun" requires_tag="difficulty" placement="attributive" slot_list="difficulty_nouns">
+      <question>To {copula_prompt} {adjective_prompt} {slot}.</question>
+      <answer>これは{form}{slot_jp}{copula}</answer>
+    </sentence_map>
+    <sentence_map id="predicate_distance" label="adjective after topic noun" requires_tag="distance" placement="predicate" slot_list="distance_subjects">
+      <question>{slot} {adjective_prompt}.</question>
+      <answer>{slot_jp}は{form}</answer>
+    </sentence_map>
+    <sentence_map id="attributive_distance" label="adjective before noun" requires_tag="distance" placement="attributive" slot_list="distance_nouns">
+      <question>To {copula_prompt} {adjective_prompt} {slot}.</question>
+      <answer>これは{form}{slot_jp}{copula}</answer>
+    </sentence_map>
+    <sentence_map id="predicate_feeling" label="adjective after topic noun" requires_tag="feeling" placement="predicate" slot_list="feeling_subjects">
+      <question>{slot} {adjective_prompt}.</question>
+      <answer>{slot_jp}は{form}</answer>
+    </sentence_map>
+    <sentence_map id="attributive_feeling" label="adjective before noun" requires_tag="feeling" placement="attributive" slot_list="feeling_nouns">
+      <question>To {copula_prompt} {adjective_prompt} {slot}.</question>
+      <answer>これは{form}{slot_jp}{copula}</answer>
+    </sentence_map>
+    <sentence_map id="predicate_general_value" label="adjective after topic noun" requires_tag="general_value" placement="predicate" slot_list="general_value_subjects">
+      <question>{slot} {adjective_prompt}.</question>
+      <answer>{slot_jp}は{form}</answer>
+    </sentence_map>
+    <sentence_map id="attributive_general_value" label="adjective before noun" requires_tag="general_value" placement="attributive" slot_list="general_value_nouns">
+      <question>To {copula_prompt} {adjective_prompt} {slot}.</question>
+      <answer>これは{form}{slot_jp}{copula}</answer>
+    </sentence_map>
+    <sentence_map id="predicate_height" label="adjective after topic noun" requires_tag="height" placement="predicate" slot_list="height_subjects">
+      <question>{slot} {adjective_prompt}.</question>
+      <answer>{slot_jp}は{form}</answer>
+    </sentence_map>
+    <sentence_map id="attributive_height" label="adjective before noun" requires_tag="height" placement="attributive" slot_list="height_nouns">
+      <question>To {copula_prompt} {adjective_prompt} {slot}.</question>
+      <answer>これは{form}{slot_jp}{copula}</answer>
+    </sentence_map>
+    <sentence_map id="predicate_importance" label="adjective after topic noun" requires_tag="importance" placement="predicate" slot_list="importance_subjects">
+      <question>{slot} {adjective_prompt}.</question>
+      <answer>{slot_jp}は{form}</answer>
+    </sentence_map>
+    <sentence_map id="attributive_importance" label="adjective before noun" requires_tag="importance" placement="attributive" slot_list="importance_nouns">
+      <question>To {copula_prompt} {adjective_prompt} {slot}.</question>
+      <answer>これは{form}{slot_jp}{copula}</answer>
+    </sentence_map>
+    <sentence_map id="predicate_normality" label="adjective after topic noun" requires_tag="normality" placement="predicate" slot_list="normality_subjects">
+      <question>{slot} {adjective_prompt}.</question>
+      <answer>{slot_jp}は{form}</answer>
+    </sentence_map>
+    <sentence_map id="attributive_normality" label="adjective before noun" requires_tag="normality" placement="attributive" slot_list="normality_nouns">
+      <question>To {copula_prompt} {adjective_prompt} {slot}.</question>
+      <answer>これは{form}{slot_jp}{copula}</answer>
+    </sentence_map>
+    <sentence_map id="predicate_object_dimension" label="adjective after topic noun" requires_tag="object_dimension" placement="predicate" slot_list="object_dimension_subjects">
+      <question>{slot} {adjective_prompt}.</question>
+      <answer>{slot_jp}は{form}</answer>
+    </sentence_map>
+    <sentence_map id="attributive_object_dimension" label="adjective before noun" requires_tag="object_dimension" placement="attributive" slot_list="object_dimension_nouns">
+      <question>To {copula_prompt} {adjective_prompt} {slot}.</question>
+      <answer>これは{form}{slot_jp}{copula}</answer>
+    </sentence_map>
+    <sentence_map id="predicate_personality" label="adjective after topic noun" requires_tag="personality" placement="predicate" slot_list="personality_subjects">
+      <question>{slot} {adjective_prompt}.</question>
+      <answer>{slot_jp}は{form}</answer>
+    </sentence_map>
+    <sentence_map id="attributive_personality" label="adjective before noun" requires_tag="personality" placement="attributive" slot_list="personality_nouns">
+      <question>To {copula_prompt} {adjective_prompt} {slot}.</question>
+      <answer>これは{form}{slot_jp}{copula}</answer>
+    </sentence_map>
+    <sentence_map id="predicate_physical_person" label="adjective after topic noun" requires_tag="physical_person" placement="predicate" slot_list="physical_person_subjects">
+      <question>{slot} {adjective_prompt}.</question>
+      <answer>{slot_jp}は{form}</answer>
+    </sentence_map>
+    <sentence_map id="attributive_physical_person" label="adjective before noun" requires_tag="physical_person" placement="attributive" slot_list="physical_person_nouns">
+      <question>To {copula_prompt} {adjective_prompt} {slot}.</question>
+      <answer>これは{form}{slot_jp}{copula}</answer>
+    </sentence_map>
+    <sentence_map id="predicate_price" label="adjective after topic noun" requires_tag="price" placement="predicate" slot_list="price_subjects">
+      <question>{slot} {adjective_prompt}.</question>
+      <answer>{slot_jp}は{form}</answer>
+    </sentence_map>
+    <sentence_map id="attributive_price" label="adjective before noun" requires_tag="price" placement="attributive" slot_list="price_nouns">
+      <question>To {copula_prompt} {adjective_prompt} {slot}.</question>
+      <answer>これは{form}{slot_jp}{copula}</answer>
+    </sentence_map>
+    <sentence_map id="predicate_quantity" label="adjective after topic noun" requires_tag="quantity" placement="predicate" slot_list="quantity_subjects">
+      <question>{slot} {adjective_prompt}.</question>
+      <answer>{slot_jp}は{form}</answer>
+    </sentence_map>
+    <sentence_map id="predicate_room_condition" label="adjective after topic noun" requires_tag="room_condition" placement="predicate" slot_list="room_condition_subjects">
+      <question>{slot} {adjective_prompt}.</question>
+      <answer>{slot_jp}は{form}</answer>
+    </sentence_map>
+    <sentence_map id="attributive_room_condition" label="adjective before noun" requires_tag="room_condition" placement="attributive" slot_list="room_condition_nouns">
+      <question>To {copula_prompt} {adjective_prompt} {slot}.</question>
+      <answer>これは{form}{slot_jp}{copula}</answer>
+    </sentence_map>
+    <sentence_map id="predicate_safety" label="adjective after topic noun" requires_tag="safety" placement="predicate" slot_list="safety_subjects">
+      <question>{slot} {adjective_prompt}.</question>
+      <answer>{slot_jp}は{form}</answer>
+    </sentence_map>
+    <sentence_map id="attributive_safety" label="adjective before noun" requires_tag="safety" placement="attributive" slot_list="safety_nouns">
+      <question>To {copula_prompt} {adjective_prompt} {slot}.</question>
+      <answer>これは{form}{slot_jp}{copula}</answer>
+    </sentence_map>
+    <sentence_map id="predicate_shape" label="adjective after topic noun" requires_tag="shape" placement="predicate" slot_list="shape_subjects">
+      <question>{slot} {adjective_prompt}.</question>
+      <answer>{slot_jp}は{form}</answer>
+    </sentence_map>
+    <sentence_map id="attributive_shape" label="adjective before noun" requires_tag="shape" placement="attributive" slot_list="shape_nouns">
+      <question>To {copula_prompt} {adjective_prompt} {slot}.</question>
+      <answer>これは{form}{slot_jp}{copula}</answer>
+    </sentence_map>
+    <sentence_map id="predicate_situation" label="adjective after topic noun" requires_tag="situation" placement="predicate" slot_list="situation_subjects">
+      <question>{slot} {adjective_prompt}.</question>
+      <answer>{slot_jp}は{form}</answer>
+    </sentence_map>
+    <sentence_map id="attributive_situation" label="adjective before noun" requires_tag="situation" placement="attributive" slot_list="situation_nouns">
+      <question>To {copula_prompt} {adjective_prompt} {slot}.</question>
+      <answer>これは{form}{slot_jp}{copula}</answer>
+    </sentence_map>
+    <sentence_map id="predicate_space_dimension" label="adjective after topic noun" requires_tag="space_dimension" placement="predicate" slot_list="space_dimension_subjects">
+      <question>{slot} {adjective_prompt}.</question>
+      <answer>{slot_jp}は{form}</answer>
+    </sentence_map>
+    <sentence_map id="attributive_space_dimension" label="adjective before noun" requires_tag="space_dimension" placement="attributive" slot_list="space_dimension_nouns">
+      <question>To {copula_prompt} {adjective_prompt} {slot}.</question>
+      <answer>これは{form}{slot_jp}{copula}</answer>
+    </sentence_map>
+    <sentence_map id="predicate_speed" label="adjective after topic noun" requires_tag="speed" placement="predicate" slot_list="speed_subjects">
+      <question>{slot} {adjective_prompt}.</question>
+      <answer>{slot_jp}は{form}</answer>
+    </sentence_map>
+    <sentence_map id="attributive_speed" label="adjective before noun" requires_tag="speed" placement="attributive" slot_list="speed_nouns">
+      <question>To {copula_prompt} {adjective_prompt} {slot}.</question>
+      <answer>これは{form}{slot_jp}{copula}</answer>
+    </sentence_map>
+    <sentence_map id="predicate_strength" label="adjective after topic noun" requires_tag="strength" placement="predicate" slot_list="strength_subjects">
+      <question>{slot} {adjective_prompt}.</question>
+      <answer>{slot_jp}は{form}</answer>
+    </sentence_map>
+    <sentence_map id="attributive_strength" label="adjective before noun" requires_tag="strength" placement="attributive" slot_list="strength_nouns">
+      <question>To {copula_prompt} {adjective_prompt} {slot}.</question>
+      <answer>これは{form}{slot_jp}{copula}</answer>
+    </sentence_map>
+    <sentence_map id="predicate_taste" label="adjective after topic noun" requires_tag="taste" placement="predicate" slot_list="taste_subjects">
+      <question>{slot} {adjective_prompt}.</question>
+      <answer>{slot_jp}は{form}</answer>
+    </sentence_map>
+    <sentence_map id="attributive_taste" label="adjective before noun" requires_tag="taste" placement="attributive" slot_list="taste_nouns">
+      <question>To {copula_prompt} {adjective_prompt} {slot}.</question>
+      <answer>これは{form}{slot_jp}{copula}</answer>
+    </sentence_map>
+    <sentence_map id="predicate_texture" label="adjective after topic noun" requires_tag="texture" placement="predicate" slot_list="texture_subjects">
+      <question>{slot} {adjective_prompt}.</question>
+      <answer>{slot_jp}は{form}</answer>
+    </sentence_map>
+    <sentence_map id="attributive_texture" label="adjective before noun" requires_tag="texture" placement="attributive" slot_list="texture_nouns">
+      <question>To {copula_prompt} {adjective_prompt} {slot}.</question>
+      <answer>これは{form}{slot_jp}{copula}</answer>
+    </sentence_map>
+    <sentence_map id="predicate_wealth" label="adjective after topic noun" requires_tag="wealth" placement="predicate" slot_list="wealth_subjects">
+      <question>{slot} {adjective_prompt}.</question>
+      <answer>{slot_jp}は{form}</answer>
+    </sentence_map>
+    <sentence_map id="attributive_wealth" label="adjective before noun" requires_tag="wealth" placement="attributive" slot_list="wealth_nouns">
+      <question>To {copula_prompt} {adjective_prompt} {slot}.</question>
+      <answer>これは{form}{slot_jp}{copula}</answer>
+    </sentence_map>
+    <sentence_map id="predicate_weather" label="adjective after topic noun" requires_tag="weather" placement="predicate" slot_list="weather_subjects">
+      <question>{slot} {adjective_prompt}.</question>
+      <answer>{slot_jp}は{form}</answer>
+    </sentence_map>
+    <sentence_map id="attributive_weather" label="adjective before noun" requires_tag="weather" placement="attributive" slot_list="weather_nouns">
+      <question>To {copula_prompt} {adjective_prompt} {slot}.</question>
+      <answer>これは{form}{slot_jp}{copula}</answer>
+    </sentence_map>
+    <sentence_map id="predicate_weight" label="adjective after topic noun" requires_tag="weight" placement="predicate" slot_list="weight_subjects">
+      <question>{slot} {adjective_prompt}.</question>
+      <answer>{slot_jp}は{form}</answer>
+    </sentence_map>
+    <sentence_map id="attributive_weight" label="adjective before noun" requires_tag="weight" placement="attributive" slot_list="weight_nouns">
+      <question>To {copula_prompt} {adjective_prompt} {slot}.</question>
+      <answer>これは{form}{slot_jp}{copula}</answer>
+    </sentence_map>
+  </sentence_maps>
+</sentence_maps_data>

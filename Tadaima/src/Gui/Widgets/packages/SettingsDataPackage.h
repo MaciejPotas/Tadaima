@@ -25,17 +25,19 @@ namespace tadaima
              */
             enum class SettingsPackageKey : uint32_t
             {
-                Username,                   /**< Key for username. */
-                DictionaryPath,             /**< Key for dictionary path. */
-                ConjugationPath,            /**< Key for conjugation path */
-                QuizzesScriptsPath,         /**< Key for scripted quizes path. */
-                TriesForQuiz,               /**< Key for number of tries per word */
-                AskedWordType,              /**< Key for input word. */
-                AnswerWordType,             /**< Key for translated word. */
-                ShowLogs,                   /**< Key for showing console logs */
-                ConjugationMask,            /**< Key for conjugation path */
-                SentenceQuizDictionaryPath,
-                SentenceQuizSentenceMapPath
+                Username,                               /**< Key for username. */
+                DictionaryPath,                         /**< Key for dictionary path. */
+                ConjugationPath,                        /**< Key for conjugation path */
+                QuizzesScriptsPath,                     /**< Key for scripted quizes path. */
+                TriesForQuiz,                           /**< Key for number of tries per word */
+                AskedWordType,                          /**< Key for input word. */
+                AnswerWordType,                         /**< Key for translated word. */
+                ShowLogs,                               /**< Key for showing console logs */
+                ConjugationMask,                        /**< Key for conjugation path */
+                SentenceQuizDictionaryPath,             /**< Key for sentence quiz dictionary path */
+                SentenceQuizSentenceMapPath,            /**< Key for sentence quiz map path */
+                AdjectiveSentenceQuizDictionaryPath,    /**< Key for adjective sentence quiz dictionary path */
+                AdjectiveSentenceQuizSentenceMapPath    /**< Key for adjective sentence quiz dictionary path */
             };
 
             /**

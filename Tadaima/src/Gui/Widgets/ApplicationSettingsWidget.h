@@ -100,15 +100,6 @@ namespace tadaima
                 std::string wordTypeToString(tadaima::quiz::WordType type);
 
                 /**
-                 * @brief Shows a help marker with the given description.
-                 *
-                 * Displays a small question mark icon that shows the description when hovered.
-                 *
-                 * @param desc The description to display in the help marker.
-                 */
-                //void ShowHelpMarker(const char* desc);
-
-                /**
                  * @brief Shows field help with the given description.
                  *
                  * Displays a tooltip with detailed information when the field is hovered.
@@ -124,6 +115,8 @@ namespace tadaima
                 char m_username[30] = ""; /**< Username for the application. */
                 char m_sentenceQuizDictionaryPath[100] = {};
                 char m_sentenceQuizSentenceMapPath[100] = {};
+                char m_adjectiveSentenceQuizDictionaryPath[100] = {};
+                char m_adjectiveSentenceQuizSentenceMapPath[100] = {};
                 int m_inputOption = tadaima::quiz::WordType::BaseWord; /**< The input word type for quizzes. */
                 int m_translationOption = tadaima::quiz::WordType::Romaji; /**< The translation word type for quizzes. */
                 int m_numberOfTries = 1; /**< The number of tries allowed for answering a quiz question. */

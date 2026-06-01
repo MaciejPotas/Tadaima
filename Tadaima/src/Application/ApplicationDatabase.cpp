@@ -606,6 +606,8 @@ namespace tadaima
             saveSetting("ConjugationMask", std::to_string(settings.conjugationMask));
             saveSetting("sentenceQuizDictionaryPath", settings.sentenceQuizDictionaryPath);
             saveSetting("sentenceQuizSentenceMapPath", settings.sentenceQuizSentenceMapPath);
+            saveSetting("adjectiveSentenceQuizDictionaryPath", settings.adjectiveSentenceQuizDictionaryPath);
+            saveSetting("adjectiveSentenceQuizSentenceMapPath", settings.adjectiveSentenceQuizSentenceMapPath);
         }
 
         ApplicationSettings ApplicationDatabase::loadSettings()
@@ -645,6 +647,8 @@ namespace tadaima
                 settings.conjugationMask = static_cast<uint16_t>(std::stoi(conjugationMask));
             loadSetting("sentenceQuizDictionaryPath", settings.sentenceQuizDictionaryPath);
             loadSetting("sentenceQuizSentenceMapPath", settings.sentenceQuizSentenceMapPath);
+            loadSetting("adjectiveSentenceQuizDictionaryPath", settings.adjectiveSentenceQuizDictionaryPath);
+            loadSetting("adjectiveSentenceQuizSentenceMapPath", settings.adjectiveSentenceQuizSentenceMapPath);
 
             return settings;
         }
@@ -710,6 +714,5 @@ namespace tadaima
 
             return conjugations;
         }
-
     }
 }
