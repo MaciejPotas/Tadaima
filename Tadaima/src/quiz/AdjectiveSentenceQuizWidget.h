@@ -54,6 +54,9 @@ namespace tadaima
              * the final adjective uses the connective form. For example, i-adjectives can use
              * むずかしくて and na-adjectives can use しずかで.
              *
+             * Noun-sentence copulas for attributive maps are loaded from XML. This keeps
+             * variants such as じゃない, ではない, or じゃないです out of the C++ logic.
+             *
              * The widget supports filtering words by XML attributes, for example:
              * @code
              * type=i_adjective
@@ -154,6 +157,17 @@ namespace tadaima
                 };
 
                 /**
+                 * @struct CopulaData
+                 * @brief Stores one noun-sentence copula variant loaded from XML.
+                 */
+                struct CopulaData
+                {
+                    std::string name;   ///< Semantic copula identifier, for example plain_negative.
+                    std::string prompt; ///< Source-language helper prompt, for example nie jest.
+                    std::string value;  ///< Japanese copula value, for example じゃない.
+                };
+
+                /**
                  * @struct SentenceMap
                  * @brief Sentence template definition loaded from the sentence map XML file.
                  */
@@ -166,6 +180,7 @@ namespace tadaima
                     std::string slotList;                   ///< Optional slot list identifier.
                     std::string questionTemplate;           ///< Source-language question template.
                     std::string answerTemplate;             ///< Japanese answer template.
+                    std::unordered_map<std::string, CopulaData> copulas; ///< Noun-sentence copulas indexed by semantic name.
                 };
 
                 /**
@@ -177,8 +192,8 @@ namespace tadaima
                     SentencePlacement placement = SentencePlacement::Predicate; ///< Placement where the rule is valid.
                     std::string sourceForm;                                      ///< Source form name.
                     std::string targetForm;                                      ///< Target form name.
-                    std::string sourceCopula;                                    ///< Source copula for noun sentences.
-                    std::string targetCopula;                                    ///< Target copula for noun sentences.
+                    std::string sourceCopula;                                    ///< Source copula semantic name for noun sentences.
+                    std::string targetCopula;                                    ///< Target copula semantic name for noun sentences.
                     std::string label;                                           ///< Label shown to the user.
                     bool enabled = false;                                        ///< Indicates whether this rule is active.
                 };
@@ -272,6 +287,13 @@ namespace tadaima
                  * @return True if at least one valid sentence map was loaded, otherwise false.
                  */
                 bool loadSentenceMaps(const std::string& path);
+
+                /**
+                 * @brief Loads noun-sentence copula variants from a sentence map XML node.
+                 * @param mapNode XML node that represents a sentence map.
+                 * @param r_sentenceMap Sentence map that receives loaded copulas.
+                 */
+                void loadCopulasFromMapNode(const pugi::xml_node& mapNode, SentenceMap& r_sentenceMap);
 
                 /**
                  * @brief Builds enabled rules for Japanese sentence transformation mode.
@@ -506,19 +528,36 @@ namespace tadaima
                  * @param word Dictionary adjective.
                  * @param slot Slot item.
                  * @param formValue Adjective form value.
-                 * @param copula Copula used by noun sentences.
-                 * @param prompt Source-language prompt.
+                 * @param copula Copula value used by noun sentences.
+                 * @param copulaPrompt Source-language helper prompt for the copula.
+                 * @param prompt Source-language adjective prompt.
                  * @return Replacement map indexed by token name, including braces.
                  */
-                std::unordered_map<std::string, std::string> buildReplacements(const DictionaryAdjective& word, const SlotItem& slot, const std::string& formValue, const std::string& copula, const std::string& prompt) const;
-
+                std::unordered_map<std::string, std::string> buildReplacements(const DictionaryAdjective& word, const SlotItem& slot, const std::string& formValue, const std::string& copula, const std::string& copulaPrompt, const std::string& prompt) const;
 
                 /**
-                 * @brief Converts a noun sentence copula into a source-language helper prompt.
-                 * @param copula Japanese copula or negative copula expression.
-                 * @return Source-language helper prompt.
+                 * @brief Checks whether a sentence map contains a required copula.
+                 * @param sentenceMap Sentence map to check.
+                 * @param copulaName Semantic copula name. Empty names are treated as valid.
+                 * @return True if the copula is available, otherwise false.
                  */
-                std::string copulaToPrompt(const std::string& copula) const;
+                bool hasCopula(const SentenceMap& sentenceMap, const std::string& copulaName) const;
+
+                /**
+                 * @brief Gets a copula value from a sentence map.
+                 * @param sentenceMap Sentence map containing copula definitions.
+                 * @param copulaName Semantic copula name.
+                 * @return Copula value, or an empty string for missing or empty names.
+                 */
+                std::string getCopulaValue(const SentenceMap& sentenceMap, const std::string& copulaName) const;
+
+                /**
+                 * @brief Gets a source-language copula prompt from a sentence map.
+                 * @param sentenceMap Sentence map containing copula definitions.
+                 * @param copulaName Semantic copula name.
+                 * @return Copula prompt, or an empty string for missing or empty names.
+                 */
+                std::string getCopulaPrompt(const SentenceMap& sentenceMap, const std::string& copulaName) const;
 
                 /**
                  * @brief Parses a placement string from XML.

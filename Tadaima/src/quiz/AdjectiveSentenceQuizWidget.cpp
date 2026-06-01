@@ -686,6 +686,7 @@ namespace tadaima
                         }
 
                         sentenceMap.placement = parsePlacement(placementText);
+                        loadCopulasFromMapNode(mapNode, sentenceMap);
 
                         if( !sentenceMap.id.empty() &&
                             !sentenceMap.requiredTag.empty() &&
@@ -704,6 +705,24 @@ namespace tadaima
                 }
 
                 return result;
+            }
+
+            void AdjectiveSentenceQuizWidget::loadCopulasFromMapNode(const pugi::xml_node& mapNode, SentenceMap& r_sentenceMap)
+            {
+                const pugi::xml_node copulasNode = mapNode.child("copulas");
+
+                for( pugi::xml_node copulaNode = copulasNode.child("copula"); copulaNode; copulaNode = copulaNode.next_sibling("copula") )
+                {
+                    CopulaData copula;
+                    copula.name = GetAttribute(copulaNode, "name");
+                    copula.prompt = GetAttribute(copulaNode, "prompt");
+                    copula.value = GetText(copulaNode);
+
+                    if( !copula.name.empty() && !copula.value.empty() )
+                    {
+                        r_sentenceMap.copulas[copula.name] = copula;
+                    }
+                }
             }
 
             std::vector<AdjectiveSentenceQuizWidget::AdjectiveRule> AdjectiveSentenceQuizWidget::buildEnabledTransformationRules() const
@@ -739,22 +758,22 @@ namespace tadaima
                     {
                         if( m_enableNonPast )
                         {
-                            rules.push_back({ SentencePlacement::Attributive, "attributive_nonpast", "attributive_nonpast", "です", "だ", "plain non-past noun sentence", true });
+                            rules.push_back({ SentencePlacement::Attributive, "attributive_nonpast", "attributive_nonpast", "polite_nonpast", "plain_nonpast", "plain non-past noun sentence", true });
                         }
 
                         if( m_enableNegative )
                         {
-                            rules.push_back({ SentencePlacement::Attributive, "attributive_nonpast", "attributive_nonpast", "ではありません", "ではない", "plain non-past negative noun sentence", true });
+                            rules.push_back({ SentencePlacement::Attributive, "attributive_nonpast", "attributive_nonpast", "polite_negative", "plain_negative", "plain non-past negative noun sentence", true });
                         }
 
                         if( m_enablePast )
                         {
-                            rules.push_back({ SentencePlacement::Attributive, "attributive_nonpast", "attributive_nonpast", "でした", "だった", "plain past noun sentence", true });
+                            rules.push_back({ SentencePlacement::Attributive, "attributive_nonpast", "attributive_nonpast", "polite_past", "plain_past", "plain past noun sentence", true });
                         }
 
                         if( m_enablePastNegative )
                         {
-                            rules.push_back({ SentencePlacement::Attributive, "attributive_nonpast", "attributive_nonpast", "ではありませんでした", "ではなかった", "plain past negative noun sentence", true });
+                            rules.push_back({ SentencePlacement::Attributive, "attributive_nonpast", "attributive_nonpast", "polite_past_negative", "plain_past_negative", "plain past negative noun sentence", true });
                         }
                     }
                 }
@@ -788,22 +807,22 @@ namespace tadaima
                     {
                         if( m_enableNonPast )
                         {
-                            rules.push_back({ SentencePlacement::Attributive, "attributive_nonpast", "attributive_nonpast", "だ", "です", "polite non-past noun sentence", true });
+                            rules.push_back({ SentencePlacement::Attributive, "attributive_nonpast", "attributive_nonpast", "plain_nonpast", "polite_nonpast", "polite non-past noun sentence", true });
                         }
 
                         if( m_enableNegative )
                         {
-                            rules.push_back({ SentencePlacement::Attributive, "attributive_nonpast", "attributive_nonpast", "ではない", "ではありません", "polite non-past negative noun sentence", true });
+                            rules.push_back({ SentencePlacement::Attributive, "attributive_nonpast", "attributive_nonpast", "plain_negative", "polite_negative", "polite non-past negative noun sentence", true });
                         }
 
                         if( m_enablePast )
                         {
-                            rules.push_back({ SentencePlacement::Attributive, "attributive_nonpast", "attributive_nonpast", "だった", "でした", "polite past noun sentence", true });
+                            rules.push_back({ SentencePlacement::Attributive, "attributive_nonpast", "attributive_nonpast", "plain_past", "polite_past", "polite past noun sentence", true });
                         }
 
                         if( m_enablePastNegative )
                         {
-                            rules.push_back({ SentencePlacement::Attributive, "attributive_nonpast", "attributive_nonpast", "ではなかった", "ではありませんでした", "polite past negative noun sentence", true });
+                            rules.push_back({ SentencePlacement::Attributive, "attributive_nonpast", "attributive_nonpast", "plain_past_negative", "polite_past_negative", "polite past negative noun sentence", true });
                         }
                     }
                 }
@@ -879,22 +898,22 @@ namespace tadaima
                         {
                             if( m_enableNonPast )
                             {
-                                r_rules.push_back({ placement, "source_language", "attributive_nonpast", "", "だ", "plain non-past noun sentence", true });
+                                r_rules.push_back({ placement, "source_language", "attributive_nonpast", "", "plain_nonpast", "plain non-past noun sentence", true });
                             }
 
                             if( m_enableNegative )
                             {
-                                r_rules.push_back({ placement, "source_language", "attributive_nonpast", "", "ではない", "plain non-past negative noun sentence", true });
+                                r_rules.push_back({ placement, "source_language", "attributive_nonpast", "", "plain_negative", "plain non-past negative noun sentence", true });
                             }
 
                             if( m_enablePast )
                             {
-                                r_rules.push_back({ placement, "source_language", "attributive_nonpast", "", "だった", "plain past noun sentence", true });
+                                r_rules.push_back({ placement, "source_language", "attributive_nonpast", "", "plain_past", "plain past noun sentence", true });
                             }
 
                             if( m_enablePastNegative )
                             {
-                                r_rules.push_back({ placement, "source_language", "attributive_nonpast", "", "ではなかった", "plain past negative noun sentence", true });
+                                r_rules.push_back({ placement, "source_language", "attributive_nonpast", "", "plain_past_negative", "plain past negative noun sentence", true });
                             }
                         }
 
@@ -902,22 +921,22 @@ namespace tadaima
                         {
                             if( m_enableNonPast )
                             {
-                                r_rules.push_back({ placement, "source_language", "attributive_nonpast", "", "です", "polite non-past noun sentence", true });
+                                r_rules.push_back({ placement, "source_language", "attributive_nonpast", "", "polite_nonpast", "polite non-past noun sentence", true });
                             }
 
                             if( m_enableNegative )
                             {
-                                r_rules.push_back({ placement, "source_language", "attributive_nonpast", "", "ではありません", "polite non-past negative noun sentence", true });
+                                r_rules.push_back({ placement, "source_language", "attributive_nonpast", "", "polite_negative", "polite non-past negative noun sentence", true });
                             }
 
                             if( m_enablePast )
                             {
-                                r_rules.push_back({ placement, "source_language", "attributive_nonpast", "", "でした", "polite past noun sentence", true });
+                                r_rules.push_back({ placement, "source_language", "attributive_nonpast", "", "polite_past", "polite past noun sentence", true });
                             }
 
                             if( m_enablePastNegative )
                             {
-                                r_rules.push_back({ placement, "source_language", "attributive_nonpast", "", "ではありませんでした", "polite past negative noun sentence", true });
+                                r_rules.push_back({ placement, "source_language", "attributive_nonpast", "", "polite_past_negative", "polite past negative noun sentence", true });
                             }
                         }
                     }
@@ -1216,7 +1235,9 @@ namespace tadaima
                                     if( rule.enabled &&
                                         (sentenceMap.placement == rule.placement) &&
                                         hasForm(word, rule.sourceForm) &&
-                                        hasForm(word, rule.targetForm) )
+                                        hasForm(word, rule.targetForm) &&
+                                        hasCopula(sentenceMap, rule.sourceCopula) &&
+                                        hasCopula(sentenceMap, rule.targetCopula) )
                                     {
                                         std::vector<SlotItem> slots;
 
@@ -1247,8 +1268,12 @@ namespace tadaima
                                                 const std::string targetForm = buildCombinedForm(chain, rule.targetForm);
                                                 const std::string sourcePrompt = buildCombinedPrompt(chain, rule.sourceForm);
                                                 const std::string targetPrompt = buildCombinedPrompt(chain, rule.targetForm);
-                                                const std::unordered_map<std::string, std::string> sourceReplacements = buildReplacements(word, slot, sourceForm, rule.sourceCopula, sourcePrompt);
-                                                const std::unordered_map<std::string, std::string> targetReplacements = buildReplacements(word, slot, targetForm, rule.targetCopula, targetPrompt);
+                                                const std::string sourceCopulaValue = getCopulaValue(sentenceMap, rule.sourceCopula);
+                                                const std::string targetCopulaValue = getCopulaValue(sentenceMap, rule.targetCopula);
+                                                const std::string sourceCopulaPrompt = getCopulaPrompt(sentenceMap, rule.sourceCopula);
+                                                const std::string targetCopulaPrompt = getCopulaPrompt(sentenceMap, rule.targetCopula);
+                                                const std::unordered_map<std::string, std::string> sourceReplacements = buildReplacements(word, slot, sourceForm, sourceCopulaValue, sourceCopulaPrompt, sourcePrompt);
+                                                const std::unordered_map<std::string, std::string> targetReplacements = buildReplacements(word, slot, targetForm, targetCopulaValue, targetCopulaPrompt, targetPrompt);
 
                                                 QuizQuestion question;
                                                 question.key = std::format("{}:{}:{}:{}:{}:{}:{}", buildChainKey(chain), sentenceMap.id, slotIndex, chainIndex, rule.sourceForm, rule.targetForm, rule.targetCopula);
@@ -1258,8 +1283,8 @@ namespace tadaima
                                                 question.targetLabel = rule.label;
                                                 question.sourceForm = rule.sourceForm;
                                                 question.targetForm = rule.targetForm;
-                                                question.sourceCopula = rule.sourceCopula;
-                                                question.targetCopula = rule.targetCopula;
+                                                question.sourceCopula = sourceCopulaValue;
+                                                question.targetCopula = targetCopulaValue;
                                                 question.wordMeaning = buildChainInfo(chain, "translation");
                                                 question.wordKana = buildChainInfo(chain, "kana");
                                                 question.wordKanji = buildChainInfo(chain, "kanji");
@@ -1306,7 +1331,8 @@ namespace tadaima
                                 {
                                     if( rule.enabled &&
                                         (sentenceMap.placement == rule.placement) &&
-                                        hasForm(word, rule.targetForm) )
+                                        hasForm(word, rule.targetForm) &&
+                                        hasCopula(sentenceMap, rule.targetCopula) )
                                     {
                                         std::vector<SlotItem> slots;
 
@@ -1335,7 +1361,9 @@ namespace tadaima
                                                 const AdjectiveChain& chain = chains[chainIndex];
                                                 const std::string targetForm = buildCombinedForm(chain, rule.targetForm);
                                                 const std::string targetPrompt = buildCombinedPrompt(chain, rule.targetForm);
-                                                const std::unordered_map<std::string, std::string> targetReplacements = buildReplacements(word, slot, targetForm, rule.targetCopula, targetPrompt);
+                                                const std::string targetCopulaValue = getCopulaValue(sentenceMap, rule.targetCopula);
+                                                const std::string targetCopulaPrompt = getCopulaPrompt(sentenceMap, rule.targetCopula);
+                                                const std::unordered_map<std::string, std::string> targetReplacements = buildReplacements(word, slot, targetForm, targetCopulaValue, targetCopulaPrompt, targetPrompt);
 
                                                 QuizQuestion question;
                                                 question.key = std::format("{}:{}:{}:{}:language_to_japanese:{}:{}", buildChainKey(chain), sentenceMap.id, slotIndex, chainIndex, rule.targetForm, rule.targetCopula);
@@ -1346,7 +1374,7 @@ namespace tadaima
                                                 question.sourceForm = "source_language";
                                                 question.targetForm = rule.targetForm;
                                                 question.sourceCopula = rule.sourceCopula;
-                                                question.targetCopula = rule.targetCopula;
+                                                question.targetCopula = targetCopulaValue;
                                                 question.wordMeaning = buildChainInfo(chain, "translation");
                                                 question.wordKana = buildChainInfo(chain, "kana");
                                                 question.wordKanji = buildChainInfo(chain, "kanji");
@@ -1829,7 +1857,7 @@ namespace tadaima
                 return result;
             }
 
-            std::unordered_map<std::string, std::string> AdjectiveSentenceQuizWidget::buildReplacements(const DictionaryAdjective& word, const SlotItem& slot, const std::string& formValue, const std::string& copula, const std::string& prompt) const
+            std::unordered_map<std::string, std::string> AdjectiveSentenceQuizWidget::buildReplacements(const DictionaryAdjective& word, const SlotItem& slot, const std::string& formValue, const std::string& copula, const std::string& copulaPrompt, const std::string& prompt) const
             {
                 std::unordered_map<std::string, std::string> replacements;
 
@@ -1841,7 +1869,7 @@ namespace tadaima
                 replacements["{predicate_form}"] = formValue;
                 replacements["{attributive_form}"] = formValue;
                 replacements["{copula}"] = copula;
-                replacements["{copula_prompt}"] = copulaToPrompt(copula);
+                replacements["{copula_prompt}"] = copulaPrompt;
                 replacements["{adjective_prompt}"] = prompt;
                 replacements["{word}"] = word.kana;
                 replacements["{word_kana}"] = word.kana;
@@ -1852,30 +1880,55 @@ namespace tadaima
                 return replacements;
             }
 
-
-            std::string AdjectiveSentenceQuizWidget::copulaToPrompt(const std::string& copula) const
+            bool AdjectiveSentenceQuizWidget::hasCopula(const SentenceMap& sentenceMap, const std::string& copulaName) const
             {
-                std::string result;
+                bool result = true;
 
-                if( (copula == "だ") || (copula == "です") )
+                if( !copulaName.empty() )
                 {
-                    result = "jest";
-                }
-                else if( (copula == "ではない") || (copula == "ではありません") )
-                {
-                    result = "nie jest";
-                }
-                else if( (copula == "だった") || (copula == "でした") )
-                {
-                    result = "był / była / było";
-                }
-                else if( (copula == "ではなかった") || (copula == "ではありませんでした") )
-                {
-                    result = "nie był / nie była / nie było";
+                    const auto iterator = sentenceMap.copulas.find(copulaName);
+                    result = (iterator != sentenceMap.copulas.end()) && !iterator->second.value.empty();
                 }
 
                 return result;
             }
+
+            std::string AdjectiveSentenceQuizWidget::getCopulaValue(const SentenceMap& sentenceMap, const std::string& copulaName) const
+            {
+                std::string result;
+
+                if( !copulaName.empty() )
+                {
+                    const auto iterator = sentenceMap.copulas.find(copulaName);
+
+                    if( iterator != sentenceMap.copulas.end() )
+                    {
+                        result = iterator->second.value;
+                    }
+                }
+
+                return result;
+            }
+
+            std::string AdjectiveSentenceQuizWidget::getCopulaPrompt(const SentenceMap& sentenceMap, const std::string& copulaName) const
+            {
+                std::string result;
+
+                if( !copulaName.empty() )
+                {
+                    const auto iterator = sentenceMap.copulas.find(copulaName);
+
+                    if( iterator != sentenceMap.copulas.end() )
+                    {
+                        result = iterator->second.prompt;
+                    }
+                }
+
+                return result;
+            }
+
+
+
 
             AdjectiveSentenceQuizWidget::SentencePlacement AdjectiveSentenceQuizWidget::parsePlacement(const std::string& text) const
             {
