@@ -1,0 +1,1856 @@
+<?xml version='1.0' encoding='utf-8'?>
+<dictionary schema_version="6" id="adjectives">
+  <words>
+    <word id="akai" translation="czerwony" kana="あかい" kanji="赤い" type="i_adjective">
+      <tags>
+        <tag>color</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest czerwony" context="none" style="plain non-past">あかい</form>
+        <form name="predicate_polite_nonpast" prompt="jest czerwony" context="none" style="polite non-past">あかいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest czerwony" context="none" style="plain negative">あかくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest czerwony" context="none" style="polite negative">あかくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było czerwony" context="none" style="plain past">あかかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było czerwony" context="none" style="polite past">あかかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było czerwony" context="none" style="plain past negative">あかくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było czerwony" context="none" style="polite past negative">あかくなかったです</form>
+        <form name="attributive_nonpast" prompt="czerwony" context="none" style="before noun">あかい</form>
+        <form name="connective" prompt="czerwony" context="none" style="connective">あかくて</form>
+        <form name="adverbial" prompt="czerwony" context="none" style="adverbial">あかく</form>
+        <form name="conditional" prompt="czerwony" context="none" style="conditional">あかければ</form>
+        <form name="nominalized" prompt="czerwony" context="none" style="nominalized noun">あかさ</form>
+        <form name="appearance_sou" prompt="czerwony" context="none" style="looks / seems">あかそう</form>
+        <form name="excessive_sugiru" prompt="czerwony" context="none" style="too much">あかすぎる</form>
+      </forms>
+    </word>
+    <word id="akarui" translation="jasny" kana="あかるい" kanji="明るい" type="i_adjective">
+      <tags>
+        <tag>brightness</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" context="none" prompt_m="jest jasny" prompt_f="jest jasna" prompt_n="jest jasne" prompt_p="są jasne">あかるい</form>
+        <form name="predicate_polite_nonpast" context="none" prompt_m="jest jasny" prompt_f="jest jasna" prompt_n="jest jasne" prompt_p="są jasne">あかるいです</form>
+        <form name="predicate_plain_negative" context="none" prompt_m="nie jest jasny" prompt_f="nie jest jasna" prompt_n="nie jest jasne" prompt_p="nie są jasne">あかるくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest jasny" context="none" style="polite negative">あかるくないです</form>
+        <form name="predicate_plain_past" context="none" prompt_m="był jasny" prompt_f="była jasna" prompt_n="było jasne" prompt_p="były jasne">あかるかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było jasny" context="none" style="polite past">あかるかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było jasny" context="none" style="plain past negative">あかるくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było jasny" context="none" style="polite past negative">あかるくなかったです</form>
+        <form name="attributive_nonpast" context="none" prompt_m="jasny" prompt_f="jasna" prompt_n="jasne" prompt_p="jasne">あかるい</form>
+        <form name="connective" context="none" prompt_m="jasny" prompt_f="jasna" prompt_n="jasne" prompt_p="jasne">あかるくて</form>
+        <form name="adverbial" prompt="jasny" context="none" style="adverbial">あかるく</form>
+        <form name="conditional" prompt="jasny" context="none" style="conditional">あかるければ</form>
+        <form name="nominalized" prompt="jasny" context="none" style="nominalized noun">あかるさ</form>
+        <form name="appearance_sou" prompt="jasny" context="none" style="looks / seems">あかるそう</form>
+        <form name="excessive_sugiru" prompt="jasny" context="none" style="too much">あかるすぎる</form>
+      </forms>
+    </word>
+    <word id="amai" translation="słodki" kana="あまい" kanji="甘い" type="i_adjective">
+      <tags>
+        <tag>taste</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest słodki" context="none" style="plain non-past">あまい</form>
+        <form name="predicate_polite_nonpast" prompt="jest słodki" context="none" style="polite non-past">あまいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest słodki" context="none" style="plain negative">あまくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest słodki" context="none" style="polite negative">あまくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było słodki" context="none" style="plain past">あまかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było słodki" context="none" style="polite past">あまかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było słodki" context="none" style="plain past negative">あまくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było słodki" context="none" style="polite past negative">あまくなかったです</form>
+        <form name="attributive_nonpast" prompt="słodki" context="none" style="before noun">あまい</form>
+        <form name="connective" prompt="słodki" context="none" style="connective">あまくて</form>
+        <form name="adverbial" prompt="słodki" context="none" style="adverbial">あまく</form>
+        <form name="conditional" prompt="słodki" context="none" style="conditional">あまければ</form>
+        <form name="nominalized" prompt="słodki" context="none" style="nominalized noun">あまさ</form>
+        <form name="appearance_sou" prompt="słodki" context="none" style="looks / seems">あまそう</form>
+        <form name="excessive_sugiru" prompt="słodki" context="none" style="too much">あますぎる</form>
+      </forms>
+    </word>
+    <word id="anzen" translation="bezpieczny" kana="あんぜん" kanji="安全" type="na_adjective">
+      <tags>
+        <tag>safety</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest bezpieczny" context="none" style="plain non-past">あんぜんだ</form>
+        <form name="predicate_polite_nonpast" prompt="jest bezpieczny" context="none" style="polite non-past">あんぜんです</form>
+        <form name="predicate_plain_negative" prompt="nie jest bezpieczny" context="none" style="plain negative">あんぜんではない</form>
+        <form name="predicate_polite_negative" prompt="nie jest bezpieczny" context="none" style="polite negative">あんぜんではありません</form>
+        <form name="predicate_plain_past" prompt="był/była/było bezpieczny" context="none" style="plain past">あんぜんだった</form>
+        <form name="predicate_polite_past" prompt="był/była/było bezpieczny" context="none" style="polite past">あんぜんでした</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było bezpieczny" context="none" style="plain past negative">あんぜんではなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było bezpieczny" context="none" style="polite past negative">あんぜんではありませんでした</form>
+        <form name="attributive_nonpast" prompt="bezpieczny" context="none" style="before noun">あんぜんな</form>
+        <form name="connective" prompt="bezpieczny" context="none" style="connective">あんぜんで</form>
+        <form name="adverbial" prompt="bezpieczny" context="none" style="adverbial">あんぜんに</form>
+        <form name="conditional" prompt="bezpieczny" context="none" style="conditional">あんぜんなら</form>
+        <form name="nominalized" prompt="bezpieczny" context="none" style="nominalized noun">あんぜんさ</form>
+        <form name="appearance_sou" prompt="bezpieczny" context="none" style="looks / seems">あんぜんそう</form>
+        <form name="excessive_sugiru" prompt="bezpieczny" context="none" style="too much">あんぜんすぎる</form>
+      </forms>
+    </word>
+    <word id="aoi" translation="niebieski" kana="あおい" kanji="青い" type="i_adjective">
+      <tags>
+        <tag>color</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest niebieski" context="none" style="plain non-past">あおい</form>
+        <form name="predicate_polite_nonpast" prompt="jest niebieski" context="none" style="polite non-past">あおいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest niebieski" context="none" style="plain negative">あおくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest niebieski" context="none" style="polite negative">あおくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było niebieski" context="none" style="plain past">あおかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było niebieski" context="none" style="polite past">あおかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było niebieski" context="none" style="plain past negative">あおくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było niebieski" context="none" style="polite past negative">あおくなかったです</form>
+        <form name="attributive_nonpast" prompt="niebieski" context="none" style="before noun">あおい</form>
+        <form name="connective" prompt="niebieski" context="none" style="connective">あおくて</form>
+        <form name="adverbial" prompt="niebieski" context="none" style="adverbial">あおく</form>
+        <form name="conditional" prompt="niebieski" context="none" style="conditional">あおければ</form>
+        <form name="nominalized" prompt="niebieski" context="none" style="nominalized noun">あおさ</form>
+        <form name="appearance_sou" prompt="niebieski" context="none" style="looks / seems">あおそう</form>
+        <form name="excessive_sugiru" prompt="niebieski" context="none" style="too much">あおすぎる</form>
+      </forms>
+    </word>
+    <word id="arai" translation="szorstki / gwałtowny" kana="あらい" kanji="荒い" type="i_adjective">
+      <tags>
+        <tag>texture</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest szorstki" context="none" style="plain non-past">あらい</form>
+        <form name="predicate_polite_nonpast" prompt="jest szorstki" context="none" style="polite non-past">あらいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest szorstki" context="none" style="plain negative">あらくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest szorstki" context="none" style="polite negative">あらくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było szorstki" context="none" style="plain past">あらかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było szorstki" context="none" style="polite past">あらかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było szorstki" context="none" style="plain past negative">あらくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było szorstki" context="none" style="polite past negative">あらくなかったです</form>
+        <form name="attributive_nonpast" prompt="szorstki" context="none" style="before noun">あらい</form>
+        <form name="connective" prompt="szorstki" context="none" style="connective">あらくて</form>
+        <form name="adverbial" prompt="szorstki / gwałtowny" context="none" style="adverbial">あらく</form>
+        <form name="conditional" prompt="szorstki / gwałtowny" context="none" style="conditional">あらければ</form>
+        <form name="nominalized" prompt="szorstki / gwałtowny" context="none" style="nominalized noun">あらさ</form>
+        <form name="appearance_sou" prompt="szorstki / gwałtowny" context="none" style="looks / seems">あらそう</form>
+        <form name="excessive_sugiru" prompt="szorstki / gwałtowny" context="none" style="too much">あらすぎる</form>
+      </forms>
+    </word>
+    <word id="atarashii" translation="nowy" kana="あたらしい" kanji="新しい" type="i_adjective">
+      <tags>
+        <tag>age_new_old</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest nowy" context="none" style="plain non-past">あたらしい</form>
+        <form name="predicate_polite_nonpast" prompt="jest nowy" context="none" style="polite non-past">あたらしいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest nowy" context="none" style="plain negative">あたらしくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest nowy" context="none" style="polite negative">あたらしくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było nowy" context="none" style="plain past">あたらしかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było nowy" context="none" style="polite past">あたらしかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było nowy" context="none" style="plain past negative">あたらしくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było nowy" context="none" style="polite past negative">あたらしくなかったです</form>
+        <form name="attributive_nonpast" prompt="nowy" context="none" style="before noun">あたらしい</form>
+        <form name="connective" prompt="nowy" context="none" style="connective">あたらしくて</form>
+        <form name="adverbial" prompt="nowy" context="none" style="adverbial">あたらしく</form>
+        <form name="conditional" prompt="nowy" context="none" style="conditional">あたらしければ</form>
+        <form name="nominalized" prompt="nowy" context="none" style="nominalized noun">あたらしさ</form>
+        <form name="appearance_sou" prompt="nowy" context="none" style="looks / seems">あたらしそう</form>
+        <form name="excessive_sugiru" prompt="nowy" context="none" style="too much">あたらしすぎる</form>
+      </forms>
+    </word>
+    <word id="atatakai" translation="ciepły" kana="あたたかい" kanji="暖かい" type="i_adjective">
+      <tags>
+        <tag>weather</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest ciepły" context="none" style="plain non-past">あたたかい</form>
+        <form name="predicate_polite_nonpast" prompt="jest ciepły" context="none" style="polite non-past">あたたかいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest ciepły" context="none" style="plain negative">あたたかくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest ciepły" context="none" style="polite negative">あたたかくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było ciepły" context="none" style="plain past">あたたかかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było ciepły" context="none" style="polite past">あたたかかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było ciepły" context="none" style="plain past negative">あたたかくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było ciepły" context="none" style="polite past negative">あたたかくなかったです</form>
+        <form name="attributive_nonpast" prompt="ciepły" context="none" style="before noun">あたたかい</form>
+        <form name="connective" prompt="ciepły" context="none" style="connective">あたたかくて</form>
+        <form name="adverbial" prompt="ciepły" context="none" style="adverbial">あたたかく</form>
+        <form name="conditional" prompt="ciepły" context="none" style="conditional">あたたかければ</form>
+        <form name="nominalized" prompt="ciepły" context="none" style="nominalized noun">あたたかさ</form>
+        <form name="appearance_sou" prompt="ciepły" context="none" style="looks / seems">あたたかそう</form>
+        <form name="excessive_sugiru" prompt="ciepły" context="none" style="too much">あたたかすぎる</form>
+      </forms>
+    </word>
+    <word id="atsui" translation="gorący" kana="あつい" kanji="暑い" type="i_adjective">
+      <tags>
+        <tag>weather</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest gorący" context="none" style="plain non-past">あつい</form>
+        <form name="predicate_polite_nonpast" prompt="jest gorący" context="none" style="polite non-past">あついです</form>
+        <form name="predicate_plain_negative" prompt="nie jest gorący" context="none" style="plain negative">あつくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest gorący" context="none" style="polite negative">あつくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było gorący" context="none" style="plain past">あつかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było gorący" context="none" style="polite past">あつかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było gorący" context="none" style="plain past negative">あつくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było gorący" context="none" style="polite past negative">あつくなかったです</form>
+        <form name="attributive_nonpast" prompt="gorący" context="none" style="before noun">あつい</form>
+        <form name="connective" prompt="gorący" context="none" style="connective">あつくて</form>
+        <form name="adverbial" prompt="gorący" context="none" style="adverbial">あつく</form>
+        <form name="conditional" prompt="gorący" context="none" style="conditional">あつければ</form>
+        <form name="nominalized" prompt="gorący" context="none" style="nominalized noun">あつさ</form>
+        <form name="appearance_sou" prompt="gorący" context="none" style="looks / seems">あつそう</form>
+        <form name="excessive_sugiru" prompt="gorący" context="none" style="too much">あつすぎる</form>
+      </forms>
+    </word>
+    <word id="azayaka" translation="żywy / wyrazisty" kana="あざやか" kanji="鮮やか" type="na_adjective">
+      <tags>
+        <tag>color</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest wyrazisty" context="none" style="plain non-past">あざやかだ</form>
+        <form name="predicate_polite_nonpast" prompt="jest wyrazisty" context="none" style="polite non-past">あざやかです</form>
+        <form name="predicate_plain_negative" prompt="nie jest wyrazisty" context="none" style="plain negative">あざやかではない</form>
+        <form name="predicate_polite_negative" prompt="nie jest wyrazisty" context="none" style="polite negative">あざやかではありません</form>
+        <form name="predicate_plain_past" prompt="był/była/było wyrazisty" context="none" style="plain past">あざやかだった</form>
+        <form name="predicate_polite_past" prompt="był/była/było wyrazisty" context="none" style="polite past">あざやかでした</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było wyrazisty" context="none" style="plain past negative">あざやかではなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było wyrazisty" context="none" style="polite past negative">あざやかではありませんでした</form>
+        <form name="attributive_nonpast" prompt="wyrazisty" context="none" style="before noun">あざやかな</form>
+        <form name="connective" prompt="wyrazisty" context="none" style="connective">あざやかで</form>
+        <form name="adverbial" prompt="żywy / wyrazisty" context="none" style="adverbial">あざやかに</form>
+        <form name="conditional" prompt="żywy / wyrazisty" context="none" style="conditional">あざやかなら</form>
+        <form name="nominalized" prompt="żywy / wyrazisty" context="none" style="nominalized noun">あざやかさ</form>
+        <form name="appearance_sou" prompt="żywy / wyrazisty" context="none" style="looks / seems">あざやかそう</form>
+        <form name="excessive_sugiru" prompt="żywy / wyrazisty" context="none" style="too much">あざやかすぎる</form>
+      </forms>
+    </word>
+    <word id="chiisai" translation="mały" kana="ちいさい" kanji="小さい" type="i_adjective">
+      <tags>
+        <tag>object_dimension</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" context="none" prompt_m="jest mały" prompt_f="jest mała" prompt_n="jest małe" prompt_p="są małe">ちいさい</form>
+        <form name="predicate_polite_nonpast" context="none" prompt_m="jest mały" prompt_f="jest mała" prompt_n="jest małe" prompt_p="są małe">ちいさいです</form>
+        <form name="predicate_plain_negative" context="none" prompt_m="nie jest mały" prompt_f="nie jest mała" prompt_n="nie jest małe" prompt_p="nie są małe">ちいさくない</form>
+        <form name="predicate_polite_negative" context="none" prompt_m="nie jest mały" prompt_f="nie jest mała" prompt_n="nie jest małe" prompt_p="nie są małe">ちいさくないです</form>
+        <form name="predicate_plain_past" context="none" prompt_m="był mały" prompt_f="była mała" prompt_n="było małe" prompt_p="były małe">ちいさかった</form>
+        <form name="predicate_polite_past" context="none" prompt_m="był mały" prompt_f="była mała" prompt_n="było małe" prompt_p="były małe">ちいさかったです</form>
+        <form name="predicate_plain_past_negative" context="none" prompt_m="nie był mały" prompt_f="nie była mała" prompt_n="nie było małe" prompt_p="nie były małe">ちいさくなかった</form>
+        <form name="predicate_polite_past_negative" context="none" prompt_m="nie był mały" prompt_f="nie była mała" prompt_n="nie było małe" prompt_p="nie były małe">ちいさくなかったです</form>
+        <form name="attributive_nonpast" context="none" prompt_m="mały" prompt_f="mała" prompt_n="małe" prompt_p="małe">ちいさい</form>
+        <form name="connective" context="none" prompt_m="mały" prompt_f="mała" prompt_n="małe" prompt_p="małe">ちいさくて</form>
+        <form name="adverbial" prompt="mały" context="none" style="adverbial">ちいさく</form>
+        <form name="conditional" prompt="mały" context="none" style="conditional">ちいさければ</form>
+        <form name="nominalized" prompt="mały" context="none" style="nominalized noun">ちいささ</form>
+        <form name="appearance_sou" prompt="mały" context="none" style="looks / seems">ちいさそう</form>
+        <form name="excessive_sugiru" prompt="mały" context="none" style="too much">ちいさすぎる</form>
+      </forms>
+    </word>
+    <word id="chikai" translation="bliski" kana="ちかい" kanji="近い" type="i_adjective">
+      <tags>
+        <tag>distance</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest bliski" context="none" style="plain non-past">ちかい</form>
+        <form name="predicate_polite_nonpast" prompt="jest bliski" context="none" style="polite non-past">ちかいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest bliski" context="none" style="plain negative">ちかくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest bliski" context="none" style="polite negative">ちかくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było bliski" context="none" style="plain past">ちかかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było bliski" context="none" style="polite past">ちかかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było bliski" context="none" style="plain past negative">ちかくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było bliski" context="none" style="polite past negative">ちかくなかったです</form>
+        <form name="attributive_nonpast" prompt="bliski" context="none" style="before noun">ちかい</form>
+        <form name="connective" prompt="bliski" context="none" style="connective">ちかくて</form>
+        <form name="adverbial" prompt="bliski" context="none" style="adverbial">ちかく</form>
+        <form name="conditional" prompt="bliski" context="none" style="conditional">ちかければ</form>
+        <form name="nominalized" prompt="bliski" context="none" style="nominalized noun">ちかさ</form>
+        <form name="appearance_sou" prompt="bliski" context="none" style="looks / seems">ちかそう</form>
+        <form name="excessive_sugiru" prompt="bliski" context="none" style="too much">ちかすぎる</form>
+      </forms>
+    </word>
+    <word id="fukuzatsu" translation="skomplikowany" kana="ふくざつ" kanji="複雑" type="na_adjective">
+      <tags>
+        <tag>complexity</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest skomplikowany" context="none" style="plain non-past">ふくざつだ</form>
+        <form name="predicate_polite_nonpast" prompt="jest skomplikowany" context="none" style="polite non-past">ふくざつです</form>
+        <form name="predicate_plain_negative" prompt="nie jest skomplikowany" context="none" style="plain negative">ふくざつではない</form>
+        <form name="predicate_polite_negative" prompt="nie jest skomplikowany" context="none" style="polite negative">ふくざつではありません</form>
+        <form name="predicate_plain_past" prompt="był/była/było skomplikowany" context="none" style="plain past">ふくざつだった</form>
+        <form name="predicate_polite_past" prompt="był/była/było skomplikowany" context="none" style="polite past">ふくざつでした</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było skomplikowany" context="none" style="plain past negative">ふくざつではなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było skomplikowany" context="none" style="polite past negative">ふくざつではありませんでした</form>
+        <form name="attributive_nonpast" prompt="skomplikowany" context="none" style="before noun">ふくざつな</form>
+        <form name="connective" prompt="skomplikowany" context="none" style="connective">ふくざつで</form>
+        <form name="adverbial" prompt="skomplikowany" context="none" style="adverbial">ふくざつに</form>
+        <form name="conditional" prompt="skomplikowany" context="none" style="conditional">ふくざつなら</form>
+        <form name="nominalized" prompt="skomplikowany" context="none" style="nominalized noun">ふくざつさ</form>
+        <form name="appearance_sou" prompt="skomplikowany" context="none" style="looks / seems">ふくざつそう</form>
+        <form name="excessive_sugiru" prompt="skomplikowany" context="none" style="too much">ふくざつすぎる</form>
+      </forms>
+    </word>
+    <word id="furui" translation="stary" kana="ふるい" kanji="古い" type="i_adjective">
+      <tags>
+        <tag>age_new_old</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest stary" context="none" style="plain non-past">ふるい</form>
+        <form name="predicate_polite_nonpast" prompt="jest stary" context="none" style="polite non-past">ふるいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest stary" context="none" style="plain negative">ふるくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest stary" context="none" style="polite negative">ふるくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było stary" context="none" style="plain past">ふるかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było stary" context="none" style="polite past">ふるかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było stary" context="none" style="plain past negative">ふるくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było stary" context="none" style="polite past negative">ふるくなかったです</form>
+        <form name="attributive_nonpast" prompt="stary" context="none" style="before noun">ふるい</form>
+        <form name="connective" prompt="stary" context="none" style="connective">ふるくて</form>
+        <form name="adverbial" prompt="stary" context="none" style="adverbial">ふるく</form>
+        <form name="conditional" prompt="stary" context="none" style="conditional">ふるければ</form>
+        <form name="nominalized" prompt="stary" context="none" style="nominalized noun">ふるさ</form>
+        <form name="appearance_sou" prompt="stary" context="none" style="looks / seems">ふるそう</form>
+        <form name="excessive_sugiru" prompt="stary" context="none" style="too much">ふるすぎる</form>
+      </forms>
+    </word>
+    <word id="ganko" translation="uparty" kana="がんこ" kanji="頑固" type="na_adjective">
+      <tags>
+        <tag>personality</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest uparty" context="none" style="plain non-past">がんこだ</form>
+        <form name="predicate_polite_nonpast" prompt="jest uparty" context="none" style="polite non-past">がんこです</form>
+        <form name="predicate_plain_negative" prompt="nie jest uparty" context="none" style="plain negative">がんこではない</form>
+        <form name="predicate_polite_negative" prompt="nie jest uparty" context="none" style="polite negative">がんこではありません</form>
+        <form name="predicate_plain_past" prompt="był/była/było uparty" context="none" style="plain past">がんこだった</form>
+        <form name="predicate_polite_past" prompt="był/była/było uparty" context="none" style="polite past">がんこでした</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było uparty" context="none" style="plain past negative">がんこではなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było uparty" context="none" style="polite past negative">がんこではありませんでした</form>
+        <form name="attributive_nonpast" prompt="uparty" context="none" style="before noun">がんこな</form>
+        <form name="connective" prompt="uparty" context="none" style="connective">がんこで</form>
+        <form name="adverbial" prompt="uparty" context="none" style="adverbial">がんこに</form>
+        <form name="conditional" prompt="uparty" context="none" style="conditional">がんこなら</form>
+        <form name="nominalized" prompt="uparty" context="none" style="nominalized noun">がんこさ</form>
+        <form name="appearance_sou" prompt="uparty" context="none" style="looks / seems">がんこそう</form>
+        <form name="excessive_sugiru" prompt="uparty" context="none" style="too much">がんこすぎる</form>
+      </forms>
+    </word>
+    <word id="genki" translation="energiczny / zdrowy" kana="げんき" kanji="元気" type="na_adjective">
+      <tags>
+        <tag>physical_person</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest energiczny" context="none" style="plain non-past">げんきだ</form>
+        <form name="predicate_polite_nonpast" prompt="jest energiczny" context="none" style="polite non-past">げんきです</form>
+        <form name="predicate_plain_negative" prompt="nie jest energiczny" context="none" style="plain negative">げんきではない</form>
+        <form name="predicate_polite_negative" prompt="nie jest energiczny" context="none" style="polite negative">げんきではありません</form>
+        <form name="predicate_plain_past" prompt="był/była/było energiczny" context="none" style="plain past">げんきだった</form>
+        <form name="predicate_polite_past" prompt="był/była/było energiczny" context="none" style="polite past">げんきでした</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było energiczny" context="none" style="plain past negative">げんきではなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było energiczny" context="none" style="polite past negative">げんきではありませんでした</form>
+        <form name="attributive_nonpast" prompt="energiczny" context="none" style="before noun">げんきな</form>
+        <form name="connective" prompt="energiczny" context="none" style="connective">げんきで</form>
+        <form name="adverbial" prompt="energiczny / zdrowy" context="none" style="adverbial">げんきに</form>
+        <form name="conditional" prompt="energiczny / zdrowy" context="none" style="conditional">げんきなら</form>
+        <form name="nominalized" prompt="energiczny / zdrowy" context="none" style="nominalized noun">げんきさ</form>
+        <form name="appearance_sou" prompt="energiczny / zdrowy" context="none" style="looks / seems">げんきそう</form>
+        <form name="excessive_sugiru" prompt="energiczny / zdrowy" context="none" style="too much">げんきすぎる</form>
+      </forms>
+    </word>
+    <word id="hadazamui" translation="chłodny" kana="はだざむい" kanji="肌寒い" type="i_adjective">
+      <tags>
+        <tag>weather</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest chłodny" context="none" style="plain non-past">はだざむい</form>
+        <form name="predicate_polite_nonpast" prompt="jest chłodny" context="none" style="polite non-past">はだざむいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest chłodny" context="none" style="plain negative">はだざむくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest chłodny" context="none" style="polite negative">はだざむくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było chłodny" context="none" style="plain past">はだざむかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było chłodny" context="none" style="polite past">はだざむかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było chłodny" context="none" style="plain past negative">はだざむくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było chłodny" context="none" style="polite past negative">はだざむくなかったです</form>
+        <form name="attributive_nonpast" prompt="chłodny" context="none" style="before noun">はだざむい</form>
+        <form name="connective" prompt="chłodny" context="none" style="connective">はだざむくて</form>
+        <form name="adverbial" prompt="chłodny" context="none" style="adverbial">はだざむく</form>
+        <form name="conditional" prompt="chłodny" context="none" style="conditional">はだざむければ</form>
+        <form name="nominalized" prompt="chłodny" context="none" style="nominalized noun">はだざむさ</form>
+        <form name="appearance_sou" prompt="chłodny" context="none" style="looks / seems">はだざむそう</form>
+        <form name="excessive_sugiru" prompt="chłodny" context="none" style="too much">はだざむすぎる</form>
+      </forms>
+    </word>
+    <word id="hayai" translation="szybki / wczesny" kana="はやい" kanji="速い" type="i_adjective">
+      <tags>
+        <tag>speed</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest szybki" context="none" style="plain non-past">はやい</form>
+        <form name="predicate_polite_nonpast" prompt="jest szybki" context="none" style="polite non-past">はやいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest szybki" context="none" style="plain negative">はやくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest szybki" context="none" style="polite negative">はやくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było szybki" context="none" style="plain past">はやかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było szybki" context="none" style="polite past">はやかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było szybki" context="none" style="plain past negative">はやくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było szybki" context="none" style="polite past negative">はやくなかったです</form>
+        <form name="attributive_nonpast" prompt="szybki" context="none" style="before noun">はやい</form>
+        <form name="connective" prompt="szybki" context="none" style="connective">はやくて</form>
+        <form name="adverbial" prompt="szybki / wczesny" context="none" style="adverbial">はやく</form>
+        <form name="conditional" prompt="szybki / wczesny" context="none" style="conditional">はやければ</form>
+        <form name="nominalized" prompt="szybki / wczesny" context="none" style="nominalized noun">はやさ</form>
+        <form name="appearance_sou" prompt="szybki / wczesny" context="none" style="looks / seems">はやそう</form>
+        <form name="excessive_sugiru" prompt="szybki / wczesny" context="none" style="too much">はやすぎる</form>
+      </forms>
+    </word>
+    <word id="heikinteki" translation="przeciętny" kana="へいきんてき" kanji="平均的" type="na_adjective">
+      <tags>
+        <tag>general_value</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest przeciętny" context="none" style="plain non-past">へいきんてきだ</form>
+        <form name="predicate_polite_nonpast" prompt="jest przeciętny" context="none" style="polite non-past">へいきんてきです</form>
+        <form name="predicate_plain_negative" prompt="nie jest przeciętny" context="none" style="plain negative">へいきんてきではない</form>
+        <form name="predicate_polite_negative" prompt="nie jest przeciętny" context="none" style="polite negative">へいきんてきではありません</form>
+        <form name="predicate_plain_past" prompt="był/była/było przeciętny" context="none" style="plain past">へいきんてきだった</form>
+        <form name="predicate_polite_past" prompt="był/była/było przeciętny" context="none" style="polite past">へいきんてきでした</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było przeciętny" context="none" style="plain past negative">へいきんてきではなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było przeciętny" context="none" style="polite past negative">へいきんてきではありませんでした</form>
+        <form name="attributive_nonpast" prompt="przeciętny" context="none" style="before noun">へいきんてきな</form>
+        <form name="connective" prompt="przeciętny" context="none" style="connective">へいきんてきで</form>
+        <form name="adverbial" prompt="przeciętny" context="none" style="adverbial">へいきんてきに</form>
+        <form name="conditional" prompt="przeciętny" context="none" style="conditional">へいきんてきなら</form>
+        <form name="nominalized" prompt="przeciętny" context="none" style="nominalized noun">へいきんてきさ</form>
+        <form name="appearance_sou" prompt="przeciętny" context="none" style="looks / seems">へいきんてきそう</form>
+        <form name="excessive_sugiru" prompt="przeciętny" context="none" style="too much">へいきんてきすぎる</form>
+      </forms>
+    </word>
+    <word id="hen" translation="dziwny" kana="へん" kanji="変" type="na_adjective">
+      <tags>
+        <tag>situation</tag>
+        <tag>personality</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest dziwny" context="none" style="plain non-past">へんだ</form>
+        <form name="predicate_polite_nonpast" prompt="jest dziwny" context="none" style="polite non-past">へんです</form>
+        <form name="predicate_plain_negative" prompt="nie jest dziwny" context="none" style="plain negative">へんではない</form>
+        <form name="predicate_polite_negative" prompt="nie jest dziwny" context="none" style="polite negative">へんではありません</form>
+        <form name="predicate_plain_past" prompt="był/była/było dziwny" context="none" style="plain past">へんだった</form>
+        <form name="predicate_polite_past" prompt="był/była/było dziwny" context="none" style="polite past">へんでした</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było dziwny" context="none" style="plain past negative">へんではなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było dziwny" context="none" style="polite past negative">へんではありませんでした</form>
+        <form name="attributive_nonpast" prompt="dziwny" context="none" style="before noun">へんな</form>
+        <form name="connective" prompt="dziwny" context="none" style="connective">へんで</form>
+        <form name="adverbial" prompt="dziwny" context="none" style="adverbial">へんに</form>
+        <form name="conditional" prompt="dziwny" context="none" style="conditional">へんなら</form>
+        <form name="nominalized" prompt="dziwny" context="none" style="nominalized noun">へんさ</form>
+        <form name="appearance_sou" prompt="dziwny" context="none" style="looks / seems">へんそう</form>
+        <form name="excessive_sugiru" prompt="dziwny" context="none" style="too much">へんすぎる</form>
+      </forms>
+    </word>
+    <word id="hidoi" translation="okropny" kana="ひどい" type="i_adjective">
+      <tags>
+        <tag>general_value</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest okropny" context="none" style="plain non-past">ひどい</form>
+        <form name="predicate_polite_nonpast" prompt="jest okropny" context="none" style="polite non-past">ひどいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest okropny" context="none" style="plain negative">ひどくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest okropny" context="none" style="polite negative">ひどくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było okropny" context="none" style="plain past">ひどかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było okropny" context="none" style="polite past">ひどかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było okropny" context="none" style="plain past negative">ひどくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było okropny" context="none" style="polite past negative">ひどくなかったです</form>
+        <form name="attributive_nonpast" prompt="okropny" context="none" style="before noun">ひどい</form>
+        <form name="connective" prompt="okropny" context="none" style="connective">ひどくて</form>
+        <form name="adverbial" prompt="okropny" context="none" style="adverbial">ひどく</form>
+        <form name="conditional" prompt="okropny" context="none" style="conditional">ひどければ</form>
+        <form name="nominalized" prompt="okropny" context="none" style="nominalized noun">ひどさ</form>
+        <form name="appearance_sou" prompt="okropny" context="none" style="looks / seems">ひどそう</form>
+        <form name="excessive_sugiru" prompt="okropny" context="none" style="too much">ひどすぎる</form>
+      </forms>
+    </word>
+    <word id="hikui" translation="niski" kana="ひくい" kanji="低い" type="i_adjective">
+      <tags>
+        <tag>height</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest niski" context="none" style="plain non-past">ひくい</form>
+        <form name="predicate_polite_nonpast" prompt="jest niski" context="none" style="polite non-past">ひくいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest niski" context="none" style="plain negative">ひくくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest niski" context="none" style="polite negative">ひくくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było niski" context="none" style="plain past">ひくかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było niski" context="none" style="polite past">ひくかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było niski" context="none" style="plain past negative">ひくくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było niski" context="none" style="polite past negative">ひくくなかったです</form>
+        <form name="attributive_nonpast" prompt="niski" context="none" style="before noun">ひくい</form>
+        <form name="connective" prompt="niski" context="none" style="connective">ひくくて</form>
+        <form name="adverbial" prompt="niski" context="none" style="adverbial">ひくく</form>
+        <form name="conditional" prompt="niski" context="none" style="conditional">ひくければ</form>
+        <form name="nominalized" prompt="niski" context="none" style="nominalized noun">ひくさ</form>
+        <form name="appearance_sou" prompt="niski" context="none" style="looks / seems">ひくそう</form>
+        <form name="excessive_sugiru" prompt="niski" context="none" style="too much">ひくすぎる</form>
+      </forms>
+    </word>
+    <word id="hiroi" translation="szeroki" kana="ひろい" kanji="広い" type="i_adjective">
+      <tags>
+        <tag>space_dimension</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest szeroki" context="none" style="plain non-past">ひろい</form>
+        <form name="predicate_polite_nonpast" prompt="jest szeroki" context="none" style="polite non-past">ひろいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest szeroki" context="none" style="plain negative">ひろくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest szeroki" context="none" style="polite negative">ひろくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było szeroki" context="none" style="plain past">ひろかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było szeroki" context="none" style="polite past">ひろかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było szeroki" context="none" style="plain past negative">ひろくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było szeroki" context="none" style="polite past negative">ひろくなかったです</form>
+        <form name="attributive_nonpast" prompt="szeroki" context="none" style="before noun">ひろい</form>
+        <form name="connective" prompt="szeroki" context="none" style="connective">ひろくて</form>
+        <form name="adverbial" prompt="szeroki" context="none" style="adverbial">ひろく</form>
+        <form name="conditional" prompt="szeroki" context="none" style="conditional">ひろければ</form>
+        <form name="nominalized" prompt="szeroki" context="none" style="nominalized noun">ひろさ</form>
+        <form name="appearance_sou" prompt="szeroki" context="none" style="looks / seems">ひろそう</form>
+        <form name="excessive_sugiru" prompt="szeroki" context="none" style="too much">ひろすぎる</form>
+      </forms>
+    </word>
+    <word id="ijou" translation="nienormalny / nieprawidłowy" kana="いじょう" kanji="異常" type="na_adjective">
+      <tags>
+        <tag>normality</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest nienormalny" context="none" style="plain non-past">いじょうだ</form>
+        <form name="predicate_polite_nonpast" prompt="jest nienormalny" context="none" style="polite non-past">いじょうです</form>
+        <form name="predicate_plain_negative" prompt="nie jest nienormalny" context="none" style="plain negative">いじょうではない</form>
+        <form name="predicate_polite_negative" prompt="nie jest nienormalny" context="none" style="polite negative">いじょうではありません</form>
+        <form name="predicate_plain_past" prompt="był/była/było nienormalny" context="none" style="plain past">いじょうだった</form>
+        <form name="predicate_polite_past" prompt="był/była/było nienormalny" context="none" style="polite past">いじょうでした</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było nienormalny" context="none" style="plain past negative">いじょうではなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było nienormalny" context="none" style="polite past negative">いじょうではありませんでした</form>
+        <form name="attributive_nonpast" prompt="nienormalny" context="none" style="before noun">いじょうな</form>
+        <form name="connective" prompt="nienormalny" context="none" style="connective">いじょうで</form>
+        <form name="adverbial" prompt="nienormalny / nieprawidłowy" context="none" style="adverbial">いじょうに</form>
+        <form name="conditional" prompt="nienormalny / nieprawidłowy" context="none" style="conditional">いじょうなら</form>
+        <form name="nominalized" prompt="nienormalny / nieprawidłowy" context="none" style="nominalized noun">いじょうさ</form>
+        <form name="appearance_sou" prompt="nienormalny / nieprawidłowy" context="none" style="looks / seems">いじょうそう</form>
+        <form name="excessive_sugiru" prompt="nienormalny / nieprawidłowy" context="none" style="too much">いじょうすぎる</form>
+      </forms>
+    </word>
+    <word id="juuyou" translation="ważny" kana="じゅうよう" kanji="重要" type="na_adjective">
+      <tags>
+        <tag>importance</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest ważny" context="none" style="plain non-past">じゅうようだ</form>
+        <form name="predicate_polite_nonpast" prompt="jest ważny" context="none" style="polite non-past">じゅうようです</form>
+        <form name="predicate_plain_negative" prompt="nie jest ważny" context="none" style="plain negative">じゅうようではない</form>
+        <form name="predicate_polite_negative" prompt="nie jest ważny" context="none" style="polite negative">じゅうようではありません</form>
+        <form name="predicate_plain_past" prompt="był/była/było ważny" context="none" style="plain past">じゅうようだった</form>
+        <form name="predicate_polite_past" prompt="był/była/było ważny" context="none" style="polite past">じゅうようでした</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było ważny" context="none" style="plain past negative">じゅうようではなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było ważny" context="none" style="polite past negative">じゅうようではありませんでした</form>
+        <form name="attributive_nonpast" prompt="ważny" context="none" style="before noun">じゅうような</form>
+        <form name="connective" prompt="ważny" context="none" style="connective">じゅうようで</form>
+        <form name="adverbial" prompt="ważny" context="none" style="adverbial">じゅうように</form>
+        <form name="conditional" prompt="ważny" context="none" style="conditional">じゅうようなら</form>
+        <form name="nominalized" prompt="ważny" context="none" style="nominalized noun">じゅうようさ</form>
+        <form name="appearance_sou" prompt="ważny" context="none" style="looks / seems">じゅうようそう</form>
+        <form name="excessive_sugiru" prompt="ważny" context="none" style="too much">じゅうようすぎる</form>
+      </forms>
+    </word>
+    <word id="kanashii" translation="smutny" kana="かなしい" kanji="悲しい" type="i_adjective">
+      <tags>
+        <tag>feeling</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest smutny" context="none" style="plain non-past">かなしい</form>
+        <form name="predicate_polite_nonpast" prompt="jest smutny" context="none" style="polite non-past">かなしいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest smutny" context="none" style="plain negative">かなしくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest smutny" context="none" style="polite negative">かなしくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było smutny" context="none" style="plain past">かなしかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było smutny" context="none" style="polite past">かなしかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było smutny" context="none" style="plain past negative">かなしくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było smutny" context="none" style="polite past negative">かなしくなかったです</form>
+        <form name="attributive_nonpast" prompt="smutny" context="none" style="before noun">かなしい</form>
+        <form name="connective" prompt="smutny" context="none" style="connective">かなしくて</form>
+        <form name="adverbial" prompt="smutny" context="none" style="adverbial">かなしく</form>
+        <form name="conditional" prompt="smutny" context="none" style="conditional">かなしければ</form>
+        <form name="nominalized" prompt="smutny" context="none" style="nominalized noun">かなしさ</form>
+        <form name="appearance_sou" prompt="smutny" context="none" style="looks / seems">かなしそう</form>
+        <form name="excessive_sugiru" prompt="smutny" context="none" style="too much">かなしすぎる</form>
+      </forms>
+    </word>
+    <word id="kantan" translation="łatwy" kana="かんたん" kanji="簡単" type="na_adjective">
+      <tags>
+        <tag>difficulty</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest łatwy" context="none" style="plain non-past">かんたんだ</form>
+        <form name="predicate_polite_nonpast" prompt="jest łatwy" context="none" style="polite non-past">かんたんです</form>
+        <form name="predicate_plain_negative" prompt="nie jest łatwy" context="none" style="plain negative">かんたんではない</form>
+        <form name="predicate_polite_negative" prompt="nie jest łatwy" context="none" style="polite negative">かんたんではありません</form>
+        <form name="predicate_plain_past" prompt="był/była/było łatwy" context="none" style="plain past">かんたんだった</form>
+        <form name="predicate_polite_past" prompt="był/była/było łatwy" context="none" style="polite past">かんたんでした</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było łatwy" context="none" style="plain past negative">かんたんではなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było łatwy" context="none" style="polite past negative">かんたんではありませんでした</form>
+        <form name="attributive_nonpast" prompt="łatwy" context="none" style="before noun">かんたんな</form>
+        <form name="connective" prompt="łatwy" context="none" style="connective">かんたんで</form>
+        <form name="adverbial" prompt="łatwy" context="none" style="adverbial">かんたんに</form>
+        <form name="conditional" prompt="łatwy" context="none" style="conditional">かんたんなら</form>
+        <form name="nominalized" prompt="łatwy" context="none" style="nominalized noun">かんたんさ</form>
+        <form name="appearance_sou" prompt="łatwy" context="none" style="looks / seems">かんたんそう</form>
+        <form name="excessive_sugiru" prompt="łatwy" context="none" style="too much">かんたんすぎる</form>
+      </forms>
+    </word>
+    <word id="karai" translation="ostry / pikantny" kana="からい" kanji="辛い" type="i_adjective">
+      <tags>
+        <tag>taste</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest ostry" context="none" style="plain non-past">からい</form>
+        <form name="predicate_polite_nonpast" prompt="jest ostry" context="none" style="polite non-past">からいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest ostry" context="none" style="plain negative">からくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest ostry" context="none" style="polite negative">からくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było ostry" context="none" style="plain past">からかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było ostry" context="none" style="polite past">からかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było ostry" context="none" style="plain past negative">からくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było ostry" context="none" style="polite past negative">からくなかったです</form>
+        <form name="attributive_nonpast" prompt="ostry" context="none" style="before noun">からい</form>
+        <form name="connective" prompt="ostry" context="none" style="connective">からくて</form>
+        <form name="adverbial" prompt="ostry / pikantny" context="none" style="adverbial">からく</form>
+        <form name="conditional" prompt="ostry / pikantny" context="none" style="conditional">からければ</form>
+        <form name="nominalized" prompt="ostry / pikantny" context="none" style="nominalized noun">からさ</form>
+        <form name="appearance_sou" prompt="ostry / pikantny" context="none" style="looks / seems">からそう</form>
+        <form name="excessive_sugiru" prompt="ostry / pikantny" context="none" style="too much">からすぎる</form>
+      </forms>
+    </word>
+    <word id="karui" translation="lekki" kana="かるい" kanji="軽い" type="i_adjective">
+      <tags>
+        <tag>weight</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest lekki" context="none" style="plain non-past">かるい</form>
+        <form name="predicate_polite_nonpast" prompt="jest lekki" context="none" style="polite non-past">かるいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest lekki" context="none" style="plain negative">かるくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest lekki" context="none" style="polite negative">かるくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było lekki" context="none" style="plain past">かるかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było lekki" context="none" style="polite past">かるかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było lekki" context="none" style="plain past negative">かるくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było lekki" context="none" style="polite past negative">かるくなかったです</form>
+        <form name="attributive_nonpast" prompt="lekki" context="none" style="before noun">かるい</form>
+        <form name="connective" prompt="lekki" context="none" style="connective">かるくて</form>
+        <form name="adverbial" prompt="lekki" context="none" style="adverbial">かるく</form>
+        <form name="conditional" prompt="lekki" context="none" style="conditional">かるければ</form>
+        <form name="nominalized" prompt="lekki" context="none" style="nominalized noun">かるさ</form>
+        <form name="appearance_sou" prompt="lekki" context="none" style="looks / seems">かるそう</form>
+        <form name="excessive_sugiru" prompt="lekki" context="none" style="too much">かるすぎる</form>
+      </forms>
+    </word>
+    <word id="katai" translation="twardy" kana="かたい" kanji="硬い" type="i_adjective">
+      <tags>
+        <tag>texture</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest twardy" context="none" style="plain non-past">かたい</form>
+        <form name="predicate_polite_nonpast" prompt="jest twardy" context="none" style="polite non-past">かたいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest twardy" context="none" style="plain negative">かたくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest twardy" context="none" style="polite negative">かたくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było twardy" context="none" style="plain past">かたかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było twardy" context="none" style="polite past">かたかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było twardy" context="none" style="plain past negative">かたくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było twardy" context="none" style="polite past negative">かたくなかったです</form>
+        <form name="attributive_nonpast" prompt="twardy" context="none" style="before noun">かたい</form>
+        <form name="connective" prompt="twardy" context="none" style="connective">かたくて</form>
+        <form name="adverbial" prompt="twardy" context="none" style="adverbial">かたく</form>
+        <form name="conditional" prompt="twardy" context="none" style="conditional">かたければ</form>
+        <form name="nominalized" prompt="twardy" context="none" style="nominalized noun">かたさ</form>
+        <form name="appearance_sou" prompt="twardy" context="none" style="looks / seems">かたそう</form>
+        <form name="excessive_sugiru" prompt="twardy" context="none" style="too much">かたすぎる</form>
+      </forms>
+    </word>
+    <word id="kawaii" translation="uroczy / słodki" kana="かわいい" kanji="可愛い" type="i_adjective">
+      <tags>
+        <tag>appearance</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest uroczy" context="none" style="plain non-past">かわいい</form>
+        <form name="predicate_polite_nonpast" prompt="jest uroczy" context="none" style="polite non-past">かわいいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest uroczy" context="none" style="plain negative">かわいくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest uroczy" context="none" style="polite negative">かわいくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było uroczy" context="none" style="plain past">かわいかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było uroczy" context="none" style="polite past">かわいかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było uroczy" context="none" style="plain past negative">かわいくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było uroczy" context="none" style="polite past negative">かわいくなかったです</form>
+        <form name="attributive_nonpast" prompt="uroczy" context="none" style="before noun">かわいい</form>
+        <form name="connective" prompt="uroczy" context="none" style="connective">かわいくて</form>
+        <form name="adverbial" prompt="uroczy / słodki" context="none" style="adverbial">かわいく</form>
+        <form name="conditional" prompt="uroczy / słodki" context="none" style="conditional">かわいければ</form>
+        <form name="nominalized" prompt="uroczy / słodki" context="none" style="nominalized noun">かわいさ</form>
+        <form name="appearance_sou" prompt="uroczy / słodki" context="none" style="looks / seems">かわいそう</form>
+        <form name="excessive_sugiru" prompt="uroczy / słodki" context="none" style="too much">かわいすぎる</form>
+      </forms>
+    </word>
+    <word id="kiiroi" translation="żółty" kana="きいろい" kanji="黄色い" type="i_adjective">
+      <tags>
+        <tag>color</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest żółty" context="none" style="plain non-past">きいろい</form>
+        <form name="predicate_polite_nonpast" prompt="jest żółty" context="none" style="polite non-past">きいろいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest żółty" context="none" style="plain negative">きいろくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest żółty" context="none" style="polite negative">きいろくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było żółty" context="none" style="plain past">きいろかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było żółty" context="none" style="polite past">きいろかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było żółty" context="none" style="plain past negative">きいろくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było żółty" context="none" style="polite past negative">きいろくなかったです</form>
+        <form name="attributive_nonpast" prompt="żółty" context="none" style="before noun">きいろい</form>
+        <form name="connective" prompt="żółty" context="none" style="connective">きいろくて</form>
+        <form name="adverbial" prompt="żółty" context="none" style="adverbial">きいろく</form>
+        <form name="conditional" prompt="żółty" context="none" style="conditional">きいろければ</form>
+        <form name="nominalized" prompt="żółty" context="none" style="nominalized noun">きいろさ</form>
+        <form name="appearance_sou" prompt="żółty" context="none" style="looks / seems">きいろそう</form>
+        <form name="excessive_sugiru" prompt="żółty" context="none" style="too much">きいろすぎる</form>
+      </forms>
+    </word>
+    <word id="kiken" translation="niebezpieczny" kana="きけん" kanji="危険" type="na_adjective">
+      <tags>
+        <tag>safety</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest niebezpieczny" context="none" style="plain non-past">きけんだ</form>
+        <form name="predicate_polite_nonpast" prompt="jest niebezpieczny" context="none" style="polite non-past">きけんです</form>
+        <form name="predicate_plain_negative" prompt="nie jest niebezpieczny" context="none" style="plain negative">きけんではない</form>
+        <form name="predicate_polite_negative" prompt="nie jest niebezpieczny" context="none" style="polite negative">きけんではありません</form>
+        <form name="predicate_plain_past" prompt="był/była/było niebezpieczny" context="none" style="plain past">きけんだった</form>
+        <form name="predicate_polite_past" prompt="był/była/było niebezpieczny" context="none" style="polite past">きけんでした</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było niebezpieczny" context="none" style="plain past negative">きけんではなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było niebezpieczny" context="none" style="polite past negative">きけんではありませんでした</form>
+        <form name="attributive_nonpast" prompt="niebezpieczny" context="none" style="before noun">きけんな</form>
+        <form name="connective" prompt="niebezpieczny" context="none" style="connective">きけんで</form>
+        <form name="adverbial" prompt="niebezpieczny" context="none" style="adverbial">きけんに</form>
+        <form name="conditional" prompt="niebezpieczny" context="none" style="conditional">きけんなら</form>
+        <form name="nominalized" prompt="niebezpieczny" context="none" style="nominalized noun">きけんさ</form>
+        <form name="appearance_sou" prompt="niebezpieczny" context="none" style="looks / seems">きけんそう</form>
+        <form name="excessive_sugiru" prompt="niebezpieczny" context="none" style="too much">きけんすぎる</form>
+      </forms>
+    </word>
+    <word id="kirei" translation="czysty / ładny" kana="きれい" kanji="綺麗" type="na_adjective">
+      <tags>
+        <tag>appearance</tag>
+        <tag>cleanliness</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" context="none" prompt_m="jest czysty" prompt_f="jest czysta" prompt_n="jest czyste" prompt_p="są czyste">きれいだ</form>
+        <form name="predicate_polite_nonpast" context="none" prompt_m="jest czysty" prompt_f="jest czysta" prompt_n="jest czyste" prompt_p="są czyste">きれいです</form>
+        <form name="predicate_plain_negative" context="none" prompt_m="nie jest czysty" prompt_f="nie jest czysta" prompt_n="nie jest czyste" prompt_p="nie są czyste">きれいじゃない</form>
+        <form name="predicate_polite_negative" context="none" prompt_m="nie jest czysty" prompt_f="nie jest czysta" prompt_n="nie jest czyste" prompt_p="nie są czyste">きれいじゃありません</form>
+        <form name="predicate_plain_past" context="none" prompt_m="był czysty" prompt_f="była czysta" prompt_n="było czyste" prompt_p="były czyste">きれいだった</form>
+        <form name="predicate_polite_past" context="none" prompt_m="był czysty" prompt_f="była czysta" prompt_n="było czyste" prompt_p="były czyste">きれいでした</form>
+        <form name="predicate_plain_past_negative" context="none" prompt_m="nie był czysty" prompt_f="nie była czysta" prompt_n="nie było czyste" prompt_p="nie były czyste">きれいじゃなかった</form>
+        <form name="predicate_polite_past_negative" context="none" prompt_m="nie był czysty" prompt_f="nie była czysta" prompt_n="nie było czyste" prompt_p="nie były czyste">きれいじゃありませんでした</form>
+        <form name="attributive_nonpast" context="none" prompt_m="czysty" prompt_f="czysta" prompt_n="czyste" prompt_p="czyste">きれいな</form>
+        <form name="connective" context="none" prompt_m="czysty" prompt_f="czysta" prompt_n="czyste" prompt_p="czyste">きれいで</form>
+        <form name="adverbial" prompt="czysty / ładny" context="none" style="adverbial">きれいに</form>
+        <form name="conditional" prompt="czysty / ładny" context="none" style="conditional">きれいなら</form>
+        <form name="nominalized" prompt="czysty / ładny" context="none" style="nominalized noun">きれいさ</form>
+        <form name="appearance_sou" prompt="czysty / ładny" context="none" style="looks / seems">きれいそう</form>
+        <form name="excessive_sugiru" prompt="czysty / ładny" context="none" style="too much">きれいすぎる</form>
+      </forms>
+    </word>
+    <word id="kitanai" translation="brudny" kana="きたない" kanji="汚い" type="i_adjective">
+      <tags>
+        <tag>cleanliness</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest brudny" context="none" style="plain non-past">きたない</form>
+        <form name="predicate_polite_nonpast" prompt="jest brudny" context="none" style="polite non-past">きたないです</form>
+        <form name="predicate_plain_negative" prompt="nie jest brudny" context="none" style="plain negative">きたなくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest brudny" context="none" style="polite negative">きたなくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było brudny" context="none" style="plain past">きたなかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było brudny" context="none" style="polite past">きたなかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było brudny" context="none" style="plain past negative">きたなくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było brudny" context="none" style="polite past negative">きたなくなかったです</form>
+        <form name="attributive_nonpast" prompt="brudny" context="none" style="before noun">きたない</form>
+        <form name="connective" prompt="brudny" context="none" style="connective">きたなくて</form>
+        <form name="adverbial" prompt="brudny" context="none" style="adverbial">きたなく</form>
+        <form name="conditional" prompt="brudny" context="none" style="conditional">きたなければ</form>
+        <form name="nominalized" prompt="brudny" context="none" style="nominalized noun">きたなさ</form>
+        <form name="appearance_sou" prompt="brudny" context="none" style="looks / seems">きたなそう</form>
+        <form name="excessive_sugiru" prompt="brudny" context="none" style="too much">きたなすぎる</form>
+      </forms>
+    </word>
+    <word id="kodoku" translation="samotny" kana="こどく" kanji="孤独" type="na_adjective">
+      <tags>
+        <tag>feeling</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest samotny" context="none" style="plain non-past">こどくだ</form>
+        <form name="predicate_polite_nonpast" prompt="jest samotny" context="none" style="polite non-past">こどくです</form>
+        <form name="predicate_plain_negative" prompt="nie jest samotny" context="none" style="plain negative">こどくではない</form>
+        <form name="predicate_polite_negative" prompt="nie jest samotny" context="none" style="polite negative">こどくではありません</form>
+        <form name="predicate_plain_past" prompt="był/była/było samotny" context="none" style="plain past">こどくだった</form>
+        <form name="predicate_polite_past" prompt="był/była/było samotny" context="none" style="polite past">こどくでした</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było samotny" context="none" style="plain past negative">こどくではなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było samotny" context="none" style="polite past negative">こどくではありませんでした</form>
+        <form name="attributive_nonpast" prompt="samotny" context="none" style="before noun">こどくな</form>
+        <form name="connective" prompt="samotny" context="none" style="connective">こどくで</form>
+        <form name="adverbial" prompt="samotny" context="none" style="adverbial">こどくに</form>
+        <form name="conditional" prompt="samotny" context="none" style="conditional">こどくなら</form>
+        <form name="nominalized" prompt="samotny" context="none" style="nominalized noun">こどくさ</form>
+        <form name="appearance_sou" prompt="samotny" context="none" style="looks / seems">こどくそう</form>
+        <form name="excessive_sugiru" prompt="samotny" context="none" style="too much">こどくすぎる</form>
+      </forms>
+    </word>
+    <word id="kouka" translation="kosztowny" kana="こうか" kanji="高価" type="na_adjective">
+      <tags>
+        <tag>price</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest kosztowny" context="none" style="plain non-past">こうかだ</form>
+        <form name="predicate_polite_nonpast" prompt="jest kosztowny" context="none" style="polite non-past">こうかです</form>
+        <form name="predicate_plain_negative" prompt="nie jest kosztowny" context="none" style="plain negative">こうかではない</form>
+        <form name="predicate_polite_negative" prompt="nie jest kosztowny" context="none" style="polite negative">こうかではありません</form>
+        <form name="predicate_plain_past" prompt="był/była/było kosztowny" context="none" style="plain past">こうかだった</form>
+        <form name="predicate_polite_past" prompt="był/była/było kosztowny" context="none" style="polite past">こうかでした</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było kosztowny" context="none" style="plain past negative">こうかではなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było kosztowny" context="none" style="polite past negative">こうかではありませんでした</form>
+        <form name="attributive_nonpast" prompt="kosztowny" context="none" style="before noun">こうかな</form>
+        <form name="connective" prompt="kosztowny" context="none" style="connective">こうかで</form>
+        <form name="adverbial" prompt="kosztowny" context="none" style="adverbial">こうかに</form>
+        <form name="conditional" prompt="kosztowny" context="none" style="conditional">こうかなら</form>
+        <form name="nominalized" prompt="kosztowny" context="none" style="nominalized noun">こうかさ</form>
+        <form name="appearance_sou" prompt="kosztowny" context="none" style="looks / seems">こうかそう</form>
+        <form name="excessive_sugiru" prompt="kosztowny" context="none" style="too much">こうかすぎる</form>
+      </forms>
+    </word>
+    <word id="kurai" translation="ciemny" kana="くらい" kanji="暗い" type="i_adjective">
+      <tags>
+        <tag>brightness</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest ciemny" context="none" style="plain non-past">くらい</form>
+        <form name="predicate_polite_nonpast" prompt="jest ciemny" context="none" style="polite non-past">くらいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest ciemny" context="none" style="plain negative">くらくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest ciemny" context="none" style="polite negative">くらくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było ciemny" context="none" style="plain past">くらかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było ciemny" context="none" style="polite past">くらかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było ciemny" context="none" style="plain past negative">くらくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było ciemny" context="none" style="polite past negative">くらくなかったです</form>
+        <form name="attributive_nonpast" prompt="ciemny" context="none" style="before noun">くらい</form>
+        <form name="connective" prompt="ciemny" context="none" style="connective">くらくて</form>
+        <form name="adverbial" prompt="ciemny" context="none" style="adverbial">くらく</form>
+        <form name="conditional" prompt="ciemny" context="none" style="conditional">くらければ</form>
+        <form name="nominalized" prompt="ciemny" context="none" style="nominalized noun">くらさ</form>
+        <form name="appearance_sou" prompt="ciemny" context="none" style="looks / seems">くらそう</form>
+        <form name="excessive_sugiru" prompt="ciemny" context="none" style="too much">くらすぎる</form>
+      </forms>
+    </word>
+    <word id="kuroi" translation="czarny" kana="くろい" kanji="黒い" type="i_adjective">
+      <tags>
+        <tag>color</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest czarny" context="none" style="plain non-past">くろい</form>
+        <form name="predicate_polite_nonpast" prompt="jest czarny" context="none" style="polite non-past">くろいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest czarny" context="none" style="plain negative">くろくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest czarny" context="none" style="polite negative">くろくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było czarny" context="none" style="plain past">くろかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było czarny" context="none" style="polite past">くろかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było czarny" context="none" style="plain past negative">くろくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było czarny" context="none" style="polite past negative">くろくなかったです</form>
+        <form name="attributive_nonpast" prompt="czarny" context="none" style="before noun">くろい</form>
+        <form name="connective" prompt="czarny" context="none" style="connective">くろくて</form>
+        <form name="adverbial" prompt="czarny" context="none" style="adverbial">くろく</form>
+        <form name="conditional" prompt="czarny" context="none" style="conditional">くろければ</form>
+        <form name="nominalized" prompt="czarny" context="none" style="nominalized noun">くろさ</form>
+        <form name="appearance_sou" prompt="czarny" context="none" style="looks / seems">くろそう</form>
+        <form name="excessive_sugiru" prompt="czarny" context="none" style="too much">くろすぎる</form>
+      </forms>
+    </word>
+    <word id="majime" translation="poważny / pilny" kana="まじめ" kanji="真面目" type="na_adjective">
+      <tags>
+        <tag>personality</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest poważny" context="none" style="plain non-past">まじめだ</form>
+        <form name="predicate_polite_nonpast" prompt="jest poważny" context="none" style="polite non-past">まじめです</form>
+        <form name="predicate_plain_negative" prompt="nie jest poważny" context="none" style="plain negative">まじめではない</form>
+        <form name="predicate_polite_negative" prompt="nie jest poważny" context="none" style="polite negative">まじめではありません</form>
+        <form name="predicate_plain_past" prompt="był/była/było poważny" context="none" style="plain past">まじめだった</form>
+        <form name="predicate_polite_past" prompt="był/była/było poważny" context="none" style="polite past">まじめでした</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było poważny" context="none" style="plain past negative">まじめではなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było poważny" context="none" style="polite past negative">まじめではありませんでした</form>
+        <form name="attributive_nonpast" prompt="poważny" context="none" style="before noun">まじめな</form>
+        <form name="connective" prompt="poważny" context="none" style="connective">まじめで</form>
+        <form name="adverbial" prompt="poważny / pilny" context="none" style="adverbial">まじめに</form>
+        <form name="conditional" prompt="poważny / pilny" context="none" style="conditional">まじめなら</form>
+        <form name="nominalized" prompt="poważny / pilny" context="none" style="nominalized noun">まじめさ</form>
+        <form name="appearance_sou" prompt="poważny / pilny" context="none" style="looks / seems">まじめそう</form>
+        <form name="excessive_sugiru" prompt="poważny / pilny" context="none" style="too much">まじめすぎる</form>
+      </forms>
+    </word>
+    <word id="marui" translation="okrągły" kana="まるい" kanji="丸い" type="i_adjective">
+      <tags>
+        <tag>shape</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest okrągły" context="none" style="plain non-past">まるい</form>
+        <form name="predicate_polite_nonpast" prompt="jest okrągły" context="none" style="polite non-past">まるいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest okrągły" context="none" style="plain negative">まるくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest okrągły" context="none" style="polite negative">まるくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było okrągły" context="none" style="plain past">まるかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było okrągły" context="none" style="polite past">まるかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było okrągły" context="none" style="plain past negative">まるくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było okrągły" context="none" style="polite past negative">まるくなかったです</form>
+        <form name="attributive_nonpast" prompt="okrągły" context="none" style="before noun">まるい</form>
+        <form name="connective" prompt="okrągły" context="none" style="connective">まるくて</form>
+        <form name="adverbial" prompt="okrągły" context="none" style="adverbial">まるく</form>
+        <form name="conditional" prompt="okrągły" context="none" style="conditional">まるければ</form>
+        <form name="nominalized" prompt="okrągły" context="none" style="nominalized noun">まるさ</form>
+        <form name="appearance_sou" prompt="okrągły" context="none" style="looks / seems">まるそう</form>
+        <form name="excessive_sugiru" prompt="okrągły" context="none" style="too much">まるすぎる</form>
+      </forms>
+    </word>
+    <word id="mazui" translation="niesmaczny" kana="まずい" kanji="不味い" type="i_adjective">
+      <tags>
+        <tag>taste</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest niesmaczny" context="none" style="plain non-past">まずい</form>
+        <form name="predicate_polite_nonpast" prompt="jest niesmaczny" context="none" style="polite non-past">まずいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest niesmaczny" context="none" style="plain negative">まずくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest niesmaczny" context="none" style="polite negative">まずくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było niesmaczny" context="none" style="plain past">まずかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było niesmaczny" context="none" style="polite past">まずかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było niesmaczny" context="none" style="plain past negative">まずくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było niesmaczny" context="none" style="polite past negative">まずくなかったです</form>
+        <form name="attributive_nonpast" prompt="niesmaczny" context="none" style="before noun">まずい</form>
+        <form name="connective" prompt="niesmaczny" context="none" style="connective">まずくて</form>
+        <form name="adverbial" prompt="niesmaczny" context="none" style="adverbial">まずく</form>
+        <form name="conditional" prompt="niesmaczny" context="none" style="conditional">まずければ</form>
+        <form name="nominalized" prompt="niesmaczny" context="none" style="nominalized noun">まずさ</form>
+        <form name="appearance_sou" prompt="niesmaczny" context="none" style="looks / seems">まずそう</form>
+        <form name="excessive_sugiru" prompt="niesmaczny" context="none" style="too much">まずすぎる</form>
+      </forms>
+    </word>
+    <word id="mazushii" translation="biedny" kana="まずしい" kanji="貧しい" type="i_adjective">
+      <tags>
+        <tag>wealth</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest biedny" context="none" style="plain non-past">まずしい</form>
+        <form name="predicate_polite_nonpast" prompt="jest biedny" context="none" style="polite non-past">まずしいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest biedny" context="none" style="plain negative">まずしくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest biedny" context="none" style="polite negative">まずしくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było biedny" context="none" style="plain past">まずしかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było biedny" context="none" style="polite past">まずしかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było biedny" context="none" style="plain past negative">まずしくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było biedny" context="none" style="polite past negative">まずしくなかったです</form>
+        <form name="attributive_nonpast" prompt="biedny" context="none" style="before noun">まずしい</form>
+        <form name="connective" prompt="biedny" context="none" style="connective">まずしくて</form>
+        <form name="adverbial" prompt="biedny" context="none" style="adverbial">まずしく</form>
+        <form name="conditional" prompt="biedny" context="none" style="conditional">まずしければ</form>
+        <form name="nominalized" prompt="biedny" context="none" style="nominalized noun">まずしさ</form>
+        <form name="appearance_sou" prompt="biedny" context="none" style="looks / seems">まずしそう</form>
+        <form name="excessive_sugiru" prompt="biedny" context="none" style="too much">まずしすぎる</form>
+      </forms>
+    </word>
+    <word id="minikui" translation="brzydki" kana="みにくい" kanji="醜い" type="i_adjective">
+      <tags>
+        <tag>appearance</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest brzydki" context="none" style="plain non-past">みにくい</form>
+        <form name="predicate_polite_nonpast" prompt="jest brzydki" context="none" style="polite non-past">みにくいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest brzydki" context="none" style="plain negative">みにくくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest brzydki" context="none" style="polite negative">みにくくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było brzydki" context="none" style="plain past">みにくかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było brzydki" context="none" style="polite past">みにくかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było brzydki" context="none" style="plain past negative">みにくくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było brzydki" context="none" style="polite past negative">みにくくなかったです</form>
+        <form name="attributive_nonpast" prompt="brzydki" context="none" style="before noun">みにくい</form>
+        <form name="connective" prompt="brzydki" context="none" style="connective">みにくくて</form>
+        <form name="adverbial" prompt="brzydki" context="none" style="adverbial">みにくく</form>
+        <form name="conditional" prompt="brzydki" context="none" style="conditional">みにくければ</form>
+        <form name="nominalized" prompt="brzydki" context="none" style="nominalized noun">みにくさ</form>
+        <form name="appearance_sou" prompt="brzydki" context="none" style="looks / seems">みにくそう</form>
+        <form name="excessive_sugiru" prompt="brzydki" context="none" style="too much">みにくすぎる</form>
+      </forms>
+    </word>
+    <word id="miryokuteki" translation="atrakcyjny" kana="みりょくてき" kanji="魅力的" type="na_adjective">
+      <tags>
+        <tag>appearance</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest atrakcyjny" context="none" style="plain non-past">みりょくてきだ</form>
+        <form name="predicate_polite_nonpast" prompt="jest atrakcyjny" context="none" style="polite non-past">みりょくてきです</form>
+        <form name="predicate_plain_negative" prompt="nie jest atrakcyjny" context="none" style="plain negative">みりょくてきではない</form>
+        <form name="predicate_polite_negative" prompt="nie jest atrakcyjny" context="none" style="polite negative">みりょくてきではありません</form>
+        <form name="predicate_plain_past" prompt="był/była/było atrakcyjny" context="none" style="plain past">みりょくてきだった</form>
+        <form name="predicate_polite_past" prompt="był/była/było atrakcyjny" context="none" style="polite past">みりょくてきでした</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było atrakcyjny" context="none" style="plain past negative">みりょくてきではなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było atrakcyjny" context="none" style="polite past negative">みりょくてきではありませんでした</form>
+        <form name="attributive_nonpast" prompt="atrakcyjny" context="none" style="before noun">みりょくてきな</form>
+        <form name="connective" prompt="atrakcyjny" context="none" style="connective">みりょくてきで</form>
+        <form name="adverbial" prompt="atrakcyjny" context="none" style="adverbial">みりょくてきに</form>
+        <form name="conditional" prompt="atrakcyjny" context="none" style="conditional">みりょくてきなら</form>
+        <form name="nominalized" prompt="atrakcyjny" context="none" style="nominalized noun">みりょくてきさ</form>
+        <form name="appearance_sou" prompt="atrakcyjny" context="none" style="looks / seems">みりょくてきそう</form>
+        <form name="excessive_sugiru" prompt="atrakcyjny" context="none" style="too much">みりょくてきすぎる</form>
+      </forms>
+    </word>
+    <word id="muzukashii" translation="trudny" kana="むずかしい" kanji="難しい" type="i_adjective">
+      <tags>
+        <tag>difficulty</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest trudny" context="none" style="plain non-past">むずかしい</form>
+        <form name="predicate_polite_nonpast" prompt="jest trudny" context="none" style="polite non-past">むずかしいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest trudny" context="none" style="plain negative">むずかしくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest trudny" context="none" style="polite negative">むずかしくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było trudny" context="none" style="plain past">むずかしかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było trudny" context="none" style="polite past">むずかしかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było trudny" context="none" style="plain past negative">むずかしくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było trudny" context="none" style="polite past negative">むずかしくなかったです</form>
+        <form name="attributive_nonpast" prompt="trudny" context="none" style="before noun">むずかしい</form>
+        <form name="connective" prompt="trudny" context="none" style="connective">むずかしくて</form>
+        <form name="adverbial" prompt="trudny" context="none" style="adverbial">むずかしく</form>
+        <form name="conditional" prompt="trudny" context="none" style="conditional">むずかしければ</form>
+        <form name="nominalized" prompt="trudny" context="none" style="nominalized noun">むずかしさ</form>
+        <form name="appearance_sou" prompt="trudny" context="none" style="looks / seems">むずかしそう</form>
+        <form name="excessive_sugiru" prompt="trudny" context="none" style="too much">むずかしすぎる</form>
+      </forms>
+    </word>
+    <word id="nameraka" translation="gładki" kana="なめらか" kanji="滑らか" type="na_adjective">
+      <tags>
+        <tag>texture</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest gładki" context="none" style="plain non-past">なめらかだ</form>
+        <form name="predicate_polite_nonpast" prompt="jest gładki" context="none" style="polite non-past">なめらかです</form>
+        <form name="predicate_plain_negative" prompt="nie jest gładki" context="none" style="plain negative">なめらかではない</form>
+        <form name="predicate_polite_negative" prompt="nie jest gładki" context="none" style="polite negative">なめらかではありません</form>
+        <form name="predicate_plain_past" prompt="był/była/było gładki" context="none" style="plain past">なめらかだった</form>
+        <form name="predicate_polite_past" prompt="był/była/było gładki" context="none" style="polite past">なめらかでした</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było gładki" context="none" style="plain past negative">なめらかではなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było gładki" context="none" style="polite past negative">なめらかではありませんでした</form>
+        <form name="attributive_nonpast" prompt="gładki" context="none" style="before noun">なめらかな</form>
+        <form name="connective" prompt="gładki" context="none" style="connective">なめらかで</form>
+        <form name="adverbial" prompt="gładki" context="none" style="adverbial">なめらかに</form>
+        <form name="conditional" prompt="gładki" context="none" style="conditional">なめらかなら</form>
+        <form name="nominalized" prompt="gładki" context="none" style="nominalized noun">なめらかさ</form>
+        <form name="appearance_sou" prompt="gładki" context="none" style="looks / seems">なめらかそう</form>
+        <form name="excessive_sugiru" prompt="gładki" context="none" style="too much">なめらかすぎる</form>
+      </forms>
+    </word>
+    <word id="nigai" translation="gorzki" kana="にがい" kanji="苦い" type="i_adjective">
+      <tags>
+        <tag>taste</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest gorzki" context="none" style="plain non-past">にがい</form>
+        <form name="predicate_polite_nonpast" prompt="jest gorzki" context="none" style="polite non-past">にがいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest gorzki" context="none" style="plain negative">にがくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest gorzki" context="none" style="polite negative">にがくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było gorzki" context="none" style="plain past">にがかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było gorzki" context="none" style="polite past">にがかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było gorzki" context="none" style="plain past negative">にがくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było gorzki" context="none" style="polite past negative">にがくなかったです</form>
+        <form name="attributive_nonpast" prompt="gorzki" context="none" style="before noun">にがい</form>
+        <form name="connective" prompt="gorzki" context="none" style="connective">にがくて</form>
+        <form name="adverbial" prompt="gorzki" context="none" style="adverbial">にがく</form>
+        <form name="conditional" prompt="gorzki" context="none" style="conditional">にがければ</form>
+        <form name="nominalized" prompt="gorzki" context="none" style="nominalized noun">にがさ</form>
+        <form name="appearance_sou" prompt="gorzki" context="none" style="looks / seems">にがそう</form>
+        <form name="excessive_sugiru" prompt="gorzki" context="none" style="too much">にがすぎる</form>
+      </forms>
+    </word>
+    <word id="oishii" translation="pyszny" kana="おいしい" kanji="美味しい" type="i_adjective">
+      <tags>
+        <tag>taste</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest pyszny" context="none" style="plain non-past">おいしい</form>
+        <form name="predicate_polite_nonpast" prompt="jest pyszny" context="none" style="polite non-past">おいしいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest pyszny" context="none" style="plain negative">おいしくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest pyszny" context="none" style="polite negative">おいしくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było pyszny" context="none" style="plain past">おいしかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było pyszny" context="none" style="polite past">おいしかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było pyszny" context="none" style="plain past negative">おいしくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było pyszny" context="none" style="polite past negative">おいしくなかったです</form>
+        <form name="attributive_nonpast" prompt="pyszny" context="none" style="before noun" prompt_m="smaczny" prompt_f="smaczna" prompt_n="smaczne" prompt_p="smaczne">おいしい</form>
+        <form name="connective" prompt="pyszny" context="none" style="connective">おいしくて</form>
+        <form name="adverbial" prompt="pyszny" context="none" style="adverbial">おいしく</form>
+        <form name="conditional" prompt="pyszny" context="none" style="conditional">おいしければ</form>
+        <form name="nominalized" prompt="pyszny" context="none" style="nominalized noun">おいしさ</form>
+        <form name="appearance_sou" prompt="pyszny" context="none" style="looks / seems">おいしそう</form>
+        <form name="excessive_sugiru" prompt="pyszny" context="none" style="too much">おいしすぎる</form>
+      </forms>
+    </word>
+    <word id="okanemochi" translation="bogaty" kana="おかねもち" kanji="お金持ち" type="na_adjective">
+      <tags>
+        <tag>wealth</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest bogaty" context="none" style="plain non-past">おかねもちだ</form>
+        <form name="predicate_polite_nonpast" prompt="jest bogaty" context="none" style="polite non-past">おかねもちです</form>
+        <form name="predicate_plain_negative" prompt="nie jest bogaty" context="none" style="plain negative">おかねもちではない</form>
+        <form name="predicate_polite_negative" prompt="nie jest bogaty" context="none" style="polite negative">おかねもちではありません</form>
+        <form name="predicate_plain_past" prompt="był/była/było bogaty" context="none" style="plain past">おかねもちだった</form>
+        <form name="predicate_polite_past" prompt="był/była/było bogaty" context="none" style="polite past">おかねもちでした</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było bogaty" context="none" style="plain past negative">おかねもちではなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było bogaty" context="none" style="polite past negative">おかねもちではありませんでした</form>
+        <form name="attributive_nonpast" prompt="bogaty" context="none" style="before noun">おかねもちな</form>
+        <form name="connective" prompt="bogaty" context="none" style="connective">おかねもちで</form>
+        <form name="adverbial" prompt="bogaty" context="none" style="adverbial">おかねもちに</form>
+        <form name="conditional" prompt="bogaty" context="none" style="conditional">おかねもちなら</form>
+        <form name="nominalized" prompt="bogaty" context="none" style="nominalized noun">おかねもちさ</form>
+        <form name="appearance_sou" prompt="bogaty" context="none" style="looks / seems">おかねもちそう</form>
+        <form name="excessive_sugiru" prompt="bogaty" context="none" style="too much">おかねもちすぎる</form>
+      </forms>
+    </word>
+    <word id="omoi" translation="ciężki" kana="おもい" kanji="重い" type="i_adjective">
+      <tags>
+        <tag>weight</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest ciężki" context="none" style="plain non-past">おもい</form>
+        <form name="predicate_polite_nonpast" prompt="jest ciężki" context="none" style="polite non-past">おもいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest ciężki" context="none" style="plain negative">おもくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest ciężki" context="none" style="polite negative">おもくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było ciężki" context="none" style="plain past">おもかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było ciężki" context="none" style="polite past">おもかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było ciężki" context="none" style="plain past negative">おもくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było ciężki" context="none" style="polite past negative">おもくなかったです</form>
+        <form name="attributive_nonpast" prompt="ciężki" context="none" style="before noun">おもい</form>
+        <form name="connective" prompt="ciężki" context="none" style="connective">おもくて</form>
+        <form name="adverbial" prompt="ciężki" context="none" style="adverbial">おもく</form>
+        <form name="conditional" prompt="ciężki" context="none" style="conditional">おもければ</form>
+        <form name="nominalized" prompt="ciężki" context="none" style="nominalized noun">おもさ</form>
+        <form name="appearance_sou" prompt="ciężki" context="none" style="looks / seems">おもそう</form>
+        <form name="excessive_sugiru" prompt="ciężki" context="none" style="too much">おもすぎる</form>
+      </forms>
+    </word>
+    <word id="omoshiroi" translation="ciekawy / zabawny" kana="おもしろい" kanji="面白い" type="i_adjective">
+      <tags>
+        <tag>content_value</tag>
+        <tag>personality</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest ciekawy" context="none" style="plain non-past">おもしろい</form>
+        <form name="predicate_polite_nonpast" prompt="jest ciekawy" context="none" style="polite non-past">おもしろいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest ciekawy" context="none" style="plain negative">おもしろくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest ciekawy" context="none" style="polite negative">おもしろくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było ciekawy" context="none" style="plain past">おもしろかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było ciekawy" context="none" style="polite past">おもしろかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było ciekawy" context="none" style="plain past negative">おもしろくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było ciekawy" context="none" style="polite past negative">おもしろくなかったです</form>
+        <form name="attributive_nonpast" prompt="ciekawy" context="none" style="before noun">おもしろい</form>
+        <form name="connective" prompt="ciekawy" context="none" style="connective">おもしろくて</form>
+        <form name="adverbial" prompt="ciekawy / zabawny" context="none" style="adverbial">おもしろく</form>
+        <form name="conditional" prompt="ciekawy / zabawny" context="none" style="conditional">おもしろければ</form>
+        <form name="nominalized" prompt="ciekawy / zabawny" context="none" style="nominalized noun">おもしろさ</form>
+        <form name="appearance_sou" prompt="ciekawy / zabawny" context="none" style="looks / seems">おもしろそう</form>
+        <form name="excessive_sugiru" prompt="ciekawy / zabawny" context="none" style="too much">おもしろすぎる</form>
+      </forms>
+    </word>
+    <word id="ooi" translation="liczny / dużo" kana="おおい" kanji="多い" type="i_adjective">
+      <tags>
+        <tag>quantity</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest liczny" context="none" style="plain non-past">おおい</form>
+        <form name="predicate_polite_nonpast" prompt="jest liczny" context="none" style="polite non-past">おおいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest liczny" context="none" style="plain negative">おおくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest liczny" context="none" style="polite negative">おおくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było liczny" context="none" style="plain past">おおかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było liczny" context="none" style="polite past">おおかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było liczny" context="none" style="plain past negative">おおくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było liczny" context="none" style="polite past negative">おおくなかったです</form>
+        <form name="attributive_nonpast" prompt="liczny" context="none" style="before noun">おおい</form>
+        <form name="connective" prompt="liczny" context="none" style="connective">おおくて</form>
+        <form name="adverbial" prompt="liczny / dużo" context="none" style="adverbial">おおく</form>
+        <form name="conditional" prompt="liczny / dużo" context="none" style="conditional">おおければ</form>
+        <form name="nominalized" prompt="liczny / dużo" context="none" style="nominalized noun">おおさ</form>
+        <form name="appearance_sou" prompt="liczny / dużo" context="none" style="looks / seems">おおそう</form>
+        <form name="excessive_sugiru" prompt="liczny / dużo" context="none" style="too much">おおすぎる</form>
+      </forms>
+    </word>
+    <word id="ookii" translation="duży" kana="おおきい" kanji="大きい" type="i_adjective">
+      <tags>
+        <tag>object_dimension</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" context="none" prompt_m="jest duży" prompt_f="jest duża" prompt_n="jest duże" prompt_p="są duże">おおきい</form>
+        <form name="predicate_polite_nonpast" context="none" prompt_m="jest duży" prompt_f="jest duża" prompt_n="jest duże" prompt_p="są duże">おおきいです</form>
+        <form name="predicate_plain_negative" context="none" prompt_m="nie jest duży" prompt_f="nie jest duża" prompt_n="nie jest duże" prompt_p="nie są duże">おおきくない</form>
+        <form name="predicate_polite_negative" context="none" prompt_m="nie jest duży" prompt_f="nie jest duża" prompt_n="nie jest duże" prompt_p="nie są duże">おおきくないです</form>
+        <form name="predicate_plain_past" context="none" prompt_m="był duży" prompt_f="była duża" prompt_n="było duże" prompt_p="były duże">おおきかった</form>
+        <form name="predicate_polite_past" context="none" prompt_m="był duży" prompt_f="była duża" prompt_n="było duże" prompt_p="były duże">おおきかったです</form>
+        <form name="predicate_plain_past_negative" context="none" prompt_m="nie był duży" prompt_f="nie była duża" prompt_n="nie było duże" prompt_p="nie były duże">おおきくなかった</form>
+        <form name="predicate_polite_past_negative" context="none" prompt_m="nie był duży" prompt_f="nie była duża" prompt_n="nie było duże" prompt_p="nie były duże">おおきくなかったです</form>
+        <form name="attributive_nonpast" context="none" prompt_m="duży" prompt_f="duża" prompt_n="duże" prompt_p="duże">おおきい</form>
+        <form name="connective" context="none" prompt_m="duży" prompt_f="duża" prompt_n="duże" prompt_p="duże">おおきくて</form>
+        <form name="adverbial" prompt="duży" context="none" style="adverbial">おおきく</form>
+        <form name="conditional" prompt="duży" context="none" style="conditional">おおきければ</form>
+        <form name="nominalized" prompt="duży" context="none" style="nominalized noun">おおきさ</form>
+        <form name="appearance_sou" prompt="duży" context="none" style="looks / seems">おおきそう</form>
+        <form name="excessive_sugiru" prompt="duży" context="none" style="too much">おおきすぎる</form>
+      </forms>
+    </word>
+    <word id="osoi" translation="wolny / późny" kana="おそい" kanji="遅い" type="i_adjective">
+      <tags>
+        <tag>speed</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest wolny" context="none" style="plain non-past">おそい</form>
+        <form name="predicate_polite_nonpast" prompt="jest wolny" context="none" style="polite non-past">おそいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest wolny" context="none" style="plain negative">おそくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest wolny" context="none" style="polite negative">おそくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było wolny" context="none" style="plain past">おそかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było wolny" context="none" style="polite past">おそかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było wolny" context="none" style="plain past negative">おそくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było wolny" context="none" style="polite past negative">おそくなかったです</form>
+        <form name="attributive_nonpast" prompt="wolny" context="none" style="before noun">おそい</form>
+        <form name="connective" prompt="wolny" context="none" style="connective">おそくて</form>
+        <form name="adverbial" prompt="wolny / późny" context="none" style="adverbial">おそく</form>
+        <form name="conditional" prompt="wolny / późny" context="none" style="conditional">おそければ</form>
+        <form name="nominalized" prompt="wolny / późny" context="none" style="nominalized noun">おそさ</form>
+        <form name="appearance_sou" prompt="wolny / późny" context="none" style="looks / seems">おそそう</form>
+        <form name="excessive_sugiru" prompt="wolny / późny" context="none" style="too much">おそすぎる</form>
+      </forms>
+    </word>
+    <word id="otonashii" translation="spokojny / cichy" kana="おとなしい" kanji="大人しい" type="i_adjective">
+      <tags>
+        <tag>personality</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest spokojny" context="none" style="plain non-past">おとなしい</form>
+        <form name="predicate_polite_nonpast" prompt="jest spokojny" context="none" style="polite non-past">おとなしいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest spokojny" context="none" style="plain negative">おとなしくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest spokojny" context="none" style="polite negative">おとなしくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było spokojny" context="none" style="plain past">おとなしかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było spokojny" context="none" style="polite past">おとなしかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było spokojny" context="none" style="plain past negative">おとなしくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było spokojny" context="none" style="polite past negative">おとなしくなかったです</form>
+        <form name="attributive_nonpast" prompt="spokojny" context="none" style="before noun">おとなしい</form>
+        <form name="connective" prompt="spokojny" context="none" style="connective">おとなしくて</form>
+        <form name="adverbial" prompt="spokojny / cichy" context="none" style="adverbial">おとなしく</form>
+        <form name="conditional" prompt="spokojny / cichy" context="none" style="conditional">おとなしければ</form>
+        <form name="nominalized" prompt="spokojny / cichy" context="none" style="nominalized noun">おとなしさ</form>
+        <form name="appearance_sou" prompt="spokojny / cichy" context="none" style="looks / seems">おとなしそう</form>
+        <form name="excessive_sugiru" prompt="spokojny / cichy" context="none" style="too much">おとなしすぎる</form>
+      </forms>
+    </word>
+    <word id="samui" translation="zimny" kana="さむい" kanji="寒い" type="i_adjective">
+      <tags>
+        <tag>weather</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest zimny" context="none" style="plain non-past">さむい</form>
+        <form name="predicate_polite_nonpast" prompt="jest zimny" context="none" style="polite non-past">さむいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest zimny" context="none" style="plain negative">さむくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest zimny" context="none" style="polite negative">さむくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było zimny" context="none" style="plain past">さむかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było zimny" context="none" style="polite past">さむかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było zimny" context="none" style="plain past negative">さむくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było zimny" context="none" style="polite past negative">さむくなかったです</form>
+        <form name="attributive_nonpast" prompt="zimny" context="none" style="before noun">さむい</form>
+        <form name="connective" prompt="zimny" context="none" style="connective">さむくて</form>
+        <form name="adverbial" prompt="zimny" context="none" style="adverbial">さむく</form>
+        <form name="conditional" prompt="zimny" context="none" style="conditional">さむければ</form>
+        <form name="nominalized" prompt="zimny" context="none" style="nominalized noun">さむさ</form>
+        <form name="appearance_sou" prompt="zimny" context="none" style="looks / seems">さむそう</form>
+        <form name="excessive_sugiru" prompt="zimny" context="none" style="too much">さむすぎる</form>
+      </forms>
+    </word>
+    <word id="seijou" translation="normalny" kana="せいじょう" kanji="正常" type="na_adjective">
+      <tags>
+        <tag>normality</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest normalny" context="none" style="plain non-past">せいじょうだ</form>
+        <form name="predicate_polite_nonpast" prompt="jest normalny" context="none" style="polite non-past">せいじょうです</form>
+        <form name="predicate_plain_negative" prompt="nie jest normalny" context="none" style="plain negative">せいじょうではない</form>
+        <form name="predicate_polite_negative" prompt="nie jest normalny" context="none" style="polite negative">せいじょうではありません</form>
+        <form name="predicate_plain_past" prompt="był/była/było normalny" context="none" style="plain past">せいじょうだった</form>
+        <form name="predicate_polite_past" prompt="był/była/było normalny" context="none" style="polite past">せいじょうでした</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było normalny" context="none" style="plain past negative">せいじょうではなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było normalny" context="none" style="polite past negative">せいじょうではありませんでした</form>
+        <form name="attributive_nonpast" prompt="normalny" context="none" style="before noun">せいじょうな</form>
+        <form name="connective" prompt="normalny" context="none" style="connective">せいじょうで</form>
+        <form name="adverbial" prompt="normalny" context="none" style="adverbial">せいじょうに</form>
+        <form name="conditional" prompt="normalny" context="none" style="conditional">せいじょうなら</form>
+        <form name="nominalized" prompt="normalny" context="none" style="nominalized noun">せいじょうさ</form>
+        <form name="appearance_sou" prompt="normalny" context="none" style="looks / seems">せいじょうそう</form>
+        <form name="excessive_sugiru" prompt="normalny" context="none" style="too much">せいじょうすぎる</form>
+      </forms>
+    </word>
+    <word id="semai" translation="wąski" kana="せまい" kanji="狭い" type="i_adjective">
+      <tags>
+        <tag>space_dimension</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest wąski" context="none" style="plain non-past">せまい</form>
+        <form name="predicate_polite_nonpast" prompt="jest wąski" context="none" style="polite non-past">せまいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest wąski" context="none" style="plain negative">せまくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest wąski" context="none" style="polite negative">せまくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było wąski" context="none" style="plain past">せまかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było wąski" context="none" style="polite past">せまかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było wąski" context="none" style="plain past negative">せまくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było wąski" context="none" style="polite past negative">せまくなかったです</form>
+        <form name="attributive_nonpast" prompt="wąski" context="none" style="before noun">せまい</form>
+        <form name="connective" prompt="wąski" context="none" style="connective">せまくて</form>
+        <form name="adverbial" prompt="wąski" context="none" style="adverbial">せまく</form>
+        <form name="conditional" prompt="wąski" context="none" style="conditional">せまければ</form>
+        <form name="nominalized" prompt="wąski" context="none" style="nominalized noun">せまさ</form>
+        <form name="appearance_sou" prompt="wąski" context="none" style="looks / seems">せまそう</form>
+        <form name="excessive_sugiru" prompt="wąski" context="none" style="too much">せますぎる</form>
+      </forms>
+    </word>
+    <word id="shakouteki" translation="towarzyski" kana="しゃこうてき" kanji="社交的" type="na_adjective">
+      <tags>
+        <tag>personality</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest towarzyski" context="none" style="plain non-past">しゃこうてきだ</form>
+        <form name="predicate_polite_nonpast" prompt="jest towarzyski" context="none" style="polite non-past">しゃこうてきです</form>
+        <form name="predicate_plain_negative" prompt="nie jest towarzyski" context="none" style="plain negative">しゃこうてきではない</form>
+        <form name="predicate_polite_negative" prompt="nie jest towarzyski" context="none" style="polite negative">しゃこうてきではありません</form>
+        <form name="predicate_plain_past" prompt="był/była/było towarzyski" context="none" style="plain past">しゃこうてきだった</form>
+        <form name="predicate_polite_past" prompt="był/była/było towarzyski" context="none" style="polite past">しゃこうてきでした</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było towarzyski" context="none" style="plain past negative">しゃこうてきではなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było towarzyski" context="none" style="polite past negative">しゃこうてきではありませんでした</form>
+        <form name="attributive_nonpast" prompt="towarzyski" context="none" style="before noun">しゃこうてきな</form>
+        <form name="connective" prompt="towarzyski" context="none" style="connective">しゃこうてきで</form>
+        <form name="adverbial" prompt="towarzyski" context="none" style="adverbial">しゃこうてきに</form>
+        <form name="conditional" prompt="towarzyski" context="none" style="conditional">しゃこうてきなら</form>
+        <form name="nominalized" prompt="towarzyski" context="none" style="nominalized noun">しゃこうてきさ</form>
+        <form name="appearance_sou" prompt="towarzyski" context="none" style="looks / seems">しゃこうてきそう</form>
+        <form name="excessive_sugiru" prompt="towarzyski" context="none" style="too much">しゃこうてきすぎる</form>
+      </forms>
+    </word>
+    <word id="shikakui" translation="kwadratowy" kana="しかくい" kanji="四角い" type="i_adjective">
+      <tags>
+        <tag>shape</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest kwadratowy" context="none" style="plain non-past">しかくい</form>
+        <form name="predicate_polite_nonpast" prompt="jest kwadratowy" context="none" style="polite non-past">しかくいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest kwadratowy" context="none" style="plain negative">しかくくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest kwadratowy" context="none" style="polite negative">しかくくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było kwadratowy" context="none" style="plain past">しかくかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było kwadratowy" context="none" style="polite past">しかくかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było kwadratowy" context="none" style="plain past negative">しかくくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było kwadratowy" context="none" style="polite past negative">しかくくなかったです</form>
+        <form name="attributive_nonpast" prompt="kwadratowy" context="none" style="before noun">しかくい</form>
+        <form name="connective" prompt="kwadratowy" context="none" style="connective">しかくくて</form>
+        <form name="adverbial" prompt="kwadratowy" context="none" style="adverbial">しかくく</form>
+        <form name="conditional" prompt="kwadratowy" context="none" style="conditional">しかくければ</form>
+        <form name="nominalized" prompt="kwadratowy" context="none" style="nominalized noun">しかくさ</form>
+        <form name="appearance_sou" prompt="kwadratowy" context="none" style="looks / seems">しかくそう</form>
+        <form name="excessive_sugiru" prompt="kwadratowy" context="none" style="too much">しかくすぎる</form>
+      </forms>
+    </word>
+    <word id="shiokarai" translation="słony" kana="しおからい" kanji="塩辛い" type="i_adjective">
+      <tags>
+        <tag>taste</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest słony" context="none" style="plain non-past">しおからい</form>
+        <form name="predicate_polite_nonpast" prompt="jest słony" context="none" style="polite non-past">しおからいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest słony" context="none" style="plain negative">しおからくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest słony" context="none" style="polite negative">しおからくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było słony" context="none" style="plain past">しおからかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było słony" context="none" style="polite past">しおからかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było słony" context="none" style="plain past negative">しおからくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było słony" context="none" style="polite past negative">しおからくなかったです</form>
+        <form name="attributive_nonpast" prompt="słony" context="none" style="before noun">しおからい</form>
+        <form name="connective" prompt="słony" context="none" style="connective">しおからくて</form>
+        <form name="adverbial" prompt="słony" context="none" style="adverbial">しおからく</form>
+        <form name="conditional" prompt="słony" context="none" style="conditional">しおからければ</form>
+        <form name="nominalized" prompt="słony" context="none" style="nominalized noun">しおからさ</form>
+        <form name="appearance_sou" prompt="słony" context="none" style="looks / seems">しおからそう</form>
+        <form name="excessive_sugiru" prompt="słony" context="none" style="too much">しおからすぎる</form>
+      </forms>
+    </word>
+    <word id="shiroi" translation="biały" kana="しろい" kanji="白い" type="i_adjective">
+      <tags>
+        <tag>color</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest biały" context="none" style="plain non-past">しろい</form>
+        <form name="predicate_polite_nonpast" prompt="jest biały" context="none" style="polite non-past">しろいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest biały" context="none" style="plain negative">しろくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest biały" context="none" style="polite negative">しろくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było biały" context="none" style="plain past">しろかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było biały" context="none" style="polite past">しろかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było biały" context="none" style="plain past negative">しろくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było biały" context="none" style="polite past negative">しろくなかったです</form>
+        <form name="attributive_nonpast" prompt="biały" context="none" style="before noun">しろい</form>
+        <form name="connective" prompt="biały" context="none" style="connective">しろくて</form>
+        <form name="adverbial" prompt="biały" context="none" style="adverbial">しろく</form>
+        <form name="conditional" prompt="biały" context="none" style="conditional">しろければ</form>
+        <form name="nominalized" prompt="biały" context="none" style="nominalized noun">しろさ</form>
+        <form name="appearance_sou" prompt="biały" context="none" style="looks / seems">しろそう</form>
+        <form name="excessive_sugiru" prompt="biały" context="none" style="too much">しろすぎる</form>
+      </forms>
+    </word>
+    <word id="shitashimiyasui" translation="przystępny / przyjazny" kana="したしみやすい" kanji="親しみやすい" type="i_adjective">
+      <tags>
+        <tag>personality</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest przystępny" context="none" style="plain non-past">したしみやすい</form>
+        <form name="predicate_polite_nonpast" prompt="jest przystępny" context="none" style="polite non-past">したしみやすいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest przystępny" context="none" style="plain negative">したしみやすくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest przystępny" context="none" style="polite negative">したしみやすくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było przystępny" context="none" style="plain past">したしみやすかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było przystępny" context="none" style="polite past">したしみやすかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było przystępny" context="none" style="plain past negative">したしみやすくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było przystępny" context="none" style="polite past negative">したしみやすくなかったです</form>
+        <form name="attributive_nonpast" prompt="przystępny" context="none" style="before noun">したしみやすい</form>
+        <form name="connective" prompt="przystępny" context="none" style="connective">したしみやすくて</form>
+        <form name="adverbial" prompt="przystępny / przyjazny" context="none" style="adverbial">したしみやすく</form>
+        <form name="conditional" prompt="przystępny / przyjazny" context="none" style="conditional">したしみやすければ</form>
+        <form name="nominalized" prompt="przystępny / przyjazny" context="none" style="nominalized noun">したしみやすさ</form>
+        <form name="appearance_sou" prompt="przystępny / przyjazny" context="none" style="looks / seems">したしみやすそう</form>
+        <form name="excessive_sugiru" prompt="przystępny / przyjazny" context="none" style="too much">したしみやすすぎる</form>
+      </forms>
+    </word>
+    <word id="shizuka" translation="cichy / spokojny" kana="しずか" kanji="静か" type="na_adjective">
+      <tags>
+        <tag>sound</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" context="none" prompt_m="jest cichy" prompt_f="jest cicha" prompt_n="jest ciche" prompt_p="są ciche">しずかだ</form>
+        <form name="predicate_polite_nonpast" context="none" prompt_m="jest cichy" prompt_f="jest cicha" prompt_n="jest ciche" prompt_p="są ciche">しずかです</form>
+        <form name="predicate_plain_negative" context="none" prompt_m="nie jest cichy" prompt_f="nie jest cicha" prompt_n="nie jest ciche" prompt_p="nie są ciche">しずかじゃない</form>
+        <form name="predicate_polite_negative" context="none" prompt_m="nie jest cichy" prompt_f="nie jest cicha" prompt_n="nie jest ciche" prompt_p="nie są ciche">しずかじゃありません</form>
+        <form name="predicate_plain_past" context="none" prompt_m="był cichy" prompt_f="była cicha" prompt_n="było ciche" prompt_p="były ciche">しずかだった</form>
+        <form name="predicate_polite_past" context="none" prompt_m="był cichy" prompt_f="była cicha" prompt_n="było ciche" prompt_p="były ciche">しずかでした</form>
+        <form name="predicate_plain_past_negative" context="none" prompt_m="nie był cichy" prompt_f="nie była cicha" prompt_n="nie było ciche" prompt_p="nie były ciche">しずかじゃなかった</form>
+        <form name="predicate_polite_past_negative" context="none" prompt_m="nie był cichy" prompt_f="nie była cicha" prompt_n="nie było ciche" prompt_p="nie były ciche">しずかじゃありませんでした</form>
+        <form name="attributive_nonpast" context="none" prompt_m="cichy" prompt_f="cicha" prompt_n="ciche" prompt_p="ciche">しずかな</form>
+        <form name="connective" context="none" prompt_m="cichy" prompt_f="cicha" prompt_n="ciche" prompt_p="ciche">しずかで</form>
+        <form name="adverbial" prompt="cicho / spokojnie" context="none" style="adverbial">しずかに</form>
+        <form name="conditional" prompt="jeśli jest cichy / spokojny" context="none" style="conditional">しずかなら</form>
+        <form name="nominalized" prompt="cisza / spokój" context="none" style="nominalized noun">しずかさ</form>
+        <form name="appearance_sou" prompt="wygląda na cichy / spokojny" context="none" style="looks / seems">しずかそう</form>
+        <form name="excessive_sugiru" prompt="zbyt cichy / spokojny" context="none" style="too much">しずかすぎる</form>
+      </forms>
+    </word>
+    <word id="subarashii" translation="wspaniały" kana="すばらしい" kanji="素晴らしい" type="i_adjective">
+      <tags>
+        <tag>general_value</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest wspaniały" context="none" style="plain non-past">すばらしい</form>
+        <form name="predicate_polite_nonpast" prompt="jest wspaniały" context="none" style="polite non-past">すばらしいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest wspaniały" context="none" style="plain negative">すばらしくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest wspaniały" context="none" style="polite negative">すばらしくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było wspaniały" context="none" style="plain past">すばらしかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było wspaniały" context="none" style="polite past">すばらしかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było wspaniały" context="none" style="plain past negative">すばらしくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było wspaniały" context="none" style="polite past negative">すばらしくなかったです</form>
+        <form name="attributive_nonpast" prompt="wspaniały" context="none" style="before noun">すばらしい</form>
+        <form name="connective" prompt="wspaniały" context="none" style="connective">すばらしくて</form>
+        <form name="adverbial" prompt="wspaniały" context="none" style="adverbial">すばらしく</form>
+        <form name="conditional" prompt="wspaniały" context="none" style="conditional">すばらしければ</form>
+        <form name="nominalized" prompt="wspaniały" context="none" style="nominalized noun">すばらしさ</form>
+        <form name="appearance_sou" prompt="wspaniały" context="none" style="looks / seems">すばらしそう</form>
+        <form name="excessive_sugiru" prompt="wspaniały" context="none" style="too much">すばらしすぎる</form>
+      </forms>
+    </word>
+    <word id="sukunai" translation="nieliczny / mało" kana="すくない" kanji="少ない" type="i_adjective">
+      <tags>
+        <tag>quantity</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest nieliczny" context="none" style="plain non-past">すくない</form>
+        <form name="predicate_polite_nonpast" prompt="jest nieliczny" context="none" style="polite non-past">すくないです</form>
+        <form name="predicate_plain_negative" prompt="nie jest nieliczny" context="none" style="plain negative">すくなくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest nieliczny" context="none" style="polite negative">すくなくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było nieliczny" context="none" style="plain past">すくなかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było nieliczny" context="none" style="polite past">すくなかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było nieliczny" context="none" style="plain past negative">すくなくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było nieliczny" context="none" style="polite past negative">すくなくなかったです</form>
+        <form name="attributive_nonpast" prompt="nieliczny" context="none" style="before noun">すくない</form>
+        <form name="connective" prompt="nieliczny" context="none" style="connective">すくなくて</form>
+        <form name="adverbial" prompt="nieliczny / mało" context="none" style="adverbial">すくなく</form>
+        <form name="conditional" prompt="nieliczny / mało" context="none" style="conditional">すくなければ</form>
+        <form name="nominalized" prompt="nieliczny / mało" context="none" style="nominalized noun">すくなさ</form>
+        <form name="appearance_sou" prompt="nieliczny / mało" context="none" style="looks / seems">すくなそう</form>
+        <form name="excessive_sugiru" prompt="nieliczny / mało" context="none" style="too much">すくなすぎる</form>
+      </forms>
+    </word>
+    <word id="suppai" translation="kwaśny" kana="すっぱい" kanji="酸っぱい" type="i_adjective">
+      <tags>
+        <tag>taste</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest kwaśny" context="none" style="plain non-past">すっぱい</form>
+        <form name="predicate_polite_nonpast" prompt="jest kwaśny" context="none" style="polite non-past">すっぱいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest kwaśny" context="none" style="plain negative">すっぱくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest kwaśny" context="none" style="polite negative">すっぱくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było kwaśny" context="none" style="plain past">すっぱかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było kwaśny" context="none" style="polite past">すっぱかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było kwaśny" context="none" style="plain past negative">すっぱくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było kwaśny" context="none" style="polite past negative">すっぱくなかったです</form>
+        <form name="attributive_nonpast" prompt="kwaśny" context="none" style="before noun">すっぱい</form>
+        <form name="connective" prompt="kwaśny" context="none" style="connective">すっぱくて</form>
+        <form name="adverbial" prompt="kwaśny" context="none" style="adverbial">すっぱく</form>
+        <form name="conditional" prompt="kwaśny" context="none" style="conditional">すっぱければ</form>
+        <form name="nominalized" prompt="kwaśny" context="none" style="nominalized noun">すっぱさ</form>
+        <form name="appearance_sou" prompt="kwaśny" context="none" style="looks / seems">すっぱそう</form>
+        <form name="excessive_sugiru" prompt="kwaśny" context="none" style="too much">すっぱすぎる</form>
+      </forms>
+    </word>
+    <word id="suteki" translation="świetny / ładny" kana="すてき" kanji="素敵" type="na_adjective">
+      <tags>
+        <tag>appearance</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest świetny" context="none" style="plain non-past">すてきだ</form>
+        <form name="predicate_polite_nonpast" prompt="jest świetny" context="none" style="polite non-past">すてきです</form>
+        <form name="predicate_plain_negative" prompt="nie jest świetny" context="none" style="plain negative">すてきではない</form>
+        <form name="predicate_polite_negative" prompt="nie jest świetny" context="none" style="polite negative">すてきではありません</form>
+        <form name="predicate_plain_past" prompt="był/była/było świetny" context="none" style="plain past">すてきだった</form>
+        <form name="predicate_polite_past" prompt="był/była/było świetny" context="none" style="polite past">すてきでした</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było świetny" context="none" style="plain past negative">すてきではなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było świetny" context="none" style="polite past negative">すてきではありませんでした</form>
+        <form name="attributive_nonpast" prompt="świetny" context="none" style="before noun">すてきな</form>
+        <form name="connective" prompt="świetny" context="none" style="connective">すてきで</form>
+        <form name="adverbial" prompt="świetny / ładny" context="none" style="adverbial">すてきに</form>
+        <form name="conditional" prompt="świetny / ładny" context="none" style="conditional">すてきなら</form>
+        <form name="nominalized" prompt="świetny / ładny" context="none" style="nominalized noun">すてきさ</form>
+        <form name="appearance_sou" prompt="świetny / ładny" context="none" style="looks / seems">すてきそう</form>
+        <form name="excessive_sugiru" prompt="świetny / ładny" context="none" style="too much">すてきすぎる</form>
+      </forms>
+    </word>
+    <word id="tadashii" translation="poprawny / właściwy" kana="ただしい" kanji="正しい" type="i_adjective">
+      <tags>
+        <tag>correctness</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest poprawny" context="none" style="plain non-past">ただしい</form>
+        <form name="predicate_polite_nonpast" prompt="jest poprawny" context="none" style="polite non-past">ただしいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest poprawny" context="none" style="plain negative">ただしくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest poprawny" context="none" style="polite negative">ただしくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było poprawny" context="none" style="plain past">ただしかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było poprawny" context="none" style="polite past">ただしかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było poprawny" context="none" style="plain past negative">ただしくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było poprawny" context="none" style="polite past negative">ただしくなかったです</form>
+        <form name="attributive_nonpast" prompt="poprawny" context="none" style="before noun">ただしい</form>
+        <form name="connective" prompt="poprawny" context="none" style="connective">ただしくて</form>
+        <form name="adverbial" prompt="poprawny / właściwy" context="none" style="adverbial">ただしく</form>
+        <form name="conditional" prompt="poprawny / właściwy" context="none" style="conditional">ただしければ</form>
+        <form name="nominalized" prompt="poprawny / właściwy" context="none" style="nominalized noun">ただしさ</form>
+        <form name="appearance_sou" prompt="poprawny / właściwy" context="none" style="looks / seems">ただしそう</form>
+        <form name="excessive_sugiru" prompt="poprawny / właściwy" context="none" style="too much">ただしすぎる</form>
+      </forms>
+    </word>
+    <word id="takai" translation="wysoki" kana="たかい" kanji="高い" type="i_adjective">
+      <tags>
+        <tag>height</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest wysoki" context="none" style="plain non-past">たかい</form>
+        <form name="predicate_polite_nonpast" prompt="jest wysoki" context="none" style="polite non-past">たかいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest wysoki" context="none" style="plain negative">たかくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest wysoki" context="none" style="polite negative">たかくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było wysoki" context="none" style="plain past">たかかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było wysoki" context="none" style="polite past">たかかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było wysoki" context="none" style="plain past negative">たかくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było wysoki" context="none" style="polite past negative">たかくなかったです</form>
+        <form name="attributive_nonpast" prompt="wysoki" context="none" style="before noun">たかい</form>
+        <form name="connective" prompt="wysoki" context="none" style="connective">たかくて</form>
+        <form name="adverbial" prompt="wysoki" context="none" style="adverbial">たかく</form>
+        <form name="conditional" prompt="wysoki" context="none" style="conditional">たかければ</form>
+        <form name="nominalized" prompt="wysoki" context="none" style="nominalized noun">たかさ</form>
+        <form name="appearance_sou" prompt="wysoki" context="none" style="looks / seems">たかそう</form>
+        <form name="excessive_sugiru" prompt="wysoki" context="none" style="too much">たかすぎる</form>
+      </forms>
+    </word>
+    <word id="tanoshii" translation="przyjemny / zabawny" kana="たのしい" kanji="楽しい" type="i_adjective">
+      <tags>
+        <tag>situation</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest przyjemny" context="none" style="plain non-past">たのしい</form>
+        <form name="predicate_polite_nonpast" prompt="jest przyjemny" context="none" style="polite non-past">たのしいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest przyjemny" context="none" style="plain negative">たのしくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest przyjemny" context="none" style="polite negative">たのしくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było przyjemny" context="none" style="plain past">たのしかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było przyjemny" context="none" style="polite past">たのしかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było przyjemny" context="none" style="plain past negative">たのしくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było przyjemny" context="none" style="polite past negative">たのしくなかったです</form>
+        <form name="attributive_nonpast" prompt="przyjemny" context="none" style="before noun">たのしい</form>
+        <form name="connective" prompt="przyjemny" context="none" style="connective">たのしくて</form>
+        <form name="adverbial" prompt="przyjemny / zabawny" context="none" style="adverbial">たのしく</form>
+        <form name="conditional" prompt="przyjemny / zabawny" context="none" style="conditional">たのしければ</form>
+        <form name="nominalized" prompt="przyjemny / zabawny" context="none" style="nominalized noun">たのしさ</form>
+        <form name="appearance_sou" prompt="przyjemny / zabawny" context="none" style="looks / seems">たのしそう</form>
+        <form name="excessive_sugiru" prompt="przyjemny / zabawny" context="none" style="too much">たのしすぎる</form>
+      </forms>
+    </word>
+    <word id="tooi" translation="daleki" kana="とおい" kanji="遠い" type="i_adjective">
+      <tags>
+        <tag>distance</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest daleki" context="none" style="plain non-past">とおい</form>
+        <form name="predicate_polite_nonpast" prompt="jest daleki" context="none" style="polite non-past">とおいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest daleki" context="none" style="plain negative">とおくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest daleki" context="none" style="polite negative">とおくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było daleki" context="none" style="plain past">とおかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było daleki" context="none" style="polite past">とおかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było daleki" context="none" style="plain past negative">とおくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było daleki" context="none" style="polite past negative">とおくなかったです</form>
+        <form name="attributive_nonpast" prompt="daleki" context="none" style="before noun">とおい</form>
+        <form name="connective" prompt="daleki" context="none" style="connective">とおくて</form>
+        <form name="adverbial" prompt="daleki" context="none" style="adverbial">とおく</form>
+        <form name="conditional" prompt="daleki" context="none" style="conditional">とおければ</form>
+        <form name="nominalized" prompt="daleki" context="none" style="nominalized noun">とおさ</form>
+        <form name="appearance_sou" prompt="daleki" context="none" style="looks / seems">とおそう</form>
+        <form name="excessive_sugiru" prompt="daleki" context="none" style="too much">とおすぎる</form>
+      </forms>
+    </word>
+    <word id="tsumaranai" translation="nudny" kana="つまらない" type="i_adjective">
+      <tags>
+        <tag>situation</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest nudny" context="none" style="plain non-past">つまらない</form>
+        <form name="predicate_polite_nonpast" prompt="jest nudny" context="none" style="polite non-past">つまらないです</form>
+        <form name="predicate_plain_negative" prompt="nie jest nudny" context="none" style="plain negative">つまらなくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest nudny" context="none" style="polite negative">つまらなくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było nudny" context="none" style="plain past">つまらなかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było nudny" context="none" style="polite past">つまらなかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było nudny" context="none" style="plain past negative">つまらなくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było nudny" context="none" style="polite past negative">つまらなくなかったです</form>
+        <form name="attributive_nonpast" prompt="nudny" context="none" style="before noun">つまらない</form>
+        <form name="connective" prompt="nudny" context="none" style="connective">つまらなくて</form>
+        <form name="adverbial" prompt="nudny" context="none" style="adverbial">つまらなく</form>
+        <form name="conditional" prompt="nudny" context="none" style="conditional">つまらなければ</form>
+        <form name="nominalized" prompt="nudny" context="none" style="nominalized noun">つまらなさ</form>
+        <form name="appearance_sou" prompt="nudny" context="none" style="looks / seems">つまらなそう</form>
+        <form name="excessive_sugiru" prompt="nudny" context="none" style="too much">つまらなすぎる</form>
+      </forms>
+    </word>
+    <word id="tsuyoi" translation="silny" kana="つよい" kanji="強い" type="i_adjective">
+      <tags>
+        <tag>strength</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest silny" context="none" style="plain non-past">つよい</form>
+        <form name="predicate_polite_nonpast" prompt="jest silny" context="none" style="polite non-past">つよいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest silny" context="none" style="plain negative">つよくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest silny" context="none" style="polite negative">つよくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było silny" context="none" style="plain past">つよかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było silny" context="none" style="polite past">つよかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było silny" context="none" style="plain past negative">つよくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było silny" context="none" style="polite past negative">つよくなかったです</form>
+        <form name="attributive_nonpast" prompt="silny" context="none" style="before noun">つよい</form>
+        <form name="connective" prompt="silny" context="none" style="connective">つよくて</form>
+        <form name="adverbial" prompt="silny" context="none" style="adverbial">つよく</form>
+        <form name="conditional" prompt="silny" context="none" style="conditional">つよければ</form>
+        <form name="nominalized" prompt="silny" context="none" style="nominalized noun">つよさ</form>
+        <form name="appearance_sou" prompt="silny" context="none" style="looks / seems">つよそう</form>
+        <form name="excessive_sugiru" prompt="silny" context="none" style="too much">つよすぎる</form>
+      </forms>
+    </word>
+    <word id="ureshii" translation="szczęśliwy / zadowolony" kana="うれしい" kanji="嬉しい" type="i_adjective">
+      <tags>
+        <tag>feeling</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest szczęśliwy" context="none" style="plain non-past">うれしい</form>
+        <form name="predicate_polite_nonpast" prompt="jest szczęśliwy" context="none" style="polite non-past">うれしいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest szczęśliwy" context="none" style="plain negative">うれしくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest szczęśliwy" context="none" style="polite negative">うれしくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było szczęśliwy" context="none" style="plain past">うれしかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było szczęśliwy" context="none" style="polite past">うれしかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było szczęśliwy" context="none" style="plain past negative">うれしくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było szczęśliwy" context="none" style="polite past negative">うれしくなかったです</form>
+        <form name="attributive_nonpast" prompt="szczęśliwy" context="none" style="before noun">うれしい</form>
+        <form name="connective" prompt="szczęśliwy" context="none" style="connective">うれしくて</form>
+        <form name="adverbial" prompt="szczęśliwy / zadowolony" context="none" style="adverbial">うれしく</form>
+        <form name="conditional" prompt="szczęśliwy / zadowolony" context="none" style="conditional">うれしければ</form>
+        <form name="nominalized" prompt="szczęśliwy / zadowolony" context="none" style="nominalized noun">うれしさ</form>
+        <form name="appearance_sou" prompt="szczęśliwy / zadowolony" context="none" style="looks / seems">うれしそう</form>
+        <form name="excessive_sugiru" prompt="szczęśliwy / zadowolony" context="none" style="too much">うれしすぎる</form>
+      </forms>
+    </word>
+    <word id="utsukushii" translation="piękny" kana="うつくしい" kanji="美しい" type="i_adjective">
+      <tags>
+        <tag>appearance</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest piękny" context="none" style="plain non-past">うつくしい</form>
+        <form name="predicate_polite_nonpast" prompt="jest piękny" context="none" style="polite non-past">うつくしいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest piękny" context="none" style="plain negative">うつくしくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest piękny" context="none" style="polite negative">うつくしくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było piękny" context="none" style="plain past">うつくしかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było piękny" context="none" style="polite past">うつくしかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było piękny" context="none" style="plain past negative">うつくしくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było piękny" context="none" style="polite past negative">うつくしくなかったです</form>
+        <form name="attributive_nonpast" prompt="piękny" context="none" style="before noun">うつくしい</form>
+        <form name="connective" prompt="piękny" context="none" style="connective">うつくしくて</form>
+        <form name="adverbial" prompt="piękny" context="none" style="adverbial">うつくしく</form>
+        <form name="conditional" prompt="piękny" context="none" style="conditional">うつくしければ</form>
+        <form name="nominalized" prompt="piękny" context="none" style="nominalized noun">うつくしさ</form>
+        <form name="appearance_sou" prompt="piękny" context="none" style="looks / seems">うつくしそう</form>
+        <form name="excessive_sugiru" prompt="piękny" context="none" style="too much">うつくしすぎる</form>
+      </forms>
+    </word>
+    <word id="wakai" translation="młody" kana="わかい" kanji="若い" type="i_adjective">
+      <tags>
+        <tag>age_person</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest młody" context="none" style="plain non-past">わかい</form>
+        <form name="predicate_polite_nonpast" prompt="jest młody" context="none" style="polite non-past">わかいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest młody" context="none" style="plain negative">わかくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest młody" context="none" style="polite negative">わかくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było młody" context="none" style="plain past">わかかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było młody" context="none" style="polite past">わかかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było młody" context="none" style="plain past negative">わかくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było młody" context="none" style="polite past negative">わかくなかったです</form>
+        <form name="attributive_nonpast" prompt="młody" context="none" style="before noun">わかい</form>
+        <form name="connective" prompt="młody" context="none" style="connective">わかくて</form>
+        <form name="adverbial" prompt="młody" context="none" style="adverbial">わかく</form>
+        <form name="conditional" prompt="młody" context="none" style="conditional">わかければ</form>
+        <form name="nominalized" prompt="młody" context="none" style="nominalized noun">わかさ</form>
+        <form name="appearance_sou" prompt="młody" context="none" style="looks / seems">わかそう</form>
+        <form name="excessive_sugiru" prompt="młody" context="none" style="too much">わかすぎる</form>
+      </forms>
+    </word>
+    <word id="warui" translation="zły" kana="わるい" kanji="悪い" type="i_adjective">
+      <tags>
+        <tag>general_value</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest zły" context="none" style="plain non-past">わるい</form>
+        <form name="predicate_polite_nonpast" prompt="jest zły" context="none" style="polite non-past">わるいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest zły" context="none" style="plain negative">わるくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest zły" context="none" style="polite negative">わるくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było zły" context="none" style="plain past">わるかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było zły" context="none" style="polite past">わるかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było zły" context="none" style="plain past negative">わるくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było zły" context="none" style="polite past negative">わるくなかったです</form>
+        <form name="attributive_nonpast" prompt="zły" context="none" style="before noun">わるい</form>
+        <form name="connective" prompt="zły" context="none" style="connective">わるくて</form>
+        <form name="adverbial" prompt="zły" context="none" style="adverbial">わるく</form>
+        <form name="conditional" prompt="zły" context="none" style="conditional">わるければ</form>
+        <form name="nominalized" prompt="zły" context="none" style="nominalized noun">わるさ</form>
+        <form name="appearance_sou" prompt="zły" context="none" style="looks / seems">わるそう</form>
+        <form name="excessive_sugiru" prompt="zły" context="none" style="too much">わるすぎる</form>
+      </forms>
+    </word>
+    <word id="yasashii" translation="miły / łagodny" kana="やさしい" kanji="優しい" type="i_adjective">
+      <tags>
+        <tag>personality</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest miły" context="none" style="plain non-past">やさしい</form>
+        <form name="predicate_polite_nonpast" prompt="jest miły" context="none" style="polite non-past">やさしいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest miły" context="none" style="plain negative">やさしくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest miły" context="none" style="polite negative">やさしくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było miły" context="none" style="plain past">やさしかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było miły" context="none" style="polite past">やさしかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było miły" context="none" style="plain past negative">やさしくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było miły" context="none" style="polite past negative">やさしくなかったです</form>
+        <form name="attributive_nonpast" prompt="miły" context="none" style="before noun">やさしい</form>
+        <form name="connective" prompt="miły" context="none" style="connective">やさしくて</form>
+        <form name="adverbial" prompt="miły / łagodny" context="none" style="adverbial">やさしく</form>
+        <form name="conditional" prompt="miły / łagodny" context="none" style="conditional">やさしければ</form>
+        <form name="nominalized" prompt="miły / łagodny" context="none" style="nominalized noun">やさしさ</form>
+        <form name="appearance_sou" prompt="miły / łagodny" context="none" style="looks / seems">やさしそう</form>
+        <form name="excessive_sugiru" prompt="miły / łagodny" context="none" style="too much">やさしすぎる</form>
+      </forms>
+    </word>
+    <word id="yasui" translation="tani" kana="やすい" kanji="安い" type="i_adjective">
+      <tags>
+        <tag>price</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest tani" context="none" style="plain non-past">やすい</form>
+        <form name="predicate_polite_nonpast" prompt="jest tani" context="none" style="polite non-past">やすいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest tani" context="none" style="plain negative">やすくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest tani" context="none" style="polite negative">やすくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było tani" context="none" style="plain past">やすかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było tani" context="none" style="polite past">やすかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było tani" context="none" style="plain past negative">やすくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było tani" context="none" style="polite past negative">やすくなかったです</form>
+        <form name="attributive_nonpast" prompt="tani" context="none" style="before noun">やすい</form>
+        <form name="connective" prompt="tani" context="none" style="connective">やすくて</form>
+        <form name="adverbial" prompt="tani" context="none" style="adverbial">やすく</form>
+        <form name="conditional" prompt="tani" context="none" style="conditional">やすければ</form>
+        <form name="nominalized" prompt="tani" context="none" style="nominalized noun">やすさ</form>
+        <form name="appearance_sou" prompt="tani" context="none" style="looks / seems">やすそう</form>
+        <form name="excessive_sugiru" prompt="tani" context="none" style="too much">やすすぎる</form>
+      </forms>
+    </word>
+    <word id="yawarakai" translation="miękki" kana="やわらかい" kanji="柔らかい" type="i_adjective">
+      <tags>
+        <tag>texture</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest miękki" context="none" style="plain non-past">やわらかい</form>
+        <form name="predicate_polite_nonpast" prompt="jest miękki" context="none" style="polite non-past">やわらかいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest miękki" context="none" style="plain negative">やわらかくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest miękki" context="none" style="polite negative">やわらかくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było miękki" context="none" style="plain past">やわらかかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było miękki" context="none" style="polite past">やわらかかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było miękki" context="none" style="plain past negative">やわらかくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było miękki" context="none" style="polite past negative">やわらかくなかったです</form>
+        <form name="attributive_nonpast" prompt="miękki" context="none" style="before noun">やわらかい</form>
+        <form name="connective" prompt="miękki" context="none" style="connective">やわらかくて</form>
+        <form name="adverbial" prompt="miękki" context="none" style="adverbial">やわらかく</form>
+        <form name="conditional" prompt="miękki" context="none" style="conditional">やわらかければ</form>
+        <form name="nominalized" prompt="miękki" context="none" style="nominalized noun">やわらかさ</form>
+        <form name="appearance_sou" prompt="miękki" context="none" style="looks / seems">やわらかそう</form>
+        <form name="excessive_sugiru" prompt="miękki" context="none" style="too much">やわらかすぎる</form>
+      </forms>
+    </word>
+    <word id="yoi" translation="dobry" kana="よい" kanji="良い" type="i_adjective">
+      <tags>
+        <tag>general_value</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest dobry" context="none" style="plain non-past">よい</form>
+        <form name="predicate_polite_nonpast" prompt="jest dobry" context="none" style="polite non-past">よいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest dobry" context="none" style="plain negative">よくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest dobry" context="none" style="polite negative">よくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było dobry" context="none" style="plain past">よかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było dobry" context="none" style="polite past">よかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było dobry" context="none" style="plain past negative">よくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było dobry" context="none" style="polite past negative">よくなかったです</form>
+        <form name="attributive_nonpast" prompt="dobry" context="none" style="before noun">よい</form>
+        <form name="connective" prompt="dobry" context="none" style="connective">よくて</form>
+        <form name="adverbial" prompt="dobry" context="none" style="adverbial">よく</form>
+        <form name="conditional" prompt="dobry" context="none" style="conditional">よければ</form>
+        <form name="nominalized" prompt="dobry" context="none" style="nominalized noun">よさ</form>
+        <form name="appearance_sou" prompt="dobry" context="none" style="looks / seems">よさそう</form>
+        <form name="excessive_sugiru" prompt="dobry" context="none" style="too much">よすぎる</form>
+      </forms>
+    </word>
+    <word id="yowai" translation="słaby" kana="よわい" kanji="弱い" type="i_adjective">
+      <tags>
+        <tag>strength</tag>
+      </tags>
+      <forms>
+        <form name="predicate_plain_nonpast" prompt="jest słaby" context="none" style="plain non-past">よわい</form>
+        <form name="predicate_polite_nonpast" prompt="jest słaby" context="none" style="polite non-past">よわいです</form>
+        <form name="predicate_plain_negative" prompt="nie jest słaby" context="none" style="plain negative">よわくない</form>
+        <form name="predicate_polite_negative" prompt="nie jest słaby" context="none" style="polite negative">よわくないです</form>
+        <form name="predicate_plain_past" prompt="był/była/było słaby" context="none" style="plain past">よわかった</form>
+        <form name="predicate_polite_past" prompt="był/była/było słaby" context="none" style="polite past">よわかったです</form>
+        <form name="predicate_plain_past_negative" prompt="nie był/była/było słaby" context="none" style="plain past negative">よわくなかった</form>
+        <form name="predicate_polite_past_negative" prompt="nie był/była/było słaby" context="none" style="polite past negative">よわくなかったです</form>
+        <form name="attributive_nonpast" prompt="słaby" context="none" style="before noun">よわい</form>
+        <form name="connective" prompt="słaby" context="none" style="connective">よわくて</form>
+        <form name="adverbial" prompt="słaby" context="none" style="adverbial">よわく</form>
+        <form name="conditional" prompt="słaby" context="none" style="conditional">よわければ</form>
+        <form name="nominalized" prompt="słaby" context="none" style="nominalized noun">よわさ</form>
+        <form name="appearance_sou" prompt="słaby" context="none" style="looks / seems">よわそう</form>
+        <form name="excessive_sugiru" prompt="słaby" context="none" style="too much">よわすぎる</form>
+      </forms>
+    </word>
+  </words>
+</dictionary>

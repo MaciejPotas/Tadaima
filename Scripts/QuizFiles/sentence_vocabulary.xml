@@ -1,0 +1,442 @@
+<?xml version='1.0' encoding='utf-8'?>
+<sentence_vocabulary schema_version="6">
+  <tag_profiles>
+    <profile id="physical_object">
+      <tags>
+        <tag>physical</tag>
+        <tag>appearance</tag>
+        <tag>color</tag>
+        <tag>general_value</tag>
+        <tag>object_dimension</tag>
+        <tag>weight</tag>
+        <tag>price</tag>
+        <tag>age_new_old</tag>
+        <tag>cleanliness</tag>
+        <tag>viewable</tag>
+        <tag>purchasable</tag>
+      </tags>
+    </profile>
+    <profile id="portable_object">
+      <includes>
+        <profile ref="physical_object" />
+      </includes>
+      <tags>
+        <tag>holdable</tag>
+        <tag>takeable</tag>
+        <tag>usable</tag>
+        <tag>creatable</tag>
+        <tag>shape</tag>
+        <tag>texture</tag>
+      </tags>
+    </profile>
+    <profile id="vehicle">
+      <includes>
+        <profile ref="physical_object" />
+      </includes>
+      <tags>
+        <tag>vehicle</tag>
+        <tag>speed</tag>
+        <tag>safety</tag>
+        <tag>usable</tag>
+        <tag>washable</tag>
+        <tag>rideable</tag>
+        <tag>creatable</tag>
+        <tag>normality</tag>
+      </tags>
+    </profile>
+    <profile id="clothing">
+      <includes>
+        <profile ref="physical_object" />
+      </includes>
+      <tags>
+        <tag>clothing</tag>
+        <tag>wearable</tag>
+        <tag>washable</tag>
+        <tag>holdable</tag>
+        <tag>takeable</tag>
+        <tag>usable</tag>
+        <tag>creatable</tag>
+        <tag>texture</tag>
+      </tags>
+    </profile>
+    <profile id="text_content">
+      <tags>
+        <tag>text</tag>
+        <tag>readable</tag>
+        <tag>writable</tag>
+        <tag>viewable</tag>
+        <tag>content_value</tag>
+        <tag>difficulty</tag>
+        <tag>general_value</tag>
+        <tag>importance</tag>
+        <tag>correctness</tag>
+        <tag>age_new_old</tag>
+        <tag>complexity</tag>
+      </tags>
+    </profile>
+    <profile id="physical_text">
+      <includes>
+        <profile ref="physical_object" />
+        <profile ref="text_content" />
+      </includes>
+      <tags>
+        <tag>holdable</tag>
+        <tag>takeable</tag>
+        <tag>usable</tag>
+        <tag>creatable</tag>
+        <tag>shape</tag>
+        <tag>texture</tag>
+      </tags>
+    </profile>
+    <profile id="digital_text">
+      <includes>
+        <profile ref="text_content" />
+      </includes>
+      <tags>
+        <tag>creatable</tag>
+      </tags>
+    </profile>
+    <profile id="content">
+      <tags>
+        <tag>content_value</tag>
+        <tag>general_value</tag>
+        <tag>situation</tag>
+        <tag>importance</tag>
+        <tag>age_new_old</tag>
+        <tag>purchasable</tag>
+        <tag>creatable</tag>
+      </tags>
+    </profile>
+    <profile id="visual_media">
+      <includes>
+        <profile ref="content" />
+      </includes>
+      <tags>
+        <tag>media</tag>
+        <tag>viewable</tag>
+      </tags>
+    </profile>
+    <profile id="audio_media">
+      <includes>
+        <profile ref="content" />
+      </includes>
+      <tags>
+        <tag>media</tag>
+        <tag>audio</tag>
+        <tag>music</tag>
+        <tag>sound</tag>
+        <tag>listenable</tag>
+      </tags>
+    </profile>
+    <profile id="food">
+      <tags>
+        <tag>food</tag>
+        <tag>edible</tag>
+        <tag>taste</tag>
+        <tag>appearance</tag>
+        <tag>color</tag>
+        <tag>general_value</tag>
+        <tag>price</tag>
+        <tag>viewable</tag>
+        <tag>purchasable</tag>
+      </tags>
+    </profile>
+    <profile id="meal">
+      <includes>
+        <profile ref="food" />
+      </includes>
+      <tags>
+        <tag>creatable</tag>
+        <tag>texture</tag>
+      </tags>
+    </profile>
+    <profile id="fruit">
+      <includes>
+        <profile ref="food" />
+        <profile ref="physical_object" />
+      </includes>
+      <tags>
+        <tag>holdable</tag>
+        <tag>takeable</tag>
+        <tag>washable</tag>
+        <tag>shape</tag>
+        <tag>texture</tag>
+      </tags>
+    </profile>
+    <profile id="drink">
+      <tags>
+        <tag>drink</tag>
+        <tag>drinkable</tag>
+        <tag>taste</tag>
+        <tag>color</tag>
+        <tag>general_value</tag>
+        <tag>price</tag>
+        <tag>viewable</tag>
+        <tag>purchasable</tag>
+      </tags>
+    </profile>
+    <profile id="person">
+      <tags>
+        <tag>person</tag>
+        <tag>appearance</tag>
+        <tag>personality</tag>
+        <tag>age_person</tag>
+        <tag>physical_person</tag>
+        <tag>feeling</tag>
+        <tag>wealth</tag>
+        <tag>strength</tag>
+        <tag>general_value</tag>
+        <tag>sound</tag>
+        <tag>viewable</tag>
+      </tags>
+    </profile>
+    <profile id="place">
+      <tags>
+        <tag>place</tag>
+        <tag>land_destination</tag>
+        <tag>distance</tag>
+        <tag>appearance</tag>
+        <tag>general_value</tag>
+        <tag>safety</tag>
+        <tag>brightness</tag>
+        <tag>weather</tag>
+        <tag>sound</tag>
+        <tag>age_new_old</tag>
+        <tag>viewable</tag>
+      </tags>
+    </profile>
+    <profile id="building">
+      <includes>
+        <profile ref="place" />
+      </includes>
+      <tags>
+        <tag>building</tag>
+        <tag>buildable</tag>
+        <tag>height</tag>
+        <tag>space_dimension</tag>
+        <tag>color</tag>
+        <tag>cleanliness</tag>
+        <tag>creatable</tag>
+      </tags>
+    </profile>
+    <profile id="property">
+      <includes>
+        <profile ref="building" />
+      </includes>
+      <tags>
+        <tag>price</tag>
+        <tag>purchasable</tag>
+      </tags>
+    </profile>
+    <profile id="room">
+      <includes>
+        <profile ref="place" />
+      </includes>
+      <tags>
+        <tag>space_dimension</tag>
+        <tag>color</tag>
+        <tag>cleanliness</tag>
+      </tags>
+    </profile>
+  </tag_profiles>
+  <entities>
+    <entity id="bag" kana="かばん" kanji="鞄">
+      <polish gender="feminine" nominative="torba" accusative="torbę" genitive="torby" locative="torbie" instrumental="torbą" demonstrative="ta torba" />
+      <profiles>
+        <profile ref="portable_object" />
+      </profiles>
+      <tags>
+        <tag>washable</tag>
+      </tags>
+    </entity>
+    <entity id="book" kana="ほん" kanji="本">
+      <polish gender="feminine" nominative="książka" accusative="książkę" genitive="książki" locative="książce" instrumental="książką" demonstrative="ta książka" />
+      <profiles>
+        <profile ref="physical_text" />
+      </profiles>
+    </entity>
+    <entity id="box" kana="はこ" kanji="箱">
+      <polish gender="neuter" nominative="pudełko" accusative="pudełko" genitive="pudełka" locative="pudełku" instrumental="pudełkiem" demonstrative="to pudełko" />
+      <profiles>
+        <profile ref="portable_object" />
+      </profiles>
+    </entity>
+    <entity id="car" kana="くるま" kanji="車">
+      <polish gender="masculine" nominative="samochód" accusative="samochód" genitive="samochodu" locative="samochodzie" instrumental="samochodem" demonstrative="ten samochód" />
+      <profiles>
+        <profile ref="vehicle" />
+      </profiles>
+    </entity>
+    <entity id="clothes" kana="ふく" kanji="服">
+      <polish gender="plural" nominative="ubrania" accusative="ubrania" genitive="ubrań" locative="ubraniach" instrumental="ubraniami" demonstrative="te ubrania" />
+      <profiles>
+        <profile ref="clothing" />
+      </profiles>
+    </entity>
+    <entity id="email" kana="めーる" kanji="メール">
+      <polish gender="masculine" nominative="mail" accusative="mail" genitive="maila" locative="mailu" instrumental="mailem" demonstrative="ten mail" />
+      <profiles>
+        <profile ref="digital_text" />
+      </profiles>
+    </entity>
+    <entity id="friend" kana="ともだち" kanji="友達">
+      <polish gender="masculine" nominative="przyjaciel" accusative="przyjaciela" genitive="przyjaciela" locative="przyjacielu" instrumental="przyjacielem" demonstrative="ten przyjaciel" />
+      <profiles>
+        <profile ref="person" />
+      </profiles>
+    </entity>
+    <entity id="gohan" kana="ごはん" kanji="御飯">
+      <polish gender="masculine" nominative="ryż" accusative="ryż" genitive="ryżu" locative="ryżu" instrumental="ryżem" demonstrative="ten ryż" />
+      <profiles>
+        <profile ref="meal" />
+      </profiles>
+    </entity>
+    <entity id="home" kana="うち" kanji="家">
+      <polish gender="masculine" nominative="dom" accusative="dom" genitive="domu" locative="domu" instrumental="domem" demonstrative="ten dom" />
+      <profiles>
+        <profile ref="property" />
+      </profiles>
+    </entity>
+    <entity id="letter" kana="てがみ" kanji="手紙">
+      <polish gender="masculine" nominative="list" accusative="list" genitive="listu" locative="liście" instrumental="listem" demonstrative="ten list" />
+      <profiles>
+        <profile ref="physical_text" />
+      </profiles>
+    </entity>
+    <entity id="manga" kana="まんが" kanji="漫画">
+      <polish gender="feminine" nominative="manga" accusative="mangę" genitive="mangi" locative="mandze" instrumental="mangą" demonstrative="ta manga" />
+      <profiles>
+        <profile ref="physical_text" />
+      </profiles>
+    </entity>
+    <entity id="meal" kana="しょくじ" kanji="食事">
+      <polish gender="masculine" nominative="posiłek" accusative="posiłek" genitive="posiłku" locative="posiłku" instrumental="posiłkiem" demonstrative="ten posiłek" />
+      <profiles>
+        <profile ref="meal" />
+      </profiles>
+    </entity>
+    <entity id="mother" kana="おかあさん" kanji="お母さん">
+      <polish gender="feminine" nominative="mama" accusative="mamę" genitive="mamy" locative="mamie" instrumental="mamą" demonstrative="ta mama" />
+      <profiles>
+        <profile ref="person" />
+      </profiles>
+    </entity>
+    <entity id="music" kana="おんがく" kanji="音楽">
+      <polish gender="feminine" nominative="muzyka" accusative="muzykę" genitive="muzyki" locative="muzyce" instrumental="muzyką" demonstrative="ta muzyka" />
+      <profiles>
+        <profile ref="audio_media" />
+      </profiles>
+    </entity>
+    <entity id="newspaper" kana="しんぶん" kanji="新聞">
+      <polish gender="feminine" nominative="gazeta" accusative="gazetę" genitive="gazety" locative="gazecie" instrumental="gazetą" demonstrative="ta gazeta" />
+      <profiles>
+        <profile ref="physical_text" />
+      </profiles>
+    </entity>
+    <entity id="note" kana="めも" kanji="メモ">
+      <polish gender="feminine" nominative="notatka" accusative="notatkę" genitive="notatki" locative="notatce" instrumental="notatką" demonstrative="ta notatka" />
+      <profiles>
+        <profile ref="physical_text" />
+      </profiles>
+    </entity>
+    <entity id="pan" kana="パン">
+      <polish gender="masculine" nominative="chleb" accusative="chleb" genitive="chleba" locative="chlebie" instrumental="chlebem" demonstrative="ten chleb" />
+      <profiles>
+        <profile ref="meal" />
+      </profiles>
+    </entity>
+    <entity id="park" kana="こうえん" kanji="公園">
+      <polish gender="masculine" nominative="park" accusative="park" genitive="parku" locative="parku" instrumental="parkiem" demonstrative="ten park" />
+      <profiles>
+        <profile ref="place" />
+      </profiles>
+    </entity>
+    <entity id="ringo" kana="りんご" kanji="林檎">
+      <polish gender="neuter" nominative="jabłko" accusative="jabłko" genitive="jabłka" locative="jabłku" instrumental="jabłkiem" demonstrative="to jabłko" />
+      <profiles>
+        <profile ref="fruit" />
+      </profiles>
+    </entity>
+    <entity id="room" kana="へや" kanji="部屋">
+      <polish gender="masculine" nominative="pokój" accusative="pokój" genitive="pokoju" locative="pokoju" instrumental="pokojem" demonstrative="ten pokój" />
+      <profiles>
+        <profile ref="room" />
+      </profiles>
+    </entity>
+    <entity id="school" kana="がっこう" kanji="学校">
+      <polish gender="feminine" nominative="szkoła" accusative="szkołę" genitive="szkoły" locative="szkole" instrumental="szkołą" demonstrative="ta szkoła" />
+      <profiles>
+        <profile ref="building" />
+      </profiles>
+    </entity>
+    <entity id="sister" kana="あね" kanji="姉">
+      <polish gender="feminine" nominative="siostra" accusative="siostrę" genitive="siostry" locative="siostrze" instrumental="siostrą" demonstrative="ta siostra" />
+      <profiles>
+        <profile ref="person" />
+      </profiles>
+    </entity>
+    <entity id="station" kana="えき" kanji="駅">
+      <polish gender="feminine" nominative="stacja" accusative="stację" genitive="stacji" locative="stacji" instrumental="stacją" demonstrative="ta stacja" />
+      <profiles>
+        <profile ref="building" />
+      </profiles>
+    </entity>
+    <entity id="sushi" kana="すし" kanji="寿司">
+      <polish gender="neuter" nominative="sushi" accusative="sushi" genitive="sushi" locative="sushi" instrumental="sushi" demonstrative="to sushi" />
+      <profiles>
+        <profile ref="meal" />
+      </profiles>
+    </entity>
+    <entity id="teacher" kana="せんせい" kanji="先生">
+      <polish gender="masculine" nominative="nauczyciel" accusative="nauczyciela" genitive="nauczyciela" locative="nauczycielu" instrumental="nauczycielem" demonstrative="ten nauczyciel" />
+      <profiles>
+        <profile ref="person" />
+      </profiles>
+    </entity>
+    <entity id="television" kana="テレビ">
+      <polish gender="feminine" nominative="telewizja" accusative="telewizję" genitive="telewizji" locative="telewizji" instrumental="telewizją" demonstrative="ta telewizja" />
+      <profiles>
+        <profile ref="visual_media" />
+      </profiles>
+    </entity>
+    <entity id="water" kana="みず" kanji="水">
+      <polish gender="feminine" nominative="woda" accusative="wodę" genitive="wody" locative="wodzie" instrumental="wodą" demonstrative="ta woda" />
+      <profiles>
+        <profile ref="drink" />
+      </profiles>
+    </entity>
+    <entity id="tea" kana="おちゃ" kanji="お茶">
+      <polish gender="feminine" nominative="herbata" accusative="herbatę" genitive="herbaty" locative="herbacie" instrumental="herbatą" demonstrative="ta herbata" />
+      <profiles>
+        <profile ref="drink" />
+      </profiles>
+      <tags>
+        <tag>creatable</tag>
+      </tags>
+    </entity>
+    <entity id="coffee" kana="コーヒー" kanji="珈琲">
+      <polish gender="feminine" nominative="kawa" accusative="kawę" genitive="kawy" locative="kawie" instrumental="kawą" demonstrative="ta kawa" />
+      <profiles>
+        <profile ref="drink" />
+      </profiles>
+      <tags>
+        <tag>creatable</tag>
+      </tags>
+    </entity>
+    <entity id="song" kana="うた" kanji="歌">
+      <polish gender="feminine" nominative="piosenka" accusative="piosenkę" genitive="piosenki" locative="piosence" instrumental="piosenką" demonstrative="ta piosenka" />
+      <profiles>
+        <profile ref="audio_media" />
+      </profiles>
+      <tags>
+        <tag>singable</tag>
+      </tags>
+    </entity>
+    <entity id="motorcycle" kana="バイク">
+      <polish gender="masculine" nominative="motocykl" accusative="motocykl" genitive="motocykla" locative="motocyklu" instrumental="motocyklem" demonstrative="ten motocykl" />
+      <profiles>
+        <profile ref="vehicle" />
+      </profiles>
+    </entity>
+  </entities>
+</sentence_vocabulary>

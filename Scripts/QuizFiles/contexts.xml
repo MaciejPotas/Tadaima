@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<contexts schema_version="6">
+  <context id="none" label="none">
+    <option id="neutral" pl_prefix="" jp_prefix="" weight="1" />
+  </context>
+  <context id="present" label="present">
+    <option id="neutral" pl_prefix="" jp_prefix="" weight="2" />
+    <option id="now" pl_prefix="Teraz " jp_prefix="いま、" weight="1" />
+    <option id="today" pl_prefix="Dzisiaj " jp_prefix="きょう、" weight="1" />
+  </context>
+  <context id="past" label="past">
+    <option id="yesterday" pl_prefix="Wczoraj " jp_prefix="きのう、" weight="2" />
+    <option id="last_week" pl_prefix="W zeszłym tygodniu " jp_prefix="せんしゅう、" weight="1" />
+    <option id="recently" pl_prefix="Ostatnio " jp_prefix="さいきん、" weight="1" />
+  </context>
+  <context id="future" label="future">
+    <option id="tomorrow" pl_prefix="Jutro " jp_prefix="あした、" weight="2" />
+    <option id="next_week" pl_prefix="W przyszłym tygodniu " jp_prefix="らいしゅう、" weight="1" />
+    <option id="soon" pl_prefix="Wkrótce " jp_prefix="もうすぐ、" weight="1" />
+  </context>
+</contexts>

@@ -4,8 +4,9 @@
 #include "Tools/Logger.h"
 #include "gui/widgets/packages/SettingsDataPackage.h"
 
-#include <cstdint>
 #include <cstddef>
+#include <cstdint>
+#include <functional>
 #include <random>
 #include <string>
 #include <unordered_map>
@@ -19,20 +20,15 @@ namespace tadaima
         {
             /**
              * @class SentenceTransformationQuizWidget
-             * @brief ImGui widget for practicing generated Japanese sentence transformations.
+             * @brief ImGui quiz that builds Japanese sentences from a Version 6 quiz project.
              *
-             * The widget loads Japanese words from a dictionary XML file and sentence templates
-             * from a sentence map XML file. It can generate quiz questions in two modes:
-             * - transforming one Japanese sentence form into another,
-             * - writing a Japanese sentence from a source-language prompt.
+             * The configured SentenceQuizSentenceMapPath points to quiz_project.xml.
+             * The manifest resolves dictionaries, reusable vocabulary, contexts, and
+             * sentence patterns relative to its own directory.
              *
-             * The widget supports filtering words by XML attributes, for example:
-             * @code
-             * ending=su
-             * ending=su,ku,kuru
-             * type=godan;ending=su,ku
-             * tag=eat_food
-             * @endcode
+             * The widget remains a verb quiz. A usable pattern therefore has one
+             * verb token selected by `.form`. Other verbs, adjectives, entities,
+             * profiles, relations, and contexts are resolved generically from XML.
              */
             class SentenceTransformationQuizWidget
             {
@@ -44,7 +40,7 @@ namespace tadaima
                 explicit SentenceTransformationQuizWidget(tools::Logger& logger);
 
                 /**
-                 * @brief Initializes dictionary path, sentence map path, and quiz settings.
+                 * @brief Initializes the project path and quiz settings.
                  * @param r_package Application settings package.
                  */
                 void initialize(const tools::DataPackage& r_package);
@@ -56,410 +52,367 @@ namespace tadaima
                 void draw(bool* p_open);
 
             private:
-                /**
-                 * @enum QuizMode
-                 * @brief Defines how quiz questions are generated.
-                 */
                 enum class QuizMode
                 {
-                    Transformation = 0,      ///< Transform one Japanese sentence form into another.
-                    LanguageToJapanese = 1   ///< Write a Japanese sentence from a source-language prompt.
+                    Transformation = 0,
+                    LanguageToJapanese = 1
                 };
 
-                /**
-                 * @struct ConjugationData
-                 * @brief Stores one conjugated form of a dictionary word.
-                 */
-                struct ConjugationData
+                enum class SlotKind
                 {
-                    std::string name;             ///< Conjugation identifier, for example "dictionary" or "past_plain".
-                    std::string style;            ///< Optional style description from XML.
-                    std::string sentencePrompt;   ///< Prompt form used inside sentence templates.
-                    std::string value;            ///< Actual conjugated value.
+                    Verb,
+                    Adjective,
+                    Entity
                 };
 
-                /**
-                 * @struct DictionaryWord
-                 * @brief Stores one dictionary word loaded from XML.
-                 */
+                enum class FormCategory
+                {
+                    NonPast,
+                    Negative,
+                    Past,
+                    PastNegative
+                };
+
+                struct FormData
+                {
+                    std::string name;
+                    std::string style;
+                    std::string context;
+                    std::string prompt;
+                    std::string promptMasculine;
+                    std::string promptFeminine;
+                    std::string promptNeuter;
+                    std::string promptPlural;
+                    std::string value;
+                };
+
                 struct DictionaryWord
                 {
-                    std::string translation;                                      ///< Source-language translation.
-                    std::string kana;                                             ///< Kana form of the word.
-                    std::string kanji;                                            ///< Kanji form of the word, if available.
-                    std::string type;                                             ///< Word type, for example verb type.
-                    std::string ending;                                           ///< Word ending, useful for filtering.
-                    std::vector<std::string> tags;                                ///< Tags used to match sentence maps.
-                    std::unordered_map<std::string, ConjugationData> conjugations; ///< Conjugations indexed by name.
-                    std::unordered_map<std::string, std::string> attributes;       ///< All XML attributes indexed by name.
+                    std::string id;
+                    std::string dictionaryId;
+                    std::string translation;
+                    std::string kana;
+                    std::string kanji;
+                    std::string type;
+                    std::string ending;
+                    std::vector<std::string> tags;
+                    std::unordered_map<std::string, std::vector<std::string>> relations;
+                    std::unordered_map<std::string, FormData> forms;
+                    std::unordered_map<std::string, std::string> attributes;
                 };
 
-                /**
-                 * @struct WordFilterRule
-                 * @brief One parsed filter rule from the filter input field.
-                 */
                 struct WordFilterRule
                 {
-                    std::string field;                ///< Attribute name or special field name, for example "tag".
-                    std::vector<std::string> values;  ///< Accepted values for this field.
+                    std::string field;
+                    std::vector<std::string> values;
                 };
 
-                /**
-                 * @struct SlotItem
-                 * @brief One slot replacement item used by sentence templates.
-                 */
-                struct SlotItem
+                struct TagProfile
                 {
-                    std::string text; ///< Source-language slot text.
-                    std::string jp;   ///< Japanese slot text.
+                    std::string id;
+                    std::vector<std::string> includes;
+                    std::vector<std::string> tags;
                 };
 
-                /**
-                 * @struct SentenceMap
-                 * @brief Sentence template definition loaded from the sentence map XML file.
-                 */
-                struct SentenceMap
+                struct EntityData
                 {
-                    std::string id;               ///< Unique sentence map identifier.
-                    std::string label;            ///< Human-readable label.
-                    std::string requiredTag;      ///< Required dictionary word tag.
-                    std::string conjugation;      ///< Conjugation used by this template.
-                    std::string slotList;         ///< Optional slot list identifier.
-                    std::string questionTemplate; ///< Source-language question template.
-                    std::string answerTemplate;   ///< Japanese answer template.
+                    std::string id;
+                    std::string kana;
+                    std::string kanji;
+                    std::string gender;
+                    std::unordered_map<std::string, std::string> polish;
+                    std::vector<std::string> profiles;
+                    std::vector<std::string> tags;
                 };
 
-                /**
-                 * @struct TransformationRule
-                 * @brief Rule used in Japanese-to-Japanese transformation mode.
-                 */
-                struct TransformationRule
+                struct ContextOptionData
                 {
-                    std::string sourceConjugation;   ///< Source conjugation name.
-                    std::string targetConjugation;   ///< Expected target conjugation name.
-                    std::string templateConjugation; ///< Sentence map conjugation required by this rule.
-                    std::string label;               ///< Label shown to the user.
-                    bool enabled = false;            ///< Indicates whether this rule is active.
+                    std::string id;
+                    std::string polishPrefix;
+                    std::string japanesePrefix;
+                    uint32_t weight = 1U;
                 };
 
-                /**
-                 * @struct MeaningToJapaneseRule
-                 * @brief Rule used in source-language-to-Japanese mode.
-                 */
-                struct MeaningToJapaneseRule
+                struct ContextPoolData
                 {
-                    std::string targetConjugation;   ///< Expected target conjugation name.
-                    std::string templateConjugation; ///< Sentence map conjugation required by this rule.
-                    std::string label;               ///< Label shown to the user.
-                    bool enabled = false;            ///< Indicates whether this rule is active.
+                    std::string id;
+                    std::string label;
+                    std::vector<ContextOptionData> options;
                 };
 
-                /**
-                 * @struct QuizQuestion
-                 * @brief Fully generated quiz question.
-                 */
+                struct SentencePatternData
+                {
+                    std::string id;
+                    std::string label;
+                    std::string questionTemplate;
+                    std::string answerTemplate;
+                };
+
+                struct PatternAnalysis
+                {
+                    bool valid = false;
+                    std::string error;
+                    std::vector<std::string> wordSlots;
+                    std::vector<std::string> entitySlots;
+                    std::string dynamicSlot;
+                    std::unordered_map<std::string, std::string> primarySpecs;
+                    std::unordered_map<std::string, std::string> driverForEntity;
+                    std::unordered_map<std::string, std::string> entityForAdjective;
+                };
+
+                struct GenerationRule
+                {
+                    FormCategory category = FormCategory::NonPast;
+                    bool hasSourceForm = false;
+                    bool sourcePolite = false;
+                    bool targetPolite = false;
+                    std::string label;
+                };
+
+                struct SentenceBinding
+                {
+                    std::unordered_map<std::string, const DictionaryWord*> words;
+                    std::unordered_map<std::string, const EntityData*> entities;
+                };
+
+                struct QuestionSeed
+                {
+                    const SentencePatternData* pattern = nullptr;
+                    PatternAnalysis analysis;
+                    GenerationRule rule;
+                    SentenceBinding binding;
+                    const ContextPoolData* contextPool = nullptr;
+                    const ContextOptionData* contextOption = nullptr;
+                    std::string sourceForm;
+                    std::string targetForm;
+                    uint32_t selectionWeight = 1U;
+                };
+
                 struct QuizQuestion
                 {
-                    std::string key;                  ///< Unique generated question key.
-                    std::string sourceSentence;       ///< Sentence shown to the user.
-                    std::string targetSentence;       ///< Expected answer.
-                    std::string questionText;         ///< Additional context or source-language prompt.
-                    std::string targetLabel;          ///< Target form label shown to the user.
-                    std::string sourceConjugation;    ///< Source conjugation name.
-                    std::string targetConjugation;    ///< Target conjugation name.
-                    std::string templateConjugation;  ///< Template conjugation name.
-                    std::string wordMeaning;          ///< Word translation.
-                    std::string wordKana;             ///< Word kana.
-                    std::string wordKanji;            ///< Word kanji.
-                    std::string mapId;                ///< Sentence map identifier.
-                    std::string slotText;             ///< Source-language slot text.
-                    std::string slotJp;               ///< Japanese slot text.
+                    std::string key;
+                    std::string sourceSentence;
+                    std::string targetSentence;
+                    std::string questionText;
+                    std::string targetLabel;
+                    std::string sourceConjugation;
+                    std::string targetConjugation;
+                    std::string wordMeaning;
+                    std::string wordKana;
+                    std::string wordKanji;
+                    std::string patternId;
+                    std::string bindings;
+                    uint32_t selectionWeight = 1U;
                 };
 
-                /**
-                 * @struct FileStatistics
-                 * @brief Statistics calculated from loaded XML files and current settings.
-                 */
                 struct FileStatistics
                 {
-                    uint32_t words = 0U;              ///< Number of loaded words.
-                    uint32_t sentenceMaps = 0U;       ///< Number of loaded sentence maps.
-                    uint32_t slotLists = 0U;          ///< Number of loaded slot lists.
-                    uint32_t slotItems = 0U;          ///< Number of loaded slot items.
-                    uint32_t generatedQuestions = 0U; ///< Number of questions generated with current settings.
+                    uint32_t words = 0U;
+                    uint32_t sentencePatterns = 0U;
+                    uint32_t entities = 0U;
+                    uint32_t tagProfiles = 0U;
+                    uint32_t generatedQuestions = 0U;
                 };
 
-                /**
-                 * @brief Draws the quiz settings window.
-                 * @param p_open Pointer controlling widget visibility.
-                 */
                 void drawSettingsWindow(bool* p_open);
-
-                /**
-                 * @brief Draws the active quiz window.
-                 * @param p_open Pointer controlling widget visibility.
-                 */
                 void drawQuizWindow(bool* p_open);
 
-                /**
-                 * @brief Loads both dictionary and sentence map XML files.
-                 * @return True if both files were loaded successfully, otherwise false.
-                 */
                 bool loadFiles();
+                bool loadProject(const std::string& path);
+                bool loadDictionary(const std::string& dictionaryId, const std::string& fullPath);
+                bool loadVocabulary(const std::string& fullPath);
+                bool loadContexts(const std::string& fullPath);
+                bool loadSentencePatterns(const std::string& fullPath);
+                bool buildEffectiveEntityTags();
+                bool appendProfileTags(
+                    const std::string& profileId,
+                    std::vector<std::string>& recursionPath,
+                    std::vector<std::string>& tags,
+                    std::string& error) const;
 
-                /**
-                 * @brief Loads dictionary words from an XML file.
-                 * @param path Relative dictionary XML path.
-                 * @return True if at least one valid word was loaded, otherwise false.
-                 */
-                bool loadDictionary(const std::string& path);
+                std::vector<GenerationRule> buildEnabledRules() const;
+                std::vector<GenerationRule> buildEnabledMeaningToJapaneseRules() const;
+                std::vector<QuizQuestion> buildQuestionBank(size_t maximumQuestions) const;
+                std::vector<QuizQuestion> buildMeaningToJapaneseQuestionBank(size_t maximumQuestions) const;
+                std::vector<QuizQuestion> buildQuestionsForMode(
+                    bool transformationMode,
+                    size_t maximumQuestions) const;
+                std::vector<QuestionSeed> buildQuestionSeeds(bool transformationMode) const;
+                bool renderQuestionSeed(
+                    const QuestionSeed& seed,
+                    bool transformationMode,
+                    QuizQuestion& question) const;
+                uint64_t countPossibleQuestions(bool transformationMode) const;
+                void applyWeightedRandomOrder(std::vector<QuestionSeed>& seeds) const;
+                std::vector<SentenceBinding> buildBindings(
+                    const PatternAnalysis& analysis,
+                    const GenerationRule& rule) const;
+                std::vector<const DictionaryWord*> getVerbCandidates(
+                    const std::string& slotId,
+                    const PatternAnalysis& analysis,
+                    const GenerationRule& rule) const;
+                std::vector<const DictionaryWord*> getAdjectiveCandidates(
+                    const std::string& slotId,
+                    const PatternAnalysis& analysis,
+                    const SentenceBinding& binding,
+                    const GenerationRule& rule) const;
+                std::vector<const EntityData*> getEntityCandidates(
+                    const std::string& slotId,
+                    const PatternAnalysis& analysis,
+                    const SentenceBinding& binding) const;
 
-                /**
-                 * @brief Loads sentence maps and slot lists from an XML file.
-                 * @param path Relative sentence map XML path.
-                 * @return True if at least one valid sentence map was loaded, otherwise false.
-                 */
-                bool loadSentenceMaps(const std::string& path);
+                PatternAnalysis analyzePattern(const SentencePatternData& pattern) const;
+                SlotKind getSlotKind(const std::string& slotId) const;
+                std::string getDefaultFormSpec(const std::string& slotId) const;
+                std::string getWordSlotFilterTag(const std::string& slotId) const;
+                std::string getDictionaryForSlot(const std::string& slotId) const;
+                bool isFormSelector(const std::string& slotId, const std::string& field) const;
+                bool isUsableVerbPattern(const PatternAnalysis& analysis) const;
+                bool isEnabledForThisQuiz(const SentencePatternData& pattern) const;
 
-                /**
-                 * @brief Builds enabled rules for Japanese sentence transformation mode.
-                 * @return Vector of active transformation rules.
-                 */
-                std::vector<TransformationRule> buildEnabledRules() const;
+                std::string getFiniteFormName(
+                    const DictionaryWord& word,
+                    FormCategory category,
+                    bool polite) const;
+                std::string getCanonicalFormName(
+                    const DictionaryWord& word,
+                    const std::string& formSpec,
+                    const std::string& dynamicForm) const;
+                const FormData* getForm(
+                    const DictionaryWord& word,
+                    const std::string& formSpec,
+                    const std::string& dynamicForm) const;
+                std::string getFormPrompt(const FormData& form, const std::string& gender) const;
+                const ContextPoolData* getContextPool(const std::string& contextId) const;
 
-                /**
-                 * @brief Builds enabled rules for source-language-to-Japanese mode.
-                 * @return Vector of active source-language-to-Japanese rules.
-                 */
-                std::vector<MeaningToJapaneseRule> buildEnabledMeaningToJapaneseRules() const;
+                bool renderTemplate(
+                    const std::string& text,
+                    const PatternAnalysis& analysis,
+                    const SentenceBinding& binding,
+                    const std::string& dynamicForm,
+                    const ContextPoolData& contextPool,
+                    const ContextOptionData& contextOption,
+                    std::string& rendered,
+                    std::string& error) const;
+                bool resolveToken(
+                    const std::string& expression,
+                    const PatternAnalysis& analysis,
+                    const SentenceBinding& binding,
+                    const std::string& dynamicForm,
+                    const ContextPoolData& contextPool,
+                    const ContextOptionData& contextOption,
+                    std::string& value,
+                    std::string& error) const;
+                bool resolveWordToken(
+                    const std::string& slotId,
+                    const std::string& field,
+                    const PatternAnalysis& analysis,
+                    const SentenceBinding& binding,
+                    const std::string& dynamicForm,
+                    std::string& value,
+                    std::string& error) const;
+                bool resolveEntityToken(
+                    const std::string& slotId,
+                    const std::string& field,
+                    const SentenceBinding& binding,
+                    std::string& value,
+                    std::string& error) const;
 
-                /**
-                 * @brief Builds the question bank for Japanese sentence transformation mode.
-                 * @return Generated quiz questions.
-                 */
-                std::vector<QuizQuestion> buildQuestionBank() const;
-
-                /**
-                 * @brief Builds the question bank for source-language-to-Japanese mode.
-                 * @return Generated quiz questions.
-                 */
-                std::vector<QuizQuestion> buildMeaningToJapaneseQuestionBank() const;
-
-                /**
-                 * @brief Loads files, generates questions, and starts the quiz.
-                 */
                 void startQuiz();
-
-                /**
-                 * @brief Checks the current user answer against the expected answer.
-                 */
                 void submitAnswer();
-
-                /**
-                 * @brief Accepts the current answer manually as correct.
-                 */
                 void acceptCurrentAnswerAsCorrect();
-
-                /**
-                 * @brief Skips the current question and counts it as manually accepted.
-                 */
                 void skipQuestion();
-
-                /**
-                 * @brief Moves to the next question and resets per-question state.
-                 */
                 void advanceQuestion();
-
-                /**
-                 * @brief Resets all quiz counters and per-question state.
-                 */
                 void resetQuizState();
-
-                /**
-                 * @brief Reloads files and recalculates statistics for current settings.
-                 */
                 void updateStatistics();
-
-                /**
-                 * @brief Schedules automatic advance after a correct answer.
-                 */
                 void scheduleAutoAdvanceAfterCorrectAnswer();
-
-                /**
-                 * @brief Advances to the next question when the auto-advance delay has passed.
-                 */
                 void processAutoAdvance();
 
-                /**
-                 * @brief Parses the word filter text into filter rules.
-                 * @param filterText Filter string entered by the user.
-                 * @return Parsed filter rules.
-                 */
                 std::vector<WordFilterRule> parseWordFilter(const std::string& filterText) const;
-
-                /**
-                 * @brief Checks whether a word matches all filter rules.
-                 * @param word Dictionary word to check.
-                 * @param rules Parsed filter rules.
-                 * @return True if the word matches all rules, otherwise false.
-                 */
                 bool wordMatchesFilter(const DictionaryWord& word, const std::vector<WordFilterRule>& rules) const;
-
-                /**
-                 * @brief Checks whether a single word field matches a filter value.
-                 * @param word Dictionary word to check.
-                 * @param field Attribute name or special field name.
-                 * @param value Expected value.
-                 * @return True if the field matches the value, otherwise false.
-                 */
                 bool wordFieldMatches(const DictionaryWord& word, const std::string& field, const std::string& value) const;
+                bool wordHasTag(const DictionaryWord& word, const std::string& tag) const;
+                bool wordCanUseEntity(const DictionaryWord& word, const std::string& role, const EntityData& entity) const;
+                bool entityMatchesAdjective(const EntityData& entity, const DictionaryWord& adjective) const;
+                bool tagsIntersect(const std::vector<std::string>& first, const std::vector<std::string>& second) const;
+                bool containsValue(const std::vector<std::string>& values, const std::string& value) const;
+                void appendUnique(std::vector<std::string>& values, const std::string& value) const;
 
-                /**
-                 * @brief Splits text by a separator character.
-                 * @param text Text to split.
-                 * @param separator Separator character.
-                 * @return Vector of split parts.
-                 */
+                std::vector<std::string> extractTokens(const std::string& text) const;
+                void splitToken(const std::string& expression, std::string& root, std::string& field) const;
                 std::vector<std::string> splitText(const std::string& text, char separator) const;
-
-                /**
-                 * @brief Removes leading and trailing spaces and tabs.
-                 * @param text Text to trim.
-                 * @return Trimmed text.
-                 */
                 std::string trimText(const std::string& text) const;
-
-                /**
-                 * @brief Removes optional single or double quotes around text.
-                 * @param text Text that may be quoted.
-                 * @return Text without surrounding quotes.
-                 */
                 std::string removeOptionalQuotes(const std::string& text) const;
-
-                /**
-                 * @brief Builds a full file path relative to the executable path.
-                 * @param path Relative file path.
-                 * @return Full file path.
-                 */
-                std::string buildFullPath(const std::string& path) const;
-
-                /**
-                 * @brief Renders a sentence template by replacing supported tokens.
-                 * @param text Template text.
-                 * @param slot Slot item used for {slot} and {slot_jp}.
-                 * @param conjugation Conjugation value used for {conjugation}.
-                 * @param verbPrompt Prompt value used for {verb_prompt}.
-                 * @return Rendered sentence.
-                 */
-                std::string renderTemplate(const std::string& text, const SlotItem& slot, const std::string& conjugation, const std::string& verbPrompt) const;
-
-                /**
-                 * @brief Replaces all occurrences of a token in text.
-                 * @param text Input text.
-                 * @param token Token to replace.
-                 * @param value Replacement value.
-                 * @return Text after replacement.
-                 */
+                std::string joinText(const std::vector<std::string>& values, const std::string& separator) const;
                 std::string replaceAll(std::string text, const std::string& token, const std::string& value) const;
-
-                /**
-                 * @brief Normalizes an answer before comparison.
-                 * @param text Answer text.
-                 * @return Normalized answer text.
-                 */
                 std::string normalizeAnswer(std::string text) const;
-
-                /**
-                 * @brief Checks whether a word has a required tag.
-                 * @param word Dictionary word.
-                 * @param tag Required tag.
-                 * @return True if the word has the tag, otherwise false.
-                 */
-                bool hasTag(const DictionaryWord& word, const std::string& tag) const;
-
-                /**
-                 * @brief Checks whether a word has a non-empty conjugation.
-                 * @param word Dictionary word.
-                 * @param conjugationName Conjugation name.
-                 * @return True if the conjugation exists and has a value, otherwise false.
-                 */
-                bool hasConjugation(const DictionaryWord& word, const std::string& conjugationName) const;
-
-                /**
-                 * @brief Gets a conjugation value by name.
-                 * @param word Dictionary word.
-                 * @param conjugationName Conjugation name.
-                 * @return Conjugation value, or an empty string if not found.
-                 */
-                std::string getConjugationValue(const DictionaryWord& word, const std::string& conjugationName) const;
-
-                /**
-                 * @brief Gets the sentence prompt for a conjugation.
-                 * @param word Dictionary word.
-                 * @param conjugationName Conjugation name.
-                 * @return Sentence prompt, or word kana if no prompt is configured.
-                 */
-                std::string getSentencePrompt(const DictionaryWord& word, const std::string& conjugationName) const;
-
-                /**
-                 * @brief Copies a string into a fixed-size character buffer.
-                 * @param destination Destination buffer.
-                 * @param destinationSize Destination buffer size.
-                 * @param source Source string.
-                 */
+                std::string buildConfiguredPath(const std::string& path) const;
+                std::string resolveProjectFile(const std::string& projectDirectory, const std::string& path) const;
+                std::string buildBindingDescription(const PatternAnalysis& analysis, const SentenceBinding& binding) const;
+                std::string buildQuestionKey(
+                    const SentencePatternData& pattern,
+                    const PatternAnalysis& analysis,
+                    const SentenceBinding& binding,
+                    const ContextOptionData& contextOption,
+                    const std::string& sourceForm,
+                    const std::string& targetForm) const;
                 void copyToBuffer(char* destination, size_t destinationSize, const std::string& source);
 
-                tools::Logger& m_logger; ///< Logger used for diagnostics.
+                tools::Logger& m_logger;
 
-                char m_dictionaryPath[512] = {}; ///< Dictionary XML path buffer.
-                char m_sentenceMapPath[512] = {}; ///< Sentence map XML path buffer.
-                char m_userAnswer[1024] = {}; ///< Current answer input buffer.
-                char m_wordFilter[256] = {}; ///< Word filter input buffer.
+                char m_projectPath[512] = {};
+                char m_userAnswer[1024] = {};
+                char m_wordFilter[256] = {};
 
-                bool m_showSettingsWindow = false; ///< Indicates whether settings window is visible.
-                bool m_showQuizWindow = false; ///< Indicates whether quiz window is visible.
-                bool m_showStatistics = false; ///< Indicates whether statistics are visible.
-                bool m_showFullAnswer = false; ///< Indicates whether full answer help is visible.
-                bool m_filesLoaded = false; ///< Indicates whether XML files are loaded.
-                bool m_waitingForNextQuestion = false; ///< Indicates whether current question is already answered.
-                bool m_focusAnswerInput = true; ///< Requests keyboard focus for the answer input field.
+                bool m_showSettingsWindow = false;
+                bool m_showQuizWindow = false;
+                bool m_showStatistics = false;
+                bool m_showFullAnswer = false;
+                bool m_filesLoaded = false;
+                bool m_waitingForNextQuestion = false;
+                bool m_focusAnswerInput = true;
 
-                bool m_enablePoliteToPlain = true; ///< Enables polite-to-plain transformation rules.
-                bool m_enablePlainToPolite = false; ///< Enables plain-to-polite transformation rules.
-                bool m_enablePoliteOutput = true; ///< Enables polite output in source-language-to-Japanese mode.
-                bool m_enablePlainOutput = true; ///< Enables plain output in source-language-to-Japanese mode.
+                bool m_enablePoliteToPlain = true;
+                bool m_enablePlainToPolite = false;
+                bool m_enablePoliteOutput = true;
+                bool m_enablePlainOutput = true;
 
-                bool m_enableNonPast = true; ///< Enables non-past affirmative forms.
-                bool m_enableNegative = true; ///< Enables non-past negative forms.
-                bool m_enablePast = true; ///< Enables past affirmative forms.
-                bool m_enablePastNegative = true; ///< Enables past negative forms.
-                bool m_randomOrder = true; ///< Enables random question order.
+                bool m_enableNonPast = true;
+                bool m_enableNegative = true;
+                bool m_enablePast = true;
+                bool m_enablePastNegative = true;
+                bool m_randomOrder = true;
 
-                int m_numberOfQuestions = 25; ///< Requested number of quiz questions.
-                int m_numberOfTries = 2; ///< Number of tries before answer is treated as wrong.
-                int m_currentTry = 0; ///< Current try counter for active question.
-                int m_autoAdvanceDelayMs = 2000; ///< Delay before automatic advance after correct answer.
+                int m_numberOfQuestions = 25;
+                int m_numberOfTries = 2;
+                int m_currentTry = 0;
+                int m_autoAdvanceDelayMs = 2000;
 
-                double m_autoAdvanceDueTime = 0.0; ///< ImGui time when automatic advance should happen.
+                double m_autoAdvanceDueTime = 0.0;
 
-                QuizMode m_quizMode = QuizMode::Transformation; ///< Current quiz mode.
-                int m_quizModeIndex = 0; ///< ImGui combo index for quiz mode.
+                QuizMode m_quizMode = QuizMode::Transformation;
+                int m_quizModeIndex = 0;
 
-                uint32_t m_currentQuestionIndex = 0U; ///< Index of the active question.
-                uint32_t m_correctAnswers = 0U; ///< Number of correct answers.
-                uint32_t m_wrongAnswers = 0U; ///< Number of wrong answers.
-                uint32_t m_acceptedAnswers = 0U; ///< Number of manually accepted answers.
+                uint32_t m_currentQuestionIndex = 0U;
+                uint32_t m_correctAnswers = 0U;
+                uint32_t m_wrongAnswers = 0U;
+                uint32_t m_acceptedAnswers = 0U;
 
-                std::string m_statusMessage; ///< Status message shown in settings window.
-                std::string m_feedbackMessage; ///< Feedback message shown in quiz window.
+                std::string m_statusMessage;
+                std::string m_feedbackMessage;
+                std::string m_projectFullPath;
+                std::string m_projectDirectory;
 
-                std::vector<DictionaryWord> m_words; ///< Loaded dictionary words.
-                std::vector<SentenceMap> m_sentenceMaps; ///< Loaded sentence maps.
-                std::unordered_map<std::string, std::vector<SlotItem>> m_slotLists; ///< Loaded slot lists indexed by ID.
-                std::vector<QuizQuestion> m_questions; ///< Generated quiz questions.
-                FileStatistics m_statistics; ///< Current file and generation statistics.
+                std::unordered_map<std::string, std::vector<DictionaryWord>> m_dictionaries;
+                std::unordered_map<std::string, TagProfile> m_tagProfiles;
+                std::unordered_map<std::string, EntityData> m_entities;
+                std::unordered_map<std::string, std::vector<std::string>> m_effectiveEntityTags;
+                std::unordered_map<std::string, ContextPoolData> m_contexts;
+                std::vector<SentencePatternData> m_sentencePatterns;
+                std::vector<QuizQuestion> m_questions;
+                FileStatistics m_statistics;
 
-                std::mt19937 m_rng; ///< Random generator used for question shuffling.
+                mutable std::mt19937 m_rng;
             };
         }
     }

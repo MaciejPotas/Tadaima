@@ -27,6 +27,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_0AA99FE1716C484495A1B7D322FED4AA"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_2186197FEDC0439BB003C85D86854ED5"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -63,7 +69,25 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_2CC433C7DF794CA184975D5C0CFFC6D6"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_2D26BDD6FF594E138BBABAFBF2182DB5"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_34B1092C52F043F1AE0126D111281356"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3527291DF44D45D2B311C565E2D9556E"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -88,6 +112,12 @@
         "Entry"
         {
         "MsmKey" = "8:_5C7C167CB3A5488E9F01C85218FB5F19"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_6025D40CDDCB4FB99293D35ADE0BDEAB"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -129,13 +159,55 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_86675BC2750D4FCFA2BC5EBDB946414A"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8AF925977E97478D8689779EE4AF9DB5"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_9B4291B17776495FA2DA6B71ABEB8AD9"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_9D48FB3E43B24EBAA8489825BB6F1869"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_AB1C92BE2B0244F48D0619B06B2D0454"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
+        "MsmKey" = "8:_AC51A2D0087047249EAA26D650F396E1"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_ADE0FF5AF0EF44C3AF437A65AD5BBCD3"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_AE40DEB9D4CF41F48C896120A0DD2342"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_B167B568B70B4C4692C5B81F70F5D2F9"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -159,6 +231,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_DE00BE29263E48A7BEFB8D3C4747D692"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_DE0D0883E77C4E508159D471D5EA85C0"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -172,6 +250,12 @@
         "Entry"
         {
         "MsmKey" = "8:_EEB4AFB674904B98AF316BBD86513D51"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_FF69E7AC6EC744B1A435408031EB4441"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -288,6 +372,26 @@
             "TargetName" = "8:TeFormQuiz.py"
             "Tag" = "8:"
             "Folder" = "8:_135D3A1E1B794E98B18B0E4636DF170D"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_0AA99FE1716C484495A1B7D322FED4AA"
+            {
+            "SourcePath" = "8:..\\..\\Scripts\\JapaneseQuizStudio\\quiz_core.py"
+            "TargetName" = "8:quiz_core.py"
+            "Tag" = "8:"
+            "Folder" = "8:_0666F60C04A0443785185B2A8F8700D5"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -422,12 +526,72 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_2CC433C7DF794CA184975D5C0CFFC6D6"
+            {
+            "SourcePath" = "8:..\\..\\Scripts\\JapaneseQuizStudio\\DATA_AUDIT.md"
+            "TargetName" = "8:DATA_AUDIT.md"
+            "Tag" = "8:"
+            "Folder" = "8:_0666F60C04A0443785185B2A8F8700D5"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_2D26BDD6FF594E138BBABAFBF2182DB5"
             {
             "SourcePath" = "8:..\\..\\Scripts\\Dictionaries\\Google.py"
             "TargetName" = "8:Google.py"
             "Tag" = "8:"
             "Folder" = "8:_E43DBE1987D347B3A060763C1D414ECF"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_34B1092C52F043F1AE0126D111281356"
+            {
+            "SourcePath" = "8:..\\..\\Scripts\\JapaneseQuizStudio\\tests\\test_ui_helpers.py"
+            "TargetName" = "8:test_ui_helpers.py"
+            "Tag" = "8:"
+            "Folder" = "8:_1DCCACC380A248919CB65E1BFE4998D2"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3527291DF44D45D2B311C565E2D9556E"
+            {
+            "SourcePath" = "8:..\\..\\Scripts\\JapaneseQuizStudio\\run_windows.bat"
+            "TargetName" = "8:run_windows.bat"
+            "Tag" = "8:"
+            "Folder" = "8:_0666F60C04A0443785185B2A8F8700D5"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -508,6 +672,26 @@
             "TargetName" = "8:adjectives_dictionary.xml"
             "Tag" = "8:"
             "Folder" = "8:_FAE83414241C411B972E39617C1A9FB7"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6025D40CDDCB4FB99293D35ADE0BDEAB"
+            {
+            "SourcePath" = "8:..\\..\\Scripts\\JapaneseQuizStudio\\examples\\quiz_project.xml"
+            "TargetName" = "8:quiz_project.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_15FA338A085A479782FAEC2D3F387A01"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -622,6 +806,86 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_86675BC2750D4FCFA2BC5EBDB946414A"
+            {
+            "SourcePath" = "8:..\\..\\Scripts\\JapaneseQuizStudio\\examples\\adjectives.xml"
+            "TargetName" = "8:adjectives.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_15FA338A085A479782FAEC2D3F387A01"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8AF925977E97478D8689779EE4AF9DB5"
+            {
+            "SourcePath" = "8:..\\..\\Scripts\\JapaneseQuizStudio\\__pycache__\\quiz_core.cpython-311.pyc"
+            "TargetName" = "8:quiz_core.cpython-311.pyc"
+            "Tag" = "8:"
+            "Folder" = "8:_7A87B9EA42AB4B66AC1F2F551D8FF260"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_9B4291B17776495FA2DA6B71ABEB8AD9"
+            {
+            "SourcePath" = "8:..\\..\\Scripts\\JapaneseQuizStudio\\app.py"
+            "TargetName" = "8:app.py"
+            "Tag" = "8:"
+            "Folder" = "8:_0666F60C04A0443785185B2A8F8700D5"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_9D48FB3E43B24EBAA8489825BB6F1869"
+            {
+            "SourcePath" = "8:..\\..\\Scripts\\JapaneseQuizStudio\\examples\\verbs.xml"
+            "TargetName" = "8:verbs.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_15FA338A085A479782FAEC2D3F387A01"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_AB1C92BE2B0244F48D0619B06B2D0454"
             {
             "SourcePath" = "8:..\\resources\\forkawesome-webfont.ttf"
@@ -642,12 +906,72 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_AC51A2D0087047249EAA26D650F396E1"
+            {
+            "SourcePath" = "8:..\\..\\Scripts\\JapaneseQuizStudio\\examples\\sentence_vocabulary.xml"
+            "TargetName" = "8:sentence_vocabulary.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_15FA338A085A479782FAEC2D3F387A01"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_ADE0FF5AF0EF44C3AF437A65AD5BBCD3"
+            {
+            "SourcePath" = "8:..\\..\\Scripts\\JapaneseQuizStudio\\README.md"
+            "TargetName" = "8:README.md"
+            "Tag" = "8:"
+            "Folder" = "8:_0666F60C04A0443785185B2A8F8700D5"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_AE40DEB9D4CF41F48C896120A0DD2342"
             {
             "SourcePath" = "8:..\\..\\Scripts\\requirements.txt"
             "TargetName" = "8:requirements.txt"
             "Tag" = "8:"
             "Folder" = "8:_36983B812C384701847F1EDAA2145137"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B167B568B70B4C4692C5B81F70F5D2F9"
+            {
+            "SourcePath" = "8:..\\..\\Scripts\\JapaneseQuizStudio\\tests\\test_core.py"
+            "TargetName" = "8:test_core.py"
+            "Tag" = "8:"
+            "Folder" = "8:_1DCCACC380A248919CB65E1BFE4998D2"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -722,6 +1046,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_DE00BE29263E48A7BEFB8D3C4747D692"
+            {
+            "SourcePath" = "8:..\\..\\Scripts\\JapaneseQuizStudio\\examples\\contexts.xml"
+            "TargetName" = "8:contexts.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_15FA338A085A479782FAEC2D3F387A01"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_DE0D0883E77C4E508159D471D5EA85C0"
             {
             "SourcePath" = "8:..\\..\\Scripts\\QuizFiles\\adjectives_sentence_maps.xml"
@@ -768,6 +1112,26 @@
             "TargetName" = "8:NotoSansJP-Regular.ttf"
             "Tag" = "8:"
             "Folder" = "8:_F0A06DBF0BE84385B7ABA91242D5F99B"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_FF69E7AC6EC744B1A435408031EB4441"
+            {
+            "SourcePath" = "8:..\\..\\Scripts\\JapaneseQuizStudio\\examples\\sentence_maps.xml"
+            "TargetName" = "8:sentence_maps.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_15FA338A085A479782FAEC2D3F387A01"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -829,6 +1193,50 @@
                     "Property" = "8:_3AD28063540047C0AA8AFBC9DA49FD97"
                         "Folders"
                         {
+                            "{9EF0B969-E518-4E46-987F-47570745A589}:_0666F60C04A0443785185B2A8F8700D5"
+                            {
+                            "Name" = "8:JapaneseQuizStudio"
+                            "AlwaysCreate" = "11:FALSE"
+                            "Condition" = "8:"
+                            "Transitive" = "11:FALSE"
+                            "Property" = "8:_D503EC6D3BE341E29C2A3591D9524687"
+                                "Folders"
+                                {
+                                    "{9EF0B969-E518-4E46-987F-47570745A589}:_15FA338A085A479782FAEC2D3F387A01"
+                                    {
+                                    "Name" = "8:examples"
+                                    "AlwaysCreate" = "11:FALSE"
+                                    "Condition" = "8:"
+                                    "Transitive" = "11:FALSE"
+                                    "Property" = "8:_31AF84D0E9F3427DB5DBC482548A4251"
+                                        "Folders"
+                                        {
+                                        }
+                                    }
+                                    "{9EF0B969-E518-4E46-987F-47570745A589}:_1DCCACC380A248919CB65E1BFE4998D2"
+                                    {
+                                    "Name" = "8:tests"
+                                    "AlwaysCreate" = "11:FALSE"
+                                    "Condition" = "8:"
+                                    "Transitive" = "11:FALSE"
+                                    "Property" = "8:_E444366CBDAF489CAB42439A8107968C"
+                                        "Folders"
+                                        {
+                                        }
+                                    }
+                                    "{9EF0B969-E518-4E46-987F-47570745A589}:_7A87B9EA42AB4B66AC1F2F551D8FF260"
+                                    {
+                                    "Name" = "8:__pycache__"
+                                    "AlwaysCreate" = "11:FALSE"
+                                    "Condition" = "8:"
+                                    "Transitive" = "11:FALSE"
+                                    "Property" = "8:_42F91E451CE54DE2AA7217FDDAD1D3E8"
+                                        "Folders"
+                                        {
+                                        }
+                                    }
+                                }
+                            }
                             "{9EF0B969-E518-4E46-987F-47570745A589}:_135D3A1E1B794E98B18B0E4636DF170D"
                             {
                             "Name" = "8:Quizzes"

@@ -26,8 +26,8 @@ namespace tadaima
             static constexpr const char* DEFAULT_TRANSLATED_WORD = "Romaji";
             static constexpr const char* DEFAULT_MAX_TRIES_FOR_QUIZ = "2";
             static constexpr const uint8_t DEFAULT_CONJUGATION_MASK = 0;
-            static constexpr const char* DEFAULT_SENTENCE_QUIZ_DICTIONARY_PATH = "scripts/QuizFiles/dictionary.xml";
-            static constexpr const char* DEFAULT_SENTENCE_QUIZ_SENTENCE_MAP_PATH = "scripts/QuizFiles/sentence_maps.xml";
+            static constexpr const char* DEFAULT_SENTENCE_QUIZ_DICTIONARY_PATH = "scripts/QuizFiles/quiz_project.xml";
+            static constexpr const char* DEFAULT_SENTENCE_QUIZ_SENTENCE_MAP_PATH = "scripts/QuizFiles/quiz_project.xml";
             static constexpr const char* DEFAULT_ADJECTIVE_SENTENCE_QUIZ_DICTIONARY_PATH = "scripts/QuizFiles/adjectives_dictionary.xml";
             static constexpr const char* DEFAULT_ADJECTIVE_SENTENCE_QUIZ_SENTENCE_MAP_PATH = "scripts/QuizFiles/adjectives_sentence_maps.xml";
 
