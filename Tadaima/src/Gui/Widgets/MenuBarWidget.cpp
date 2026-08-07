@@ -17,7 +17,8 @@ namespace tadaima
                 m_ApplicationSettingsWidget(logger),
                 m_ScriptQuizRunnerWidget(logger),
                 m_SentenceTransformationQuizWidget(logger),
-                m_AdjectiveSentenceQuizWidget(logger)
+                m_AdjectiveSentenceQuizWidget(logger),
+                m_AvailabilitySentenceQuizWidget(logger)
             {
             }
 
@@ -27,6 +28,7 @@ namespace tadaima
                 m_ScriptQuizRunnerWidget.initialize(r_package);
                 m_SentenceTransformationQuizWidget.initialize(r_package);
                 m_AdjectiveSentenceQuizWidget.initialize(r_package);
+                m_AvailabilitySentenceQuizWidget.initialize(r_package);
             }
 
             void MenuBarWidget::showAboutWindow(bool* p_open)
@@ -76,6 +78,11 @@ namespace tadaima
                     m_AdjectiveSentenceQuizWidget.draw(&showAdjectiveQuiz);
                 }
 
+                if( showAvailabilitySentenceQuizWidget )
+                {
+                    m_AvailabilitySentenceQuizWidget.draw(&showAvailabilitySentenceQuizWidget);
+                }
+
                 // Menu Bar
                 if( ImGui::BeginMainMenuBar() )
                 {
@@ -111,6 +118,11 @@ namespace tadaima
                         if( ImGui::MenuItem("Play adjective transformation quiz", NULL, false, true) )
                         {
                             showAdjectiveQuiz = true;
+                        }
+
+                        if( ImGui::MenuItem("Play availability quiz", NULL, false, true) )
+                        {
+                            showAvailabilitySentenceQuizWidget = true;
                         }
 
                         ImGui::EndMenu();

@@ -21,6 +21,10 @@
       <question>{context.pl_prefix}{verb.prompt} z {companion.pl_instrumental}.</question>
       <answer>{context.jp_prefix}{companion}と{verb.form}</answer>
     </sentence_pattern>
+    <sentence_pattern id="place" label="place">
+      <question>{context.pl_prefix}{verb.prompt} w {place.pl_locative}.</question>
+      <answer>{context.jp_prefix}{place}で{verb.form}</answer>
+    </sentence_pattern>
     <sentence_pattern id="adjective_predicate" label="adjective_predicate">
       <question>{subject.pl_demonstrative} {adjective.prompt}.</question>
       <answer>この{subject}は{adjective.form}</answer>
@@ -44,6 +48,26 @@
     <sentence_pattern id="before_action" label="before_action">
       <question>Ułóż zdanie: przed czynnością „{verb_before.translation}”; {verb_main.prompt} {object.pl_accusative}.</question>
       <answer>{verb_before.dictionary}まえに{object}を{verb_main.form}</answer>
+    </sentence_pattern>
+    <sentence_pattern id="verb_noun_ga_aru_simple" label="verb_noun_ga_aru_simple">
+      <question>{context.pl_prefix}{verb_main.prompt}, bo {existence_verb.prompt} {availability_noun.pl_nominative}.</question>
+      <answer>{context.jp_prefix}{verb_main.dictionary}{availability_noun}が{existence_verb.form}</answer>
+    </sentence_pattern>
+    <sentence_pattern id="verb_noun_ga_aru_object" label="verb_noun_ga_aru_object">
+      <question>{context.pl_prefix}{verb_main.prompt} {object.pl_accusative}, bo {existence_verb.prompt} {availability_noun.pl_nominative}.</question>
+      <answer>{context.jp_prefix}{object}を{verb_main.dictionary}{availability_noun}が{existence_verb.form}</answer>
+    </sentence_pattern>
+    <sentence_pattern id="verb_noun_ga_aru_destination" label="verb_noun_ga_aru_destination">
+      <question>{context.pl_prefix}{verb_main.prompt} do {destination.pl_genitive}, bo {existence_verb.prompt} {availability_noun.pl_nominative}.</question>
+      <answer>{context.jp_prefix}{destination}へ{verb_main.dictionary}{availability_noun}が{existence_verb.form}</answer>
+    </sentence_pattern>
+    <sentence_pattern id="verb_noun_ga_aru_companion" label="verb_noun_ga_aru_companion">
+      <question>{context.pl_prefix}{verb_main.prompt} z {companion.pl_instrumental}, bo {existence_verb.prompt} {availability_noun.pl_nominative}.</question>
+      <answer>{context.jp_prefix}{companion}と{verb_main.dictionary}{availability_noun}が{existence_verb.form}</answer>
+    </sentence_pattern>
+    <sentence_pattern id="verb_noun_ga_aru_place" label="verb_noun_ga_aru_place">
+      <question>{context.pl_prefix}{verb_main.prompt} w {place.pl_locative}, bo {existence_verb.prompt} {availability_noun.pl_nominative}.</question>
+      <answer>{context.jp_prefix}{place}で{verb_main.dictionary}{availability_noun}が{existence_verb.form}</answer>
     </sentence_pattern>
   </sentence_patterns>
 </sentence_maps>

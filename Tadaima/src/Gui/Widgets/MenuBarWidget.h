@@ -10,6 +10,7 @@
 #include "ScriptQuizRunnerWidget.h"
 #include "quiz/SentenceTransformationQuizWidget.h"
 #include "quiz/AdjectiveSentenceQuizWidget.h"
+#include "quiz/AvailabilitySentenceQuizWidget.h"
 
 namespace tools { class Logger; }
 
@@ -63,11 +64,13 @@ namespace tadaima
                 bool showQuizRunner = false; /**< Flag to track the quiz runner window state. */
                 bool showSentenceTransformationQuiz = false;
                 bool showAdjectiveQuiz = false;
+                bool showAvailabilitySentenceQuizWidget = false;
 
                 ApplicationSettingsWidget m_ApplicationSettingsWidget; /**< The application settings widget. */
                 ScriptQuizRunnerWidget m_ScriptQuizRunnerWidget; /**< The script quiz runner widget. */
                 SentenceTransformationQuizWidget m_SentenceTransformationQuizWidget;
                 AdjectiveSentenceQuizWidget m_AdjectiveSentenceQuizWidget;
+                AvailabilitySentenceQuizWidget m_AvailabilitySentenceQuizWidget;
             };
         }
     }

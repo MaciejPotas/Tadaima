@@ -7,10 +7,10 @@
         <form name="polite_nonpast" prompt="jest" context="none" style="polite non-past">です</form>
         <form name="plain_negative" prompt="nie jest" context="none" style="plain negative">じゃない</form>
         <form name="polite_negative" prompt="nie jest" context="none" style="polite negative">ではありません</form>
-        <form name="past_plain" prompt="był/była/było" prompt_m="był" prompt_f="była" prompt_n="było" prompt_p="były" context="none" style="plain past">だった</form>
-        <form name="past_polite" prompt="był/była/było" prompt_m="był" prompt_f="była" prompt_n="było" prompt_p="były" context="none" style="polite past">でした</form>
-        <form name="past_negative_plain" prompt="nie był/była/było" prompt_m="nie był" prompt_f="nie była" prompt_n="nie było" prompt_p="nie były" context="none" style="plain past negative">じゃなかった</form>
-        <form name="past_negative_polite" prompt="nie był/była/było" prompt_m="nie był" prompt_f="nie była" prompt_n="nie było" prompt_p="nie były" context="none" style="polite past negative">ではありませんでした</form>
+        <form name="past_plain" prompt="był/była/było" context="none" style="plain past" prompt_m="był" prompt_f="była" prompt_n="było" prompt_p="były">だった</form>
+        <form name="past_polite" prompt="był/była/było" context="none" style="polite past" prompt_m="był" prompt_f="była" prompt_n="było" prompt_p="były">でした</form>
+        <form name="past_negative_plain" prompt="nie był/była/było" context="none" style="plain past negative" prompt_m="nie był" prompt_f="nie była" prompt_n="nie było" prompt_p="nie były">じゃなかった</form>
+        <form name="past_negative_polite" prompt="nie był/była/było" context="none" style="polite past negative" prompt_m="nie był" prompt_f="nie była" prompt_n="nie było" prompt_p="nie były">ではありませんでした</form>
       </forms>
     </word>
   </words>

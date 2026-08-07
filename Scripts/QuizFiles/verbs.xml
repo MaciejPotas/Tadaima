@@ -6,6 +6,9 @@
         <relation role="object">
           <tag>washable</tag>
         </relation>
+        <relation role="place">
+          <tag>place</tag>
+        </relation>
       </relations>
       <forms>
         <form name="dictionary" prompt="myję" context="present" style="potoczna">あらう</form>
@@ -25,10 +28,33 @@
         <form name="imperative" context="none" style="rozkazująca">あらえ</form>
       </forms>
     </word>
+    <word id="aru" translation="mieć / istnieć" kana="ある" kanji="有る" type="godan" ending="ru">
+      <tags>
+        <tag>existence</tag>
+      </tags>
+      <relations>
+        <relation role="availability_noun">
+          <tag>availability_noun</tag>
+        </relation>
+      </relations>
+      <forms>
+        <form name="dictionary" prompt="mam" context="present" style="potoczna">ある</form>
+        <form name="polite_nonpast" prompt="mam" context="present" style="uprzejma">あります</form>
+        <form name="plain_negative" prompt="nie mam" context="present" style="potoczna przecząca">ない</form>
+        <form name="polite_negative" prompt="nie mam" context="present" style="uprzejma przecząca">ありません</form>
+        <form name="past_plain" prompt="miałem / miałam" context="past" style="potoczna przeszła">あった</form>
+        <form name="past_polite" prompt="miałem / miałam" context="past" style="uprzejma przeszła">ありました</form>
+        <form name="past_negative_plain" prompt="nie miałem / nie miałam" context="past" style="potoczna przeszła przecząca">なかった</form>
+        <form name="past_negative_polite" prompt="nie miałem / nie miałam" context="past" style="uprzejma przeszła przecząca">ありませんでした</form>
+      </forms>
+    </word>
     <word id="asobu" translation="bawić się" kana="あそぶ" kanji="遊ぶ" type="godan" ending="bu">
       <relations>
         <relation role="companion">
           <tag>person</tag>
+        </relation>
+        <relation role="place">
+          <tag>place</tag>
         </relation>
       </relations>
       <forms>
@@ -54,6 +80,9 @@
         <relation role="companion">
           <tag>person</tag>
         </relation>
+        <relation role="place">
+          <tag>place</tag>
+        </relation>
       </relations>
       <forms>
         <form name="dictionary" prompt="spotykam się" context="present" style="potoczna">あう</form>
@@ -77,6 +106,9 @@
       <relations>
         <relation role="companion">
           <tag>person</tag>
+        </relation>
+        <relation role="place">
+          <tag>place</tag>
         </relation>
       </relations>
       <forms>
@@ -102,6 +134,9 @@
         <relation role="destination">
           <tag>land_destination</tag>
         </relation>
+        <relation role="place">
+          <tag>place</tag>
+        </relation>
       </relations>
       <forms>
         <form name="dictionary" prompt="biegnę" context="present" style="potoczna">はしる</form>
@@ -122,6 +157,11 @@
       </forms>
     </word>
     <word id="hataraku" translation="pracować" kana="はたらく" kanji="働く" type="godan" ending="ku">
+      <relations>
+        <relation role="place">
+          <tag>place</tag>
+        </relation>
+      </relations>
       <forms>
         <form name="dictionary" prompt="pracuję" context="present" style="potoczna">はたらく</form>
         <form name="polite_nonpast" prompt="pracuję" context="present" style="uprzejma">はたらきます</form>
@@ -191,6 +231,9 @@
         <relation role="destination">
           <tag>land_destination</tag>
         </relation>
+        <relation role="place">
+          <tag>place</tag>
+        </relation>
       </relations>
       <forms>
         <form name="dictionary" prompt="śpieszę się" context="present" style="potoczna">いそぐ</form>
@@ -214,6 +257,11 @@
       <tags>
         <tag>reporting</tag>
       </tags>
+      <relations>
+        <relation role="place">
+          <tag>place</tag>
+        </relation>
+      </relations>
       <forms>
         <form name="dictionary" prompt="mówię" context="present" style="potoczna">いう</form>
         <form name="polite_nonpast" prompt="mówię" context="present" style="uprzejma">いいます</form>
@@ -261,6 +309,9 @@
         <relation role="object">
           <tag>writable</tag>
         </relation>
+        <relation role="place">
+          <tag>place</tag>
+        </relation>
       </relations>
       <forms>
         <form name="dictionary" prompt="piszę" context="present" style="potoczna">かく</form>
@@ -281,6 +332,11 @@
       </forms>
     </word>
     <word id="kangaeru" translation="zastanawiać się" kana="かんがえる" kanji="考える" type="ichidan" ending="ru">
+      <relations>
+        <relation role="place">
+          <tag>place</tag>
+        </relation>
+      </relations>
       <forms>
         <form name="dictionary" prompt="zastanawiam się" context="present" style="potoczna">かんがえる</form>
         <form name="polite_nonpast" prompt="zastanawiam się" context="present" style="uprzejma">かんがえます</form>
@@ -303,6 +359,9 @@
       <relations>
         <relation role="object">
           <tag>purchasable</tag>
+        </relation>
+        <relation role="place">
+          <tag>place</tag>
         </relation>
       </relations>
       <forms>
@@ -328,6 +387,9 @@
         <relation role="object">
           <tag>listenable</tag>
         </relation>
+        <relation role="place">
+          <tag>place</tag>
+        </relation>
       </relations>
       <forms>
         <form name="dictionary" prompt="słucham" context="present" style="potoczna">きく</form>
@@ -351,6 +413,9 @@
       <relations>
         <relation role="object">
           <tag>wearable</tag>
+        </relation>
+        <relation role="place">
+          <tag>place</tag>
         </relation>
       </relations>
       <forms>
@@ -400,6 +465,9 @@
         <relation role="object">
           <tag>viewable</tag>
         </relation>
+        <relation role="place">
+          <tag>place</tag>
+        </relation>
       </relations>
       <forms>
         <form name="dictionary" prompt="oglądam" context="present" style="potoczna">みる</form>
@@ -424,6 +492,9 @@
         <relation role="object">
           <tag>holdable</tag>
         </relation>
+        <relation role="place">
+          <tag>place</tag>
+        </relation>
       </relations>
       <forms>
         <form name="dictionary" prompt="trzymam" context="present" style="potoczna">もつ</form>
@@ -444,6 +515,11 @@
       </forms>
     </word>
     <word id="neru" translation="spać" kana="ねる" kanji="寝る" type="ichidan" ending="ru">
+      <relations>
+        <relation role="place">
+          <tag>place</tag>
+        </relation>
+      </relations>
       <forms>
         <form name="dictionary" prompt="śpię" context="present" style="potoczna">ねる</form>
         <form name="polite_nonpast" prompt="śpię" context="present" style="uprzejma">ねます</form>
@@ -466,6 +542,9 @@
       <relations>
         <relation role="object">
           <tag>drinkable</tag>
+        </relation>
+        <relation role="place">
+          <tag>place</tag>
         </relation>
       </relations>
       <forms>
@@ -491,6 +570,9 @@
         <relation role="vehicle">
           <tag>rideable</tag>
         </relation>
+        <relation role="place">
+          <tag>place</tag>
+        </relation>
       </relations>
       <forms>
         <form name="dictionary" prompt="wsiadam" context="present" style="potoczna">のる</form>
@@ -511,6 +593,11 @@
       </forms>
     </word>
     <word id="ochiru" translation="upadać" kana="おちる" kanji="落ちる" type="ichidan" ending="ru">
+      <relations>
+        <relation role="place">
+          <tag>place</tag>
+        </relation>
+      </relations>
       <forms>
         <form name="dictionary" prompt="upadam" context="present" style="potoczna">おちる</form>
         <form name="polite_nonpast" prompt="upadam" context="present" style="uprzejma">おちます</form>
@@ -530,6 +617,11 @@
       </forms>
     </word>
     <word id="okiru" translation="budzić się" kana="おきる" kanji="起きる" type="ichidan" ending="ru">
+      <relations>
+        <relation role="place">
+          <tag>place</tag>
+        </relation>
+      </relations>
       <forms>
         <form name="dictionary" prompt="budzę się" context="present" style="potoczna">おきる</form>
         <form name="polite_nonpast" prompt="budzę się" context="present" style="uprzejma">おきます</form>
@@ -549,6 +641,14 @@
       </forms>
     </word>
     <word id="okoru" translation="rozgniewać się" kana="おこる" kanji="怒る" type="godan" ending="ru">
+      <relations>
+        <relation role="target">
+          <tag>person</tag>
+        </relation>
+        <relation role="place">
+          <tag>place</tag>
+        </relation>
+      </relations>
       <forms>
         <form name="dictionary" prompt="złoszczę się" context="present" style="potoczna">おこる</form>
         <form name="polite_nonpast" prompt="złoszczę się" context="present" style="uprzejma">おこります</form>
@@ -571,6 +671,11 @@
       <tags>
         <tag>reporting</tag>
       </tags>
+      <relations>
+        <relation role="place">
+          <tag>place</tag>
+        </relation>
+      </relations>
       <forms>
         <form name="dictionary" prompt="myślę" context="present" style="potoczna">おもう</form>
         <form name="polite_nonpast" prompt="myślę" context="present" style="uprzejma">おもいます</form>
@@ -590,6 +695,11 @@
       </forms>
     </word>
     <word id="oyogu" translation="pływać" kana="およぐ" kanji="泳ぐ" type="godan" ending="gu">
+      <relations>
+        <relation role="place">
+          <tag>place</tag>
+        </relation>
+      </relations>
       <forms>
         <form name="dictionary" prompt="pływam" context="present" style="potoczna">およぐ</form>
         <form name="polite_nonpast" prompt="pływam" context="present" style="uprzejma">およぎます</form>
@@ -609,6 +719,11 @@
       </forms>
     </word>
     <word id="shinu" translation="umrzeć" kana="しぬ" kanji="死ぬ" type="godan" ending="nu">
+      <relations>
+        <relation role="place">
+          <tag>place</tag>
+        </relation>
+      </relations>
       <forms>
         <form name="dictionary" prompt="umieram" context="present" style="potoczna">しぬ</form>
         <form name="polite_nonpast" prompt="umieram" context="present" style="uprzejma">しにます</form>
@@ -628,6 +743,11 @@
       </forms>
     </word>
     <word id="shiru" translation="dowiedzieć się" kana="しる" kanji="知る" type="godan" ending="ru">
+      <relations>
+        <relation role="place">
+          <tag>place</tag>
+        </relation>
+      </relations>
       <forms>
         <form name="dictionary" prompt="dowiaduję się" context="present" style="potoczna">しる</form>
         <form name="polite_nonpast" prompt="dowiaduję się" context="present" style="uprzejma">しります</form>
@@ -647,6 +767,11 @@
       </forms>
     </word>
     <word id="suru" translation="robić" kana="する" kanji="する" type="irregular" ending="suru">
+      <relations>
+        <relation role="place">
+          <tag>place</tag>
+        </relation>
+      </relations>
       <forms>
         <form name="dictionary" prompt="robię" context="present" style="potoczna">する</form>
         <form name="polite_nonpast" prompt="robię" context="present" style="uprzejma">します</form>
@@ -670,6 +795,9 @@
         <relation role="object">
           <tag>smokable</tag>
         </relation>
+        <relation role="place">
+          <tag>place</tag>
+        </relation>
       </relations>
       <forms>
         <form name="dictionary" prompt="palę" context="present" style="potoczna">すう</form>
@@ -690,6 +818,11 @@
       </forms>
     </word>
     <word id="suwaru" translation="siedzieć / usiąść" kana="すわる" kanji="座る" type="godan" ending="ru">
+      <relations>
+        <relation role="place">
+          <tag>place</tag>
+        </relation>
+      </relations>
       <forms>
         <form name="dictionary" prompt="siedzę" context="present" style="potoczna">すわる</form>
         <form name="polite_nonpast" prompt="siedzę" context="present" style="uprzejma">すわります</form>
@@ -712,6 +845,9 @@
       <relations>
         <relation role="object">
           <tag>edible</tag>
+        </relation>
+        <relation role="place">
+          <tag>place</tag>
         </relation>
       </relations>
       <forms>
@@ -737,6 +873,9 @@
         <relation role="object">
           <tag>buildable</tag>
         </relation>
+        <relation role="place">
+          <tag>place</tag>
+        </relation>
       </relations>
       <forms>
         <form name="dictionary" prompt="buduję" context="present" style="potoczna">たてる</form>
@@ -757,6 +896,11 @@
       </forms>
     </word>
     <word id="tatsu" translation="stać / wstać" kana="たつ" kanji="立つ" type="godan" ending="tsu">
+      <relations>
+        <relation role="place">
+          <tag>place</tag>
+        </relation>
+      </relations>
       <forms>
         <form name="dictionary" prompt="stoję" context="present" style="potoczna">たつ</form>
         <form name="polite_nonpast" prompt="stoję" context="present" style="uprzejma">たちます</form>
@@ -780,6 +924,9 @@
         <relation role="object">
           <tag>takeable</tag>
         </relation>
+        <relation role="place">
+          <tag>place</tag>
+        </relation>
       </relations>
       <forms>
         <form name="dictionary" prompt="biorę" context="present" style="potoczna">とる</form>
@@ -800,6 +947,11 @@
       </forms>
     </word>
     <word id="tsukareru" translation="być zmęczonym" kana="つかれる" kanji="疲れる" type="ichidan" ending="ru">
+      <relations>
+        <relation role="place">
+          <tag>place</tag>
+        </relation>
+      </relations>
       <forms>
         <form name="dictionary" prompt="jestem zmęczony / zmęczona" context="present" style="potoczna">つかれる</form>
         <form name="polite_nonpast" prompt="jestem zmęczony / zmęczona" context="present" style="uprzejma">つかれます</form>
@@ -822,6 +974,9 @@
       <relations>
         <relation role="object">
           <tag>usable</tag>
+        </relation>
+        <relation role="place">
+          <tag>place</tag>
         </relation>
       </relations>
       <forms>
@@ -847,6 +1002,9 @@
         <relation role="object">
           <tag>creatable</tag>
         </relation>
+        <relation role="place">
+          <tag>place</tag>
+        </relation>
       </relations>
       <forms>
         <form name="dictionary" prompt="robię" context="present" style="potoczna">つくる</form>
@@ -867,6 +1025,11 @@
       </forms>
     </word>
     <word id="ugoku" translation="ruszać się" kana="うごく" kanji="動く" type="godan" ending="ku">
+      <relations>
+        <relation role="place">
+          <tag>place</tag>
+        </relation>
+      </relations>
       <forms>
         <form name="dictionary" prompt="ruszam się" context="present" style="potoczna">うごく</form>
         <form name="polite_nonpast" prompt="ruszam się" context="present" style="uprzejma">うごきます</form>
@@ -886,6 +1049,11 @@
       </forms>
     </word>
     <word id="ukeru" translation="odbierać" kana="うける" kanji="受ける" type="ichidan" ending="ru">
+      <relations>
+        <relation role="place">
+          <tag>place</tag>
+        </relation>
+      </relations>
       <forms>
         <form name="dictionary" prompt="odbieram" context="present" style="potoczna">うける</form>
         <form name="polite_nonpast" prompt="odbieram" context="present" style="uprzejma">うけます</form>
@@ -909,6 +1077,9 @@
         <relation role="object">
           <tag>singable</tag>
         </relation>
+        <relation role="place">
+          <tag>place</tag>
+        </relation>
       </relations>
       <forms>
         <form name="dictionary" prompt="śpiewam" context="present" style="potoczna">うたう</form>
@@ -929,6 +1100,11 @@
       </forms>
     </word>
     <word id="wakaru" translation="rozumieć" kana="わかる" kanji="分かる" type="godan" ending="ru">
+      <relations>
+        <relation role="place">
+          <tag>place</tag>
+        </relation>
+      </relations>
       <forms>
         <form name="dictionary" prompt="rozumiem" context="present" style="potoczna">わかる</form>
         <form name="polite_nonpast" prompt="rozumiem" context="present" style="uprzejma">わかります</form>
@@ -951,6 +1127,9 @@
       <relations>
         <relation role="object">
           <tag>readable</tag>
+        </relation>
+        <relation role="place">
+          <tag>place</tag>
         </relation>
       </relations>
       <forms>

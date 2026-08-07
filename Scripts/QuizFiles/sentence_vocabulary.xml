@@ -273,6 +273,15 @@
         <profile ref="clothing" />
       </profiles>
     </entity>
+    <entity id="coffee" kana="コーヒー" kanji="珈琲">
+      <polish gender="feminine" nominative="kawa" accusative="kawę" genitive="kawy" locative="kawie" instrumental="kawą" demonstrative="ta kawa" />
+      <profiles>
+        <profile ref="drink" />
+      </profiles>
+      <tags>
+        <tag>creatable</tag>
+      </tags>
+    </entity>
     <entity id="email" kana="めーる" kanji="メール">
       <polish gender="masculine" nominative="mail" accusative="mail" genitive="maila" locative="mailu" instrumental="mailem" demonstrative="ten mail" />
       <profiles>
@@ -296,6 +305,18 @@
       <profiles>
         <profile ref="property" />
       </profiles>
+    </entity>
+    <entity id="jikan" kana="じかん" kanji="時間">
+      <polish gender="masculine" nominative="czas" accusative="czas" genitive="czasu" locative="czasie" instrumental="czasem" demonstrative="ten czas" />
+      <tags>
+        <tag>availability_noun</tag>
+      </tags>
+    </entity>
+    <entity id="keikaku" kana="けいかく" kanji="計画">
+      <polish gender="masculine" nominative="plan" accusative="plan" genitive="planu" locative="planie" instrumental="planem" demonstrative="ten plan" />
+      <tags>
+        <tag>availability_noun</tag>
+      </tags>
     </entity>
     <entity id="letter" kana="てがみ" kanji="手紙">
       <polish gender="masculine" nominative="list" accusative="list" genitive="listu" locative="liście" instrumental="listem" demonstrative="ten list" />
@@ -321,6 +342,12 @@
         <profile ref="person" />
       </profiles>
     </entity>
+    <entity id="motorcycle" kana="バイク">
+      <polish gender="masculine" nominative="motocykl" accusative="motocykl" genitive="motocykla" locative="motocyklu" instrumental="motocyklem" demonstrative="ten motocykl" />
+      <profiles>
+        <profile ref="vehicle" />
+      </profiles>
+    </entity>
     <entity id="music" kana="おんがく" kanji="音楽">
       <polish gender="feminine" nominative="muzyka" accusative="muzykę" genitive="muzyki" locative="muzyce" instrumental="muzyką" demonstrative="ta muzyka" />
       <profiles>
@@ -338,6 +365,12 @@
       <profiles>
         <profile ref="physical_text" />
       </profiles>
+    </entity>
+    <entity id="okane" kana="おかね" kanji="お金">
+      <polish gender="plural" nominative="pieniądze" accusative="pieniądze" genitive="pieniędzy" locative="pieniądzach" instrumental="pieniędzmi" demonstrative="te pieniądze" />
+      <tags>
+        <tag>availability_noun</tag>
+      </tags>
     </entity>
     <entity id="pan" kana="パン">
       <polish gender="masculine" nominative="chleb" accusative="chleb" genitive="chleba" locative="chlebie" instrumental="chlebem" demonstrative="ten chleb" />
@@ -375,6 +408,15 @@
         <profile ref="person" />
       </profiles>
     </entity>
+    <entity id="song" kana="うた" kanji="歌">
+      <polish gender="feminine" nominative="piosenka" accusative="piosenkę" genitive="piosenki" locative="piosence" instrumental="piosenką" demonstrative="ta piosenka" />
+      <profiles>
+        <profile ref="audio_media" />
+      </profiles>
+      <tags>
+        <tag>singable</tag>
+      </tags>
+    </entity>
     <entity id="station" kana="えき" kanji="駅">
       <polish gender="feminine" nominative="stacja" accusative="stację" genitive="stacji" locative="stacji" instrumental="stacją" demonstrative="ta stacja" />
       <profiles>
@@ -386,6 +428,15 @@
       <profiles>
         <profile ref="meal" />
       </profiles>
+    </entity>
+    <entity id="tea" kana="おちゃ" kanji="お茶">
+      <polish gender="feminine" nominative="herbata" accusative="herbatę" genitive="herbaty" locative="herbacie" instrumental="herbatą" demonstrative="ta herbata" />
+      <profiles>
+        <profile ref="drink" />
+      </profiles>
+      <tags>
+        <tag>creatable</tag>
+      </tags>
     </entity>
     <entity id="teacher" kana="せんせい" kanji="先生">
       <polish gender="masculine" nominative="nauczyciel" accusative="nauczyciela" genitive="nauczyciela" locative="nauczycielu" instrumental="nauczycielem" demonstrative="ten nauczyciel" />
@@ -405,38 +456,23 @@
         <profile ref="drink" />
       </profiles>
     </entity>
-    <entity id="tea" kana="おちゃ" kanji="お茶">
-      <polish gender="feminine" nominative="herbata" accusative="herbatę" genitive="herbaty" locative="herbacie" instrumental="herbatą" demonstrative="ta herbata" />
-      <profiles>
-        <profile ref="drink" />
-      </profiles>
+    <entity id="yakusoku" kana="やくそく" kanji="約束">
+      <polish gender="feminine" nominative="obietnica" accusative="obietnicę" genitive="obietnicy" locative="obietnicy" instrumental="obietnicą" demonstrative="ta obietnica" />
       <tags>
-        <tag>creatable</tag>
+        <tag>availability_noun</tag>
       </tags>
     </entity>
-    <entity id="coffee" kana="コーヒー" kanji="珈琲">
-      <polish gender="feminine" nominative="kawa" accusative="kawę" genitive="kawy" locative="kawie" instrumental="kawą" demonstrative="ta kawa" />
-      <profiles>
-        <profile ref="drink" />
-      </profiles>
+    <entity id="yotei" kana="よてい" kanji="予定">
+      <polish gender="masculine" nominative="plan" accusative="plan" genitive="planu" locative="planie" instrumental="planem" demonstrative="ten plan" />
       <tags>
-        <tag>creatable</tag>
+        <tag>availability_noun</tag>
       </tags>
     </entity>
-    <entity id="song" kana="うた" kanji="歌">
-      <polish gender="feminine" nominative="piosenka" accusative="piosenkę" genitive="piosenki" locative="piosence" instrumental="piosenką" demonstrative="ta piosenka" />
-      <profiles>
-        <profile ref="audio_media" />
-      </profiles>
+    <entity id="youji" kana="ようじ" kanji="用事">
+      <polish gender="feminine" nominative="sprawa do załatwienia" accusative="sprawę do załatwienia" genitive="sprawy do załatwienia" locative="sprawie do załatwienia" instrumental="sprawą do załatwienia" demonstrative="ta sprawa do załatwienia" />
       <tags>
-        <tag>singable</tag>
+        <tag>availability_noun</tag>
       </tags>
-    </entity>
-    <entity id="motorcycle" kana="バイク">
-      <polish gender="masculine" nominative="motocykl" accusative="motocykl" genitive="motocykla" locative="motocyklu" instrumental="motocyklem" demonstrative="ten motocykl" />
-      <profiles>
-        <profile ref="vehicle" />
-      </profiles>
     </entity>
   </entities>
 </sentence_vocabulary>
